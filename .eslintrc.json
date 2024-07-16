@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:tailwindcss/recommended",
+    "prettier",
+    "plugin:storybook/recommended"
+  ],
+  "ignorePatterns": ["!.storybook", "storybook-static"],
+  "rules": {
+    "no-console": "warn"
+  }
+}

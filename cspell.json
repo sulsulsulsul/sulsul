@@ -1,0 +1,29 @@
+{
+  "version": "0.2",
+  "ignorePaths": [
+    "node_modules",
+    ".next",
+    "*.js",
+    "*.json",
+    "*.html",
+    "*.css",
+    "*.md",
+    "*.svg",
+    "*.mp4"
+  ],
+  "files": ["src/**/*.tsx", "src/**/*.ts"],
+  "words": [
+    "autodocs",
+    "chartjs",
+    "classname",
+    "dtos",
+    "extralight",
+    "gsap",
+    "kakao",
+    "lotties",
+    "pretendard",
+    "Sonner",
+    "sulsul",
+    "trpc"
+  ]
+}
