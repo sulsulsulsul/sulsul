@@ -23,7 +23,7 @@ export const ContentField = ({ className, ...props }: ContentFieldProps) => {
             <FormControl>
               <Textarea
                 maxLength={1999}
-                className="min-h-[400px] w-full"
+                className="min-h-[400px] w-full border-0"
                 placeholder="300자 이상 2000자 이내의 내용을 입력해주세요."
                 {...field}
               />

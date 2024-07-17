@@ -31,13 +31,13 @@ export const CreateArchiveForm = ({
       <Form {...form}>
         <form className="h-full" onSubmit={handleSubmit}>
           <Heading />
-          <div className="mt-[18px] size-full rounded-md bg-white p-[28px]">
+          <div className="mt-[18px] size-full rounded-md bg-white p-[28px] shadow-base">
             <div className="flex size-full flex-col items-start gap-2">
-              <CompanyNameField />
+              <CompanyNameField className="w-full" />
               <TitleField className="w-full" />
               <ContentField className="w-full" />
               <ContentLength />
-              <FormAction />
+              <FormAction className="w-full" />
             </div>
           </div>
         </form>

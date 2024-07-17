@@ -12,8 +12,8 @@ export const FormAction = ({ className, ...props }: FormActionProps) => {
   const isSubmitting = form.formState.isSubmitting
   return (
     <div className={cn(className)} {...props}>
-      <div className="flex w-full gap-2">
-        <Button className="w-[117px] text-gray-600" variant={'outline'}>
+      <div className="flex gap-2">
+        <Button className="basis-[117px] text-gray-600" variant={'outline'}>
           <Image
             src="/images/icons/icon-redo.svg"
             width={24}
@@ -26,7 +26,7 @@ export const FormAction = ({ className, ...props }: FormActionProps) => {
           disabled={isSubmitting}
           type="submit"
           className={cn(
-            'w-full border-gray-200 bg-gray-200 text-gray-500',
+            'grow border-gray-200 bg-gray-200 text-gray-500',
             isFormValid ? 'bg-blue-500 text-white hover:bg-blue-600' : '',
           )}
           variant={'outline'}

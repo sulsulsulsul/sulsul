@@ -20,7 +20,11 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
         render={({ field }) => (
           <FormItem className="w-full">
             <FormControl>
-              <Input placeholder="자소서 제목을 입력해주세요" {...field} />
+              <Input
+                placeholder="자소서 제목을 입력해주세요"
+                className="text-xl font-semibold"
+                {...field}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

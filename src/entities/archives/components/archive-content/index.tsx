@@ -33,7 +33,7 @@ export const ArchiveContent = ({
         <span>내 자기 소개서</span>
       </h2>
       <div className="mt-[18px] size-full rounded-md bg-white p-[28px]">
-        <div className="flex size-full flex-col items-start gap-2">
+        <div className="flex size-full flex-col justify-between">
           <div className="rounded-sm bg-gray-100 px-3 py-1 text-sm font-medium text-gray-600">
             {companyName}
           </div>
