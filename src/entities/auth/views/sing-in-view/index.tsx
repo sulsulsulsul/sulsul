@@ -44,6 +44,21 @@ export const SingInView = ({
               </div>
               <div className="flex w-full flex-col gap-2">
                 <Button
+                  className="bg-[#FEE500] pl-[65px]"
+                  onClick={() => signIn('kakao', { callbackUrl })}
+                  variant={'kakao'}
+                >
+                  <Image
+                    src="/images/kakao.svg"
+                    alt=""
+                    width={24}
+                    height={24}
+                  />
+                  <span className="translate-y-px text-lg font-bold text-black">
+                    카카오로 3초만에 시작하기
+                  </span>
+                </Button>
+                <Button
                   className="pl-[65px]"
                   onClick={() => signIn('google', { callbackUrl })}
                   variant={'google'}
@@ -60,11 +75,11 @@ export const SingInView = ({
                 </Button>
                 <div className="mt-1 text-center text-2xs font-medium">
                   <p>
-                    로그인 시,
+                    로그인 시,&nbsp;
                     <Link href={'/privacy-policy'} className="text-blue-600">
-                      개인정보처리방침
+                      개인정보처리방침&nbsp;
                     </Link>
-                    및
+                    및&nbsp;
                     <Link href={'/privacy-policy'} className="text-blue-600">
                       서비스 약관
                     </Link>
