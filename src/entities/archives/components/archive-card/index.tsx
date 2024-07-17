@@ -8,6 +8,7 @@ import { ArchiveCardMenu } from './archive-card-menu'
 interface ArchiveCardProps extends HTMLAttributes<HTMLDivElement> {
   status: ArchiveStatus
   title: string
+  answerCount: number
   questionCount: number
   companyName: string
   archiveId: number
@@ -16,13 +17,13 @@ interface ArchiveCardProps extends HTMLAttributes<HTMLDivElement> {
 function parseStatus(status: ArchiveStatus) {
   switch (status) {
     case 'READY':
-      return '대기중'
+      return '작성 전'
     case 'COMPLETE':
-      return '작성완료'
+      return '작성 완료'
     case 'FAIL':
-      return '작성실패'
+      return '작성 실패'
     case 'CREATING':
-      return '생성중'
+      return '작성 중'
     default:
       throw new Error('Invalid status')
   }
@@ -32,11 +33,16 @@ export const ArchiveCard = ({
   className,
   title,
   status,
+  answerCount,
   questionCount,
   companyName,
   archiveId,
 }: ArchiveCardProps) => {
   const displayStatus = parseStatus(status)
+  let percentage
+  if (questionCount !== 0) {
+    percentage = (answerCount / questionCount) * 100
+  } else percentage = 0
 
   return (
     <div
@@ -61,17 +67,32 @@ export const ArchiveCard = ({
           <div className="rounded-sm bg-gray-100 px-[10px] py-[7px] text-blue-500">
             <h3 className="text-2xs font-semibold">{companyName}</h3>
           </div>
-          <ArchiveCardMenu archiveId={archiveId} />
+          <div onClick={(e) => e.stopPropagation()}>
+            <ArchiveCardMenu archiveId={archiveId} />
+          </div>
         </div>
         <div className="mt-3 h-[84px]">
           <h4 className="line-clamp-3">{title}</h4>
         </div>
-        <div className="mt-[20px] text-lg font-semibold">
-          예상 면접 질문 <span className="text-green-900">{questionCount}</span>
-        </div>
+
+        {questionCount !== 0 && (
+          <div className="mt-[20px] text-lg font-normal">
+            예상 면접 질문{' '}
+            <span className="text-green-point">{questionCount}</span>
+          </div>
+        )}
+        {questionCount === 0 && (
+          <div className="mt-[20px] text-lg font-normal">
+            아직 생성된 질문이 없어요
+          </div>
+        )}
+
         <div className="flex h-full grow flex-col justify-end">
           <div className="relative">
-            <div className="absolute left-0 top-0 h-[6px] w-4/5 rounded-[6.6px] bg-white"></div>
+            <div
+              className="absolute left-0 top-0 h-[6px] rounded-[6.6px] bg-white"
+              style={{ width: `${percentage}%` }}
+            ></div>
             <div className="h-[6px] rounded-[6.6px] bg-white/30"></div>
           </div>
         </div>
