@@ -30,7 +30,7 @@ export const ArchiveCardMenu = forwardRef<
           alt="more icon"
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="rounded-sm">
+      <DropdownMenuContent>
         <DropdownMenuItem className="text-red-500" asChild>
           <ArchiveDeleteButton
             data-testid="archive-delete-button"

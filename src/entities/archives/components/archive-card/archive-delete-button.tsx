@@ -14,6 +14,8 @@ import {
 import { Button } from '@/components/ui/button'
 import { useDeleteArchive } from '@/entities/archives/hooks'
 import React, { forwardRef } from 'react'
+import alert from '../../../../../public/images/icons/alert.svg'
+import Image from 'next/image'
 
 interface ArchiveDeleteButtonProps {
   archiveId: number
@@ -40,26 +42,27 @@ export const ArchiveDeleteButton = forwardRef<
           <Button
             ref={ref}
             variant="ghost"
-            className="w-full rounded-sm py-1 text-xs font-semibold text-red-500 hover:text-red-700"
+            className="w-full rounded-sm py-1 text-xs font-semibold"
             disabled={isPending}
           >
             삭제하기
           </Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>정말로 삭제하시겠습니까?</AlertDialogTitle>
+          <AlertDialogHeader className="items-center">
+            <Image src={alert} alt="경고아이콘" />
+            <AlertDialogTitle>카드를 삭제하시겠어요?</AlertDialogTitle>
             <AlertDialogDescription>
-              삭제된 데이터는 복구할 수 없습니다.
+              삭제한 카드는 복구할 수 없어요.
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>취소</AlertDialogCancel>
+          <AlertDialogFooter className="justify-center">
+            <AlertDialogCancel className="grow">취소하기</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleDelete}
-              className="bg-red-500 text-white"
+              className="grow bg-blue-500 text-white"
             >
-              삭제
+              삭제하기
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
