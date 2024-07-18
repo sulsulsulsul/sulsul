@@ -3,10 +3,10 @@ import { X } from 'lucide-react'
 
 interface KeywordProps {
   keywords: ArchiveKeyword[]
-  isHeader: boolean
+  isHeader?: boolean
 }
 
-export const KeywordSet = ({ keywords, isHeader }: KeywordProps) => {
+export const KeywordSet = ({ keywords, isHeader = false }: KeywordProps) => {
   return keywords.map((keyword) => (
     <div
       key={keyword.id}
