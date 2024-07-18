@@ -2,30 +2,10 @@ import { signInAction } from '@/entities/auth/actions/sign-in-action'
 import { AuthDTO } from '@/entities/auth/types'
 import { getUserAction } from '@/entities/users/actions/get-user-action'
 import { UserDTO } from '@/entities/users/types'
-import NextAuth, { Account, DefaultSession } from 'next-auth'
-import { JWT } from 'next-auth/jwt'
+import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
 import Kakao from 'next-auth/providers/kakao'
 
-declare module 'next-auth' {
-  interface Session {
-    user: {
-      /** The user's postal address. */
-      accessToken: string
-      account: Account
-      auth: AuthDTO
-      data: UserDTO
-    } & DefaultSession['user']
-  }
-}
-
-declare module 'next-auth/jwt' {
-  /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
-  interface JWT {
-    auth: AuthDTO
-    data: UserDTO
-  }
-}
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [Google, Kakao],
   callbacks: {
