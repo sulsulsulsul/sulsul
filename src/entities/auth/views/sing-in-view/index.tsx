@@ -75,11 +75,11 @@ export const SingInView = ({
                 </Button>
                 <div className="mt-1 text-center text-2xs font-medium">
                   <p>
-                    로그인 시,&nbsp;
+                    로그인 시,{' '}
                     <Link href={'/privacy-policy'} className="text-blue-600">
-                      개인정보처리방침&nbsp;
+                      개인정보처리방침{' '}
                     </Link>
-                    및&nbsp;
+                    및{' '}
                     <Link href={'/privacy-policy'} className="text-blue-600">
                       서비스 약관
                     </Link>
