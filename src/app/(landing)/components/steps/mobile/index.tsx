@@ -26,7 +26,7 @@ export const MobileSteps = ({
         <h4 className="text-base font-bold text-blue-500">STEP 01</h4>
         <h3 className="text-3xl font-bold text-gray-800">면접질문 예측하기</h3>
         <div className="mt-[12px] text-sm text-gray-600">
-          <p>면접은 지원자가 제출한 서류를 바탕으로 이루어져요.</p>
+          <p>면접은 지원자가 제출한 서류를 바탕으로 이루어져요.1</p>
           <p>내 자소서를 입력하면 나를 위한 면접 예상질문이 생성돼요.</p>
         </div>
       </div>
