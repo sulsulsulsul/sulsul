@@ -34,13 +34,13 @@ export const ActionButtons = ({
           height={24}
           alt="icon"
         />
-        새로 작성
+        초기화
       </Button>
       {status === 'COMPLETE' && (
         <Button
           type="button"
           className={cn(
-            'bg-blue-100 gap-2 text-blue-500 hover:bg-blue-100 cursor-default w-full',
+            'bg-blue-100 gap-2 text-blue-500 hover:bg-blue-100 cursor-default w-full border-0',
           )}
           variant={'outline'}
         >
@@ -50,7 +50,7 @@ export const ActionButtons = ({
             height={24}
             alt="icon"
           />
-          <span>예상질문 예측 완료</span>
+          <span>예상질문 생성 완료</span>
         </Button>
       )}
       {status !== 'COMPLETE' && (
@@ -67,7 +67,7 @@ export const ActionButtons = ({
             height={24}
             alt="icon"
           />
-          <span>예상질문 예측 완료</span>
+          <span>예상질문 예측하기</span>
         </Button>
       )}
     </div>
