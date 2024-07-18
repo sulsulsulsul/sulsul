@@ -5,14 +5,18 @@ import React, { HTMLAttributes, useState } from 'react'
 import { ArchiveCard } from '../../components/archive-card'
 import { useArchives } from '../../hooks'
 import SelectDropdown from '@/app/(routes)/archive/(list)/components/select-dropdown'
+import { IdleStatus } from '@/app/(routes)/archive/create/components/form-status/status/idle'
+import { Button } from '@/components/ui/button'
+import arrowUpRight from '../../../../../public/images/icons/icon-arrow_up_right.svg'
+import { useRouter } from 'next/navigation'
+
 interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   const { archives, isError, isLoading, isSuccess } = useArchives()
   const [isRecent, setIsRecent] = useState(true)
 
-  const copyArchives = archives && JSON.parse(JSON.stringify(archives))
-  const archiveLists = isRecent ? archives : copyArchives?.reverse()
+  const router = useRouter()
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -25,6 +29,43 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   if (!isSuccess) {
     return null
   }
+
+  if (archives?.length === 0) {
+    return (
+      <main>
+        <div className="flex justify-between">
+          <div className="flex items-center gap-1 text-4xl font-bold">
+            <Image
+              width={32}
+              height={32}
+              src={'/images/icons/etc-folder.svg'}
+              alt="etc folder"
+            />
+            <h2>내 면접 질문 및 답변</h2>
+          </div>
+          <SelectDropdown setIsRecent={setIsRecent} />
+        </div>
+        <div className="mt-40">
+          <IdleStatus
+            firstLine="내 자소서를 입력하고"
+            secondLine="면접 예상질문을 생성해보세요!"
+          />
+          <div
+            className="mt-20 flex w-full items-center justify-center"
+            onClick={() => router.push('/archive/create')}
+          >
+            <Button size="sm" className="px-8 py-4 text-[16px]">
+              면접 예상질문 생성하러 가기
+              <Image src={arrowUpRight} alt="대각선화살표" />
+            </Button>
+          </div>
+        </div>
+      </main>
+    )
+  }
+
+  const copyArchives = archives && JSON.parse(JSON.stringify(archives))
+  const archiveLists = isRecent ? archives : copyArchives?.reverse()
 
   return (
     <main>
