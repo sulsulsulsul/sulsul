@@ -36,7 +36,7 @@ export const ActionButtons = ({
         />
         초기화
       </Button>
-      {status === 'COMPLETE' && (
+      {(status === 'COMPLETE' || status === 'CREATING') && (
         <Button
           type="button"
           className={cn(
@@ -53,7 +53,7 @@ export const ActionButtons = ({
           <span>예상질문 생성 완료</span>
         </Button>
       )}
-      {status !== 'COMPLETE' && (
+      {status === 'READY' && (
         <Button
           type="button"
           className={cn(
