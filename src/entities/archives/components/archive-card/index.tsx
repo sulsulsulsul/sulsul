@@ -39,10 +39,8 @@ export const ArchiveCard = ({
   archiveId,
 }: ArchiveCardProps) => {
   const displayStatus = parseStatus(status)
-  let percentage
-  if (questionCount !== 0) {
-    percentage = (answerCount / questionCount) * 100
-  } else percentage = 0
+
+  let percentage = !!questionCount ? (answerCount / questionCount) * 100 : 0
 
   return (
     <div
