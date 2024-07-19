@@ -9,17 +9,18 @@ import { IdleStatus } from '@/app/(routes)/archive/create/components/form-status
 import { Button } from '@/components/ui/button'
 import arrowUpRight from '../../../../../public/images/icons/icon-arrow_up_right.svg'
 import { useRouter } from 'next/navigation'
+import { Loader } from '@/components/shared/loader'
 
 interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   const { archives, isError, isLoading, isSuccess } = useArchives()
-  const [isRecent, setIsRecent] = useState(true)
+  const [sortType, setSortType] = useState<'recent' | 'old'>('recent')
 
   const router = useRouter()
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   if (isError) {
@@ -28,6 +29,10 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
 
   if (!isSuccess) {
     return null
+  }
+
+  const onChangeSortType = (value: 'recent' | 'old') => {
+    setSortType(value)
   }
 
   if (archives?.length === 0) {
@@ -43,7 +48,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
             />
             <h2>내 면접 질문 및 답변</h2>
           </div>
-          <SelectDropdown setIsRecent={setIsRecent} />
+          <SelectDropdown onChangeSortType={onChangeSortType} />
         </div>
         <div className="mt-40">
           <IdleStatus
@@ -65,7 +70,8 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   }
 
   const copyArchives = archives && JSON.parse(JSON.stringify(archives))
-  const archiveLists = isRecent ? archives : copyArchives?.reverse()
+  const archiveLists =
+    sortType === 'recent' ? archives : copyArchives?.reverse()
 
   return (
     <main>
@@ -80,7 +86,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
           <h2>내 면접 질문 및 답변 </h2>
           <span className="text-blue-500">{archives?.length}</span>
         </div>
-        <SelectDropdown setIsRecent={setIsRecent} />
+        <SelectDropdown onChangeSortType={onChangeSortType} />
       </div>
       <div className="mt-4">
         <div className="flex flex-wrap items-center gap-6">

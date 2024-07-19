@@ -10,22 +10,20 @@ import {
 } from '@/components/ui/select'
 
 interface SelectDropdownProps {
-  setIsRecent: React.Dispatch<React.SetStateAction<boolean>>
+  onChangeSortType: (value: 'recent' | 'old') => void
 }
-export default function SelectDropdown({ setIsRecent }: SelectDropdownProps) {
-  const handleChange = (value: string) => {
-    setIsRecent(value === '최근순')
-  }
-
+export default function SelectDropdown({
+  onChangeSortType,
+}: SelectDropdownProps) {
   return (
-    <Select onValueChange={handleChange}>
+    <Select onValueChange={onChangeSortType}>
       <SelectTrigger className="w-[100px]">
         <SelectValue placeholder="최근 순" />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value="최근순">최근 순</SelectItem>
-          <SelectItem value="오래된순">오래된 순</SelectItem>
+          <SelectItem value="recent">최근 순</SelectItem>
+          <SelectItem value="old">오래된 순</SelectItem>
         </SelectGroup>
       </SelectContent>
     </Select>
