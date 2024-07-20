@@ -14,20 +14,12 @@ interface ArchiveCardProps extends HTMLAttributes<HTMLDivElement> {
   archiveId: number
 }
 
-function parseStatus(status: ArchiveStatus) {
-  switch (status) {
-    case 'READY':
-      return '작성 전'
-    case 'COMPLETE':
-      return '작성 완료'
-    case 'FAIL':
-      return '작성 실패'
-    case 'CREATING':
-      return '작성 중'
-    default:
-      throw new Error('Invalid status')
-  }
-}
+const DISPLAY_ARCHIVE_STATUS = {
+  READY: '작성 전',
+  COMPLETE: '작성 완료',
+  FAIL: '작성 실패',
+  CREATING: '작성 중',
+} as const
 
 export const ArchiveCard = ({
   className,
@@ -38,7 +30,7 @@ export const ArchiveCard = ({
   companyName,
   archiveId,
 }: ArchiveCardProps) => {
-  const displayStatus = parseStatus(status)
+  const displayStatus = DISPLAY_ARCHIVE_STATUS[status]
 
   let percentage = !!questionCount ? (answerCount / questionCount) * 100 : 0
 
@@ -73,15 +65,14 @@ export const ArchiveCard = ({
           <h4 className="line-clamp-3">{title}</h4>
         </div>
 
-        {questionCount !== 0 && (
+        {questionCount === 0 ? (
+          <div className="mt-[20px] text-lg font-normal">
+            아직 생성된 질문이 없어요
+          </div>
+        ) : (
           <div className="mt-[20px] text-lg font-normal">
             예상 면접 질문{' '}
             <span className="text-green-point">{questionCount}</span>
-          </div>
-        )}
-        {questionCount === 0 && (
-          <div className="mt-[20px] text-lg font-normal">
-            아직 생성된 질문이 없어요
           </div>
         )}
 

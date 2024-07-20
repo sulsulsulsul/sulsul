@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import arrowUpRight from '../../../../../public/images/icons/icon-arrow_up_right.svg'
 import { useRouter } from 'next/navigation'
 import { Loader } from '@/components/shared/loader'
+import { ArchiveListItemDTO } from '@/entities/types'
 
 interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -90,7 +91,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
       </div>
       <div className="mt-4">
         <div className="flex flex-wrap items-center gap-6">
-          {archiveLists!.map((archive: any) => (
+          {archiveLists?.map((archive: ArchiveListItemDTO) => (
             <Link
               key={archive.archiveId}
               href={APP_ROUTES.archiveDetail(archive.archiveId)}
