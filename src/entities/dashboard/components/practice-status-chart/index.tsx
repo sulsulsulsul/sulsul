@@ -1,19 +1,20 @@
 'use client'
 
-import { cn, tailwindTheme } from '@/lib/utils'
-
+import { HTMLAttributes } from 'react'
 import {
   BarElement,
   CategoryScale,
-  ChartData,
   Chart as ChartJS,
+  ChartData,
   ChartOptions,
   Legend,
   LinearScale,
   Title,
   Tooltip,
 } from 'chart.js'
-import { HTMLAttributes } from 'react'
+
+import { cn, tailwindTheme } from '@/lib/utils'
+
 import { MonthlyChart } from './monthly'
 import { WeeklyChart } from './weekly'
 

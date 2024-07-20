@@ -1,7 +1,8 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { ForwardedRef, MediaHTMLAttributes } from 'react'
+
+import { cn } from '@/lib/utils'
 export interface VideoProps extends MediaHTMLAttributes<HTMLVideoElement> {
   videoRef?: ForwardedRef<HTMLVideoElement>
 }

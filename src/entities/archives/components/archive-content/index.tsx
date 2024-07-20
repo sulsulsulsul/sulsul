@@ -1,7 +1,9 @@
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
 import { ArchiveStatus } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { HTMLAttributes } from 'react'
+
 import { ActionButtons } from './action-buttons'
 
 interface ArchiveContentProps extends HTMLAttributes<HTMLDivElement> {

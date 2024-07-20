@@ -1,12 +1,13 @@
+import Image from 'next/image'
+import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
+
 import { ResultCard } from '@/components/cards/result-card'
 import { ConfettiAnimation } from '@/components/lotties/confetti-animation'
 import { SmileAnimation } from '@/components/lotties/smile-animation'
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { ChevronRight } from 'lucide-react'
-import Image from 'next/image'
-import Link from 'next/link'
 
 const Page = async () => {
   return (

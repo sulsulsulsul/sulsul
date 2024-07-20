@@ -1,7 +1,9 @@
-import { APP_ROUTES } from '@/config/constants/app-routes'
+import { HTMLAttributes } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { HTMLAttributes } from 'react'
+
+import { APP_ROUTES } from '@/config/constants/app-routes'
+
 import { ArchiveCard } from '../../components/archive-card'
 import { useArchives } from '../../hooks'
 interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}

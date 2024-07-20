@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils'
 import { HTMLAttributes } from 'react'
+
+import { cn } from '@/lib/utils'
 interface FeedbackSectionCompleteProps extends HTMLAttributes<HTMLDivElement> {
   goodFeedback: string
   badFeedback: string

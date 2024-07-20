@@ -1,10 +1,12 @@
 'use client'
 
 // import { Video } from '@/components/shared/video'
-import { cn } from '@/lib/utils'
+import { HTMLAttributes, useRef, useState } from 'react'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { HTMLAttributes, useRef, useState } from 'react'
+
+import { cn } from '@/lib/utils'
+
 import { StepList } from './step-list'
 import { StepVideos } from './step-videos'
 

@@ -1,3 +1,6 @@
+import { HTMLAttributes } from 'react'
+import { HelpCircle, PlusIcon, X } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import {
   Tooltip,
@@ -7,8 +10,6 @@ import {
 } from '@/components/ui/tooltip'
 import { ArchiveKeyword } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import { HelpCircle, PlusIcon, X } from 'lucide-react'
-import { HTMLAttributes } from 'react'
 interface KeywordSectionProps extends HTMLAttributes<HTMLDivElement> {
   keywords: ArchiveKeyword[]
   onDeleteKeyword: (keyword: ArchiveKeyword) => void

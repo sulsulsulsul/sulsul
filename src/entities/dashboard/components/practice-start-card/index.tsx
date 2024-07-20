@@ -1,7 +1,8 @@
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { HTMLAttributes } from 'react'
 interface PracticeStartCardProps extends HTMLAttributes<HTMLDivElement> {
   nickname: string
   handleStartPractice: () => void

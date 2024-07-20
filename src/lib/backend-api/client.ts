@@ -1,7 +1,9 @@
 /* eslint-disable no-console */
 
-import { APP_ENV } from '@/config/env'
 import axios from 'axios'
+
+import { APP_ENV } from '@/config/env'
+
 import { assertAccessToken } from '../utils'
 import { ApiEndpoint } from './api-end-point'
 import { Response } from './type'

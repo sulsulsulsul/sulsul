@@ -1,8 +1,9 @@
-import { LandingFooterLinks } from '@/config/constants/navigation-links'
-import { cn } from '@/lib/utils'
+import { HTMLAttributes } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { HTMLAttributes } from 'react'
+
+import { LandingFooterLinks } from '@/config/constants/navigation-links'
+import { cn } from '@/lib/utils'
 interface FooterProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Footer = ({ className, ...props }: FooterProps) => {
