@@ -22,7 +22,7 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
             <FormControl>
               <Input
                 placeholder="자소서 제목을 입력해주세요"
-                className="text-xl font-semibold"
+                className="px-0 text-xl font-semibold"
                 {...field}
               />
             </FormControl>

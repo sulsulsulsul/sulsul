@@ -26,6 +26,18 @@ export const CreateArchiveForm = ({
     mutate(data)
   })
 
+  //초기화 함수
+  const deleteContents = () => {
+    form.reset({
+      title: '',
+      companyName: '',
+      resume: '',
+    })
+    setTimeout(() => {
+      form.clearErrors(['title', 'companyName', 'resume'])
+    }, 0)
+  }
+
   return (
     <div className={cn('h-full', className)} {...props}>
       <Form {...form}>
@@ -37,7 +49,7 @@ export const CreateArchiveForm = ({
               <TitleField className="w-full" />
               <ContentField className="w-full" />
               <ContentLength />
-              <FormAction className="w-full" />
+              <FormAction deleteContents={deleteContents} className="w-full" />
             </div>
           </div>
         </form>
