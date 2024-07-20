@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils'
 import { HTMLAttributes } from 'react'
+
+import { cn } from '@/lib/utils'
 interface ResultCardProps extends HTMLAttributes<HTMLDivElement> {
   icon?: React.ReactNode
   result: React.ReactNode

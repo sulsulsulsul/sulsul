@@ -1,10 +1,11 @@
+import NextAuth, { Account, DefaultSession } from 'next-auth'
+import { JWT } from 'next-auth/jwt'
+import Google from 'next-auth/providers/google'
+
 import { signInAction } from '@/entities/auth/actions/sign-in-action'
 import { AuthDTO } from '@/entities/auth/types'
 import { getUserAction } from '@/entities/users/actions/get-user-action'
 import { UserDTO } from '@/entities/users/types'
-import NextAuth, { Account, DefaultSession } from 'next-auth'
-import { JWT } from 'next-auth/jwt'
-import Google from 'next-auth/providers/google'
 
 declare module 'next-auth' {
   interface Session {

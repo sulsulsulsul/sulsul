@@ -1,7 +1,9 @@
-import * as actions from '@/entities/users/hooks'
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 import { createMock } from 'storybook-addon-module-mock'
+
+import * as actions from '@/entities/users/hooks'
+
 import { SignInErrorView } from './index'
 
 const meta = {

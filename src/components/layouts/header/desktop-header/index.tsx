@@ -1,8 +1,11 @@
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { signIn, signOut } from 'next-auth/react'
+import { ChevronDown, ChevronRight } from 'lucide-react'
+
 import { Logo } from '@/components/shared/logo'
 import { Button } from '@/components/ui/button'
-import { APP_ROUTES } from '@/config/constants/app-routes'
-import { cn } from '@/lib/utils'
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,12 +14,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { APP_ROUTES } from '@/config/constants/app-routes'
 import { useCurrentUser } from '@/entities/users/hooks'
-import { ChevronDown, ChevronRight } from 'lucide-react'
-import { signIn, signOut } from 'next-auth/react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { HTMLAttributes } from 'react'
+import { cn } from '@/lib/utils'
+
 import { HeaderNavigation } from './header-navigation'
 interface DesktopHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 

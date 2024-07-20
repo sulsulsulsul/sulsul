@@ -1,6 +1,7 @@
+import { HTMLAttributes } from 'react'
+
 import { Video } from '@/components/shared/video'
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
 
 export const MobileSteps = ({
   className,

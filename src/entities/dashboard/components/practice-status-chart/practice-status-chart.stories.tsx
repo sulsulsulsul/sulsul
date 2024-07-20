@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react'
+
 import { PracticeStatusChart } from '.'
 
 const meta = {} satisfies Meta
