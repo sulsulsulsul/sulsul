@@ -1,12 +1,13 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { ArchiveKeyword } from '@/entities/types'
-import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import { HTMLAttributes } from 'react'
 import { HighlightMenu } from 'react-highlight-menu'
 import Highlighter from 'react-highlight-words'
+import Image from 'next/image'
+
+import { Button } from '@/components/ui/button'
+import { ArchiveKeyword } from '@/entities/types'
+import { cn } from '@/lib/utils'
 interface QuestionAnswerProps extends HTMLAttributes<HTMLDivElement> {
   answer: string
   onCreateKeywordNote: (keyword: string) => void

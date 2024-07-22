@@ -1,6 +1,8 @@
+import { HTMLAttributes } from 'react'
+
 import { ArchiveKeyword } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
+
 import { KeywordSet } from '../keyword-section/keyword'
 interface CardHeaderProps extends HTMLAttributes<HTMLDivElement> {
   content: string

@@ -1,12 +1,14 @@
 'use client'
 
+import { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { AnimatePresence, motion } from 'framer-motion'
+import { LottieRefCurrentProps } from 'lottie-react'
+
 import { SmileAnimation } from '@/components/lotties/smile-animation'
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
 import { cn } from '@/lib/utils'
-import { AnimatePresence, motion } from 'framer-motion'
-import { LottieRefCurrentProps } from 'lottie-react'
-import { useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+
 import { AnswerButton } from './answer-button'
 import { AskCard } from './ask-card'
 import { HintCard } from './hint-card'

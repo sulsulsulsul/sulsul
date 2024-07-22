@@ -1,6 +1,8 @@
-import * as actions from '@/entities/archives/actions'
 import type { Meta, StoryObj } from '@storybook/react'
 import { createMock } from 'storybook-addon-module-mock'
+
+import * as actions from '@/entities/archives/actions'
+
 import { mockArchiveListItemDTO } from '../../fixtures'
 import { ArchiveCard } from './'
 

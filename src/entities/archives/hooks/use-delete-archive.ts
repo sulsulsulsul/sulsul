@@ -1,6 +1,8 @@
-import { deleteArchiveAction } from '@/entities/archives/actions'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+
+import { deleteArchiveAction } from '@/entities/archives/actions'
+
 import { ArchiveListQueryOptions } from './use-archives'
 
 export const useDeleteArchive = () => {

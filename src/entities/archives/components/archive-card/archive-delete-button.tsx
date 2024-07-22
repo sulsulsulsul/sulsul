@@ -1,5 +1,8 @@
 'use client'
 
+import React, { forwardRef } from 'react'
+import Image from 'next/image'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,9 +16,8 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import { useDeleteArchive } from '@/entities/archives/hooks'
-import React, { forwardRef } from 'react'
+
 import alert from '../../../../../public/images/icons/alert.svg'
-import Image from 'next/image'
 
 interface ArchiveDeleteButtonProps {
   archiveId: number

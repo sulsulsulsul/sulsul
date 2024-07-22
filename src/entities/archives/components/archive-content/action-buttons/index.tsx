@@ -1,12 +1,13 @@
 'use client'
 
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+
 import { Button } from '@/components/ui/button'
 import { APP_ROUTES } from '@/config/constants/app-routes'
 import { ArchiveFeedbackStatus } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { HTMLAttributes } from 'react'
 interface ActionButtonsProps extends HTMLAttributes<HTMLDivElement> {
   status: ArchiveFeedbackStatus
 }

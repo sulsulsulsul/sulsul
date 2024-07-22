@@ -1,12 +1,14 @@
 'use client'
 
-import { ArchiveDetailDTO } from '@/entities/types'
-import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import { HTMLAttributes } from 'react'
-import { LoadedStatus } from './status/loaded'
+import Image from 'next/image'
+
 import { FormStatus } from '@/app/(routes)/archive/create/components/form-status'
 import { ArchiveFormProvider } from '@/app/(routes)/archive/create/hooks/use-create-archive-form'
+import { ArchiveDetailDTO } from '@/entities/types'
+import { cn } from '@/lib/utils'
+
+import { LoadedStatus } from './status/loaded'
 interface InterviewQuestionsProps extends HTMLAttributes<HTMLDivElement> {
   data: ArchiveDetailDTO
 }

@@ -1,7 +1,9 @@
+import { HTMLAttributes } from 'react'
+import { motion } from 'framer-motion'
+
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { motion } from 'framer-motion'
-import { HTMLAttributes } from 'react'
+
 import { Question } from './page'
 interface AnswerButtonProps extends HTMLAttributes<HTMLDivElement> {
   questions: Question[]

@@ -1,5 +1,6 @@
-import { tailwindTheme } from '@/lib/utils'
 import type { StoryObj } from '@storybook/react'
+
+import { tailwindTheme } from '@/lib/utils'
 
 const colors = tailwindTheme.colors
 

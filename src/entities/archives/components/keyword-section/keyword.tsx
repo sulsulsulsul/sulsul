@@ -1,5 +1,6 @@
-import { ArchiveKeyword } from '@/entities/types'
 import { X } from 'lucide-react'
+
+import { ArchiveKeyword } from '@/entities/types'
 
 interface KeywordProps {
   keywords: ArchiveKeyword[]

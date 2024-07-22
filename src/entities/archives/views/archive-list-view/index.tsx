@@ -1,16 +1,18 @@
-import { APP_ROUTES } from '@/config/constants/app-routes'
+import React, { HTMLAttributes, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { HTMLAttributes, useState } from 'react'
-import { ArchiveCard } from '../../components/archive-card'
-import { useArchives } from '../../hooks'
+import { useRouter } from 'next/navigation'
+
 import SelectDropdown from '@/app/(routes)/archive/(list)/components/select-dropdown'
 import { IdleStatus } from '@/app/(routes)/archive/create/components/form-status/status/idle'
-import { Button } from '@/components/ui/button'
-import arrowUpRight from '../../../../../public/images/icons/icon-arrow_up_right.svg'
-import { useRouter } from 'next/navigation'
 import { Loader } from '@/components/shared/loader'
+import { Button } from '@/components/ui/button'
+import { APP_ROUTES } from '@/config/constants/app-routes'
 import { ArchiveListItemDTO } from '@/entities/types'
+
+import arrowUpRight from '../../../../../public/images/icons/icon-arrow_up_right.svg'
+import { ArchiveCard } from '../../components/archive-card'
+import { useArchives } from '../../hooks'
 
 interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}
 

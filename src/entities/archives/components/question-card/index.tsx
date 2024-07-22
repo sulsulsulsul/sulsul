@@ -1,6 +1,5 @@
 'use client'
 
-import { cn } from '@/lib/utils'
 import { HTMLAttributes, useState } from 'react'
 
 import {
@@ -10,6 +9,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { ArchiveQuestionItem } from '@/entities/types'
+import { cn } from '@/lib/utils'
+
 import { mockArchiveFeedback } from '../../fixtures'
 import { CardBody } from './card-body'
 import { CardHeader } from './card-header'
