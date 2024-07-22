@@ -24,6 +24,13 @@ export const API_ENDPOINT = {
         authorization: true,
       }
     },
+    updateUserJob: (userId: number, jobId: number) => {
+      return {
+        url: `/api/v1/users/${userId}/jobs/${jobId}`,
+        method: Method.PATCH,
+        authorization: true,
+      }
+    },
     updateUserNickname: (id: number) => {
       return {
         url: `/api/v1/users/${id}/nickname`,
