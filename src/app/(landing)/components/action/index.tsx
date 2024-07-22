@@ -1,12 +1,13 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { HTMLAttributes, useRef } from 'react'
+import Image from 'next/image'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
-import Image from 'next/image'
-import { HTMLAttributes, useRef } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 interface ReasonProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Action = ({ className, ...props }: ReasonProps) => {

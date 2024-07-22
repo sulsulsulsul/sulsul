@@ -1,8 +1,10 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
+import { cn } from '@/lib/utils'
+
 import { useCreateArchiveFormContext } from '../../hooks/use-create-archive-form'
 import { IdleStatus } from './status/idle'
 import { ValidStatus } from './status/valid'

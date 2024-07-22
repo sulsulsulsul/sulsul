@@ -1,9 +1,10 @@
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { signIn } from 'next-auth/react'
+import { HTMLAttributes } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { HTMLAttributes } from 'react'
+import { signIn } from 'next-auth/react'
+
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 interface SingInViewProps extends HTMLAttributes<HTMLDivElement> {
   callbackUrl: string
 }

@@ -1,7 +1,8 @@
-import { cn } from '@/lib/utils'
-import { useSession } from 'next-auth/react'
-import Image from 'next/image'
 import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+
+import { cn } from '@/lib/utils'
 interface ProfileImageProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ProfileImage = ({ className, ...props }: ProfileImageProps) => {

@@ -1,9 +1,11 @@
 'use client'
 
+import { redirect } from 'next/navigation'
+
 import { Loader } from '@/components/shared/loader'
 import { InterviewQuestions } from '@/entities/archives/components/interview-questions'
 import { useArchive } from '@/entities/archives/hooks'
-import { redirect } from 'next/navigation'
+
 import { ArchiveContent } from '../../components/archive-content'
 
 interface ArchiveDetailViewProps {

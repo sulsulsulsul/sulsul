@@ -1,5 +1,6 @@
-import { ArchiveDetailView } from '@/entities/archives/views/archive-detail-view'
 import { redirect } from 'next/navigation'
+
+import { ArchiveDetailView } from '@/entities/archives/views/archive-detail-view'
 
 interface ArchiveDetail {
   params: {

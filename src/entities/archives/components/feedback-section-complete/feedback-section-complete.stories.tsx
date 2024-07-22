@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import { faker } from '@/lib/faker'
+
 import { FeedbackSectionComplete } from './index'
 
 const meta = {

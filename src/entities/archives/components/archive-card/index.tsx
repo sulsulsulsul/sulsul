@@ -1,9 +1,11 @@
 'use client'
 
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
 import { ArchiveStatus } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { HTMLAttributes } from 'react'
+
 import { ArchiveCardMenu } from './archive-card-menu'
 interface ArchiveCardProps extends HTMLAttributes<HTMLDivElement> {
   status: ArchiveStatus
