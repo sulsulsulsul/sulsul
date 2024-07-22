@@ -1,3 +1,7 @@
+import { useState } from 'react'
+import Image from 'next/image'
+import { useSession } from 'next-auth/react'
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -10,42 +14,51 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import Image from 'next/image'
+import { updateUserJob } from '@/entities/users/actions/update-user-job'
 import { cn } from '@/lib/utils'
+
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
-import { useState } from 'react'
+
+const JOB_TYPE: string[] = [
+  '기획·전략',
+  '마케팅·광고·MD',
+  '디자인',
+  '개발·데이터',
+  '총무·법무·사무',
+  '회계·세무·재무',
+  '인사·노무·HR',
+  '영업·판매·무역',
+  '고객상담·TM',
+  '금융·보험·투자',
+  '서비스',
+  '의료·제약·바이오',
+  '문화·예술·공연',
+  '교육',
+  '건설·건축',
+  '전기·전자·통신',
+  '연구·R&D',
+  '제조·생산',
+  '공공·복지',
+] as const
 
 export const SelectJobTypeModal = () => {
   const [selectedType, setSelectedType] = useState('')
   const { form } = useCreateArchiveFormContext()
 
+  const { data: session } = useSession()
+
   const isFormValid = form.formState.isValid
   const isSubmitting = form.formState.isSubmitting
 
-  const JOB_TYPE = [
-    '기획·전략',
-    '마케팅·광고·MD',
-    '디자인',
-    '개발·데이터',
-    '총무·법무·사무',
-    '회계·세무·재무',
-    '인사·노무·HR',
-    '영업·판매·무역',
-    '고객상담·TM',
-    '금융·보험·투자',
-    '서비스',
-    '의료·제약·바이오',
-    '문화·예술·공연',
-    '교육',
-    '건설·건축',
-    '전기·전자·통신',
-    '연구·R&D',
-    '제조·생산',
-    '공공·복지',
-  ]
-
   const handleSelectedType = (value: string) => {
     setSelectedType(value)
+  }
+
+  //jobId update
+  const handleJobId = async () => {
+    const jobId = JOB_TYPE.indexOf(selectedType) + 1
+    const userId = session?.user.auth.userId
+    if (userId) await updateUserJob({ userId, jobId })
   }
 
   return (
@@ -91,7 +104,11 @@ export const SelectJobTypeModal = () => {
         </AlertDialogHeader>
         <AlertDialogFooter className="mx-auto">
           <AlertDialogCancel className="w-[180px]">취소하기</AlertDialogCancel>
-          <AlertDialogAction className="w-[180px] bg-blue-500 text-white">
+          <AlertDialogAction
+            disabled={selectedType === ''}
+            className="w-[180px] bg-blue-500 text-white"
+            onClick={handleJobId}
+          >
             선택하기
           </AlertDialogAction>
         </AlertDialogFooter>
