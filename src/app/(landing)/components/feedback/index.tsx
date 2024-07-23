@@ -1,6 +1,7 @@
-import { cn } from '@/lib/utils'
-import Image from 'next/image'
 import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
+import { cn } from '@/lib/utils'
 interface FeedbackProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Feedback = ({ className, ...props }: FeedbackProps) => {

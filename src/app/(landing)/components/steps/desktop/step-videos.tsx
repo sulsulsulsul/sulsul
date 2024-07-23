@@ -1,7 +1,8 @@
+import { forwardRef, HTMLAttributes, useEffect, useRef } from 'react'
+import dynamic from 'next/dynamic'
+
 import { VideoProps } from '@/components/shared/video'
 import { cn } from '@/lib/utils'
-import dynamic from 'next/dynamic'
-import { HTMLAttributes, forwardRef, useEffect, useRef } from 'react'
 const Video = dynamic(
   () => import('@/components/shared/video').then((mod) => mod.Video),
   {

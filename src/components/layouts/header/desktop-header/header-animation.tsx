@@ -1,11 +1,12 @@
 'use client'
 
-import { cn } from '@/lib/utils'
+import { HTMLAttributes, useRef } from 'react'
+import { usePathname } from 'next/navigation'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
-import { usePathname } from 'next/navigation'
-import { HTMLAttributes, useRef } from 'react'
+
+import { cn } from '@/lib/utils'
 interface HeaderAnimationProps extends HTMLAttributes<HTMLDivElement> {}
 
 gsap.registerPlugin(ScrollTrigger)

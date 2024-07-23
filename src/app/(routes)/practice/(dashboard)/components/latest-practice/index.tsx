@@ -1,7 +1,8 @@
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
 import { DashboardQuestionCard } from '@/components/cards/dashboard-question-card'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { HTMLAttributes } from 'react'
 interface LatestPracticeProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const LatestPractice = ({

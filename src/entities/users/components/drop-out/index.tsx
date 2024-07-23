@@ -1,5 +1,6 @@
-import { cn } from '@/lib/utils'
 import { HTMLAttributes } from 'react'
+
+import { cn } from '@/lib/utils'
 interface DropOutProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const DropOut = ({ className, ...props }: DropOutProps) => {

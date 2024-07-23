@@ -1,8 +1,9 @@
-import { DesktopHeaderLinks } from '@/config/constants/navigation-links'
-import { cn } from '@/lib/utils'
+import { HTMLAttributes } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { HTMLAttributes } from 'react'
+
+import { DesktopHeaderLinks } from '@/config/constants/navigation-links'
+import { cn } from '@/lib/utils'
 interface HeaderNavigationProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const HeaderNavigation = ({

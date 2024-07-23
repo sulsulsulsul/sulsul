@@ -1,10 +1,11 @@
 'use client'
 
+import { HTMLAttributes } from 'react'
+import { redirect } from 'next/navigation'
+
 import { APP_ROUTES } from '@/config/constants/app-routes'
 import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
-import { redirect } from 'next/navigation'
-import { HTMLAttributes } from 'react'
 interface SignInErrorViewProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const SignInErrorView = ({

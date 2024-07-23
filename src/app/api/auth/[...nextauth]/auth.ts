@@ -1,10 +1,11 @@
+import NextAuth from 'next-auth'
+import Google from 'next-auth/providers/google'
+import Kakao from 'next-auth/providers/kakao'
+
 import { signInAction } from '@/entities/auth/actions/sign-in-action'
 import { AuthDTO } from '@/entities/auth/types'
 import { getUserAction } from '@/entities/users/actions/get-user-action'
 import { UserDTO } from '@/entities/users/types'
-import NextAuth from 'next-auth'
-import Google from 'next-auth/providers/google'
-import Kakao from 'next-auth/providers/kakao'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [Google, Kakao],

@@ -1,12 +1,13 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { HTMLAttributes, useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
 import { ChevronUp } from 'lucide-react'
-import { HTMLAttributes, useRef } from 'react'
+
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 interface ScrollUpButtonProps extends HTMLAttributes<HTMLDivElement> {}
 export const ScrollUpButton = ({
   className,

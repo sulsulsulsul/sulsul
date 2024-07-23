@@ -1,9 +1,11 @@
 'use client'
 
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
 import { ArchiveDetailDTO } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { HTMLAttributes } from 'react'
+
 import { LoadedStatus } from './status/loaded'
 import { PendingStatus } from './status/pending'
 interface InterviewQuestionsProps extends HTMLAttributes<HTMLDivElement> {
