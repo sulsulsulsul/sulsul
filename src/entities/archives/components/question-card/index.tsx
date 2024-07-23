@@ -1,6 +1,6 @@
 'use client'
 
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useState } from 'react'
 
 import {
   Accordion,
@@ -24,7 +24,9 @@ export const QuestionCard = ({
   data,
   ...props
 }: QuestionCardProps) => {
-  const { content } = data
+  const [isAccodionOpen, setIsAccodionOpen] = useState(false)
+
+  const { content, keywords, isAnswered } = data
   // TODO: useFeedback 구현
 
   return (
@@ -32,8 +34,15 @@ export const QuestionCard = ({
       <div className="rounded-md bg-white pl-4 pr-7">
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none">
-            <AccordionTrigger>
-              <CardHeader content={content} />
+            <AccordionTrigger
+              onClick={() => setIsAccodionOpen((prev) => !prev)}
+            >
+              <CardHeader
+                content={content}
+                keywords={keywords}
+                isAnswered={isAnswered}
+                isAccodionOpen={isAccodionOpen}
+              />
             </AccordionTrigger>
             <AccordionContent className="pl-[20px] pt-2">
               <CardBody
