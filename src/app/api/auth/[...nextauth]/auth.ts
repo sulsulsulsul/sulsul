@@ -1,52 +1,52 @@
-import NextAuth, { Account, DefaultSession } from 'next-auth'
-import { JWT } from 'next-auth/jwt'
+import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
+import Kakao from 'next-auth/providers/kakao'
 
 import { signInAction } from '@/entities/auth/actions/sign-in-action'
 import { AuthDTO } from '@/entities/auth/types'
 import { getUserAction } from '@/entities/users/actions/get-user-action'
 import { UserDTO } from '@/entities/users/types'
 
-declare module 'next-auth' {
-  interface Session {
-    user: {
-      /** The user's postal address. */
-      accessToken: string
-      account: Account
-      auth: AuthDTO
-      data: UserDTO
-    } & DefaultSession['user']
-  }
-}
-
-declare module 'next-auth/jwt' {
-  /** Returned by the `jwt` callback and `auth`, when using JWT sessions */
-  interface JWT {
-    auth: AuthDTO
-    data: UserDTO
-  }
-}
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  providers: [Google],
+  providers: [Google, Kakao],
   callbacks: {
     jwt: async ({ token, account }) => {
       if (account) {
-        if (account.id_token === undefined) {
-          throw new Error('id_token is undefined')
+        if (account.provider === 'google') {
+          if (!account.id_token) {
+            throw new Error('Google id_token is undefined')
+          }
+          const authDTO = await signInAction({
+            oauthType: 'GOOGLE',
+            token: account.id_token,
+          })
+          token.auth = authDTO
+        } else if (account.provider === 'kakao') {
+          if (!account.access_token) {
+            throw new Error('Kakao access_token is undefined')
+          }
+          const authDTO = await signInAction({
+            oauthType: 'KAKAO',
+            token: account.access_token,
+          })
+          token.auth = authDTO
         }
-        const authDTO = await signInAction({
-          oauthType: 'GOOGLE',
-          token: account.id_token,
-        })
-        token.auth = authDTO
       }
 
       if (token.auth) {
-        const userDTO = await getUserAction({
-          userId: token.auth.userId,
-          accessToken: token.auth.token,
-        })
-        token.data = userDTO
+        if (account?.provider === 'google') {
+          const userDTO = await getUserAction({
+            userId: token.auth.userId,
+            accessToken: token.auth.token,
+          })
+          token.data = userDTO
+        } else if (account?.provider === 'kakao') {
+          const userDTO = await getUserAction({
+            userId: token.auth.userId,
+            accessToken: token.auth.token,
+          })
+          token.data = userDTO
+        }
       }
 
       return token
