@@ -1,3 +1,6 @@
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -11,8 +14,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { HTMLAttributes } from 'react'
+
 import { useMyForm } from '../../hooks/use-my-form'
 interface MyFormProps extends HTMLAttributes<HTMLDivElement> {}
 

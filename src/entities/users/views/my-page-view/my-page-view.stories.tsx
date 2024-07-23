@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from '@storybook/react'
-
-import { fn } from '@storybook/test'
 import * as authActions from 'next-auth/react'
+import type { Meta, StoryObj } from '@storybook/react'
+import { fn } from '@storybook/test'
+import { createMock } from 'storybook-addon-module-mock'
 
 import * as userActions from '@/entities/users/actions'
-import { createMock } from 'storybook-addon-module-mock'
+
 import { UserDTO } from '../../types'
 import { MyPageView } from './'
 

@@ -1,8 +1,9 @@
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
 import { SmileAnimation } from '@/components/lotties/smile-animation'
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { HTMLAttributes } from 'react'
 interface PracticeResultCardProps extends HTMLAttributes<HTMLDivElement> {
   type: 'good' | 'bad' | 'time'
   value: string | number

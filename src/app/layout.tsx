@@ -2,8 +2,10 @@ import type { Metadata } from 'next'
 
 import { Header } from '@/components/layouts/header'
 import { pretendard } from '@/lib/fonts'
-import './globals.css'
+
 import { Providers } from './providers'
+
+import './globals.css'
 
 export const metadata: Metadata = {
   title: 'SulSul',

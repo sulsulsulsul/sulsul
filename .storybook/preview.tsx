@@ -1,10 +1,12 @@
+import React from 'react'
+import localFont from 'next/font/local'
+import { Session } from 'next-auth'
 import type { Preview } from '@storybook/react'
 import { QueryClient } from '@tanstack/react-query'
-import { Session } from 'next-auth'
-import localFont from 'next/font/local'
-import React from 'react'
-import '../src/app/globals.css'
+
 import { Providers } from '../src/app/providers'
+
+import '../src/app/globals.css'
 export const pretendard = localFont({
   src: '../fonts/PretendardVariable.woff2',
   variable: '--font-pretendard',

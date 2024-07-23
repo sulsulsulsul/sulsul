@@ -1,7 +1,8 @@
 import { Account, DefaultSession } from 'next-auth'
+import { JWT } from 'next-auth/jwt'
+
 import { AuthDTO } from '@/entities/auth/types'
 import { UserDTO } from '@/entities/users/types'
-import { JWT } from 'next-auth/jwt'
 
 declare module 'next-auth' {
   interface Session {

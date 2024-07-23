@@ -1,6 +1,8 @@
+import { HTMLAttributes } from 'react'
+
 import { ArchiveFeedback, ArchiveQuestionItem } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
+
 import { FeedbackSectionComplete } from '../feedback-section-complete'
 import { FeedbackSectionIdle } from '../feedback-section-idle'
 import { KeywordSection } from '../keyword-section'
