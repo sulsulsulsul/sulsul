@@ -1,10 +1,10 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-
-import { Chart, ChartData, ChartOptions, Plugin } from 'chart.js'
 import { HTMLAttributes, useEffect } from 'react'
 import { Bar } from 'react-chartjs-2'
+import { Chart, ChartData, ChartOptions, Plugin } from 'chart.js'
+
+import { cn } from '@/lib/utils'
 
 const week = new Date().getDay()
 

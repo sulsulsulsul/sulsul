@@ -1,11 +1,12 @@
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+
 import { ResultCard } from '@/components/cards/result-card'
 import { SmileAnimation } from '@/components/lotties/smile-animation'
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import Link from 'next/link'
-import { HTMLAttributes } from 'react'
 interface CurrentStatusProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const CurrentStatus = ({ className, ...props }: CurrentStatusProps) => {

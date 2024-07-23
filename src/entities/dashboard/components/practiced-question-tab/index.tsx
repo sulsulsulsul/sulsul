@@ -1,6 +1,8 @@
+import { HTMLAttributes } from 'react'
+
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
+
 import { PracticedQuestionTabType } from '../../types'
 
 interface PracticedQuestionTabProps extends HTMLAttributes<HTMLDivElement> {

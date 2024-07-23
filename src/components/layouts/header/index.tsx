@@ -1,5 +1,6 @@
 'use client'
 import { HTMLAttributes } from 'react'
+
 import { DesktopHeader } from './desktop-header'
 import { HeaderAnimation } from './desktop-header/header-animation'
 import { MobileHeader } from './mobile-header'

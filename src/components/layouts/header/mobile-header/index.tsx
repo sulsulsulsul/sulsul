@@ -1,5 +1,12 @@
 'use client'
 
+import { HTMLAttributes } from 'react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { ChevronRight, MenuIcon } from 'lucide-react'
+
+import { AuthSignedOut } from '@/components/auth/auth-signed-out'
+import { Logo } from '@/components/shared/logo'
 import {
   Sheet,
   SheetClose,
@@ -8,15 +15,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-
-import { AuthSignedOut } from '@/components/auth/auth-signed-out'
-import { Logo } from '@/components/shared/logo'
 import { MobileHeaderLinks } from '@/config/constants/navigation-links'
 import { cn } from '@/lib/utils'
-import { ChevronRight, MenuIcon } from 'lucide-react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { HTMLAttributes } from 'react'
 interface MobileHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {

@@ -1,9 +1,10 @@
 'use client'
 
+import { HTMLAttributes, useState } from 'react'
+import Image from 'next/image'
+
 import { PracticeStatusChart } from '@/entities/dashboard/components/practice-status-chart'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { HTMLAttributes, useState } from 'react'
 interface StatusChartProps extends HTMLAttributes<HTMLDivElement> {}
 
 const randomNum = (min: number, max: number) => {

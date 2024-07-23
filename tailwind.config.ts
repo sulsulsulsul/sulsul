@@ -113,6 +113,7 @@ const config = {
           300: '#D6F6E9',
           500: '#7FCFB7',
           900: '#13A478',
+          point: '#51E8BA',
         },
         gray: {
           50: '#F6F7FB',

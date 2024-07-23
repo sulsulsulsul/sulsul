@@ -1,7 +1,8 @@
 'use client'
 
-import { getArchiveListAction } from '@/entities/archives/actions'
 import { queryOptions, useQuery } from '@tanstack/react-query'
+
+import { getArchiveListAction } from '@/entities/archives/actions'
 
 export const ArchiveListQueryOptions = queryOptions({
   queryKey: ['archives', 'list'],

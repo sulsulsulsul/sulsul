@@ -1,9 +1,10 @@
+import { HTMLAttributes } from 'react'
+import { ChevronRightIcon } from 'lucide-react'
+
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { ChevronRightIcon } from 'lucide-react'
-import { HTMLAttributes } from 'react'
 interface PracticeArchiveSelectProps extends HTMLAttributes<HTMLDivElement> {
   data: PracticeArchiveSelectItemProps[]
   handleSelect?: (id: string) => void

@@ -1,7 +1,8 @@
+import { HTMLAttributes } from 'react'
+
 import { Checkbox } from '@/components/ui/checkbox'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
 interface PracticeQuestionSelectProps extends HTMLAttributes<HTMLDivElement> {
   data: PracticeQuestionSelectItemProps[]
   handleSelect?: (id: string) => void

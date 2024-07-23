@@ -1,12 +1,13 @@
 'use client'
 
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
+
 import { Button } from '@/components/ui/button'
 import { APP_ROUTES } from '@/config/constants/app-routes'
 import { ArchiveFeedbackStatus } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { HTMLAttributes } from 'react'
 interface ActionButtonsProps extends HTMLAttributes<HTMLDivElement> {
   status: ArchiveFeedbackStatus
 }
@@ -34,13 +35,13 @@ export const ActionButtons = ({
           height={24}
           alt="icon"
         />
-        새로 작성
+        초기화
       </Button>
-      {status === 'COMPLETE' && (
+      {(status === 'COMPLETE' || status === 'CREATING') && (
         <Button
           type="button"
           className={cn(
-            'bg-blue-100 gap-2 text-blue-500 hover:bg-blue-100 cursor-default w-full',
+            'bg-blue-100 gap-2 text-blue-500 hover:bg-blue-100 cursor-default w-full border-0',
           )}
           variant={'outline'}
         >
@@ -50,10 +51,10 @@ export const ActionButtons = ({
             height={24}
             alt="icon"
           />
-          <span>예상질문 예측 완료</span>
+          <span>예상질문 생성 완료</span>
         </Button>
       )}
-      {status !== 'COMPLETE' && (
+      {status === 'READY' && (
         <Button
           type="button"
           className={cn(
@@ -67,7 +68,7 @@ export const ActionButtons = ({
             height={24}
             alt="icon"
           />
-          <span>예상질문 예측 완료</span>
+          <span>예상질문 예측하기</span>
         </Button>
       )}
     </div>

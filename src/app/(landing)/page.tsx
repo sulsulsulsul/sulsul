@@ -1,5 +1,6 @@
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
+
 import { Action } from './components/action'
 import { Feedback } from './components/feedback'
 import { Footer } from './components/footer'
