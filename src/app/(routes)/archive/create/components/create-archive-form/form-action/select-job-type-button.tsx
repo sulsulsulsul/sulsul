@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 
 import {
@@ -14,10 +15,16 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import {
+  createArchiveAction,
+  getArchiveListAction,
+} from '@/entities/archives/actions'
+import { createQuestionAction } from '@/entities/questions/actions/create-question-action'
 import { updateUserJob } from '@/entities/users/actions/update-user-job'
 import { cn } from '@/lib/utils'
 
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
+import { usePendingStatus } from '../../../hooks/use-pending-status'
 
 const JOB_TYPE: string[] = [
   '기획·전략',
@@ -41,11 +48,18 @@ const JOB_TYPE: string[] = [
   '공공·복지',
 ] as const
 
+const wait = () => new Promise((resolve) => setTimeout(resolve, 0))
+
 export const SelectJobTypeModal = () => {
   const [selectedType, setSelectedType] = useState('')
+  const [open, setOpen] = useState(false) //모달 열림 여부
   const { form } = useCreateArchiveFormContext()
+  const { handleSubmit, getValues } = form
 
   const { data: session } = useSession()
+  const router = useRouter()
+
+  const { isPending, setIsPending } = usePendingStatus()
 
   const isFormValid = form.formState.isValid
   const isSubmitting = form.formState.isSubmitting
@@ -54,28 +68,72 @@ export const SelectJobTypeModal = () => {
     setSelectedType(value)
   }
 
-  //jobId update
-  const handleJobId = async () => {
-    const jobId = JOB_TYPE.indexOf(selectedType) + 1
-    const userId = session?.user.auth.userId
-    if (userId) await updateUserJob({ userId, jobId })
+  const onSubmit = async () => {
+    setIsPending(true)
+    wait().then(() => setOpen(false))
+
+    try {
+      //jobId update
+      const jobId = JOB_TYPE.indexOf(selectedType) + 1
+      const userId = session?.user.auth.userId
+      if (userId) await updateUserJob({ userId, jobId })
+
+      //create archive
+      await createArchiveAction({
+        title: getValues('title'),
+        resume: getValues('resume'),
+        companyName: getValues('companyName'),
+      })
+
+      //get created archiveId
+      const archives = await getArchiveListAction()
+      const newArchiveId = archives[archives.length - 1].archiveId
+
+      //create questions ai
+      await createQuestionAction({ archiveId: newArchiveId })
+
+      setTimeout(() => {
+        router.push(`/archive/${newArchiveId}`)
+        setIsPending(false)
+      }, 5000)
+    } catch (error) {
+      alert('예측 중 오류가 발생했습니다. 다시 시도해주세요.')
+      setIsPending(false)
+    }
   }
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button
-          disabled={isSubmitting || !isFormValid}
+          disabled={isSubmitting || !isFormValid || isPending}
           type="button"
           className={cn(
             'grow border-gray-200 bg-gray-200 text-gray-500',
-            isFormValid ? 'bg-blue-500 text-white hover:bg-blue-600' : '',
+            isPending
+              ? 'bg-gradient-to-r from-blue-500 to-[#4BF5CC] text-white'
+              : isFormValid
+                ? 'bg-blue-500 text-white hover:bg-blue-600'
+                : '',
           )}
           variant={'outline'}
         >
-          {/* Form Valid 상태에 따른 Icon 변화 */}
-          {isFormValid ? <ActivateTwinkleIcon /> : <NonActivateTwinkleIcon />}
-          예상질문 예측하기
+          {isPending ? (
+            <>
+              <ActivateTwinkleIcon />
+              <span>예상질문 예측 중</span>
+            </>
+          ) : isFormValid ? (
+            <>
+              <ActivateTwinkleIcon />
+              <span>예상질문 예측하기</span>
+            </>
+          ) : (
+            <>
+              <NonActivateTwinkleIcon />
+              <span>예상질문 예측하기</span>
+            </>
+          )}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent className="h-auto max-w-xl">
@@ -107,7 +165,7 @@ export const SelectJobTypeModal = () => {
           <AlertDialogAction
             disabled={selectedType === ''}
             className="w-[180px] bg-blue-500 text-white"
-            onClick={handleJobId}
+            onClick={handleSubmit(onSubmit)}
           >
             선택하기
           </AlertDialogAction>
