@@ -117,4 +117,13 @@ export const API_ENDPOINT = {
       }
     },
   },
+  question: {
+    createQuestions: (archiveId: number) => {
+      return {
+        url: `/api/v1/questions/${archiveId}/ai`,
+        method: Method.POST,
+        authorization: true,
+      }
+    },
+  },
 } as const
