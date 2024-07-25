@@ -36,6 +36,7 @@ export const InterviewQuestions = ({
               alt="icon"
             />
             <span>면접 예상질문</span>
+            <span className="text-blue-500">{data.questions.length}</span>
           </h2>
           <div className="mt-[18px] size-full">
             {
