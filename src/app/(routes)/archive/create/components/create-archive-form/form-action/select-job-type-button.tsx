@@ -17,9 +17,11 @@ import {
 import { Button } from '@/components/ui/button'
 import {
   createArchiveAction,
+  getArchiveDetailAction,
   getArchiveListAction,
 } from '@/entities/archives/actions'
 import { createQuestionAction } from '@/entities/questions/actions/create-question-action'
+import { ArchiveListItemDTO } from '@/entities/types'
 import { updateUserJob } from '@/entities/users/actions/update-user-job'
 import { cn } from '@/lib/utils'
 
@@ -86,16 +88,26 @@ export const SelectJobTypeModal = () => {
       })
 
       //get created archiveId
-      const archives = await getArchiveListAction()
+      const archives: ArchiveListItemDTO[] = await getArchiveListAction()
       const newArchiveId = archives[archives.length - 1].archiveId
 
       //create questions ai
       await createQuestionAction({ archiveId: newArchiveId })
 
-      setTimeout(() => {
-        router.push(`/archive/${newArchiveId}`)
-        setIsPending(false)
-      }, 5000)
+      //polling function to check status
+      const checkStatus = async () => {
+        const updatedArchive = await getArchiveDetailAction(newArchiveId)
+
+        if (updatedArchive && updatedArchive.status === 'COMPLETE') {
+          router.push(`/archive/${newArchiveId}`)
+          setIsPending(false)
+          return
+        }
+
+        setTimeout(checkStatus, 2000)
+      }
+      //start polling
+      checkStatus()
     } catch (error) {
       alert('예측 중 오류가 발생했습니다. 다시 시도해주세요.')
       setIsPending(false)
