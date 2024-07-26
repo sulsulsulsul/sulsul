@@ -73,8 +73,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   }
 
   const copyArchives = archives && JSON.parse(JSON.stringify(archives))
-  const archiveLists =
-    sortType === 'recent' ? archives : copyArchives?.reverse()
+  const archiveLists = sortType === 'old' ? archives : copyArchives?.reverse()
 
   return (
     <main>

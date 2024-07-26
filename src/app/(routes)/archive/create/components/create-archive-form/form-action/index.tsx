@@ -4,18 +4,25 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
-interface FormActionProps extends HTMLAttributes<HTMLDivElement> {}
+import { SelectJobTypeModal } from './select-job-type-button'
 
-export const FormAction = ({ className, ...props }: FormActionProps) => {
-  const { form } = useCreateArchiveFormContext()
+interface FormActionProps extends HTMLAttributes<HTMLDivElement> {
+  onClickResetContents: () => void
+}
 
-  const isFormValid = form.formState.isValid
-  const isSubmitting = form.formState.isSubmitting
+export const FormAction = ({
+  className,
+  onClickResetContents,
+  ...props
+}: FormActionProps) => {
   return (
     <div className={cn(className)} {...props}>
-      <div className="flex w-full gap-2">
-        <Button className="w-[117px] text-gray-600" variant={'outline'}>
+      <div className="flex gap-2">
+        <Button
+          className="basis-[117px] text-gray-600"
+          variant="outline"
+          onClick={onClickResetContents}
+        >
           <Image
             src="/images/icons/icon-redo.svg"
             width={24}
@@ -24,41 +31,8 @@ export const FormAction = ({ className, ...props }: FormActionProps) => {
           />
           초기화
         </Button>
-        <Button
-          disabled={isSubmitting}
-          type="submit"
-          className={cn(
-            'w-full border-gray-200 bg-gray-200 text-gray-500',
-            isFormValid ? 'bg-blue-500 text-white hover:bg-blue-600' : '',
-          )}
-          variant={'outline'}
-        >
-          {/* Form Valid 상태에 따른 Icon 변화 */}
-          {isFormValid ? <ActivateTwinkleIcon /> : <NonActivateTwinkleIcon />}
-          예상질문 예측하기
-        </Button>
+        <SelectJobTypeModal />
       </div>
     </div>
-  )
-}
-const NonActivateTwinkleIcon = () => {
-  return (
-    <Image
-      src="/images/icons/icon-Twinkle.svg"
-      width={24}
-      height={24}
-      alt="icon"
-    />
-  )
-}
-
-const ActivateTwinkleIcon = () => {
-  return (
-    <Image
-      src="/images/icons/icon-Twinkle-activate.svg"
-      width={24}
-      height={24}
-      alt="icon"
-    />
   )
 }
