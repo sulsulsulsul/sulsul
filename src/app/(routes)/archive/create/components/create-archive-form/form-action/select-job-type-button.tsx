@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+import { useQueryClient } from '@tanstack/react-query'
 
 import {
   AlertDialog,
@@ -16,13 +16,18 @@ import {
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import {
-  createArchiveAction,
   getArchiveDetailAction,
   getArchiveListAction,
 } from '@/entities/archives/actions'
-import { createQuestionAction } from '@/entities/questions/actions/create-question-action'
+import {
+  useArchive,
+  useArchives,
+  useCreateArchive,
+} from '@/entities/archives/hooks'
+import { useCreateQuestion } from '@/entities/questions/hooks/use-create-question'
 import { ArchiveListItemDTO } from '@/entities/types'
-import { updateUserJob } from '@/entities/users/actions/update-user-job'
+import { useCurrentUser } from '@/entities/users/hooks'
+import { useUpdateJob } from '@/entities/users/hooks/use-update-job'
 import { cn } from '@/lib/utils'
 
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
@@ -55,13 +60,22 @@ const wait = () => new Promise((resolve) => setTimeout(resolve, 0))
 export const SelectJobTypeModal = () => {
   const [selectedType, setSelectedType] = useState('')
   const [open, setOpen] = useState(false) //모달 열림 여부
+  const [newArchiveId, setNewArchiveId] = useState<number | null>(null)
   const { form } = useCreateArchiveFormContext()
   const { handleSubmit, getValues } = form
 
-  const { data: session } = useSession()
+  const { user: session } = useCurrentUser()
+  const userId = session.userId
+
   const router = useRouter()
 
   const { isPending, setIsPending } = usePendingStatus()
+  const { mutate: updateJobMutation } = useUpdateJob()
+  const queryClient = useQueryClient()
+  const { mutateAsync: createArchiveMutate } = useCreateArchive()
+  // const { archives } = useArchives()
+  const { mutateAsync: createQuestionMutate } = useCreateQuestion()
+  // const { archive } = useArchive(newArchiveId)
 
   const isFormValid = form.formState.isValid
   const isSubmitting = form.formState.isSubmitting
@@ -71,33 +85,48 @@ export const SelectJobTypeModal = () => {
   }
 
   const onSubmit = async () => {
+    // create아카이브(id);
     setIsPending(true)
     wait().then(() => setOpen(false))
 
     try {
       //jobId update
       const jobId = JOB_TYPE.indexOf(selectedType) + 1
-      const userId = session?.user.auth.userId
-      if (userId) await updateUserJob({ userId, jobId })
+      if (userId) updateJobMutation({ userId, jobId })
 
       //create archive
-      await createArchiveAction({
+      await createArchiveMutate({
         title: getValues('title'),
         resume: getValues('resume'),
         companyName: getValues('companyName'),
       })
 
+      await queryClient.invalidateQueries({ queryKey: ['archives'] })
+      const archives: ArchiveListItemDTO[] = await queryClient.fetchQuery({
+        queryKey: ['archives'],
+        queryFn: getArchiveListAction,
+      })
+
       //get created archiveId
-      const archives: ArchiveListItemDTO[] = await getArchiveListAction()
       const newArchiveId = archives[archives.length - 1].archiveId
 
+      setNewArchiveId(newArchiveId)
+      console.log('새로운 아카이브 아이디', newArchiveId)
+
       //create questions ai
-      await createQuestionAction({ archiveId: newArchiveId })
+      await createQuestionMutate({ archiveId: newArchiveId })
+
+      // await queryClient.invalidateQueries({ queryKey: ['archive'] })
+      // const archive: ArchiveListItemDTO | undefined = queryClient.getQueryData([
+      //   'archive',
+      // ])
 
       //polling function to check status
       const checkStatus = async () => {
-        const updatedArchive = await getArchiveDetailAction(newArchiveId)
-
+        const updatedArchive = await queryClient.fetchQuery({
+          queryKey: ['archive', newArchiveId],
+          queryFn: () => getArchiveDetailAction(newArchiveId),
+        })
         if (updatedArchive && updatedArchive.status === 'COMPLETE') {
           router.push(`/archive/${newArchiveId}`)
           setIsPending(false)
@@ -110,6 +139,7 @@ export const SelectJobTypeModal = () => {
       checkStatus()
     } catch (error) {
       alert('예측 중 오류가 발생했습니다. 다시 시도해주세요.')
+      console.log(error)
       setIsPending(false)
     }
   }
