@@ -29,7 +29,7 @@ export const CreateArchiveForm = ({
   })
 
   //초기화 함수
-  const deleteContents = () => {
+  const onClickResetContents = () => {
     form.reset({
       title: '',
       companyName: '',
@@ -51,7 +51,10 @@ export const CreateArchiveForm = ({
               <TitleField className="w-full" />
               <ContentField className="w-full" />
               <ContentLength />
-              <FormAction deleteContents={deleteContents} className="w-full" />
+              <FormAction
+                onClickResetContents={onClickResetContents}
+                className="w-full"
+              />
             </div>
           </div>
         </form>

@@ -7,12 +7,12 @@ import { cn } from '@/lib/utils'
 import { SelectJobTypeModal } from './select-job-type-button'
 
 interface FormActionProps extends HTMLAttributes<HTMLDivElement> {
-  deleteContents: () => void
+  onClickResetContents: () => void
 }
 
 export const FormAction = ({
   className,
-  deleteContents,
+  onClickResetContents,
   ...props
 }: FormActionProps) => {
   return (
@@ -21,7 +21,7 @@ export const FormAction = ({
         <Button
           className="basis-[117px] text-gray-600"
           variant={'outline'}
-          onClick={deleteContents}
+          onClick={onClickResetContents}
         >
           <Image
             src="/images/icons/icon-redo.svg"
