@@ -20,7 +20,7 @@ export const FormAction = ({
       <div className="flex gap-2">
         <Button
           className="basis-[117px] text-gray-600"
-          variant={'outline'}
+          variant="outline"
           onClick={onClickResetContents}
         >
           <Image

@@ -6,11 +6,7 @@ export const useArchive = (id: number) => {
     queryKey: ['archive', { id }],
     queryFn: () => getArchiveDetailAction(id),
     refetchInterval: (query) => {
-      if (
-        query.state.data?.status === 'CREATING' ||
-        query.state.data?.status === 'READY' ||
-        query.state.data?.status === 'COMPLETE'
-      ) {
+      if (query.state.data?.status !== 'FAIL') {
         return 3000
       }
       return false
