@@ -124,9 +124,7 @@ export const SelectJobTypeModal = () => {
             'grow border-gray-200 bg-gray-200 text-gray-500',
             isPending
               ? 'bg-gradient-to-r from-blue-500 to-[#4BF5CC] text-white'
-              : isFormValid
-                ? 'bg-blue-500 text-white hover:bg-blue-600'
-                : '',
+              : isFormValid && 'bg-blue-500 text-white hover:bg-blue-600',
           )}
           variant={'outline'}
         >
@@ -161,9 +159,8 @@ export const SelectJobTypeModal = () => {
                 variant="outline"
                 className={cn(
                   'w-[120px] rounded-sm border-gray-300 bg-gray-50 font-normal',
-                  selectedType === type
-                    ? 'border-blue-500 bg-white text-blue-500'
-                    : '',
+                  selectedType === type &&
+                    'border-blue-500 bg-white text-blue-500',
                 )}
                 onClick={() => handleSelectedType(type)}
               >
