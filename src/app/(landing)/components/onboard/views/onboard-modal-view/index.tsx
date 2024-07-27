@@ -17,8 +17,8 @@ export const OnboardModal = () => {
   const [step, setStep] = useState<number>(0)
   const [dialogNumber, setDialogNumber] = useState<number>(0)
   const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible')
-  const descriptionText = buttonDisable ? 'text-[#888CA0]' : 'text-[#576DFC]'
-  let timer = () => {
+  const descriptionText = buttonDisable ? 'text-gray-500' : 'text-blue-500'
+  useEffect(() => {
     const timerId = setInterval(() => {
       setStep((prev) => (prev += 1))
     }, 1000)
@@ -26,16 +26,13 @@ export const OnboardModal = () => {
       clearInterval(timerId)
       setButtonDisable(false)
     }, 1000 * dialog[dialogNumber].messageListProp.length)
-  }
-  useEffect(() => {
-    timer()
   }, [dialogNumber])
 
   const dialog: OnBoardProp[] = [
     {
       messageListProp: [
         {
-          dialogListContent: [
+          dialogContents: [
             [
               {
                 message: nickname as string,
@@ -53,7 +50,7 @@ export const OnboardModal = () => {
           firstDialog: true,
         },
         {
-          dialogListContent: [
+          dialogContents: [
             [
               {
                 message: '저는 ',
@@ -78,7 +75,7 @@ export const OnboardModal = () => {
     {
       messageListProp: [
         {
-          dialogListContent: [
+          dialogContents: [
             [
               {
                 message: '을 통해서',
@@ -92,7 +89,7 @@ export const OnboardModal = () => {
           firstDialog: true,
         },
         {
-          dialogListContent: [
+          dialogContents: [
             [
               {
                 message: '내 자기소개를 기반으로 예측한 ',
@@ -137,7 +134,7 @@ export const OnboardModal = () => {
           id: 'list',
         },
         {
-          dialogListContent: [
+          dialogContents: [
             [
               {
                 message: '그럼 바로 시작해 볼까요?',
@@ -161,7 +158,7 @@ export const OnboardModal = () => {
   return (
     <div
       className={cn(
-        'fixed flex justify-center items-center w-screen z-20 h-screen bg-[#2B2D35]',
+        'fixed flex justify-center items-center w-screen z-20 h-screen bg-gray-800',
         visibility,
       )}
     >
@@ -171,16 +168,16 @@ export const OnboardModal = () => {
           {dialog &&
             dialog[dialogNumber].messageListProp &&
             dialog[dialogNumber].messageListProp.map(
-              (value: DialogListProp, index) => {
+              (value: DialogListProp, index: number) => {
                 return (
                   <ListDialog
                     firstDialog={value.firstDialog}
                     key={index}
-                    dialogListContent={value.dialogListContent}
+                    dialogContents={value.dialogContents}
                     id={value.id}
                     iconMessage={value.iconMessage}
-                    hidden={index == 0 || index <= step ? false : true}
-                  ></ListDialog>
+                    hidden={index === 0 || index <= step ? false : true}
+                  />
                 )
               },
             )}
@@ -190,11 +187,11 @@ export const OnboardModal = () => {
         >
           * 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.
           <Button
-            size={'default'}
-            variant={'default'}
+            size="default"
+            variant="default"
             disabled={buttonDisable}
             onClick={() => {
-              dialogNumber == 0 ? initialize() : setVisibility('hidden')
+              dialogNumber === 0 ? initialize() : setVisibility('hidden')
             }}
           >
             {dialog[dialogNumber].buttonText}

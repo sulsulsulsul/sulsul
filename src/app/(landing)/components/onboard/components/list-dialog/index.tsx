@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 import { DialogListProp, MessageProp } from '../../types/onboard'
 
 export const ListDialog = ({
-  dialogListContent,
+  dialogContents,
   hidden,
   id,
   iconMessage,
@@ -25,47 +25,49 @@ export const ListDialog = ({
       )}
       <div
         className={cn(
-          'flex w-fit flex-col rounded-md bg-[#F0F0F5] px-[22px] py-[17.5px] text-black',
+          'flex w-fit flex-col rounded-md bg-gray-100 px-[22px] py-[17.5px] text-black',
           hidden ? 'invisible' : 'visible',
         )}
       >
-        {dialogListContent.map((value: MessageProp[], index: number) => {
+        {dialogContents.map((dialogContent: MessageProp[], index: number) => {
           const listNumber = index >= 1 ? index : index + 1
           const visibility = index == 1 ? 'invisible' : 'visible'
           return (
             <div key={index} className="flex flex-row items-center">
-              {id == 'list' && !hidden && (
+              {id === 'list' && !hidden && (
                 <div
-                  className={`mr-[4px] size-[18px] rounded-full bg-[#576DFC] text-center leading-[18px] text-white ${visibility}`}
+                  className={`mr-[4px] size-[18px] rounded-full bg-blue-500 text-center leading-[18px] text-white ${visibility}`}
                 >
                   {listNumber}
                 </div>
               )}
-              {id == 'explaination' && (
+              {id === 'explaination' && (
                 <Image
                   src={iconMessage as string}
                   alt="logo"
                   width={80}
                   height={19}
-                ></Image>
+                />
               )}
-              {value.map((content: MessageProp, contentIndex) => {
-                return (
-                  <div
-                    key={contentIndex}
-                    className={cn('whitespace-pre', content.className)}
-                  >
-                    {content.message}
-                  </div>
-                )
-              })}
-              {id == 'greeting' && (
+              {dialogContent.map(
+                (content: MessageProp, contentIndex: number) => {
+                  return (
+                    <div
+                      key={contentIndex}
+                      className={cn('whitespace-pre', content.className)}
+                    >
+                      {content.message}
+                    </div>
+                  )
+                },
+              )}
+              {id === 'greeting' && (
                 <Image
                   src={iconMessage as string}
                   alt="wave-hand"
                   width={24}
                   height={24}
-                ></Image>
+                />
               )}
             </div>
           )

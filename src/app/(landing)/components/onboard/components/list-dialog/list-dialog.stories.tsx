@@ -11,7 +11,7 @@ type Story = StoryObj<typeof meta>
 
 export const Default = {
   args: {
-    dialogListContent: [
+    dialogContents: [
       [
         {
           message: '사용자',
@@ -32,7 +32,7 @@ export const Default = {
 
 export const List = {
   args: {
-    dialogListContent: [
+    dialogContents: [
       [
         {
           message: '내 자기소개를 기반으로 예측한 ',

@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react'
 
 export interface DialogListProp {
-  dialogListContent: MessageProp[][]
+  dialogContents: MessageProp[][]
   hidden?: boolean
   iconMessage?: string
   id: string
