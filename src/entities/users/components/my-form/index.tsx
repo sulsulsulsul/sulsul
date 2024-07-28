@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
 import { useUserStore } from '@/store/client'
 
