@@ -5,9 +5,9 @@ import Image from 'next/image'
 
 import { PendingStatus } from '@/entities/archives/components/interview-questions/status/pending'
 import { cn } from '@/lib/utils'
+import { usePendingStore } from '@/store/client'
 
 import { useCreateArchiveFormContext } from '../../hooks/use-create-archive-form'
-import { usePendingStatus } from '../../hooks/use-pending-status'
 import { IdleStatus } from './status/idle'
 import { ValidStatus } from './status/valid'
 interface InterviewQuestionsProps extends HTMLAttributes<HTMLDivElement> {}
@@ -16,7 +16,7 @@ export const FormStatus = ({
   className,
   ...props
 }: InterviewQuestionsProps) => {
-  const { isPending } = usePendingStatus()
+  const { isPending } = usePendingStore()
 
   const { form } = useCreateArchiveFormContext()
 

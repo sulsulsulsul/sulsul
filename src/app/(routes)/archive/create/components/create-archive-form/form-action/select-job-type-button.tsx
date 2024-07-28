@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -21,9 +23,9 @@ import { useCreateQuestion } from '@/entities/questions/hooks/use-create-questio
 import { useCurrentUser } from '@/entities/users/hooks'
 import { useUpdateJob } from '@/entities/users/hooks/use-update-job'
 import { cn } from '@/lib/utils'
+import { usePendingStore } from '@/store/client'
 
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
-import { usePendingStatus } from '../../../hooks/use-pending-status'
 
 const JOB_TYPE: string[] = [
   '기획·전략',
@@ -52,6 +54,7 @@ const wait = () => new Promise((resolve) => setTimeout(resolve, 0))
 export const SelectJobTypeModal = () => {
   const [selectedType, setSelectedType] = useState('')
   const [open, setOpen] = useState(false) //모달 열림 여부
+  const [newArchiveId, setNewArchiveId] = useState<number | null>(null)
   const { form } = useCreateArchiveFormContext()
   const { handleSubmit, getValues } = form
 
@@ -60,7 +63,7 @@ export const SelectJobTypeModal = () => {
 
   const router = useRouter()
 
-  const { isPending, setIsPending } = usePendingStatus()
+  const { isPending, setIsPending } = usePendingStore()
   const { mutate: updateJobMutation } = useUpdateJob()
   const queryClient = useQueryClient()
   const { mutateAsync: createArchiveMutate } = useCreateArchive()
@@ -89,26 +92,26 @@ export const SelectJobTypeModal = () => {
         companyName: getValues('companyName'),
       })
 
-      console.log('새로운 아카이브 아이디', newArchiveId)
+      setNewArchiveId(newArchiveId)
 
       //create questions ai
       await createQuestionMutate({ archiveId: newArchiveId })
 
-      //polling function to check status
+      // polling function to check status
       const checkStatus = async () => {
         const updatedArchive = await queryClient.fetchQuery({
           queryKey: ['archive', newArchiveId],
           queryFn: () => getArchiveDetailAction(newArchiveId),
         })
-        if (updatedArchive && updatedArchive.status === 'COMPLETE') {
-          router.push(`/archive/${newArchiveId}`)
-          setIsPending(false)
-          return
-        }
 
-        setTimeout(checkStatus, 2000)
+        if (updatedArchive && updatedArchive.status === 'COMPLETE') {
+          setIsPending(false)
+          router.push(`/archive/${newArchiveId}`)
+        } else {
+          setTimeout(checkStatus, 2000)
+        }
       }
-      //start polling
+      // start polling
       checkStatus()
     } catch (error) {
       alert('예측 중 오류가 발생했습니다. 다시 시도해주세요.')
