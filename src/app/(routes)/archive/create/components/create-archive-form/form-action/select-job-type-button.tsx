@@ -15,17 +15,9 @@ import {
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
-import {
-  getArchiveDetailAction,
-  getArchiveListAction,
-} from '@/entities/archives/actions'
-import {
-  useArchive,
-  useArchives,
-  useCreateArchive,
-} from '@/entities/archives/hooks'
+import { getArchiveDetailAction } from '@/entities/archives/actions'
+import { useCreateArchive } from '@/entities/archives/hooks'
 import { useCreateQuestion } from '@/entities/questions/hooks/use-create-question'
-import { ArchiveListItemDTO } from '@/entities/types'
 import { useCurrentUser } from '@/entities/users/hooks'
 import { useUpdateJob } from '@/entities/users/hooks/use-update-job'
 import { cn } from '@/lib/utils'
@@ -60,7 +52,6 @@ const wait = () => new Promise((resolve) => setTimeout(resolve, 0))
 export const SelectJobTypeModal = () => {
   const [selectedType, setSelectedType] = useState('')
   const [open, setOpen] = useState(false) //모달 열림 여부
-  const [newArchiveId, setNewArchiveId] = useState<number | null>(null)
   const { form } = useCreateArchiveFormContext()
   const { handleSubmit, getValues } = form
 
@@ -73,9 +64,7 @@ export const SelectJobTypeModal = () => {
   const { mutate: updateJobMutation } = useUpdateJob()
   const queryClient = useQueryClient()
   const { mutateAsync: createArchiveMutate } = useCreateArchive()
-  // const { archives } = useArchives()
   const { mutateAsync: createQuestionMutate } = useCreateQuestion()
-  // const { archive } = useArchive(newArchiveId)
 
   const isFormValid = form.formState.isValid
   const isSubmitting = form.formState.isSubmitting
@@ -85,7 +74,6 @@ export const SelectJobTypeModal = () => {
   }
 
   const onSubmit = async () => {
-    // create아카이브(id);
     setIsPending(true)
     wait().then(() => setOpen(false))
 
@@ -95,31 +83,16 @@ export const SelectJobTypeModal = () => {
       if (userId) updateJobMutation({ userId, jobId })
 
       //create archive
-      await createArchiveMutate({
+      const newArchiveId = await createArchiveMutate({
         title: getValues('title'),
         resume: getValues('resume'),
         companyName: getValues('companyName'),
       })
 
-      await queryClient.invalidateQueries({ queryKey: ['archives'] })
-      const archives: ArchiveListItemDTO[] = await queryClient.fetchQuery({
-        queryKey: ['archives'],
-        queryFn: getArchiveListAction,
-      })
-
-      //get created archiveId
-      const newArchiveId = archives[archives.length - 1].archiveId
-
-      setNewArchiveId(newArchiveId)
       console.log('새로운 아카이브 아이디', newArchiveId)
 
       //create questions ai
       await createQuestionMutate({ archiveId: newArchiveId })
-
-      // await queryClient.invalidateQueries({ queryKey: ['archive'] })
-      // const archive: ArchiveListItemDTO | undefined = queryClient.getQueryData([
-      //   'archive',
-      // ])
 
       //polling function to check status
       const checkStatus = async () => {

@@ -7,7 +7,10 @@ interface PendingContextType {
   setIsPending: (pending: boolean) => void
 }
 
-const PendingContext = createContext<PendingContextType | undefined>(undefined)
+const PendingContext = createContext<PendingContextType>({
+  isPending: false,
+  setIsPending: () => {},
+})
 
 export const usePendingStatus = () => {
   const context = useContext(PendingContext)
