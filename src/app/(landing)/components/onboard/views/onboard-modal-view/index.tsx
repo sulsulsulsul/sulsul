@@ -3,16 +3,17 @@
 import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
+import { useUserStore } from '@/store/client'
 
 import { AvatarSuri } from '../../components/avatar'
 import { ListDialog } from '../../components/list-dialog'
 import { DialogListProp, OnBoardProp } from '../../types/onboard'
 
 export const OnboardModal = () => {
-  const { user } = useCurrentUser()
-  const nickname = user.nickname
+  const { nickname } = useUserStore((state) => ({
+    nickname: state.data.nickname,
+  }))
   const [buttonDisable, setButtonDisable] = useState<boolean>(true)
   const [step, setStep] = useState<number>(0)
   const [dialogNumber, setDialogNumber] = useState<number>(0)
