@@ -22,7 +22,7 @@ export type ArchiveStatus = 'READY' | 'CREATING' | 'COMPLETE' | 'FAIL'
 export type ArchiveFeedbackStatus = 'READY' | 'CREATING' | 'COMPLETE' | 'FAIL'
 
 export interface ArchiveQuestionItem {
-  id: number
+  questionId: number
   content: string
   isAnswered: boolean
   answer: string

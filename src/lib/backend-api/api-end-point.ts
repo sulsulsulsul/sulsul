@@ -125,5 +125,12 @@ export const API_ENDPOINT = {
         authorization: true,
       }
     },
+    updateAnswer: (questionId: number) => {
+      return {
+        url: `/api/v1/questions/${questionId}/answers`,
+        method: Method.PATCH,
+        authorization: true,
+      }
+    },
   },
 } as const

@@ -92,7 +92,15 @@ export const QuestionAnswerForm = ({
                         <FormMessage />
                       </div>
                       <div className="flex gap-1">
-                        <Button size={'sm'}>저장하기</Button>
+                        {!answerLength ? (
+                          <Button size={'sm'} disabled type="submit">
+                            저장하기
+                          </Button>
+                        ) : (
+                          <Button size={'sm'} type="submit">
+                            저장하기
+                          </Button>
+                        )}
                       </div>
                     </div>
                   </div>
