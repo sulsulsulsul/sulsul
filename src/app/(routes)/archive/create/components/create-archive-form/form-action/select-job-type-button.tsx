@@ -59,7 +59,7 @@ export const SelectJobTypeModal = () => {
   const { handleSubmit, getValues } = form
 
   const { user: session } = useCurrentUser()
-  const userId = session.userId
+  const userId = session.auth.userId
 
   const router = useRouter()
 
