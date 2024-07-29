@@ -1,6 +1,8 @@
+import { HTMLAttributes } from 'react'
+
 import { ArchiveQuestionItem } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import { HTMLAttributes } from 'react'
+
 import { QuestionCard } from '../../question-card'
 interface LoadedInterviewQuestionProps extends HTMLAttributes<HTMLDivElement> {
   data: ArchiveQuestionItem[]

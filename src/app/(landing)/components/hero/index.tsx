@@ -1,13 +1,13 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { HTMLAttributes, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
+import Image from 'next/image'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
-import Image from 'next/image'
-import { HTMLAttributes, useRef, useState } from 'react'
 
-import dynamic from 'next/dynamic'
+import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 const Video = dynamic(
   () => import('@/components/shared/video').then((mod) => mod.Video),
   {

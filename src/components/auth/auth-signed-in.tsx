@@ -1,7 +1,7 @@
 'use client'
 
-import { useSession } from 'next-auth/react'
 import { PropsWithChildren } from 'react'
+import { useSession } from 'next-auth/react'
 interface AuthSignedInProps extends PropsWithChildren {}
 
 export const AuthSignedIn = ({ children }: AuthSignedInProps) => {

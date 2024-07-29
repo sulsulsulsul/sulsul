@@ -1,10 +1,11 @@
 'use client'
 
-import { cn } from '@/lib/utils'
+import { HTMLAttributes, useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/all'
-import { HTMLAttributes, useRef } from 'react'
+
+import { cn } from '@/lib/utils'
 interface RecommendationProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Recommendation = ({

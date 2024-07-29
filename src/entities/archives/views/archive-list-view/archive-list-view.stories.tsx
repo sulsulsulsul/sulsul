@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react'
+import { createMock } from 'storybook-addon-module-mock'
 
 import Layout from '@/app/(routes)/layout'
 import * as actions from '@/entities/archives/actions'
-import { createMock } from 'storybook-addon-module-mock'
+
 import { mockGetArchiveListAction } from '../../fixtures'
 import { ArchiveListView } from './'
 

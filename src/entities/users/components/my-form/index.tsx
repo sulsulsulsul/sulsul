@@ -1,3 +1,6 @@
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -9,15 +12,16 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
-import Image from 'next/image'
-import { HTMLAttributes } from 'react'
+import { useUserStore } from '@/store/client'
+
 import { useMyForm } from '../../hooks/use-my-form'
 interface MyFormProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const MyForm = ({ className, ...props }: MyFormProps) => {
-  const { user } = useCurrentUser()
+  const { email } = useUserStore((state) => ({
+    email: state.data.email,
+  }))
   const { form, isEnableSubmit, handleSubmit } = useMyForm()
   return (
     <div className={cn('flex flex-col items-center', className)} {...props}>
@@ -57,7 +61,7 @@ export const MyForm = ({ className, ...props }: MyFormProps) => {
           <Input
             className="h-[58px] w-[449px] rounded-sm bg-transparent text-gray-500"
             readOnly
-            value={user?.email as string}
+            value={email as string}
           />
           <Image
             className="absolute right-5 top-1/2 -translate-y-1/2"

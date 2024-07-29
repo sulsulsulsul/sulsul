@@ -1,20 +1,27 @@
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
+
 import {
   MyFormData,
   myFormValidation,
 } from '@/config/validations/my-form-validation'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
+import { useUserStore } from '@/store/client'
+
 import { useCurrentUser } from './use-current-user'
 import { useUpdateNickname } from './use-update-nickname'
 
 export const useMyForm = () => {
-  const { user, update } = useCurrentUser()
+  const { update } = useCurrentUser()
+  const { nickname, userId } = useUserStore((state) => ({
+    nickname: state.data.nickname,
+    userId: state.auth.userId,
+  }))
   const { mutate } = useUpdateNickname()
   const form = useForm<MyFormData>({
     resolver: zodResolver(myFormValidation),
     defaultValues: {
-      nickname: user.nickname as string,
+      nickname: nickname as string,
     },
     mode: 'all',
   })
@@ -24,7 +31,7 @@ export const useMyForm = () => {
     mutate(
       {
         nickname: data.nickname,
-        userId: user.userId!,
+        userId: userId!,
       },
       {
         onSuccess: () => {
@@ -37,7 +44,7 @@ export const useMyForm = () => {
       },
     )
   })
-  const isSameNickname = form.watch('nickname') === user.nickname
+  const isSameNickname = form.watch('nickname') === nickname
   const isEnableSubmit =
     form.formState.isValid && !isSubmitting && !isSameNickname
 

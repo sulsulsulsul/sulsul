@@ -1,7 +1,8 @@
+import { HTMLAttributes } from 'react'
+import { ChevronDown } from 'lucide-react'
+
 import { Badge } from '@/components/ui/badge'
 import { cn } from '@/lib/utils'
-import { ChevronDown } from 'lucide-react'
-import { HTMLAttributes } from 'react'
 interface HintCardProps extends HTMLAttributes<HTMLDivElement> {
   showHint: boolean
   setShowHint: (showHint: boolean) => void

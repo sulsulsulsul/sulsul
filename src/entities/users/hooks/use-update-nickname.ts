@@ -1,8 +1,9 @@
-import {
-  UpdateUserNicknameActionParams,
-  updateUserNicknameAction,
-} from '@/entities/users/actions'
 import { useMutation } from '@tanstack/react-query'
+
+import {
+  updateUserNicknameAction,
+  UpdateUserNicknameActionParams,
+} from '@/entities/users/actions'
 
 export const useUpdateNickname = () => {
   return useMutation({

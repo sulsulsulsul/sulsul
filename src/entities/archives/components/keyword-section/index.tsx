@@ -1,3 +1,6 @@
+import { HTMLAttributes } from 'react'
+import { HelpCircle, PlusIcon, X } from 'lucide-react'
+
 import { Button } from '@/components/ui/button'
 import {
   Tooltip,
@@ -7,8 +10,8 @@ import {
 } from '@/components/ui/tooltip'
 import { ArchiveKeyword } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import { HelpCircle, PlusIcon, X } from 'lucide-react'
-import { HTMLAttributes } from 'react'
+
+import { KeywordSet } from './keyword'
 interface KeywordSectionProps extends HTMLAttributes<HTMLDivElement> {
   keywords: ArchiveKeyword[]
   onDeleteKeyword: (keyword: ArchiveKeyword) => void
@@ -40,21 +43,12 @@ export const KeywordSection = ({
         </TooltipProvider>
       </h3>
       <div className="mt-2 flex flex-wrap items-center gap-1">
-        {keywords.map((keyword) => (
-          <div
-            key={keyword.id}
-            className="flex items-center rounded-sm border border-green-500 bg-green-100 px-4 py-2 text-green-500"
-          >
-            <span className="text-base font-medium">{keyword.content}</span>
-            <span
-              onClick={() => onDeleteKeyword(keyword)}
-              className="cursor-pointer"
-            >
-              <X size={16} strokeWidth={1.2} className="ml-1 -translate-y-px" />
-            </span>
-          </div>
-        ))}
-        <Button className="gap-1 rounded-sm" variant={'outline'} size={'sm'}>
+        <KeywordSet keywords={keywords} />
+        <Button
+          className="gap-1 rounded-sm py-2"
+          variant={'outline'}
+          size={'sm'}
+        >
           <PlusIcon
             strokeWidth={1.2}
             className="-translate-y-px text-gray-500"

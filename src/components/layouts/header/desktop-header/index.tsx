@@ -1,8 +1,11 @@
+import { HTMLAttributes } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { signIn, signOut } from 'next-auth/react'
+import { ChevronDown, ChevronRight } from 'lucide-react'
+
 import { Logo } from '@/components/shared/logo'
 import { Button } from '@/components/ui/button'
-import { APP_ROUTES } from '@/config/constants/app-routes'
-import { cn } from '@/lib/utils'
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,17 +14,21 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { APP_ROUTES } from '@/config/constants/app-routes'
 import { useCurrentUser } from '@/entities/users/hooks'
-import { ChevronDown, ChevronRight } from 'lucide-react'
-import { signIn, signOut } from 'next-auth/react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { HTMLAttributes } from 'react'
+import { cn } from '@/lib/utils'
+import { useUserStore } from '@/store/client'
+
 import { HeaderNavigation } from './header-navigation'
 interface DesktopHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
-  const { status, user } = useCurrentUser()
+  const { status } = useCurrentUser()
+  const { nickname, email, image } = useUserStore((state) => ({
+    nickname: state.data.nickname,
+    email: state.data.email,
+    image: state.image,
+  }))
 
   const renderLoginState = () => {
     if (status === 'authenticated')
@@ -30,10 +37,10 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           <DropdownMenuTrigger>
             <div className="flex items-center gap-2" aria-label="user profile">
               <div className="relative size-9 overflow-hidden rounded-full bg-gray-100">
-                <Image alt="" fill src={user?.image ?? ''} />
+                <Image alt="" fill src={image ?? ''} />
               </div>
 
-              <span>{user?.nickname}</span>
+              <span>{nickname}</span>
               <ChevronDown className="ml-2 text-gray-500" width={16} />
             </div>
           </DropdownMenuTrigger>
@@ -41,14 +48,14 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
             <DropdownMenuLabel>
               <div className="flex items-center gap-4">
                 <div className="relative size-11 overflow-hidden rounded-full bg-gray-100">
-                  <Image alt="" fill src={user?.image ?? ''} />
+                  <Image alt="" fill src={image ?? ''} />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-lg font-semibold text-gray-900">
-                    {user?.nickname ?? 'no name'}
+                    {nickname ?? 'no name'}
                   </span>
                   <span className="text-sm font-normal text-gray-600">
-                    {user?.email ?? 'no email'}
+                    {email ?? 'no email'}
                   </span>
                 </div>
               </div>
