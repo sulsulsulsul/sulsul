@@ -23,9 +23,13 @@ export const CompanyNameField = ({
         control={form.control}
         name="companyName"
         render={({ field }) => (
-          <FormItem className="w-full">
+          <FormItem>
             <FormControl>
-              <Input placeholder="회사명을 입력해주세요." {...field} />
+              <Input
+                placeholder="지원하는 기업"
+                className="rounded-sm border-gray-100 bg-gray-100"
+                {...field}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

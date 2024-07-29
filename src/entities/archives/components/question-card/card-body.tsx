@@ -1,5 +1,6 @@
 import { HTMLAttributes } from 'react'
 
+import { useUpdateAnswer } from '@/entities/questions/hooks/use-update-answer'
 import { ArchiveFeedback, ArchiveQuestionItem } from '@/entities/types'
 import { cn } from '@/lib/utils'
 
@@ -19,12 +20,14 @@ export const CardBody = ({
   feedback,
   ...props
 }: CardBodyProps) => {
+  console.log('question', question)
+  const { mutate: updateAnswerMutation } = useUpdateAnswer()
   return (
     <div className={cn('flex flex-col gap-2', className)} {...props}>
       {!question.isAnswered && (
         <QuestionAnswerForm
-          onSubmit={() => {
-            // setState('loaded')
+          onSubmit={(data) => {
+            updateAnswerMutation({ questionId: question.questionId, ...data })
           }}
         />
       )}

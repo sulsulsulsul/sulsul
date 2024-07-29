@@ -20,7 +20,7 @@ export const PendingStatus = ({
                 animationDelay: `${(Math.random() * i) / 10}s`,
               }}
               className={cn(
-                'min-h-[74px] w-full animate-loading-expand-width rounded-md bg-gray-200',
+                'h-[60vh] w-full animate-loading-expand-width rounded-md bg-gray-200',
               )}
             />
           ))}

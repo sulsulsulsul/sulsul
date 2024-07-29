@@ -31,7 +31,7 @@ export const mockArchiveDetailDTO = (): ArchiveDetailDTO => ({
 })
 
 export const mockArchiveQuestionItem = (): ArchiveQuestionItem => ({
-  id: faker.number.int(),
+  questionId: faker.number.int(),
   content: faker.lorem.sentence(),
   isAnswered: faker.datatype.boolean(),
   answer: faker.lorem.paragraph(),
