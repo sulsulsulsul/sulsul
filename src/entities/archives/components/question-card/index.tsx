@@ -44,10 +44,10 @@ export const QuestionCard = ({
             </AccordionTrigger>
             <AccordionContent className="pl-[20px] pt-2">
               <CardBody
-                // TODO: useFeedback 결과값 전달
                 className="pb-5"
                 question={data}
                 questionId={questionId}
+                isAnswered={isAnswered}
               />
             </AccordionContent>
           </AccordionItem>
