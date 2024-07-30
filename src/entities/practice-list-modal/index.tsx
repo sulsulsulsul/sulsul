@@ -1,7 +1,5 @@
 'use client'
 
-import { Ghost } from 'lucide-react'
-
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup'
 import { Switch } from '@/components/ui/swtich'
@@ -27,8 +25,8 @@ export default function PracticeList() {
           <MyResumeSelection />
         </div>
       </section>
-      <section className="flex flex-row">
-        <div className="flex w-1/2 flex-col">
+      <section className="flex h-[98px] flex-row">
+        <div className="border-solid-grey-100 flex w-1/2 flex-col justify-center border pl-[32px]">
           문제 순서
           <RadioGroup defaultValue="ordered" className="flex flex-row">
             <div className="flex items-center space-x-2">
@@ -41,12 +39,12 @@ export default function PracticeList() {
             </div>
           </RadioGroup>
         </div>
-        <div className="flex w-1/2 flex-row">
+        <div className="border-solid-grey-100 flex w-1/2 flex-row items-center border pl-[24px]">
           <div className="flex flex-col">
             <span>타이머</span>
             <span>회면의 오른쪽 맨 위에서 타이머를 사용할수있어요.</span>
           </div>
-          <Switch />
+          <Switch className="justify-end" onCheckedChange={() => {}} />
         </div>
       </section>
       <section className="mb-[20px] mr-[36px] mt-[16px] flex flex-row gap-2 self-end">
