@@ -30,7 +30,7 @@ export interface ArchiveQuestionItem {
 }
 
 export interface ArchiveKeyword {
-  id: number
+  keywordId: number
   content: string
 }
 
