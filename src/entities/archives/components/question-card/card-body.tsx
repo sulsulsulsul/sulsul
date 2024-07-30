@@ -1,5 +1,4 @@
 import { HTMLAttributes } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
 
 import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback'
 import { useUpdateAnswer } from '@/entities/questions/hooks/use-update-answer'
@@ -47,11 +46,7 @@ export const CardBody = ({
 
       <KeywordSection
         keywords={question.keywords}
-        onDeleteKeyword={() => {
-          {
-            /* TODO: 구현 */
-          }
-        }}
+        questionId={questionId}
         className="mt-6"
       />
 
