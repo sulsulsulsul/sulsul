@@ -1,7 +1,9 @@
 import { HTMLAttributes } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
+import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback'
 import { useUpdateAnswer } from '@/entities/questions/hooks/use-update-answer'
-import { ArchiveFeedback, ArchiveQuestionItem } from '@/entities/types'
+import { ArchiveQuestionItem } from '@/entities/types'
 import { cn } from '@/lib/utils'
 
 import { FeedbackSectionComplete } from '../feedback-section-complete'
@@ -11,17 +13,19 @@ import { QuestionAnswer } from '../question-answer'
 import { QuestionAnswerForm } from '../question-answer-form'
 interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
   question: ArchiveQuestionItem
-  feedback: ArchiveFeedback
+  questionId: number
 }
 
 export const CardBody = ({
   className,
   question,
-  feedback,
+  questionId,
   ...props
 }: CardBodyProps) => {
-  console.log('question', question)
   const { mutate: updateAnswerMutation } = useUpdateAnswer()
+
+  const { feedback } = useFeedback(questionId)
+
   return (
     <div className={cn('flex flex-col gap-2', className)} {...props}>
       {!question.isAnswered && (
@@ -54,19 +58,14 @@ export const CardBody = ({
       <div className="mt-6">
         <h3 className="text-lg font-semibold">내 답변 피드백</h3>
         <div className="mt-2">
-          {feedback.status === 'READY' && (
-            <FeedbackSectionIdle
-              handleCreateFeedback={() => {
-                // TODO: 구현
-              }}
-            />
+          {(!feedback || !feedback?.content) && (
+            <FeedbackSectionIdle questionId={questionId} />
           )}
 
-          {feedback.status === 'COMPLETE' && (
+          {feedback?.content && (
             <FeedbackSectionComplete
-              // TODO: 기획 /백엔드 - 데이터 형식 문의
-              goodFeedback={feedback.content}
-              badFeedback={feedback.content}
+              goodFeedback={feedback?.content}
+              badFeedback={feedback?.content}
             />
           )}
         </div>

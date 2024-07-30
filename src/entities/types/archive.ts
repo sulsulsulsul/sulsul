@@ -35,7 +35,6 @@ export interface ArchiveKeyword {
 }
 
 export interface ArchiveFeedback {
-  feedbackId: 0
+  feedbackId: number
   content: string
-  status: ArchiveFeedbackStatus
 }

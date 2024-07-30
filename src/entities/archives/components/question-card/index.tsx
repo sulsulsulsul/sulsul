@@ -11,7 +11,6 @@ import {
 import { ArchiveQuestionItem } from '@/entities/types'
 import { cn } from '@/lib/utils'
 
-import { mockArchiveFeedback } from '../../fixtures'
 import { CardBody } from './card-body'
 import { CardHeader } from './card-header'
 
@@ -26,8 +25,7 @@ export const QuestionCard = ({
 }: QuestionCardProps) => {
   const [isAccodionOpen, setIsAccodionOpen] = useState(false)
 
-  const { content, keywords, isAnswered } = data
-  // TODO: useFeedback 구현
+  const { content, keywords, isAnswered, questionId } = data
 
   return (
     <div className={cn(className)} {...props}>
@@ -47,9 +45,9 @@ export const QuestionCard = ({
             <AccordionContent className="pl-[20px] pt-2">
               <CardBody
                 // TODO: useFeedback 결과값 전달
-                feedback={mockArchiveFeedback()}
                 className="pb-5"
                 question={data}
+                questionId={questionId}
               />
             </AccordionContent>
           </AccordionItem>
