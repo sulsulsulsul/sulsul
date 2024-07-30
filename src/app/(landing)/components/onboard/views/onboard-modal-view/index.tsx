@@ -146,7 +146,7 @@ export const OnboardModal = () => {
           id: 'content',
         },
       ],
-      buttonText: '좋아! 시작해 볼까',
+      buttonText: '좋아! 시작해 볼래',
     },
   ]
 
@@ -159,7 +159,7 @@ export const OnboardModal = () => {
   return (
     <div
       className={cn(
-        'fixed flex justify-center items-center w-screen z-20 h-screen bg-gray-800',
+        'fixed flex justify-center items-center w-screen z-20 h-screen bg-gray-800/70',
         visibility,
       )}
     >
