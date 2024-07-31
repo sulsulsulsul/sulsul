@@ -1,10 +1,20 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { signIn, signOut } from 'next-auth/react'
+import { signOut } from 'next-auth/react'
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTrigger,
+} from '@radix-ui/react-alert-dialog'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 
 import { Logo } from '@/components/shared/logo'
+import {
+  AlertDialogCancel,
+  AlertDialogDescription,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -14,16 +24,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { APP_ROUTES } from '@/config/constants/app-routes'
+import { APP_ROUTES, PUBLIC_ROUTES } from '@/config/constants/app-routes'
+import { SignInView } from '@/entities/auth/views/sign-in-view'
 import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
 import { useUserStore } from '@/store/client'
+import { useVideoStateStore } from '@/store/modal'
 
 import { HeaderNavigation } from './header-navigation'
 interface DesktopHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
   const { status } = useCurrentUser()
+  const { pause, restart } = useVideoStateStore()
   const { nickname, email, image } = useUserStore((state) => ({
     nickname: state.data.nickname,
     email: state.data.email,
@@ -97,14 +110,36 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
       )
     if (status === 'unauthenticated')
       return (
-        <Button
-          size={'sm'}
-          variant={'default'}
-          onClick={() => signIn()}
-          aria-label="google login button"
-        >
-          무료로 시작하기
-        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger>
+            <Button
+              size={'sm'}
+              variant={'default'}
+              aria-label="google login button"
+              onClick={() => pause()}
+            >
+              무료로 시작하기
+            </Button>
+          </AlertDialogTrigger>
+          <AlertDialogContent className={cn('absolute left-0 top-0')}>
+            <AlertDialogTitle />
+            <AlertDialogDescription />
+            <SignInView callbackUrl={PUBLIC_ROUTES.includes('/') ? '/' : '/'}>
+              <AlertDialogCancel
+                onClick={() => restart()}
+                className="absolute right-6 top-6 size-6 border-none"
+              >
+                <Image
+                  className="absolute fill-gray-400"
+                  width={24}
+                  height={24}
+                  src={'/images/icons/icon-close-L.svg'}
+                  alt="close"
+                />
+              </AlertDialogCancel>
+            </SignInView>
+          </AlertDialogContent>
+        </AlertDialog>
       )
     return <div aria-label="user status loading">...loading</div>
   }

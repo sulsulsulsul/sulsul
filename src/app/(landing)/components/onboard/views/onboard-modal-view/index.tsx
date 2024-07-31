@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { useUserStore } from '@/store/client'
+import { useVideoStateStore } from '@/store/modal'
 
 import { AvatarSuri } from '../../components/avatar'
 import { ListDialog } from '../../components/list-dialog'
@@ -19,7 +20,10 @@ export const OnboardModal = () => {
   const [dialogNumber, setDialogNumber] = useState<number>(0)
   const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible')
   const descriptionText = buttonDisable ? 'text-gray-500' : 'text-blue-500'
+  const { pause, restart } = useVideoStateStore()
+
   useEffect(() => {
+    pause()
     const timerId = setInterval(() => {
       setStep((prev) => (prev += 1))
     }, 1000)
@@ -155,6 +159,10 @@ export const OnboardModal = () => {
     setDialogNumber(1)
     setStep(0)
   }
+  const handleClose = () => {
+    restart()
+    setVisibility('hidden')
+  }
 
   return (
     <div
@@ -193,7 +201,7 @@ export const OnboardModal = () => {
             variant="default"
             disabled={buttonDisable}
             onClick={() => {
-              dialogNumber === 0 ? initialize() : setVisibility('hidden')
+              dialogNumber === 0 ? initialize() : handleClose()
             }}
           >
             {dialog[dialogNumber].buttonText}
