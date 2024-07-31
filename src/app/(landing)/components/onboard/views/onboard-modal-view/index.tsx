@@ -138,7 +138,7 @@ export const OnboardModal = () => {
           dialogContents: [
             [
               {
-                message: '그럼 바로 시작해 볼까요?',
+                message: '그럼 바로 시작해볼까요?',
                 className: 'font-normal',
               },
             ],
@@ -146,7 +146,7 @@ export const OnboardModal = () => {
           id: 'content',
         },
       ],
-      buttonText: '좋아! 시작해 볼까',
+      buttonText: '좋아! 시작해볼래',
     },
   ]
 
@@ -159,11 +159,11 @@ export const OnboardModal = () => {
   return (
     <div
       className={cn(
-        'fixed flex justify-center items-center w-screen z-20 h-screen bg-gray-800',
+        'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/70',
         visibility,
       )}
     >
-      <div className="left-[40rem] z-30 flex h-[38rem] w-[32rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
+      <div className="left-[40rem] z-[60] flex h-[38rem] w-[32rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
         <div className="flex flex-col gap-3 self-start">
           <AvatarSuri></AvatarSuri>
           {dialog &&
@@ -186,9 +186,10 @@ export const OnboardModal = () => {
         <div
           className={`flex flex-col  gap-2  text-[14px]  ${descriptionText}`}
         >
-          * 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.
+          {dialogNumber == 1 &&
+            '* 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.'}
           <Button
-            size="default"
+            className="w-[340px]"
             variant="default"
             disabled={buttonDisable}
             onClick={() => {

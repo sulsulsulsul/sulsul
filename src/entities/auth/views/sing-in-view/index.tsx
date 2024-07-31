@@ -32,7 +32,7 @@ export const SingInView = ({
             <div className="flex size-full flex-col items-center gap-[28px] px-[46px] pb-[40px] pt-[56px]">
               <div className="text-center text-4xl font-bold">
                 <h2>간편하게 로그인하고</h2>
-                <h2>체계적인 면접 준비를 시작하세요.</h2>
+                <h2>체계적인 면접준비를 시작하세요!</h2>
               </div>
               <div>
                 <Image
@@ -77,11 +77,21 @@ export const SingInView = ({
                 <div className="mt-1 text-center text-2xs font-medium">
                   <p>
                     로그인 시,{' '}
-                    <Link href={'/privacy-policy'} className="text-blue-600">
+                    <Link
+                      href={
+                        'https://striped-wildebeest-3c8.notion.site/accf6e3d9f104702838f9dc74f011813'
+                      }
+                      className="text-blue-600"
+                    >
                       개인정보처리방침{' '}
                     </Link>
                     및{' '}
-                    <Link href={'/privacy-policy'} className="text-blue-600">
+                    <Link
+                      href={
+                        'https://striped-wildebeest-3c8.notion.site/deb597c5712f4d9698d7b9562b9099ba?pvs=4'
+                      }
+                      className="text-blue-600"
+                    >
                       서비스 약관
                     </Link>
                     을
