@@ -1,4 +1,5 @@
 import { HTMLAttributes } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
 
 import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback'
 import { useUpdateAnswer } from '@/entities/questions/hooks/use-update-answer'
@@ -13,48 +14,59 @@ import { QuestionAnswerForm } from '../question-answer-form'
 interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
   question: ArchiveQuestionItem
   questionId: number
+  isAnswered: boolean
+  archiveId: number
 }
 
 export const CardBody = ({
   className,
   question,
   questionId,
+  isAnswered,
+  archiveId,
   ...props
 }: CardBodyProps) => {
   const { mutate: updateAnswerMutation } = useUpdateAnswer()
 
   const { feedback } = useFeedback(questionId)
+  const queryClient = useQueryClient()
 
   return (
     <div className={cn('flex flex-col gap-2', className)} {...props}>
       {!question.isAnswered && (
         <QuestionAnswerForm
           onSubmit={(data) => {
-            updateAnswerMutation({ questionId: question.questionId, ...data })
+            updateAnswerMutation(
+              { questionId: question.questionId, ...data },
+              {
+                onSuccess: () => {
+                  queryClient.invalidateQueries({
+                    queryKey: ['archive', archiveId],
+                  })
+                },
+              },
+            )
           }}
         />
       )}
       {question.isAnswered && (
         <QuestionAnswer
-          onCreateKeywordNote={() => {
-            // TODO: 구현
-          }}
           answer={question.answer}
           keywords={question.keywords}
+          questionId={questionId}
         />
       )}
 
-      <KeywordSection
-        keywords={question.keywords}
-        questionId={questionId}
-        className="mt-6"
-      />
+      <KeywordSection questionId={questionId} className="mt-6" />
 
       <div className="mt-6">
         <h3 className="text-lg font-semibold">내 답변 피드백</h3>
         <div className="mt-2">
           {(!feedback || !feedback?.content) && (
-            <FeedbackSectionIdle questionId={questionId} />
+            <FeedbackSectionIdle
+              questionId={questionId}
+              isAnswered={isAnswered}
+            />
           )}
 
           {feedback?.content && (

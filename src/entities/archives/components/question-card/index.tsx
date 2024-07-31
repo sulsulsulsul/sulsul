@@ -16,11 +16,13 @@ import { CardHeader } from './card-header'
 
 interface QuestionCardProps extends HTMLAttributes<HTMLDivElement> {
   data: ArchiveQuestionItem
+  archiveId?: number
 }
 
 export const QuestionCard = ({
   className,
   data,
+  archiveId,
   ...props
 }: QuestionCardProps) => {
   const [isAccodionOpen, setIsAccodionOpen] = useState(false)
@@ -47,6 +49,7 @@ export const QuestionCard = ({
                 className="pb-5"
                 question={data}
                 questionId={questionId}
+                archiveId={archiveId!}
                 isAnswered={isAnswered}
               />
             </AccordionContent>
