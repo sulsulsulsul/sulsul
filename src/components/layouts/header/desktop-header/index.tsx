@@ -43,8 +43,6 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
     email: state.data.email,
     image: state.image,
   }))
-  const callbackUrl = usePathname()
-  console.log(callbackUrl)
 
   const renderLoginState = () => {
     if (status === 'authenticated')
@@ -53,9 +51,12 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           <DropdownMenuTrigger>
             <div className="flex items-center gap-2" aria-label="user profile">
               <div className="relative size-9 overflow-hidden rounded-full bg-gray-100">
-                <Image alt="" fill src={image ?? ''} />
+                <Image
+                  alt=""
+                  fill
+                  src={image ? image : '/images/suri-profile.svg'}
+                />
               </div>
-
               <span>{nickname}</span>
               <ChevronDown className="ml-2 text-gray-500" width={16} />
             </div>
@@ -64,7 +65,11 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
             <DropdownMenuLabel>
               <div className="flex items-center gap-4">
                 <div className="relative size-11 overflow-hidden rounded-full bg-gray-100">
-                  <Image alt="" fill src={image ?? ''} />
+                  <Image
+                    alt=""
+                    fill
+                    src={image ? image : '/images/suri-profile.svg'}
+                  />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-lg font-semibold text-gray-900">
@@ -114,7 +119,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
     if (status === 'unauthenticated')
       return (
         <AlertDialog>
-          <AlertDialogTrigger>
+          <AlertDialogTrigger asChild>
             <Button
               size={'sm'}
               variant={'default'}
