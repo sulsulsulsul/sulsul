@@ -1,6 +1,6 @@
 'use client'
 
-import { ForwardedRef, MediaHTMLAttributes, useEffect } from 'react'
+import { ForwardedRef, MediaHTMLAttributes, useEffect, useState } from 'react'
 
 import { cn } from '@/lib/utils'
 import { useVideoStateStore } from '@/store/modal'
@@ -15,10 +15,13 @@ export const Video = ({ className, videoRef, ...props }: VideoProps) => {
       const videoPlayer = document.getElementById(
         'videoPlayer',
       ) as HTMLVideoElement
-      videoPlaying ? videoPlayer.play() : videoPlayer.pause()
+      videoPlaying && videoPlayer.paused
+        ? videoPlayer.play()
+        : videoPlayer.pause()
     }
     setVideoState()
   }, [videoPlaying])
+
   return (
     <video
       ref={videoRef}
