@@ -127,7 +127,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           <AlertDialogContent className={cn('absolute left-0 top-0')}>
             <AlertDialogTitle />
             <AlertDialogDescription />
-            <SignInView>
+            <SignInView callbackUrl="/">
               <AlertDialogCancel
                 onClick={() => restart()}
                 className="absolute right-6 top-6 size-6 border-none"
