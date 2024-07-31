@@ -167,7 +167,7 @@ export const OnboardModal = () => {
   return (
     <div
       className={cn(
-        'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/70',
+        'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80',
         visibility,
       )}
     >

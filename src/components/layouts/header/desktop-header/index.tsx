@@ -1,6 +1,7 @@
 import { HTMLAttributes, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
 import { signOut } from 'next-auth/react'
 import {
   AlertDialog,
@@ -24,7 +25,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { APP_ROUTES, PUBLIC_ROUTES } from '@/config/constants/app-routes'
+import { APP_ROUTES } from '@/config/constants/app-routes'
 import { SignInView } from '@/entities/auth/views/sign-in-view'
 import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
@@ -42,6 +43,8 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
     email: state.data.email,
     image: state.image,
   }))
+  const callbackUrl = usePathname()
+  console.log(callbackUrl)
 
   const renderLoginState = () => {
     if (status === 'authenticated')
@@ -124,7 +127,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           <AlertDialogContent className={cn('absolute left-0 top-0')}>
             <AlertDialogTitle />
             <AlertDialogDescription />
-            <SignInView callbackUrl={PUBLIC_ROUTES.includes('/') ? '/' : '/'}>
+            <SignInView>
               <AlertDialogCancel
                 onClick={() => restart()}
                 className="absolute right-6 top-6 size-6 border-none"

@@ -6,19 +6,16 @@ import { signIn } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
-type SingInViewProps = HTMLAttributes<HTMLDivElement> &
-  PropsWithChildren & {
-    callbackUrl: string
-  }
+type SingInViewProps = HTMLAttributes<HTMLDivElement> & PropsWithChildren
 export const SignInView = ({
   className,
-  callbackUrl,
+
   children,
   ...props
 }: SingInViewProps) => {
   return (
     <div className={cn(className)} {...props}>
-      <main className="absolute left-0 top-0 flex h-screen w-screen place-content-center  bg-gray-800/70">
+      <main className="absolute left-0 top-0 flex h-screen w-screen place-content-center  bg-gray-800/80">
         <div className="mt-[50px] self-center justify-self-center">
           <div className="relative z-50 h-[524px] w-[432px] rounded-md bg-white ">
             {children}
@@ -39,7 +36,7 @@ export const SignInView = ({
               <div className="flex w-full flex-col gap-2">
                 <Button
                   className="bg-[#FEE500] pl-[65px]"
-                  onClick={() => signIn('kakao', { callbackUrl })}
+                  onClick={() => signIn('kakao', { callbackUrl: '/' })}
                   variant={'kakao'}
                 >
                   <Image
@@ -54,7 +51,7 @@ export const SignInView = ({
                 </Button>
                 <Button
                   className="pl-[65px]"
-                  onClick={() => signIn('google', { callbackUrl })}
+                  onClick={() => signIn('google', { callbackUrl: '/' })}
                   variant={'google'}
                 >
                   <Image
