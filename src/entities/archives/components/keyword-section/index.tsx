@@ -6,7 +6,7 @@ import {
   useState,
 } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { HelpCircle, PlusIcon, X } from 'lucide-react'
+import { HelpCircle } from 'lucide-react'
 
 import { Input } from '@/components/ui/input'
 import {
@@ -16,18 +16,16 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { useCreateKeyword } from '@/entities/keywords/hooks/use-create-keyword'
-import { ArchiveKeyword } from '@/entities/types'
+import { useKeywords } from '@/entities/keywords/hooks/use-get-keyword'
 import { cn } from '@/lib/utils'
 
 import { KeywordSet } from './keyword'
 interface KeywordSectionProps extends HTMLAttributes<HTMLDivElement> {
-  keywords: ArchiveKeyword[]
   questionId: number
 }
 
 export const KeywordSection = ({
   className,
-  keywords,
   questionId,
   ...props
 }: KeywordSectionProps) => {
@@ -35,6 +33,7 @@ export const KeywordSection = ({
   const inputRef = useRef<HTMLInputElement>(null)
 
   const { mutate: createKeywordMutation } = useCreateKeyword()
+  const { keywords } = useKeywords(questionId)
   const queryClient = useQueryClient()
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -49,7 +48,7 @@ export const KeywordSection = ({
       { questionId, content: newKeyword },
       {
         onSuccess: () => {
-          setInputValue('')
+          setInputValue(() => '')
           queryClient.invalidateQueries({ queryKey: ['keywords', questionId] })
         },
       },
@@ -85,7 +84,7 @@ export const KeywordSection = ({
       <div className="mt-2 flex flex-wrap items-center gap-1">
         <KeywordSet keywords={keywords} questionId={questionId} />
         <Input
-          className="w-fit gap-1 rounded-sm border py-2 text-black"
+          className="w-fit gap-1 rounded-sm border border-gray-300 text-base font-medium text-black"
           placeholder="+ 직접 쓰기"
           value={inputValue}
           onChange={handleInputChange}

@@ -1,24 +1,35 @@
+import { useQueryClient } from '@tanstack/react-query'
 import { X } from 'lucide-react'
 
 import { useDeleteKeyword } from '@/entities/keywords/hooks/use-delete-keyword'
-import { ArchiveKeyword } from '@/entities/types'
+import { KeywordDTO } from '@/entities/types'
 
 interface KeywordProps {
-  keywords: ArchiveKeyword[]
+  keywords?: KeywordDTO[]
   isHeader?: boolean
   questionId: number
 }
 
 export const KeywordSet = ({
-  keywords,
+  keywords = [],
   isHeader = false,
   questionId,
 }: KeywordProps) => {
   const { mutate: deleteKeywordMutation } = useDeleteKeyword()
+  const queryClient = useQueryClient()
 
   const onDeleteKeyword = (keywordId: number) => {
     {
-      deleteKeywordMutation({ questionId, keywordId })
+      deleteKeywordMutation(
+        { questionId, keywordId },
+        {
+          onSuccess: () => {
+            queryClient.invalidateQueries({
+              queryKey: ['keywords', questionId],
+            })
+          },
+        },
+      )
     }
   }
   return keywords.map((keyword) => (

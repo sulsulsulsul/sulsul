@@ -4,7 +4,7 @@ import { getKeywordListAction } from '../actions'
 
 export const useKeywords = (questionId: number) => {
   const result = useQuery({
-    queryKey: ['keyword', { questionId }],
+    queryKey: ['keywords', questionId],
     queryFn: () => getKeywordListAction(questionId),
   })
   const { data, ...rest } = result
