@@ -42,14 +42,15 @@ export const CardBody = ({
           queryClient.invalidateQueries({
             queryKey: ['archive', archiveId],
           })
+          setIsAnswerChanged(true)
         },
       },
     )
   }
 
-  useEffect(() => {
-    setIsAnswerChanged(answer !== '')
-  }, [answer, question.answer])
+  const handleAnswerChanged = () => {
+    setIsAnswerChanged(false)
+  }
 
   return (
     <div className={cn('flex flex-col gap-2', className)} {...props}>
@@ -57,10 +58,9 @@ export const CardBody = ({
       {question.isAnswered && (
         <QuestionAnswer
           onSubmit={onSubmit}
-          answer={question.answer}
+          answer={answer}
           keywords={question.keywords}
           questionId={questionId}
-          isAnswerChanged={isAnswerChanged}
         />
       )}
 
@@ -73,13 +73,17 @@ export const CardBody = ({
             <FeedbackSectionIdle
               questionId={questionId}
               isAnswered={isAnswered}
+              handleAnswerChanged={handleAnswerChanged}
             />
           )}
 
           {feedback?.content && (
             <FeedbackSectionComplete
-              goodFeedback={feedback?.content}
-              badFeedback={feedback?.content}
+              goodFeedback={feedback?.goodPoint}
+              badFeedback={feedback?.improvePoint}
+              isAnswerChanged={isAnswerChanged}
+              handleAnswerChanged={handleAnswerChanged}
+              questionId={questionId}
             />
           )}
         </div>
