@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
 export const createArchiveSchema = z.object({
+  title: z.string(),
+  companyName: z.string(),
   resume: z
     .string()
     .min(300, {
