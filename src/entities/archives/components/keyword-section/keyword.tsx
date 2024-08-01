@@ -7,13 +7,13 @@ import { KeywordDTO } from '@/entities/types'
 interface KeywordProps {
   keywords?: KeywordDTO[]
   isHeader?: boolean
-  questionId: number
+  questionId?: number
 }
 
 export const KeywordSet = ({
   keywords = [],
   isHeader = false,
-  questionId,
+  questionId = 0,
 }: KeywordProps) => {
   const { mutate: deleteKeywordMutation } = useDeleteKeyword()
   const queryClient = useQueryClient()
