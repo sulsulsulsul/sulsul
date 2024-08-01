@@ -48,6 +48,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.3.1",
     "react-highlight-menu": "^2.0.2",
+    "react-highlight-within-textarea": "^3.2.1",
     "react-highlight-words": "^0.20.0",
     "react-hook-form": "^7.51.2",
     "sonner": "^1.4.41",

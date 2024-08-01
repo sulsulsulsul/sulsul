@@ -1,12 +1,6 @@
 import { z } from 'zod'
 
 export const createArchiveSchema = z.object({
-  companyName: z.string().min(2, {
-    message: '회사명은 2글자 이상 입력해주세요.',
-  }),
-  title: z.string().min(2, {
-    message: '타이틀은 2글자 이상 입력해주세요.',
-  }),
   resume: z
     .string()
     .min(300, {

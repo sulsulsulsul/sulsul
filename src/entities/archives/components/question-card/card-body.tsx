@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 
 import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback'
@@ -26,34 +26,41 @@ export const CardBody = ({
   archiveId,
   ...props
 }: CardBodyProps) => {
+  const { answer } = question
+  const [isAnswerChanged, setIsAnswerChanged] = useState(false)
+
   const { mutate: updateAnswerMutation } = useUpdateAnswer()
 
   const { feedback } = useFeedback(questionId)
   const queryClient = useQueryClient()
 
+  const onSubmit = (data: { answer: string }) => {
+    updateAnswerMutation(
+      { questionId: question.questionId, ...data },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['archive', archiveId],
+          })
+        },
+      },
+    )
+  }
+
+  useEffect(() => {
+    setIsAnswerChanged(answer !== '')
+  }, [answer, question.answer])
+
   return (
     <div className={cn('flex flex-col gap-2', className)} {...props}>
-      {!question.isAnswered && (
-        <QuestionAnswerForm
-          onSubmit={(data) => {
-            updateAnswerMutation(
-              { questionId: question.questionId, ...data },
-              {
-                onSuccess: () => {
-                  queryClient.invalidateQueries({
-                    queryKey: ['archive', archiveId],
-                  })
-                },
-              },
-            )
-          }}
-        />
-      )}
+      {!question.isAnswered && <QuestionAnswerForm onSubmit={onSubmit} />}
       {question.isAnswered && (
         <QuestionAnswer
+          onSubmit={onSubmit}
           answer={question.answer}
           keywords={question.keywords}
           questionId={questionId}
+          isAnswerChanged={isAnswerChanged}
         />
       )}
 
