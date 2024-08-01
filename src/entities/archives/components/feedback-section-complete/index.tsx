@@ -36,7 +36,7 @@ export const FeedbackSectionComplete = ({
             handleAnswerChanged()
             setTimeout(() => {
               setIsLoading(false)
-            }, 3000)
+            }, 5000)
           },
         },
       )

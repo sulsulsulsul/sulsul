@@ -13,7 +13,7 @@ export const useCreateFeedback = () => {
         queryClient.invalidateQueries({
           queryKey: ['feedback', variables.questionId],
         })
-      }, 3000)
+      }, 4000)
     },
   })
 }

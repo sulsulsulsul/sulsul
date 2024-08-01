@@ -1,7 +1,9 @@
 import { HTMLAttributes, useState } from 'react'
+import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query'
 
 import { Button } from '@/components/ui/button'
 import { useCreateFeedback } from '@/entities/feedbacks/hooks/use-create-feedback'
+import { ArchiveFeedback } from '@/entities/types'
 import { cn } from '@/lib/utils'
 
 import { FeedbackSectionPending } from '../feedback-section-pending'
@@ -9,14 +11,16 @@ import { FeedbackSectionPending } from '../feedback-section-pending'
 interface FeedbackSectionIdleProps extends HTMLAttributes<HTMLDivElement> {
   questionId: number
   isAnswered: boolean
-  handleAnswerChanged: () => void
+  refetch: (
+    options?: RefetchOptions,
+  ) => Promise<QueryObserverResult<ArchiveFeedback, Error>>
 }
 
 export const FeedbackSectionIdle = ({
   className,
   questionId,
   isAnswered,
-  handleAnswerChanged,
+  refetch,
   ...props
 }: FeedbackSectionIdleProps) => {
   const [isLoading, setIsLoading] = useState(false)
@@ -30,10 +34,11 @@ export const FeedbackSectionIdle = ({
         { questionId },
         {
           onSuccess: () => {
-            handleAnswerChanged()
+            refetch()
             setTimeout(() => {
+              refetch()
               setIsLoading(false)
-            }, 3000)
+            }, 5000)
           },
         },
       )

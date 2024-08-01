@@ -31,7 +31,7 @@ export const CardBody = ({
 
   const { mutate: updateAnswerMutation } = useUpdateAnswer()
 
-  const { feedback } = useFeedback(questionId)
+  const { feedback, refetch } = useFeedback(questionId)
   const queryClient = useQueryClient()
 
   const onSubmit = (data: { answer: string }) => {
@@ -41,6 +41,9 @@ export const CardBody = ({
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: ['archive', archiveId],
+          })
+          queryClient.invalidateQueries({
+            queryKey: ['feedback', questionId],
           })
           setIsAnswerChanged(true)
         },
@@ -69,11 +72,11 @@ export const CardBody = ({
       <div className="mt-6">
         <h3 className="text-lg font-semibold">내 답변 피드백</h3>
         <div className="mt-2">
-          {(!feedback || !feedback?.content) && (
+          {!feedback && (
             <FeedbackSectionIdle
               questionId={questionId}
               isAnswered={isAnswered}
-              handleAnswerChanged={handleAnswerChanged}
+              refetch={refetch}
             />
           )}
 
