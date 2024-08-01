@@ -1,30 +1,26 @@
 'use client'
 
-import { ForwardedRef, MediaHTMLAttributes, useEffect, useState } from 'react'
+import { ForwardedRef, MediaHTMLAttributes, useEffect, useRef } from 'react'
 
 import { cn } from '@/lib/utils'
 import { useVideoStateStore } from '@/store/modal'
 export interface VideoProps extends MediaHTMLAttributes<HTMLVideoElement> {
   videoRef?: ForwardedRef<HTMLVideoElement>
+  hero?: boolean
 }
 
-export const Video = ({ className, videoRef, ...props }: VideoProps) => {
+export const Video = ({ className, videoRef, hero, ...props }: VideoProps) => {
   const { videoPlaying } = useVideoStateStore()
+  const ref = useRef<HTMLVideoElement>(null)
   useEffect(() => {
-    const setVideoState = () => {
-      const videoPlayer = document.getElementById(
-        'videoPlayer',
-      ) as HTMLVideoElement
-      videoPlaying && videoPlayer.paused
-        ? videoPlayer.play()
-        : videoPlayer.pause()
+    if (ref.current) {
+      videoPlaying ? ref.current.play() : ref.current.pause()
     }
-    setVideoState()
   }, [videoPlaying])
 
   return (
     <video
-      ref={videoRef}
+      ref={hero ? ref : videoRef}
       id="videoPlayer"
       webkit-playsinline="true"
       playsInline={true}

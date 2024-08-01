@@ -8,7 +8,6 @@ import gsap from 'gsap'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { useVideoStateStore } from '@/store/modal'
 
 const Video = dynamic(
   () => import('@/components/shared/video').then((mod) => mod.Video),
@@ -85,6 +84,7 @@ export const Hero = ({ className, ...props }: HeroProps) => {
         className="container invisible relative z-10 mt-[60px] h-fit"
       >
         <Video
+          hero={true}
           onLoadedMetadata={() => setVideoLoaded(true)}
           className="rounded-[30px]"
           src="/videos/hero.mp4"

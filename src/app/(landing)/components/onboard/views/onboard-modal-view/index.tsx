@@ -194,15 +194,13 @@ export const OnboardModal = () => {
         <div
           className={`flex flex-col  gap-2  text-[14px]  ${descriptionText}`}
         >
-          {dialogNumber == 1 &&
+          {dialogNumber === 1 &&
             '* 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.'}
           <Button
             className="w-[340px]"
             variant="default"
             disabled={buttonDisable}
-            onClick={() => {
-              dialogNumber === 0 ? initialize() : handleClose()
-            }}
+            onClick={dialogNumber === 0 ? initialize : handleClose}
           >
             {dialog[dialogNumber].buttonText}
           </Button>
