@@ -18,7 +18,6 @@ interface QuestionAnswerProps {
   answer: string
   keywords: ArchiveKeyword[]
   questionId: number
-  isAnswerChanged: boolean
   onSubmit: (data: { answer: string }) => void
 }
 
@@ -27,7 +26,6 @@ export const QuestionAnswer = ({
   answer,
   keywords,
   questionId,
-  isAnswerChanged,
   onSubmit,
   ...props
 }: QuestionAnswerProps) => {
@@ -50,7 +48,7 @@ export const QuestionAnswer = ({
 
   useEffect(() => {
     setIsEditing(localAnswer !== answer)
-  }, [localAnswer, answer])
+  }, [localAnswer])
 
   const onFormSubmit = handleSubmit((data) => {
     onSubmit({ answer: data.answer })

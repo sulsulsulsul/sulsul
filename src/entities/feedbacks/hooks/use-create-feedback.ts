@@ -9,9 +9,11 @@ export const useCreateFeedback = () => {
       return createFeedbackAction(params)
     },
     onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ['feedback', variables.questionId],
-      })
+      setTimeout(() => {
+        queryClient.invalidateQueries({
+          queryKey: ['feedback', variables.questionId],
+        })
+      }, 3000)
     },
   })
 }
