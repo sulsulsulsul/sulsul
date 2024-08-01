@@ -27,7 +27,8 @@ export const KeywordNote = ({
         variant="ghost"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={() => {
+        onClick={(e) => {
+          e.preventDefault()
           setClipboard(selectedText, () => {
             createKeywordMutation(
               { questionId, content: selectedText },
