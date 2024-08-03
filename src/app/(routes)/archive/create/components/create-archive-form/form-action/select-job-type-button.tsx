@@ -24,6 +24,7 @@ import { useCurrentUser } from '@/entities/users/hooks'
 import { useUpdateJob } from '@/entities/users/hooks/use-update-job'
 import { cn } from '@/lib/utils'
 import { usePendingStore } from '@/store/client'
+import { useSampleStore } from '@/store/sampleQuestions'
 
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
 
@@ -68,6 +69,8 @@ export const SelectJobTypeModal = () => {
   const queryClient = useQueryClient()
   const { mutateAsync: createArchiveMutate } = useCreateArchive()
   const { mutateAsync: createQuestionMutate } = useCreateQuestion()
+  const { isSampleClicked, isSampleWritten, setIsSampleWritten } =
+    useSampleStore()
 
   const isFormValid = form.formState.isValid
   const isSubmitting = form.formState.isSubmitting
@@ -124,25 +127,42 @@ export const SelectJobTypeModal = () => {
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button
-          disabled={isSubmitting || !isFormValid || isPending}
+          disabled={
+            isSampleWritten
+              ? true
+              : isSampleClicked
+                ? false
+                : isSubmitting || !isFormValid || isPending
+          }
           type="button"
           className={cn(
             'grow border-gray-200 bg-gray-200 text-gray-500',
             isPending
               ? 'bg-gradient-to-r from-blue-500 to-[#4BF5CC] text-white'
-              : isFormValid && 'bg-blue-500 text-white hover:bg-blue-600',
+              : isSampleWritten
+                ? 'bg-blue-100 text-blue-500'
+                : (isSampleClicked || isFormValid) &&
+                  'bg-blue-500 text-white hover:bg-blue-600',
           )}
-          variant={'outline'}
+          variant="outline"
+          onClick={() => {
+            isSampleClicked && setIsSampleWritten()
+          }}
         >
           {isPending ? (
             <>
               <ActivateTwinkleIcon />
               <span>예상질문 예측 중</span>
             </>
-          ) : isFormValid ? (
+          ) : !isSampleWritten && (isSampleClicked || isFormValid) ? (
             <>
               <ActivateTwinkleIcon />
               <span>예상질문 예측하기</span>
+            </>
+          ) : isSampleWritten ? (
+            <>
+              <CompleteCheckIcon />
+              <span>예상질문 예측완료</span>
             </>
           ) : (
             <>
@@ -152,40 +172,44 @@ export const SelectJobTypeModal = () => {
           )}
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent className="h-auto max-w-xl">
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            <p className="text-sm text-blue-500">예상질문 정확도 3배 상승!</p>
-            <h1 className="text-3xl font-bold">내 직무를 선택해주세요</h1>
-          </AlertDialogTitle>
-          <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 py-5">
-            {JOB_TYPE.map((type, idx) => (
-              <Button
-                key={idx}
-                variant="outline"
-                className={cn(
-                  'w-[120px] rounded-sm border-gray-300 bg-gray-50 font-normal',
-                  selectedType === type &&
-                    'border-blue-500 bg-white text-blue-500',
-                )}
-                onClick={() => handleSelectedType(type)}
-              >
-                {type}
-              </Button>
-            ))}
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter className="mx-auto">
-          <AlertDialogCancel className="w-[180px]">취소하기</AlertDialogCancel>
-          <AlertDialogAction
-            disabled={selectedType === ''}
-            className="w-[180px] bg-blue-500 text-white"
-            onClick={handleSubmit(onSubmit)}
-          >
-            선택하기
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
+      {!isSampleClicked && (
+        <AlertDialogContent className="h-auto max-w-xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              <p className="text-sm text-blue-500">예상질문 정확도 3배 상승!</p>
+              <h1 className="text-3xl font-bold">내 직무를 선택해주세요</h1>
+            </AlertDialogTitle>
+            <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 py-5">
+              {JOB_TYPE.map((type, idx) => (
+                <Button
+                  key={idx}
+                  variant="outline"
+                  className={cn(
+                    'w-[120px] rounded-sm border-gray-300 bg-gray-50 font-normal',
+                    selectedType === type &&
+                      'border-blue-500 bg-white text-blue-500',
+                  )}
+                  onClick={() => handleSelectedType(type)}
+                >
+                  {type}
+                </Button>
+              ))}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="mx-auto">
+            <AlertDialogCancel className="w-[180px]">
+              취소하기
+            </AlertDialogCancel>
+            <AlertDialogAction
+              disabled={selectedType === ''}
+              className="w-[180px] bg-blue-500 text-white"
+              onClick={handleSubmit(onSubmit)}
+            >
+              선택하기
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      )}
     </AlertDialog>
   )
 }
@@ -205,6 +229,17 @@ const ActivateTwinkleIcon = () => {
   return (
     <Image
       src="/images/icons/icon-Twinkle-activate.svg"
+      width={24}
+      height={24}
+      alt="icon"
+    />
+  )
+}
+
+const CompleteCheckIcon = () => {
+  return (
+    <Image
+      src="/images/icons/icon-check.svg"
       width={24}
       height={24}
       alt="icon"
