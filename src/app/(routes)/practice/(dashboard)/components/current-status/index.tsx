@@ -1,4 +1,5 @@
-import { HTMLAttributes } from 'react'
+'use client'
+import { Dispatch, HTMLAttributes, SetStateAction, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -6,10 +7,17 @@ import { ResultCard } from '@/components/cards/result-card'
 import { SmileAnimation } from '@/components/lotties/smile-animation'
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
 import { Button } from '@/components/ui/button'
+import PracticeSelection from '@/entities/practice-list-modal'
 import { cn } from '@/lib/utils'
-interface CurrentStatusProps extends HTMLAttributes<HTMLDivElement> {}
+interface CurrentStatusProps extends HTMLAttributes<HTMLDivElement> {
+  setModalOpen: Dispatch<SetStateAction<boolean>>
+}
 
-export const CurrentStatus = ({ className, ...props }: CurrentStatusProps) => {
+export const CurrentStatus = ({
+  className,
+  setModalOpen,
+  ...props
+}: CurrentStatusProps) => {
   return (
     <div className={cn(className)} {...props}>
       <div className="flex gap-[25px]">
@@ -29,8 +37,8 @@ export const CurrentStatus = ({ className, ...props }: CurrentStatusProps) => {
               height={145}
             />
           </div>
-          <Button className="w-full" asChild>
-            <Link href="/practice/ing">실전 연습하기</Link>
+          <Button className="w-full" onClick={() => setModalOpen(true)}>
+            실전연습하기
           </Button>
         </div>
         <ResultCard

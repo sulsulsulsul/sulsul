@@ -22,7 +22,8 @@ export type ArchiveStatus = 'READY' | 'CREATING' | 'COMPLETE' | 'FAIL'
 export type ArchiveFeedbackStatus = 'READY' | 'CREATING' | 'COMPLETE' | 'FAIL'
 
 export interface ArchiveQuestionItem {
-  id: number
+  isHint: boolean
+  questionId: number
   content: string
   isAnswered: boolean
   answer: string

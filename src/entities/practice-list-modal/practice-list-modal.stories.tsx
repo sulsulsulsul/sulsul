@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 
-import PracticeList from '.'
+import PracticeSelection from '.'
 
 const meta = {
-  component: PracticeList,
-} satisfies Meta<typeof PracticeList>
+  component: PracticeSelection,
+} satisfies Meta<typeof PracticeSelection>
 
 export default meta
 type Story = StoryObj<typeof meta>
