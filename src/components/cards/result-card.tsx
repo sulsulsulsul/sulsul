@@ -16,7 +16,7 @@ export const ResultCard = ({
   return (
     <div
       className={cn(
-        'h-[273px] w-full rounded-md bg-white p-[26px] shadow-base',
+        'h-[215px] w-[282px] rounded-md bg-white p-[26px] shadow-base',
         className,
       )}
       {...props}

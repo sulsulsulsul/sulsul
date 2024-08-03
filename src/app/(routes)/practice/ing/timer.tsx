@@ -1,8 +1,13 @@
-import { useEffect, useRef, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import { set } from 'zod'
 
-export default function Timer() {
+interface TimerProp {
+  setTime: Dispatch<SetStateAction<string>>
+  pauseTimer: boolean
+}
+
+export default function Timer({ setTime, pauseTimer }: TimerProp) {
   const [timer, setTimer] = useState(0)
   const [isRunning, setIsRunning] = useState(false)
   let timeInterval = useRef<null | ReturnType<typeof setTimeout>>(null)
@@ -36,7 +41,12 @@ export default function Timer() {
     return { minutes, seconds }
   }
   const { minutes, seconds } = formatTime(timer)
-  console.log(isRunning, minutes, seconds)
+
+  useEffect(() => {
+    pauseTimer && handlePause
+    setTime(minutes + ' : ' + seconds)
+  }, [handlePause, minutes, pauseTimer, seconds, setTime])
+
   return (
     <div className="flex w-fit flex-row gap-1 rounded-xl bg-gray-800  px-3 py-[11px]">
       {isRunning ? (

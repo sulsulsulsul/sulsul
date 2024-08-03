@@ -1,11 +1,10 @@
 import { HTMLAttributes } from 'react'
 import Image from 'next/image'
 
+import { ArchiveQuestionItem } from '@/entities/types'
 import { cn } from '@/lib/utils'
-
-import { Question } from './page'
 interface AskCardProps extends HTMLAttributes<HTMLDivElement> {
-  question: Question
+  question: ArchiveQuestionItem
   remainingQuestions: number
 }
 

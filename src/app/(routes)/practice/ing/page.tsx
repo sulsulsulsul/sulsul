@@ -10,7 +10,7 @@ import { SmileAnimation } from '@/components/lotties/smile-animation'
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
 import { ArchiveQuestionItem } from '@/entities/types'
 import { cn } from '@/lib/utils'
-import { usePracticeStore } from '@/store/practiceStore'
+import { usePracticeResultStore, usePracticeStore } from '@/store/practiceStore'
 
 import { AnswerButton } from './answer-button'
 import { AskCard } from './ask-card'
@@ -68,6 +68,7 @@ import Timer from './timer'
 
 const Page = () => {
   const { timer, practiceList, random } = usePracticeStore()
+  const { setResult } = usePracticeResultStore()
   const smileRef = useRef<LottieRefCurrentProps>(null)
   const thinkingRef = useRef<LottieRefCurrentProps>(null)
 
@@ -81,7 +82,9 @@ const Page = () => {
   >([])
   const [showHint, setShowHint] = useState(false)
   const [q, setQ] = useState(practiceList[0])
-  let question = questions[0]
+  const [time, setTime] = useState('')
+  const [pauseTimer, setPauseTimer] = useState(false)
+  // let question = questions[0]
 
   const router = useRouter()
   const handleCorrect = () => {
@@ -104,14 +107,23 @@ const Page = () => {
   useEffect(() => {
     setShowHint(false)
     setQ(questions[0])
+
     if (questions.length === 0) {
+      setPauseTimer(true)
+      setResult!({
+        time: time,
+        correct: correctQuestions,
+        incorrect: inCorrectQuestions,
+      })
       router.push('/practice/result')
     }
   }, [questions, router])
-  console.log('on the page ', practiceList, questions)
+
   return (
     <main>
-      <div className="absolute right-10 top-20">{timer && <Timer />}</div>
+      <div className="absolute right-[360px] top-[84px]">
+        {timer && <Timer setTime={setTime} pauseTimer={pauseTimer} />}
+      </div>
       {questions.length == 0 && (
         <div className="relative mt-[86px] h-[468px] w-[792px]"></div>
       )}
@@ -124,15 +136,15 @@ const Page = () => {
               scale: 1,
             }}
             exit={{ opacity: 0, scale: 0.5 }}
-            key={question.questionId}
-            // layoutId={question.questionId.toString()}
+            key={q.questionId}
+            layoutId={q.questionId.toString()}
             className="relative mx-auto mt-[86px] h-[468px] w-[792px]"
           >
             <AskCard
               className={cn('relative z-20 size-full transition-[height]', {
                 'h-[253px]': showHint,
               })}
-              question={question}
+              question={q}
               remainingQuestions={questions.length}
             />
             <div className="absolute left-1/2 top-[210px] h-[308px] w-[90%] -translate-x-1/2 rounded-md bg-white">

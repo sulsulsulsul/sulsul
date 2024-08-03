@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ChevronRight } from 'lucide-react'
@@ -8,43 +9,58 @@ import { SmileAnimation } from '@/components/lotties/smile-animation'
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { usePracticeResultStore } from '@/store/practiceStore'
 
-const Page = async () => {
+const Page = () => {
+  const { time, correct, incorrect } = usePracticeResultStore()
+
+  const totalCorrect = correct.length
+  const totalIncorrect = incorrect.length
+  const totalScore = totalCorrect / (totalCorrect + totalIncorrect)
+
   return (
     <main className="relative">
-      <div className="absolute left-0 top-0 z-0 h-[497px] w-screen bg-blue-500 "></div>
+      <div className="absolute left-0 top-0 h-[497px] w-screen bg-blue-500 " />
       <ConfettiAnimation
         loop={1}
         className="absolute left-1/2 -translate-x-1/2"
       />
       <div className="relative">
         <div className="flex flex-col items-center justify-center">
-          <Badge variant="result">답변이 술술</Badge>
+          <Badge variant="result" className="mt-[42px]">
+            {totalScore >= 0.8 ? '답변이 술술' : '천 리 길도 한 걸음부터죠'}
+          </Badge>
           <h2 className="mt-3 text-center text-5xl font-bold text-white">
-            이번 면접, 거뜬해요!
+            {totalScore >= 0.8
+              ? '이번 면접, 거뜬해요!'
+              : '연습이 조금 더 필요해요'}
           </h2>
           <Image
             className="mt-[37px]"
-            src={'/images/character-happy.svg'}
+            src={
+              totalScore >= 0.8
+                ? '/images/character-happy.svg'
+                : '/images/character-shocked.svg'
+            }
             alt="happy character"
             width={164}
             height={164}
           />
-          <div className="mt-[47px] flex w-full items-center gap-4">
+          <div className="mt-[47px] flex w-full items-center justify-center gap-4">
             <ResultCard
               title="술술 말한 면접질문"
-              result={32}
+              result={totalCorrect}
               icon={<SmileAnimation loop={false} className="w-8" />}
             />
             <ResultCard
               title="답변 못한 면접 질문"
-              result={16}
+              result={totalIncorrect}
               icon={<ThinkingAnimation loop={false} className="w-8" />}
             />
 
             <ResultCard
               title="총 연습시간"
-              result="24:39"
+              result={time}
               icon={
                 <Image
                   alt="clock icon"
