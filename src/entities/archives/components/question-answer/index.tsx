@@ -1,75 +1,132 @@
 'use client'
 
-import { HTMLAttributes } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { HighlightMenu } from 'react-highlight-menu'
-import Highlighter from 'react-highlight-words'
-import Image from 'next/image'
+import { HighlightWithinTextarea } from 'react-highlight-within-textarea'
+import { useForm } from 'react-hook-form'
 
 import { Button } from '@/components/ui/button'
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
 import { ArchiveKeyword } from '@/entities/types'
 import { cn } from '@/lib/utils'
-interface QuestionAnswerProps extends HTMLAttributes<HTMLDivElement> {
+
+import { useQuestionAnswerForm } from '../../hooks/use-question-answer-form'
+import { KeywordNote } from './keyword-note'
+
+interface QuestionAnswerProps {
+  className?: string
   answer: string
-  onCreateKeywordNote: (keyword: string) => void
   keywords: ArchiveKeyword[]
+  questionId: number
+  onSubmit: (data: { answer: string }) => void
 }
 
 export const QuestionAnswer = ({
   className,
   answer,
   keywords,
-  onCreateKeywordNote,
+  questionId,
+  onSubmit,
   ...props
 }: QuestionAnswerProps) => {
-  return (
-    <div
-      className={cn('relative border rounded-base p-4', className)}
-      {...props}
-    >
-      <HighlightMenu
-        target=".user-answer"
-        allowedPlacements={['top', 'bottom']}
-        menu={({ selectedText = '', setClipboard, setMenuOpen }) => (
-          <>
-            <Button
-              className="gap-2 rounded-base px-2 py-1"
-              variant={'ghost'}
-              onClick={() => {
-                onCreateKeywordNote(selectedText)
-              }}
-            >
-              <Image
-                src="/images/icons/icon-keyword.svg"
-                width={24}
-                height={24}
-                alt=""
-              />
-              <span className="text-base font-medium">키워드 노트</span>
-            </Button>
-          </>
-        )}
-      />
+  const [isEditing, setIsEditing] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
 
-      <div className="max-h-[220px] resize-none overflow-y-scroll border-none">
-        {/* eslint-disable-next-line tailwindcss/no-custom-classname */}
-        <div className="user-answer">
-          <Highlighter
-            highlightClassName="bg-green-300"
-            searchWords={keywords.map((keyword) => keyword.content)}
-            autoEscape={true}
-            textToHighlight={answer}
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+
+  const form = useQuestionAnswerForm()
+  const { control, handleSubmit, watch, setValue } = useForm({
+    defaultValues: {
+      answer: answer,
+    },
+  })
+  const localAnswer = watch('answer')
+
+  useEffect(() => {
+    setValue('answer', answer)
+  }, [answer, setValue])
+
+  useEffect(() => {
+    setIsEditing(localAnswer !== answer)
+  }, [localAnswer])
+
+  const onFormSubmit = handleSubmit((data) => {
+    onSubmit({ answer: data.answer })
+    setIsEditing(false)
+  })
+
+  return (
+    <Form {...form}>
+      <div className={cn('relative', className)} {...props}>
+        <form onSubmit={onFormSubmit}>
+          <FormField
+            control={control}
+            name="answer"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <div
+                    className={`relative rounded-base border p-4 ${isFocused ? `border-blue-600` : `border-gray-300`}`}
+                  >
+                    <div className="user-answer">
+                      <HighlightWithinTextarea
+                        ref={textareaRef}
+                        value={field.value}
+                        highlight={keywords.map((keyword) => {
+                          return {
+                            highlight: keyword.content,
+                            className: 'bg-green-300',
+                          }
+                        })}
+                        onChange={(value) => field.onChange(value)}
+                        onFocus={() => setIsFocused(true)}
+                        onBlur={() => setIsFocused(false)}
+                      />
+                    </div>
+
+                    <HighlightMenu
+                      target=".user-answer"
+                      allowedPlacements={['top', 'bottom']}
+                      styles={{
+                        boxShadow: '0px 4px 24px rgba(26, 33, 81, 0.24)',
+                        borderRadius: '10px',
+                        border: 'none',
+                      }}
+                      menu={({
+                        selectedText = '',
+                        setClipboard,
+                        setMenuOpen,
+                      }) => (
+                        <KeywordNote
+                          selectedText={selectedText}
+                          setClipboard={setClipboard}
+                          setMenuOpen={setMenuOpen}
+                          questionId={questionId}
+                        />
+                      )}
+                    />
+                    <div className="mt-1 flex items-center justify-between">
+                      <div className="flex flex-col gap-px text-2xs">
+                        <div className="absolute bottom-4">
+                          <span className="text-gray-600">
+                            {field.value?.length ?? 0}
+                          </span>
+                          <span className="text-gray-400">/500자</span>
+                        </div>
+                      </div>
+                      <div className="flex gap-1">
+                        <Button size="sm" type="submit" disabled={!isEditing}>
+                          수정하기
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                </FormControl>
+              </FormItem>
+            )}
           />
-        </div>
+        </form>
       </div>
-      <div className="mt-1 flex items-center justify-between">
-        <div className="flex flex-col gap-px">
-          <div>
-            <span>{answer.length ?? 0}</span>
-            <span className="text-gray-500">/500자</span>
-          </div>
-        </div>
-        <Button size={'sm'}>수정하기</Button>
-      </div>
-    </div>
+    </Form>
   )
 }

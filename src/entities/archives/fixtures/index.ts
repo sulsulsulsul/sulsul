@@ -39,14 +39,15 @@ export const mockArchiveQuestionItem = (): ArchiveQuestionItem => ({
 })
 
 export const mockArchiveKeyword = (): ArchiveKeyword => ({
-  id: faker.number.int(),
+  keywordId: faker.number.int(),
   content: faker.lorem.word(),
 })
 
 export const mockArchiveFeedback = (): ArchiveFeedback => ({
   feedbackId: 0,
+  goodPoint: faker.lorem.paragraph(10),
+  improvePoint: faker.lorem.paragraph(10),
   content: faker.lorem.paragraph(10),
-  status: 'COMPLETE',
 })
 export const mockGetArchiveListAction = async (): ReturnType<
   typeof getArchiveListAction

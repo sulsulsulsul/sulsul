@@ -30,12 +30,13 @@ export interface ArchiveQuestionItem {
 }
 
 export interface ArchiveKeyword {
-  id: number
+  keywordId: number
   content: string
 }
 
 export interface ArchiveFeedback {
-  feedbackId: 0
+  feedbackId: number
+  goodPoint: string
+  improvePoint: string
   content: string
-  status: ArchiveFeedbackStatus
 }

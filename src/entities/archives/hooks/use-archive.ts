@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getArchiveDetailAction } from '@/entities/archives/actions'
 export const useArchive = (id: number) => {
   const result = useQuery({
-    queryKey: ['archive', { id }],
+    queryKey: ['archive', id],
     queryFn: () => getArchiveDetailAction(id),
     refetchInterval: (query) => {
       if (query.state.data?.status !== 'FAIL') {

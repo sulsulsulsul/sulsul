@@ -18,6 +18,7 @@ const useCreateArchiveForm = () => {
     resolver: zodResolver(createArchiveSchema),
     mode: 'onTouched',
     defaultValues: {
+      companyName: '',
       title: '',
       resume: '',
     },

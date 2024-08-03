@@ -109,9 +109,15 @@ export const API_ENDPOINT = {
       }
     },
 
-    deleteKeyword: ({ questionId, id }: { questionId: number; id: number }) => {
+    deleteKeyword: ({
+      questionId,
+      keywordId,
+    }: {
+      questionId: number
+      keywordId: number
+    }) => {
       return {
-        url: `/api/v1/questions/${questionId}/keywords/${id}`,
+        url: `/api/v1/questions/${questionId}/keywords/${keywordId}`,
         method: Method.DELETE,
         authorization: true,
       }

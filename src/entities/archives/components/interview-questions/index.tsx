@@ -18,7 +18,7 @@ export const InterviewQuestions = ({
   data,
   ...props
 }: InterviewQuestionsProps) => {
-  const { status } = data
+  const { status, archiveId } = data
   return (
     <div className={cn(className)} {...props}>
       {status === 'READY' && (
@@ -42,6 +42,7 @@ export const InterviewQuestions = ({
             {
               <LoadedStatus
                 data={data.questions}
+                archiveId={archiveId}
                 className="h-full overflow-y-scroll"
               />
             }
