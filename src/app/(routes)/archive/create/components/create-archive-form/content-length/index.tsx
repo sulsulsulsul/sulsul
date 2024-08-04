@@ -7,6 +7,8 @@ import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-f
 interface ContentLengthProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ContentLength = ({ className, ...props }: ContentLengthProps) => {
+  const SAMPLE_CONTENT_LENGTH = 523
+
   const { form } = useCreateArchiveFormContext()
   const { isSampleClicked } = useSampleStore()
 
@@ -16,7 +18,7 @@ export const ContentLength = ({ className, ...props }: ContentLengthProps) => {
     <div className={cn(className)} {...props}>
       <div className="text-2xl font-semibold">
         <span className="text-gray-600">
-          {isSampleClicked ? 523 : contentLength}
+          {isSampleClicked ? SAMPLE_CONTENT_LENGTH : contentLength}
         </span>
         <span className="text-gray-400">/2000자</span>
       </div>

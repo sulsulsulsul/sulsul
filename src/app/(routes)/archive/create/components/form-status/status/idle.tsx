@@ -38,7 +38,7 @@ export const IdleStatus = ({
           미리 체험해보고 싶다면?{' '}
           <span
             className="cursor-pointer font-normal underline"
-            onClick={() => setIsSampleClicked()}
+            onClick={setIsSampleClicked}
           >
             샘플 자소서로 해보기
           </span>

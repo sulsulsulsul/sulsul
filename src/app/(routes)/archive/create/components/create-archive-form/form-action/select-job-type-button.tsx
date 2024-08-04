@@ -127,13 +127,11 @@ export const SelectJobTypeModal = () => {
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button
-          disabled={
-            isSampleWritten
-              ? true
-              : isSampleClicked
-                ? false
-                : isSubmitting || !isFormValid || isPending
-          }
+          disabled={(() => {
+            if (isSampleWritten) return true
+            else if (isSampleClicked) return false
+            else return isSubmitting || !isFormValid || isPending
+          })()}
           type="button"
           className={cn(
             'grow border-gray-200 bg-gray-200 text-gray-500',

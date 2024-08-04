@@ -1,7 +1,7 @@
 import { HTMLAttributes } from 'react'
 import Image from 'next/image'
 
-import dropdown from '../.././../../../../../../public/images/icons/dropdown.svg'
+import dropdown from '/public/images/icons/dropdown.svg'
 
 interface ValidInterviewQuestionProps extends HTMLAttributes<HTMLDivElement> {}
 
