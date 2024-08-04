@@ -33,10 +33,16 @@ export const ListDialog = ({
           const listNumber = index >= 1 ? index : index + 1
           const visibility = index == 1 ? 'invisible' : 'visible'
           return (
-            <div key={index} className="flex flex-row items-center">
+            <div
+              key={index}
+              className={cn(
+                'flex flex-row items-center h-[26px]',
+                listNumber >= 2 && 'mt-[4px]',
+              )}
+            >
               {id === 'list' && !hidden && (
                 <div
-                  className={`mr-[4px] size-[18px] rounded-full bg-blue-500 text-center leading-[18px] text-white ${visibility}`}
+                  className={`my-[4px] mr-[4px] flex size-[18px] place-content-center items-center rounded-full bg-blue-500 text-center text-[12px] text-white ${visibility}`}
                 >
                   {listNumber}
                 </div>
@@ -54,7 +60,10 @@ export const ListDialog = ({
                   return (
                     <div
                       key={contentIndex}
-                      className={cn('whitespace-pre', content.className)}
+                      className={cn(
+                        'whitespace-pre text-[1rem] leading-[26px] h-[26px]',
+                        content.className,
+                      )}
                     >
                       {content.message}
                     </div>
@@ -65,8 +74,8 @@ export const ListDialog = ({
                 <Image
                   src={iconMessage as string}
                   alt="wave-hand"
-                  width={24}
-                  height={24}
+                  width={26}
+                  height={26}
                 />
               )}
             </div>
