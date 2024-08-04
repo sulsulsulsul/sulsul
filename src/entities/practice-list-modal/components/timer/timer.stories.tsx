@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 
 import Timer from './timer'
@@ -10,4 +10,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {}
+export const Default = {
+  args: {
+    setTime: () => {},
+    pauseTimer: false,
+  },
+} satisfies Story

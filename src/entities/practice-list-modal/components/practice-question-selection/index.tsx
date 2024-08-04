@@ -7,30 +7,38 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { ArchiveQuestionItem } from '@/entities/types'
 
 interface QuestionDetail {
-  content: string
   resetQuestion: boolean
   questionId: number
   selectAll: CheckedState
   questionProp: ArchiveQuestionItem
-  setPracticeQuestion: Dispatch<SetStateAction<ArchiveQuestionItem[]>>
+  setFinalQuestions: Dispatch<SetStateAction<ArchiveQuestionItem[]>>
 }
 
 //예상 면접질문
 export default function QuestionSelection({
-  content,
   resetQuestion,
-  setPracticeQuestion,
+  setFinalQuestions,
   selectAll,
   questionId,
   questionProp,
 }: QuestionDetail) {
   const [checked, setChecked] = useState<CheckedState>(false)
+  // selectAll
+  //   ? (setChecked(true), setPracticeQuestion((prev) => [...prev, questionProp]))
+  //   : setChecked(false)
 
   useEffect(() => {
     resetQuestion && setChecked(false)
-    selectAll ? setChecked(true) : setChecked(false)
-    selectAll && setPracticeQuestion((prev) => [...prev, questionProp])
-  }, [resetQuestion, selectAll, setPracticeQuestion])
+    //selectAll && setPracticeQuestion([])
+    selectAll
+      ? (setChecked(true),
+        setFinalQuestions((prev) => {
+          return prev.some((item) => item.questionId === questionId)
+            ? prev
+            : [...prev, questionProp]
+        }))
+      : setChecked(false)
+  }, [resetQuestion, selectAll])
 
   return (
     <div className="flex h-[68px] w-full flex-row items-center gap-[12px] border border-gray-100 bg-white py-[24px] pl-[24px] pr-[48px]">
@@ -39,8 +47,8 @@ export default function QuestionSelection({
         checked={checked}
         onCheckedChange={(check) => {
           check
-            ? setPracticeQuestion((prev) => [...prev, questionProp])
-            : setPracticeQuestion((prev) => {
+            ? setFinalQuestions((prev) => [...prev, questionProp])
+            : setFinalQuestions((prev) => {
                 return prev.filter((item) => {
                   return item.questionId !== questionId
                 })
@@ -48,7 +56,7 @@ export default function QuestionSelection({
           setChecked(check)
         }}
       />
-      <div className="truncate">{content}</div>
+      <div className="truncate">{questionProp.content}</div>
     </div>
   )
 }

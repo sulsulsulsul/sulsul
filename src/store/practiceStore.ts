@@ -4,30 +4,21 @@ import { create } from 'zustand'
 import { ArchiveQuestionItem } from '@/entities/types'
 
 interface PracticeSelectionList {
-  random: boolean
   timer: boolean
   practiceList: ArchiveQuestionItem[]
 }
 interface PracticeSetStore extends PracticeSelectionList {
-  setStore: ({ random, timer, practiceList }: PracticeSelectionList) => void
+  setStore: ({ timer, practiceList }: PracticeSelectionList) => void
 }
 
 export const usePracticeStore = create<PracticeSetStore>((set) => ({
-  random: false,
   timer: false,
   practiceList: [],
-  setStore: ({ random, timer, practiceList }) =>
+  setStore: ({ timer, practiceList }) =>
     set(() => ({
-      random: random,
       timer: timer,
       practiceList: practiceList,
     })),
-  // clearStore: () =>
-  //   set(() => ({
-  //     random: false,
-  //     timer: false,
-  //     practiceList: [],
-  //   })),
 }))
 
 interface PracticeResult {

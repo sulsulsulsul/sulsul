@@ -1,6 +1,6 @@
 'use client'
 
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { CheckedState } from '@radix-ui/react-checkbox'
@@ -31,6 +31,7 @@ import QuestionSelection from './components/practice-question-selection'
 
 interface PracticeSelectionProp {
   setModal: Dispatch<SetStateAction<boolean>>
+  //다시 하기 눌렀을떄 해당 resume 체크
   resumeId?: number
 }
 
@@ -56,16 +57,9 @@ export default function PracticeSelection({
     ArchiveDetailDTO[]
   >([])
 
-  //Collection of Questions
-  const [practiceQuestionList, setPracticeQuestionList] = useState<
-    ArchiveQuestionItem[]
-  >([])
-
   //Final List of practice
   const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([])
 
-  //For filtering purpose
-  const [filteredList, setFilteredList] = useState<ArchiveQuestionItem[]>([])
   const [answerFilter, setAnswerFilter] = useState<CheckedState>(false)
   const [hintFilter, setHintFilter] = useState<CheckedState>(false)
 
@@ -76,13 +70,40 @@ export default function PracticeSelection({
   const [timer, setTimer] = useState(false)
   const [random, setRandom] = useState(false)
 
+  const shuffledList = useMemo(() => {
+    const newList = [...finalList]
+    for (let i = finalList.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[newList[i], newList[j]] = [newList[j], newList[i]]
+    }
+    return newList
+  }, [finalList])
+
+  //Refact: useMemo
+  const filteredList =
+    answerFilter || hintFilter
+      ? questionArchiveList
+          .flatMap((value) => {
+            return value.questions
+          })
+          .filter((item) => {
+            //답변 못한 질문 isAnswered == false 일때 필터
+            const answerCondition = !answerFilter || !item.isAnswered
+            //힌트 본 질문 isHint == true 일때
+            const hintCondition = !hintFilter || item.isHint
+            console.log(hintFilter, item.isHint)
+
+            return answerCondition && hintCondition
+          })
+      : []
+
   //reset
+  //TODO : ReFactor: useCallBack
   const reset = () => {
     setResetResume(true)
     setAllQuestions(false)
     setAllResumes(false)
     setQuestionArchiveList([])
-    setPracticeQuestionList([])
   }
   const resetQuestionList = () => {
     setResetQuestion(true)
@@ -93,38 +114,20 @@ export default function PracticeSelection({
   }
 
   useEffect(() => {
-    setPracticeQuestionList([])
     setResetQuestion(false)
     setResetResume(false)
-    //이거 뭐임
-    //하나의아카이브 에서 질문만 따로 배열에 추가
-    // practiceQuestionList.length === 0 && allResumes && setAllResumes(false)
-    questionArchiveList.forEach((value) =>
-      setPracticeQuestionList((prev) => [...prev, ...value.questions]),
-    )
-    const filtered = practiceQuestionList.filter((item) => {
-      const answerCondition = !answerFilter || !item.isAnswered
-      const hintCondition = !hintFilter || !item.isHint
-      return answerCondition && hintCondition
-    })
-    setFilteredList(!answerFilter && !hintFilter ? [] : filtered)
-  }, [
-    resetResume,
-    questionArchiveList,
-    resetQuestion,
-    answerFilter,
-    hintFilter,
-  ])
+  }, [])
+
   const handleCancel = () => {
     setModal(false)
   }
+
   const router = useRouter()
+
   const handleSubmit = () => {
-    //timer, random option , list of questions
     setStore({
-      random: random,
       timer: timer,
-      practiceList: finalList,
+      practiceList: random ? shuffledList : finalList,
     })
     router.push('/practice/ing')
   }
@@ -278,34 +281,34 @@ export default function PracticeSelection({
           </div>
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
             {hintFilter || answerFilter || filteredList.length !== 0
-              ? filteredList.map((value: ArchiveQuestionItem, index) => {
+              ? filteredList.map((value: ArchiveQuestionItem) => {
                   return (
                     <QuestionSelection
                       key={value.questionId}
-                      questionProp={practiceQuestionList[index]}
+                      questionProp={value}
                       questionId={value.questionId}
                       resetQuestion={resetQuestion}
-                      setPracticeQuestion={setFinalList}
-                      content={value.content}
+                      setFinalQuestions={setFinalList}
                       selectAll={allQuestions}
                     />
                   )
                 })
-              : practiceQuestionList.map(
-                  (value: ArchiveQuestionItem, index) => {
+              : questionArchiveList
+                  .flatMap((value) => {
+                    return value.questions
+                  })
+                  .map((value: ArchiveQuestionItem, index) => {
                     return (
                       <QuestionSelection
                         key={value.questionId}
-                        questionProp={practiceQuestionList[index]}
+                        questionProp={value}
                         questionId={value.questionId}
                         resetQuestion={resetQuestion}
-                        setPracticeQuestion={setFinalList}
-                        content={value.content}
+                        setFinalQuestions={setFinalList}
                         selectAll={allQuestions}
                       />
                     )
-                  },
-                )}
+                  })}
           </div>
         </section>
         <section className="flex h-[98px] flex-row">

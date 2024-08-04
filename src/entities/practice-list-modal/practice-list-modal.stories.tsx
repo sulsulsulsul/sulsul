@@ -10,4 +10,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default = {} satisfies Story
+export const Default = {
+  args: {
+    setModal: () => {},
+    resumeId: 139,
+  },
+} satisfies Story

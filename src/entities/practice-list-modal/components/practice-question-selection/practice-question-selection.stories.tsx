@@ -10,4 +10,20 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default = {} satisfies Story
+export const Default = {
+  args: {
+    resetQuestion: false,
+    questionId: 1,
+    selectAll: false,
+    questionProp: {
+      isHint: false,
+      questionId: 1,
+      content:
+        'SK SUNNY 사회변화 챌린지 프로젝트에 참여하신 동기는 무엇이었나요?',
+      isAnswered: false,
+      answer: '답답답답답답답답답답답답',
+      keywords: [],
+    },
+    setFinalQuestions: () => {},
+  },
+} satisfies Story

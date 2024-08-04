@@ -1,6 +1,7 @@
 'use client'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { ChevronRight } from 'lucide-react'
 
 import { ResultCard } from '@/components/cards/result-card'
@@ -9,14 +10,29 @@ import { SmileAnimation } from '@/components/lotties/smile-animation'
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { usePracticeResultStore } from '@/store/practiceStore'
+import { usePracticeResultStore, usePracticeStore } from '@/store/practiceStore'
 
 const Page = () => {
   const { time, correct, incorrect } = usePracticeResultStore()
+  //GET
+  const { timer, practiceList, setStore } = usePracticeStore()
+  //SEND
 
   const totalCorrect = correct.length
   const totalIncorrect = incorrect.length
   const totalScore = totalCorrect / (totalCorrect + totalIncorrect)
+  const router = useRouter()
+
+  const handlePracticeAll = () => {
+    router.push('/practice/ing')
+  }
+  const handlePracticeIncorrect = () => {
+    setStore({
+      timer: timer,
+      practiceList: incorrect,
+    })
+    router.push('/practice/ing')
+  }
 
   return (
     <main className="relative">
@@ -73,8 +89,12 @@ const Page = () => {
           </div>
           <div className="mt-14 flex items-center justify-center">
             <div className="flex w-[652px] items-center justify-center gap-2">
-              <Button className="w-full">전체 다시하기</Button>
-              <Button className="w-full">답변 못한 질문만 다시하기</Button>
+              <Button className="w-full" onClick={handlePracticeAll}>
+                전체 다시하기
+              </Button>
+              <Button className="w-full" onClick={handlePracticeIncorrect}>
+                답변 못한 질문만 다시하기
+              </Button>
             </div>
           </div>
           <Link

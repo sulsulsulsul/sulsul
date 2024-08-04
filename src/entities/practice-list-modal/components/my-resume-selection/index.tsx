@@ -13,7 +13,7 @@ import { cn } from '@/lib/utils'
 interface ResumeSelection {
   title: string
   companyName: string
-  resetChecked?: boolean
+  resetChecked: boolean
   archiveId: number
   selectAll: CheckedState
   setQuestion: Dispatch<SetStateAction<ArchiveDetailDTO[]>>
@@ -35,7 +35,11 @@ export default function MyResumeSelection({
 
     //Add to question All to the list
     if (archive && selectAll) {
-      setQuestion((prev) => [...prev, archive])
+      setQuestion((prev) => {
+        return prev.some((item) => item.archiveId === archiveId)
+          ? prev
+          : [...prev, archive]
+      })
       setChecked(true)
     } else if (!selectAll) {
       setChecked(false)

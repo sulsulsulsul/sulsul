@@ -2,12 +2,15 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useQuery } from '@tanstack/react-query'
 import { AnimatePresence, motion } from 'framer-motion'
 import { LottieRefCurrentProps } from 'lottie-react'
 import { set } from 'zod'
 
 import { SmileAnimation } from '@/components/lotties/smile-animation'
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
+import { createPracticeAction } from '@/entities/practice-list-modal/actions/create-practice'
+import Timer from '@/entities/practice-list-modal/components/timer/timer'
 import { ArchiveQuestionItem } from '@/entities/types'
 import { cn } from '@/lib/utils'
 import { usePracticeResultStore, usePracticeStore } from '@/store/practiceStore'
@@ -15,7 +18,6 @@ import { usePracticeResultStore, usePracticeStore } from '@/store/practiceStore'
 import { AnswerButton } from './answer-button'
 import { AskCard } from './ask-card'
 import { HintCard } from './hint-card'
-import Timer from './timer'
 
 // export interface Question {
 //   id: string
@@ -67,11 +69,15 @@ import Timer from './timer'
 // ] as Question[]
 
 const Page = () => {
-  const { timer, practiceList, random } = usePracticeStore()
-  const { setResult } = usePracticeResultStore()
+  //GET
+  const { timer, practiceList } = usePracticeStore()
+  //SEND
+  const { setResult, correct, incorrect } = usePracticeResultStore()
+
   const smileRef = useRef<LottieRefCurrentProps>(null)
   const thinkingRef = useRef<LottieRefCurrentProps>(null)
 
+  //Question States
   const [questions, setQuestions] =
     useState<ArchiveQuestionItem[]>(practiceList)
   const [correctQuestions, setCorrectQuestions] = useState<
@@ -80,13 +86,19 @@ const Page = () => {
   const [inCorrectQuestions, setInCorrectQuestions] = useState<
     ArchiveQuestionItem[]
   >([])
+
+  //Hint
   const [showHint, setShowHint] = useState(false)
+
+  //Set First Question
   const [q, setQ] = useState(practiceList[0])
+
+  //Timer
   const [time, setTime] = useState('')
   const [pauseTimer, setPauseTimer] = useState(false)
-  // let question = questions[0]
 
   const router = useRouter()
+
   const handleCorrect = () => {
     if (questions.length === 0) return
     const questionToMarkCorrect = questions[0]
@@ -107,7 +119,6 @@ const Page = () => {
   useEffect(() => {
     setShowHint(false)
     setQ(questions[0])
-
     if (questions.length === 0) {
       setPauseTimer(true)
       setResult!({
@@ -115,6 +126,14 @@ const Page = () => {
         correct: correctQuestions,
         incorrect: inCorrectQuestions,
       })
+      const createPractice = async () => {
+        await createPracticeAction(
+          practiceList.map((value) => {
+            return value.questionId
+          }),
+        ).then((res) => console.log(res))
+      }
+      createPractice()
       router.push('/practice/result')
     }
   }, [questions, router])
@@ -148,12 +167,18 @@ const Page = () => {
               remainingQuestions={questions.length}
             />
             <div className="absolute left-1/2 top-[210px] h-[308px] w-[90%] -translate-x-1/2 rounded-md bg-white">
-              <HintCard showHint={showHint} setShowHint={setShowHint} />
+              <HintCard
+                keywords={q.keywords}
+                answerHint={q.answer}
+                hintShown={q.isHint}
+                questionId={q.questionId}
+                showHint={showHint}
+                setShowHint={setShowHint}
+              />
             </div>
           </motion.div>
         </AnimatePresence>
       )}
-
       <div className="relative z-10 mt-[108px] flex gap-6">
         <AnswerButton
           onMouseEnter={() => {

@@ -110,4 +110,27 @@ export const API_ENDPOINT = {
       }
     },
   },
+  practice: {
+    createPractice: () => {
+      return {
+        url: `/api/v1/practice`,
+        method: Method.POST,
+        authorization: true,
+      }
+    },
+    updateTime: (questionId: number) => {
+      return {
+        url: `/api/v1/practice/${questionId}/time`,
+        method: Method.PATCH,
+        authorization: true,
+      }
+    },
+    updateHintUsage: () => {
+      return {
+        url: `/api/v1/practice/question-hint`,
+        method: Method.PATCH,
+        authorization: true,
+      }
+    },
+  },
 } as const
