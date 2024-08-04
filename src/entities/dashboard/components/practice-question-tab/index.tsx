@@ -1,15 +1,15 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { cn } from '@/lib/utils'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
 
-import { PracticedQuestionTabType } from '../../types'
+import { PracticedQuestionTabType } from '../../types';
 
 interface PracticedQuestionTabProps extends HTMLAttributes<HTMLDivElement> {
-  unansweredCount: number
-  hintUsedCount: number
-  favoriteCount: number
-  onTabChange?: (value: PracticedQuestionTabType) => void
+  unansweredCount: number;
+  hintUsedCount: number;
+  favoriteCount: number;
+  onTabChange?: (value: PracticedQuestionTabType) => void;
 }
 
 export const PracticedQuestionTab = ({
@@ -24,7 +24,7 @@ export const PracticedQuestionTab = ({
     <div className={cn(className)} {...props}>
       <Tabs
         onValueChange={(value) => {
-          onTabChange?.(value as PracticedQuestionTabType)
+          onTabChange?.(value as PracticedQuestionTabType);
         }}
         defaultValue="unanswered"
       >
@@ -41,5 +41,5 @@ export const PracticedQuestionTab = ({
         </TabsList>
       </Tabs>
     </div>
-  )
-}
+  );
+};
