@@ -37,7 +37,7 @@ interface DesktopHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
   const { status } = useCurrentUser()
-  const { pause, restart } = useVideoStateStore()
+  const { pause } = useVideoStateStore()
   const { nickname, email, image } = useUserStore((state) => ({
     nickname: state.data.nickname,
     email: state.data.email,
@@ -132,20 +132,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           <AlertDialogContent className={cn('absolute left-0 top-0')}>
             <AlertDialogTitle />
             <AlertDialogDescription />
-            <SignInView callbackUrl="/">
-              <AlertDialogCancel
-                onClick={() => restart()}
-                className="absolute right-6 top-6 size-6 border-none"
-              >
-                <Image
-                  className="absolute fill-gray-400"
-                  width={24}
-                  height={24}
-                  src={'/images/icons/icon-close-L.svg'}
-                  alt="close"
-                />
-              </AlertDialogCancel>
-            </SignInView>
+            <SignInView callbackUrl="/" />
           </AlertDialogContent>
         </AlertDialog>
       )
