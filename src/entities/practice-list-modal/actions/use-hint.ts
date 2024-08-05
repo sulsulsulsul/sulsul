@@ -4,10 +4,10 @@ import { API_ENDPOINT } from '@/lib/backend-api/api-end-point'
 import { backendApi } from '@/lib/backend-api/client'
 
 export const updateHintAction = async (questionId: number) => {
-  return backendApi<any>({
+  return backendApi({
     endpoint: API_ENDPOINT.practice.updateHintUsage(),
     data: {
-      questionId,
+      questionId: questionId,
     },
   })
 }

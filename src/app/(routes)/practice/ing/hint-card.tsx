@@ -1,9 +1,8 @@
 import { HTMLAttributes } from 'react'
-import { useMutation, useQuery } from '@tanstack/react-query'
 import { ChevronDown } from 'lucide-react'
 
 import { Badge } from '@/components/ui/badge'
-import { updateHintAction } from '@/entities/practice-list-modal/actions/use-hint'
+import { useUpdateHint } from '@/entities/practice-list-modal/hooks'
 import { ArchiveKeyword } from '@/entities/types'
 import { cn } from '@/lib/utils'
 interface HintCardProps extends HTMLAttributes<HTMLDivElement> {
@@ -15,6 +14,7 @@ interface HintCardProps extends HTMLAttributes<HTMLDivElement> {
   keywords: ArchiveKeyword[]
 }
 
+//Clean up Console
 export const HintCard = ({
   className,
   showHint,
@@ -25,26 +25,10 @@ export const HintCard = ({
   setShowHint,
   ...props
 }: HintCardProps) => {
+  const { mutate } = useUpdateHint(questionId)
   const usehandleHint = () => {
     setShowHint(!showHint)
-    // useMutation({
-    //   mutationFn: (questionId: number) => {
-    //     return updateHintAction(questionId)
-    //   },
-    //   onSuccess: () => {
-    //     console.log('요청 성공')
-    //   },
-    //   onError: () => {
-    //     console.error('에러 발생')
-    //   },
-    //   onSettled: () => {
-    //     console.log('결과에 관계 없이 무언가 실행됨')
-    //   },
-    // })
-    // const useHint = async () => {
-    //   await updateHintAction(questionId).then((res) => console.log(res))
-    // }
-    // !hintShown && useHint()
+    !hintShown && mutate()
   }
 
   return (

@@ -27,7 +27,7 @@ export default function MyResumeSelection({
   selectAll,
   archiveId,
 }: ResumeSelection) {
-  const [checked, setChecked] = useState<CheckedState>(false)
+  const [checked, setChecked] = useState(false)
   const { archive, isError } = useArchive(archiveId)
   useEffect(() => {
     //reset the check value
@@ -35,17 +35,34 @@ export default function MyResumeSelection({
 
     //Add to question All to the list
     if (archive && selectAll) {
+      setChecked(true)
       setQuestion((prev) => {
         return prev.some((item) => item.archiveId === archiveId)
           ? prev
           : [...prev, archive]
       })
-      setChecked(true)
-    } else if (!selectAll) {
+    } else {
       setChecked(false)
     }
-  }, [archive, resetChecked, selectAll, setQuestion])
+  }, [resetChecked, selectAll, setQuestion])
 
+  const handleCheck = () => {
+    setChecked((prev) => {
+      return !prev
+    })
+
+    !checked && archive
+      ? setQuestion((prev) => [...prev, archive])
+      : setQuestion((prev) => {
+          return prev.filter((archive) => {
+            if (archive.archiveId === archiveId) {
+              return false
+            } else return true
+          })
+        })
+  }
+
+  // console.log(checked && archive)
   return (
     <div
       className={cn(
@@ -55,22 +72,14 @@ export default function MyResumeSelection({
     >
       <div className="flex w-[506px] flex-col">
         <div className="flex flex-row items-center font-semibold">
-          <div className="size-11 rounded-full p-[10px] hover:bg-blue-100 ">
+          <div
+            className="size-11 rounded-full p-[10px] hover:bg-blue-100"
+            onClick={handleCheck}
+          >
             <Checkbox
               className="m-[2px] size-5"
-              checked={resetChecked ? false : checked}
-              onCheckedChange={(check) => {
-                check && archive
-                  ? setQuestion((prev) => [...prev, archive])
-                  : setQuestion((prev) => {
-                      return prev.filter((archive) => {
-                        if (archive.archiveId === archiveId) {
-                          return false
-                        } else return true
-                      })
-                    })
-                setChecked(check)
-              }}
+              checked={checked}
+              // onCheckedChange={handleCheck}
             />
           </div>
           <div className="truncate text-base text-blue-800">{title}</div>

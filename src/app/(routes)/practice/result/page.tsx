@@ -14,9 +14,7 @@ import { usePracticeResultStore, usePracticeStore } from '@/store/practiceStore'
 
 const Page = () => {
   const { time, correct, incorrect } = usePracticeResultStore()
-  //GET
   const { timer, practiceList, setStore } = usePracticeStore()
-  //SEND
 
   const totalCorrect = correct.length
   const totalIncorrect = incorrect.length

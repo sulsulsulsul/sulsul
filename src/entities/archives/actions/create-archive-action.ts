@@ -12,7 +12,7 @@ export interface CreateArchiveActionRequest {
 export const createArchiveAction = async (
   props: CreateArchiveActionRequest,
 ) => {
-  return backendApi<number>({
+  return backendApi({
     endpoint: API_ENDPOINT.archive.createArchive(),
     data: {
       ...props,

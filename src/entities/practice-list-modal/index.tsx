@@ -28,6 +28,7 @@ import { ArchiveDetailDTO, ArchiveQuestionItem } from '../types/archive'
 import ModalHeader from './components/modal-header'
 import MyResumeSelection from './components/my-resume-selection'
 import QuestionSelection from './components/practice-question-selection'
+import { useCreatePractice } from './hooks/use-create-practice'
 
 interface PracticeSelectionProp {
   setModal: Dispatch<SetStateAction<boolean>>
@@ -35,6 +36,7 @@ interface PracticeSelectionProp {
   resumeId?: number
 }
 
+//TODO: clean up  annotation
 export default function PracticeSelection({
   setModal,
   resumeId,
@@ -91,8 +93,6 @@ export default function PracticeSelection({
             const answerCondition = !answerFilter || !item.isAnswered
             //힌트 본 질문 isHint == true 일때
             const hintCondition = !hintFilter || item.isHint
-            console.log(hintFilter, item.isHint)
-
             return answerCondition && hintCondition
           })
       : []
@@ -116,20 +116,22 @@ export default function PracticeSelection({
   useEffect(() => {
     setResetQuestion(false)
     setResetResume(false)
-  }, [])
+    allQuestions && finalList.length === 0 && setAllQuestions(false)
+  }, [allQuestions, finalList])
+  const { mutate } = useCreatePractice(
+    finalList.flatMap((value) => value.questionId),
+  )
 
   const handleCancel = () => {
     setModal(false)
   }
-
-  const router = useRouter()
 
   const handleSubmit = () => {
     setStore({
       timer: timer,
       practiceList: random ? shuffledList : finalList,
     })
-    router.push('/practice/ing')
+    mutate()
   }
 
   return (

@@ -118,9 +118,16 @@ export const API_ENDPOINT = {
         authorization: true,
       }
     },
-    updateTime: (questionId: number) => {
+    updatePractice: () => {
       return {
-        url: `/api/v1/practice/${questionId}/time`,
+        url: `/api/v1/practice/question-status`,
+        method: Method.PATCH,
+        authorization: true,
+      }
+    },
+    updateTime: (practiceId: number) => {
+      return {
+        url: `/api/v1/practice/${practiceId}/time`,
         method: Method.PATCH,
         authorization: true,
       }
