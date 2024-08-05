@@ -81,3 +81,19 @@
   margin-bottom: -32px;
   margin-top: 32px;
 }
+
+.card--skeleton::before {
+  content: "";
+  position: absolute;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.9),
+    transparent
+  );
+  width: 50%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  animation: shimmer 1.4s infinite;
+}
