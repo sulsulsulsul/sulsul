@@ -1,38 +1,31 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, PropsWithChildren } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { signIn } from 'next-auth/react'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-interface SingInViewProps extends HTMLAttributes<HTMLDivElement> {
-  callbackUrl: string
-}
 
-export const SingInView = ({
+type SingInViewProps = HTMLAttributes<HTMLDivElement> &
+  PropsWithChildren & {
+    callbackUrl: string
+  }
+export const SignInView = ({
   className,
   callbackUrl,
+  children,
   ...props
 }: SingInViewProps) => {
   return (
     <div className={cn(className)} {...props}>
-      <main className="size-full h-full">
-        <div className="absolute left-0 top-0 h-screen w-screen bg-gray-800/70" />
-        <div className="mt-[50px] flex items-center justify-center">
-          <div className="relative z-10 h-[524px] w-[432px] rounded-md bg-white ">
-            <Link href={callbackUrl} className="absolute right-8 top-8">
-              <Image
-                className="fill-gray-400"
-                width={24}
-                height={24}
-                src={'/images/icons/icon-close-L.svg'}
-                alt="close"
-              />
-            </Link>
+      <main className="absolute left-0 top-0 flex h-screen w-screen place-content-center  bg-gray-800/80">
+        <div className="mt-[50px] self-center justify-self-center">
+          <div className="relative z-50 h-[524px] w-[432px] rounded-md bg-white ">
+            {children}
             <div className="flex size-full flex-col items-center gap-[28px] px-[46px] pb-[40px] pt-[56px]">
               <div className="text-center text-4xl font-bold">
                 <h2>간편하게 로그인하고</h2>
-                <h2>체계적인 면접 준비를 시작하세요.</h2>
+                <h2>체계적인 면접준비를 시작하세요!</h2>
               </div>
               <div>
                 <Image
@@ -77,11 +70,21 @@ export const SingInView = ({
                 <div className="mt-1 text-center text-2xs font-medium">
                   <p>
                     로그인 시,{' '}
-                    <Link href={'/privacy-policy'} className="text-blue-600">
+                    <Link
+                      href={
+                        'https://striped-wildebeest-3c8.notion.site/accf6e3d9f104702838f9dc74f011813'
+                      }
+                      className="text-blue-600"
+                    >
                       개인정보처리방침{' '}
                     </Link>
                     및{' '}
-                    <Link href={'/privacy-policy'} className="text-blue-600">
+                    <Link
+                      href={
+                        'https://striped-wildebeest-3c8.notion.site/deb597c5712f4d9698d7b9562b9099ba?pvs=4'
+                      }
+                      className="text-blue-600"
+                    >
                       서비스 약관
                     </Link>
                     을
