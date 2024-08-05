@@ -75,3 +75,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+.space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  float: right;
+  margin-bottom: -32px;
+  margin-top: 32px;
+}
