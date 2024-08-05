@@ -125,16 +125,18 @@ export const SelectJobTypeModal = () => {
 
   const isButtonDisabled = (() => {
     if (isSampleWritten) return true
-    else if (isSampleClicked) return false
-    else return isSubmitting || !isFormValid || isPending
+    if (isSampleClicked) return false
+    if (isSubmitting || !isFormValid || isPending) return true
+    return false
   })()
 
   const buttonClassName = (() => {
     if (isPending)
       return 'bg-gradient-to-r from-blue-500 to-[#4BF5CC] text-white'
-    else if (isSampleWritten) return 'bg-blue-100 text-blue-500'
-    else if (isSampleClicked || isFormValid)
+    if (isSampleWritten) return 'bg-blue-100 text-blue-500'
+    if (isSampleClicked || isFormValid)
       return 'bg-blue-500 text-white hover:bg-blue-600'
+    return ''
   })()
 
   return (
