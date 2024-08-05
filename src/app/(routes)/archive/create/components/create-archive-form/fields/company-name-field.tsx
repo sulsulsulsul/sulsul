@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
 import { useSampleStore } from '@/store/sampleQuestions'
 
@@ -19,6 +20,7 @@ export const CompanyNameField = ({
 }: CompanyNameFieldProps) => {
   const { form } = useCreateArchiveFormContext()
   const { isSampleClicked } = useSampleStore()
+  const {status} = useCurrentUser()
 
   return (
     <div className={cn(className)} {...props}>
@@ -30,6 +32,7 @@ export const CompanyNameField = ({
         <FormField
           control={form.control}
           name="companyName"
+          disabled={status==="unauthenticated"}
           render={({ field }) => (
             <FormItem>
               <FormControl>

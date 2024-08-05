@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
 import { useSampleStore } from '@/store/sampleQuestions'
 
@@ -16,6 +17,7 @@ interface TitleFieldProps extends HTMLAttributes<HTMLDivElement> {}
 export const TitleField = ({ className, ...props }: TitleFieldProps) => {
   const { form } = useCreateArchiveFormContext()
   const { isSampleClicked } = useSampleStore()
+  const {status} = useCurrentUser()
 
   return (
     <div className={cn(className)} {...props}>
@@ -27,6 +29,7 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
         <FormField
           control={form.control}
           name="title"
+          disabled={status==="unauthenticated"}
           render={({ field }) => (
             <FormItem className="w-full">
               <FormControl>

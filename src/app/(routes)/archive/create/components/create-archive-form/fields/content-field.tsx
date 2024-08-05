@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
+import { useCurrentUser } from '@/entities/users/hooks'
 import { cn } from '@/lib/utils'
 import { useSampleStore } from '@/store/sampleQuestions'
 
@@ -16,6 +17,7 @@ interface ContentFieldProps extends HTMLAttributes<HTMLDivElement> {}
 export const ContentField = ({ className, ...props }: ContentFieldProps) => {
   const { form } = useCreateArchiveFormContext()
   const { isSampleClicked } = useSampleStore()
+  const {status} = useCurrentUser()
 
   return (
     <div className={cn(className)} {...props}>
@@ -46,6 +48,7 @@ export const ContentField = ({ className, ...props }: ContentFieldProps) => {
         <FormField
           control={form.control}
           name="resume"
+          disabled={status==='unauthenticated'}
           render={({ field }) => (
             <FormItem className="size-full">
               <FormControl>
