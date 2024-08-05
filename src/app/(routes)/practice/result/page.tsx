@@ -1,40 +1,45 @@
-'use client'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { ChevronRight } from 'lucide-react'
+'use client';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { ChevronRight } from 'lucide-react';
 
-import { ResultCard } from '@/components/cards/result-card'
-import { ConfettiAnimation } from '@/components/lotties/confetti-animation'
-import { SmileAnimation } from '@/components/lotties/smile-animation'
-import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { usePracticeResultStore, usePracticeStore } from '@/store/practiceStore'
+import { ResultCard } from '@/components/cards/result-card';
+import { ConfettiAnimation } from '@/components/lotties/confetti-animation';
+import { SmileAnimation } from '@/components/lotties/smile-animation';
+import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  usePracticeResultStore,
+  usePracticeStore,
+} from '@/store/practiceStore';
 
 const Page = () => {
-  const { time, correct, incorrect } = usePracticeResultStore()
-  const { timer, practiceList, setStore } = usePracticeStore()
+  const { time, correct, incorrect } = usePracticeResultStore();
+  const { timer, setStore } = usePracticeStore();
 
-  const totalCorrect = correct.length
-  const totalIncorrect = incorrect.length
-  const totalScore = totalCorrect / (totalCorrect + totalIncorrect)
-  const router = useRouter()
+  const totalCorrect = correct.length;
+  const totalIncorrect = incorrect.length;
+  const totalScore = totalCorrect / (totalCorrect + totalIncorrect);
+  const router = useRouter();
 
   const handlePracticeAll = () => {
-    router.push('/practice/ing')
-  }
+    router.push('/practice/ing');
+  };
   const handlePracticeIncorrect = () => {
-    setStore({
-      timer: timer,
-      practiceList: incorrect,
-    })
-    router.push('/practice/ing')
-  }
+    incorrect.length === 0
+      ? alert('답변 못한 문제가 없습니다.')
+      : (setStore({
+          timer: timer,
+          practiceList: incorrect,
+        }),
+        router.push('/practice/ing'));
+  };
 
   return (
-    <main className="relative">
-      <div className="absolute left-0 top-0 h-[497px] w-screen bg-blue-500 " />
+    <main className="">
+      <div className="absolute left-0 top-[60px] h-[497px] w-screen bg-blue-500 " />
       <ConfettiAnimation
         loop={1}
         className="absolute left-1/2 -translate-x-1/2"
@@ -105,7 +110,7 @@ const Page = () => {
         </div>
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

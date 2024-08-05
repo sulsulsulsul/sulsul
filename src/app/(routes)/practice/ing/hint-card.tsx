@@ -1,17 +1,17 @@
-import { HTMLAttributes } from 'react'
-import { ChevronDown } from 'lucide-react'
+import { HTMLAttributes } from 'react';
+import { ChevronDown } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge'
-import { useUpdateHint } from '@/entities/practice-list-modal/hooks'
-import { ArchiveKeyword } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge';
+import { useUpdateHint } from '@/entities/practice-list-modal/hooks';
+import { ArchiveKeyword } from '@/entities/types';
+import { cn } from '@/lib/utils';
 interface HintCardProps extends HTMLAttributes<HTMLDivElement> {
-  showHint: boolean //hint open state
-  questionId: number
-  setShowHint: (showHint: boolean) => void
-  hintShown: boolean //Check for api call
-  answerHint: string //hint Content
-  keywords: ArchiveKeyword[]
+  showHint: boolean; //hint open state
+  questionId: number;
+  setShowHint: (showHint: boolean) => void;
+  hintShown: boolean; //Check for api call
+  answerHint: string; //hint Content
+  keywords: ArchiveKeyword[];
 }
 
 //Clean up Console
@@ -25,11 +25,11 @@ export const HintCard = ({
   setShowHint,
   ...props
 }: HintCardProps) => {
-  const { mutate } = useUpdateHint(questionId)
+  const { mutate } = useUpdateHint(questionId);
   const usehandleHint = () => {
-    setShowHint(!showHint)
-    !hintShown && mutate()
-  }
+    setShowHint(!showHint);
+    !hintShown && mutate();
+  };
 
   return (
     <div
@@ -41,8 +41,8 @@ export const HintCard = ({
     >
       <div className="flex h-[53px] w-full items-center gap-1 overflow-scroll">
         {
-          //TODO : FIX 키워드
-          keywords.map((value: ArchiveKeyword, index) => (
+          //TODO: FIX WHEN KEYWORDS IS EMPTY
+          keywords.map((value: ArchiveKeyword) => (
             <Badge key={value.id} variant={'keyword'} className="min-w-fit">
               {value.content}
             </Badge>
@@ -71,5 +71,5 @@ export const HintCard = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};

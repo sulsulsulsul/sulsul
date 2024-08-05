@@ -1,39 +1,39 @@
-'use client'
+'use client';
 
-import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { CheckedState } from '@radix-ui/react-checkbox'
+import { Dispatch, SetStateAction, useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { CheckedState } from '@radix-ui/react-checkbox';
 
-import { Button } from '@/components/ui/button'
-import { Checkbox } from '@/components/ui/checkbox'
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup'
-import { Switch } from '@/components/ui/swtich'
+} from '@/components/ui/popover';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radiogroup';
+import { Switch } from '@/components/ui/swtich';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { cn } from '@/lib/utils'
-import { usePracticeStore } from '@/store/practiceStore'
+} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
+import { usePracticeStore } from '@/store/practiceStore';
 
-import { useArchives } from '../archives/hooks'
-import { ArchiveDetailDTO, ArchiveQuestionItem } from '../types/archive'
-import ModalHeader from './components/modal-header'
-import MyResumeSelection from './components/my-resume-selection'
-import QuestionSelection from './components/practice-question-selection'
-import { useCreatePractice } from './hooks/use-create-practice'
+import { useArchives } from '../archives/hooks';
+import { ArchiveDetailDTO, ArchiveQuestionItem } from '../types/archive';
+import ModalHeader from './components/modal-header';
+import MyResumeSelection from './components/my-resume-selection';
+import QuestionSelection from './components/practice-question-selection';
+import { useCreatePractice } from './hooks/use-create-practice';
 
 interface PracticeSelectionProp {
-  setModal: Dispatch<SetStateAction<boolean>>
+  setModal: Dispatch<SetStateAction<boolean>>;
   //다시 하기 눌렀을떄 해당 resume 체크
-  resumeId?: number
+  resumeId?: number;
 }
 
 //TODO: clean up  annotation
@@ -42,97 +42,99 @@ export default function PracticeSelection({
   resumeId,
 }: PracticeSelectionProp) {
   //Get Archives
-  const { archives, isError, isLoading, isSuccess } = useArchives()
-
+  const { archives, isError, isLoading, isSuccess } = useArchives();
+  console.log(archives);
   //Store Final PracticeList
-  const { setStore } = usePracticeStore()
+  const { setStore } = usePracticeStore();
 
   //To trigger reset to resume component checkbox
-  const [resetResume, setResetResume] = useState(false)
+  const [resetResume, setResetResume] = useState(false);
 
   //To trigger reset to question component checkbox
-  const [resetQuestion, setResetQuestion] = useState(false)
+  const [resetQuestion, setResetQuestion] = useState(false);
 
   //Collection of ArchviesDetail
   //ArchiveId 랑 비교해서, 추후 빼야될때
   const [questionArchiveList, setQuestionArchiveList] = useState<
     ArchiveDetailDTO[]
-  >([])
+  >([]);
 
   //Final List of practice
-  const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([])
+  const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([]);
 
-  const [answerFilter, setAnswerFilter] = useState<CheckedState>(false)
-  const [hintFilter, setHintFilter] = useState<CheckedState>(false)
+  const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
+  const [hintFilter, setHintFilter] = useState<CheckedState>(false);
 
-  const [allResumes, setAllResumes] = useState<CheckedState>(false)
-  const [allQuestions, setAllQuestions] = useState<CheckedState>(false)
+  const [allResumes, setAllResumes] = useState<CheckedState>(false);
+  const [allQuestions, setAllQuestions] = useState<CheckedState>(false);
 
   //Other Option
-  const [timer, setTimer] = useState(false)
-  const [random, setRandom] = useState(false)
+  const [timer, setTimer] = useState(false);
+  const [random, setRandom] = useState(false);
 
   const shuffledList = useMemo(() => {
-    const newList = [...finalList]
+    const newList = [...finalList];
     for (let i = finalList.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1))
-      ;[newList[i], newList[j]] = [newList[j], newList[i]]
+      const j = Math.floor(Math.random() * (i + 1));
+      [newList[i], newList[j]] = [newList[j], newList[i]];
     }
-    return newList
-  }, [finalList])
+    return newList;
+  }, [finalList]);
 
   //Refact: useMemo
   const filteredList =
     answerFilter || hintFilter
       ? questionArchiveList
           .flatMap((value) => {
-            return value.questions
+            return value.questions;
           })
           .filter((item) => {
             //답변 못한 질문 isAnswered == false 일때 필터
-            const answerCondition = !answerFilter || !item.isAnswered
+            const answerCondition = !answerFilter || !item.isAnswered;
             //힌트 본 질문 isHint == true 일때
-            const hintCondition = !hintFilter || item.isHint
-            return answerCondition && hintCondition
+            const hintCondition = !hintFilter || item.isHint;
+            return answerCondition && hintCondition;
           })
-      : []
+      : [];
 
   //reset
   //TODO : ReFactor: useCallBack
   const reset = () => {
-    setResetResume(true)
-    setAllQuestions(false)
-    setAllResumes(false)
-    setQuestionArchiveList([])
-  }
+    setResetResume(true);
+    setAllQuestions(false);
+    setAllResumes(false);
+    setQuestionArchiveList([]);
+  };
   const resetQuestionList = () => {
-    setResetQuestion(true)
-    setAllQuestions(false)
-    setAnswerFilter(false)
-    setHintFilter(false)
-    setFinalList([])
-  }
+    setResetQuestion(true);
+    setAllQuestions(false);
+    setAnswerFilter(false);
+    setHintFilter(false);
+    setFinalList([]);
+  };
 
   useEffect(() => {
-    setResetQuestion(false)
-    setResetResume(false)
-    allQuestions && finalList.length === 0 && setAllQuestions(false)
-  }, [allQuestions, finalList])
+    setResetQuestion(false);
+    setResetResume(false);
+    allQuestions && finalList.length === 0 && setAllQuestions(false);
+  }, [allQuestions, finalList]);
   const { mutate } = useCreatePractice(
     finalList.flatMap((value) => value.questionId),
-  )
+  );
 
   const handleCancel = () => {
-    setModal(false)
-  }
+    setModal(false);
+  };
 
   const handleSubmit = () => {
-    setStore({
-      timer: timer,
-      practiceList: random ? shuffledList : finalList,
-    })
-    mutate()
-  }
+    finalList.length === 0
+      ? alert('예상질문을 하나라도 선택해주세요! ')
+      : (setStore({
+          timer: timer,
+          practiceList: random ? shuffledList : finalList,
+        }),
+        mutate());
+  };
 
   return (
     <div
@@ -247,8 +249,8 @@ export default function PracticeSelection({
               className="m-[10px] size-5 p-[2px]"
               checked={allResumes}
               onCheckedChange={(check: CheckedState) => {
-                setAllResumes(check)
-                !check && reset()
+                setAllResumes(check);
+                !check && reset();
               }}
             />
             내 자기소개서 전체
@@ -258,8 +260,8 @@ export default function PracticeSelection({
               className="m-[10px] size-5 p-[2px]"
               checked={allQuestions}
               onCheckedChange={(check: CheckedState) => {
-                setAllQuestions(check)
-                !check && resetQuestionList()
+                setAllQuestions(check);
+                !check && resetQuestionList();
               }}
             />
             예상 문제 전체
@@ -278,7 +280,7 @@ export default function PracticeSelection({
                   title={value.title}
                   companyName={value.companyName}
                 />
-              )
+              );
             })}
           </div>
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
@@ -293,11 +295,11 @@ export default function PracticeSelection({
                       setFinalQuestions={setFinalList}
                       selectAll={allQuestions}
                     />
-                  )
+                  );
                 })
               : questionArchiveList
                   .flatMap((value) => {
-                    return value.questions
+                    return value.questions;
                   })
                   .map((value: ArchiveQuestionItem, index) => {
                     return (
@@ -309,7 +311,7 @@ export default function PracticeSelection({
                         setFinalQuestions={setFinalList}
                         selectAll={allQuestions}
                       />
-                    )
+                    );
                   })}
           </div>
         </section>
@@ -339,7 +341,7 @@ export default function PracticeSelection({
             <Switch
               className="mr-[36px]"
               onCheckedChange={(check: CheckedState) => {
-                setTimer(check ? true : false)
+                setTimer(check ? true : false);
               }}
             />
           </div>
@@ -352,5 +354,5 @@ export default function PracticeSelection({
         </section>
       </div>
     </div>
-  )
+  );
 }

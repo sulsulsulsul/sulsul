@@ -1,89 +1,96 @@
-'use client'
+'use client';
 
-import { useEffect, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { AnimatePresence, motion } from 'framer-motion'
-import { LottieRefCurrentProps } from 'lottie-react'
-import { set } from 'zod'
+import { useEffect, useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { AnimatePresence, motion } from 'framer-motion';
+import { LottieRefCurrentProps } from 'lottie-react';
+import { set } from 'zod';
 
-import { SmileAnimation } from '@/components/lotties/smile-animation'
-import { ThinkingAnimation } from '@/components/lotties/thinking-animation'
-import Timer from '@/entities/practice-list-modal/components/timer/timer'
-import { useUpdatePractice } from '@/entities/practice-list-modal/hooks'
-import { ArchiveQuestionItem } from '@/entities/types'
-import { cn } from '@/lib/utils'
-import { usePracticeResultStore, usePracticeStore } from '@/store/practiceStore'
+import { SmileAnimation } from '@/components/lotties/smile-animation';
+import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
+import Timer from '@/entities/practice-list-modal/components/timer/timer';
+import { useUpdatePractice } from '@/entities/practice-list-modal/hooks';
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
+import {
+  usePracticeResultStore,
+  usePracticeStore,
+} from '@/store/practiceStore';
 
-import { AnswerButton } from './answer-button'
-import { AskCard } from './ask-card'
-import { HintCard } from './hint-card'
+import { AnswerButton } from './answer-button';
+import { AskCard } from './ask-card';
+import { HintCard } from './hint-card';
 
 const Page = () => {
-  const { timer, practiceList } = usePracticeStore()
+  const { timer, practiceList } = usePracticeStore();
 
-  const { setResult, correct, incorrect } = usePracticeResultStore()
+  const { setResult, correct, incorrect } = usePracticeResultStore();
 
-  const smileRef = useRef<LottieRefCurrentProps>(null)
-  const thinkingRef = useRef<LottieRefCurrentProps>(null)
+  const smileRef = useRef<LottieRefCurrentProps>(null);
+  const thinkingRef = useRef<LottieRefCurrentProps>(null);
 
   const [questions, setQuestions] =
-    useState<ArchiveQuestionItem[]>(practiceList)
+    useState<ArchiveQuestionItem[]>(practiceList);
   const [correctQuestions, setCorrectQuestions] = useState<
     ArchiveQuestionItem[]
-  >([])
+  >([]);
   const [inCorrectQuestions, setInCorrectQuestions] = useState<
     ArchiveQuestionItem[]
-  >([])
+  >([]);
 
-  const [showHint, setShowHint] = useState(false)
+  const [showHint, setShowHint] = useState(false);
 
-  const q = practiceList[0]
+  const [q, setQ] = useState(practiceList[0]);
 
-  const [time, setTime] = useState('')
-  const [pauseTimer, setPauseTimer] = useState(false)
+  const [time, setTime] = useState('');
+  const [pauseTimer, setPauseTimer] = useState(false);
 
-  const router = useRouter()
+  const router = useRouter();
 
-  const { mutate } = useUpdatePractice()
+  const { mutate } = useUpdatePractice();
 
   //TODO: FIX practiceStatus
   const handleCorrect = () => {
-    if (questions.length === 0) return
+    if (questions.length === 0) return;
     mutate({
       questionId: q.questionId,
-      practiceStatus: '',
-    })
-    const questionToMarkCorrect = questions[0]
-    setCorrectQuestions((prev) => [...prev, questionToMarkCorrect])
-    setQuestions((prev) => prev.filter((_, i) => i !== 0))
-    smileRef.current?.stop()
-    smileRef.current?.play()
-  }
+      practiceStatus: 'ANSWER',
+    });
+    const questionToMarkCorrect = questions[0];
+    setCorrectQuestions((prev) => [...prev, questionToMarkCorrect]);
+    setQuestions((prev) => prev.filter((_, i) => i !== 0));
+    smileRef.current?.stop();
+    smileRef.current?.play();
+  };
 
   //TODO: FIX practiceStatus
   const handleInCorrect = () => {
-    if (questions.length === 0) return
+    if (questions.length === 0) return;
     mutate({
       questionId: q.questionId,
-      practiceStatus: '',
-    })
-    setInCorrectQuestions((prev) => [...prev, questions[0]])
-    setQuestions((prev) => prev.filter((_, i) => i !== 0))
-    thinkingRef.current?.stop()
-    thinkingRef.current?.play()
-  }
+      practiceStatus: 'NOT_ANSWER',
+    });
+    setInCorrectQuestions((prev) => [...prev, questions[0]]);
+    setQuestions((prev) => prev.filter((_, i) => i !== 0));
+    thinkingRef.current?.stop();
+    thinkingRef.current?.play();
+  };
 
   useEffect(() => {
-    setShowHint(false)
+    setShowHint(false);
+    setQ(questions[0]);
     if (questions.length === 0) {
-      setPauseTimer(true)
+      setPauseTimer(true);
       setResult!({
         time: time,
         correct: correctQuestions,
         incorrect: inCorrectQuestions,
-      })
+      });
+      router.push('/practice/result');
     }
-  }, [questions, router])
+  }, [questions, router]);
+
+  const [coachMark, setCoachMark] = useState(false);
 
   return (
     <main>
@@ -104,7 +111,7 @@ const Page = () => {
             exit={{ opacity: 0, scale: 0.5 }}
             key={q.questionId}
             layoutId={q.questionId.toString()}
-            className="relative mx-auto mt-[86px] h-[468px] w-[792px]"
+            className="relative mx-auto mt-px h-[468px] w-[792px]"
           >
             <AskCard
               className={cn('relative z-20 size-full transition-[height]', {
@@ -129,8 +136,8 @@ const Page = () => {
       <div className="relative z-10 mt-[108px] flex gap-6">
         <AnswerButton
           onMouseEnter={() => {
-            smileRef.current?.stop()
-            smileRef.current?.play()
+            smileRef.current?.stop();
+            smileRef.current?.play();
           }}
           questions={correctQuestions}
           handleCorrect={handleCorrect}
@@ -139,8 +146,8 @@ const Page = () => {
         </AnswerButton>
         <AnswerButton
           onMouseEnter={() => {
-            thinkingRef.current?.stop()
-            thinkingRef.current?.play()
+            thinkingRef.current?.stop();
+            thinkingRef.current?.play();
           }}
           questions={inCorrectQuestions}
           handleCorrect={handleInCorrect}
@@ -153,7 +160,7 @@ const Page = () => {
         </AnswerButton>
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
