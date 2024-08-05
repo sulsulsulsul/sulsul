@@ -168,7 +168,8 @@ const config = {
       },
       backgroundImage: {
         hero: "url('/images/hero.png')",
-        'loading-skeleton': 'linear-gradient(to right, transparent 0%, #eee 50%, transparent 100%)'
+        'loading-skeleton':
+          'linear-gradient(to right, transparent 0%, #eee 50%, transparent 100%)',
       },
       backgroundSize: {
         custom: '50% 100%',
@@ -182,7 +183,7 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
-        'shimmer': {
+        shimmer: {
           '0%': { transform: 'skewX(-30deg) translateX(-100%)' },
           '100%': { transform: 'skewX(-30deg) translateX(200%)' },
         },
@@ -195,7 +196,8 @@ const config = {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         shimmer: 'shimmer 1.5s infinite linear',
-        'cheering-animation': 'cheering-animation 1.5s linear ease-out infinite',
+        'cheering-animation':
+          'cheering-animation 1.5s linear ease-out infinite',
       },
     },
   },

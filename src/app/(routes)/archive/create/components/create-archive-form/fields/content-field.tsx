@@ -17,7 +17,7 @@ interface ContentFieldProps extends HTMLAttributes<HTMLDivElement> {}
 export const ContentField = ({ className, ...props }: ContentFieldProps) => {
   const { form } = useCreateArchiveFormContext()
   const { isSampleClicked } = useSampleStore()
-  const {status} = useCurrentUser()
+  const { status } = useCurrentUser()
 
   return (
     <div className={cn(className)} {...props}>
@@ -48,7 +48,7 @@ export const ContentField = ({ className, ...props }: ContentFieldProps) => {
         <FormField
           control={form.control}
           name="resume"
-          disabled={status==='unauthenticated'}
+          disabled={status === 'unauthenticated'}
           render={({ field }) => (
             <FormItem className="size-full">
               <FormControl>

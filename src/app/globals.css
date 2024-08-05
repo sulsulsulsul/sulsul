@@ -83,7 +83,7 @@
 }
 
 .card--skeleton::before {
-  content: "";
+  content: '';
   position: absolute;
   background: linear-gradient(
     90deg,

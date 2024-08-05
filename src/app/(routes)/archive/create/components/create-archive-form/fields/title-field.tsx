@@ -17,7 +17,7 @@ interface TitleFieldProps extends HTMLAttributes<HTMLDivElement> {}
 export const TitleField = ({ className, ...props }: TitleFieldProps) => {
   const { form } = useCreateArchiveFormContext()
   const { isSampleClicked } = useSampleStore()
-  const {status} = useCurrentUser()
+  const { status } = useCurrentUser()
 
   return (
     <div className={cn(className)} {...props}>
@@ -29,7 +29,7 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
         <FormField
           control={form.control}
           name="title"
-          disabled={status==="unauthenticated"}
+          disabled={status === 'unauthenticated'}
           render={({ field }) => (
             <FormItem className="w-full">
               <FormControl>

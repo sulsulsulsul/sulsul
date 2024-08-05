@@ -20,7 +20,7 @@ export const CompanyNameField = ({
 }: CompanyNameFieldProps) => {
   const { form } = useCreateArchiveFormContext()
   const { isSampleClicked } = useSampleStore()
-  const {status} = useCurrentUser()
+  const { status } = useCurrentUser()
 
   return (
     <div className={cn(className)} {...props}>
@@ -32,7 +32,7 @@ export const CompanyNameField = ({
         <FormField
           control={form.control}
           name="companyName"
-          disabled={status==="unauthenticated"}
+          disabled={status === 'unauthenticated'}
           render={({ field }) => (
             <FormItem>
               <FormControl>
