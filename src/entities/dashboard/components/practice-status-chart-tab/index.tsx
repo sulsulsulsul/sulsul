@@ -1,26 +1,28 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { cn } from '@/lib/utils'
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { cn } from '@/lib/utils';
 
-import { PracticeStatusChartTabType } from '../../types'
+import { PracticeStatusChartTabType } from '../../types';
+
 interface PracticedQuestionTabProps extends HTMLAttributes<HTMLDivElement> {
-  onTabChange?: (value: PracticeStatusChartTabType) => void
+  chartType: PracticeStatusChartTabType;
+  onChangeChartType: (value: PracticeStatusChartTabType) => void;
 }
 
-export const PracticedQuestionTab = ({
+export const PracticedStatusChartTab = ({
   className,
-
-  onTabChange,
+  chartType,
+  onChangeChartType,
   ...props
 }: PracticedQuestionTabProps) => {
   return (
     <div className={cn(className)} {...props}>
       <Tabs
+        value={chartType}
         onValueChange={(value) => {
-          onTabChange?.(value as PracticeStatusChartTabType)
+          onChangeChartType(value as PracticeStatusChartTabType);
         }}
-        defaultValue="weekly"
       >
         <TabsList>
           <TabsTrigger value="weekly">주간</TabsTrigger>
@@ -28,5 +30,5 @@ export const PracticedQuestionTab = ({
         </TabsList>
       </Tabs>
     </div>
-  )
-}
+  );
+};
