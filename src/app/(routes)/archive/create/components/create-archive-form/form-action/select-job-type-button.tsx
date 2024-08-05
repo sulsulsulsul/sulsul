@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { useQueryClient } from '@tanstack/react-query'
 
+import { AlertModal } from '@/components/shared/modal'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,6 +25,8 @@ import { useCurrentUser } from '@/entities/users/hooks'
 import { useUpdateJob } from '@/entities/users/hooks/use-update-job'
 import { cn } from '@/lib/utils'
 import { usePendingStore } from '@/store/client'
+import { useCreateQuestionStore } from '@/store/createQuestions'
+import { useCurrentArchiveIdStore } from '@/store/currentArchiveId'
 import { useSampleStore } from '@/store/sampleQuestions'
 
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
@@ -55,14 +58,19 @@ const wait = () => new Promise((resolve) => setTimeout(resolve, 0))
 export const SelectJobTypeModal = () => {
   const [selectedType, setSelectedType] = useState('')
   const [open, setOpen] = useState(false) //모달 열림 여부
-  const [newArchiveId, setNewArchiveId] = useState<number | null>(null)
+  const [failAlertOpen, setFailAlertOpen] = useState(false)
+  const [buttonChildren, setButtonChildren] = useState(
+    <>
+      <ActivateTwinkleIcon />
+      <span>예상질문 예측하기</span>
+    </>,
+  )
+
   const { form } = useCreateArchiveFormContext()
   const { handleSubmit, getValues } = form
 
   const { user: session } = useCurrentUser()
   const userId = session.auth.userId
-
-  const router = useRouter()
 
   const { isPending, setIsPending } = usePendingStore()
   const { mutate: updateJobMutation } = useUpdateJob()
@@ -71,6 +79,8 @@ export const SelectJobTypeModal = () => {
   const { mutateAsync: createQuestionMutate } = useCreateQuestion()
   const { isSampleClicked, isSampleWritten, setIsSampleWritten } =
     useSampleStore()
+  const { isQuestionCreated, setIsQuestionCreated } = useCreateQuestionStore()
+  const { setCurrentId } = useCurrentArchiveIdStore()
 
   const isFormValid = form.formState.isValid
   const isSubmitting = form.formState.isSubmitting
@@ -79,15 +89,25 @@ export const SelectJobTypeModal = () => {
     setSelectedType(value)
   }
 
+  useEffect(() => {
+    if (isQuestionCreated) {
+      console.log('isQuestionCreated', isQuestionCreated)
+      console.log('polling 끝')
+    }
+  }, [isQuestionCreated])
+
   const onSubmit = async () => {
     setIsPending(true)
     wait().then(() => setOpen(false))
 
     try {
+      console.log('job update start')
       //jobId update
       const jobId = JOB_TYPE.indexOf(selectedType) + 1
       if (userId) updateJobMutation({ userId, jobId })
+      console.log('job update완료', jobId)
 
+      console.log('create archive start')
       //create archive
       const newArchiveId = await createArchiveMutate({
         title: getValues('title'),
@@ -95,8 +115,10 @@ export const SelectJobTypeModal = () => {
         companyName: getValues('companyName'),
       })
 
-      setNewArchiveId(newArchiveId)
+      setCurrentId(newArchiveId)
+      console.log('create archive 완료', newArchiveId)
 
+      console.log('create questions start')
       //create questions ai
       await createQuestionMutate({ archiveId: newArchiveId })
 
@@ -106,18 +128,27 @@ export const SelectJobTypeModal = () => {
           queryKey: ['archive', newArchiveId],
           queryFn: () => getArchiveDetailAction(newArchiveId),
         })
+        console.log('updatedArchive', updatedArchive)
 
         if (updatedArchive && updatedArchive.status === 'COMPLETE') {
           setIsPending(false)
-          router.push(`/archive/${newArchiveId}`)
+          setIsQuestionCreated(true)
+        } else if (updatedArchive && updatedArchive.status === 'FAIL') {
+          setFailAlertOpen((prev) => true)
         } else {
-          setTimeout(checkStatus, 2000)
+          setTimeout(async () => {
+            // Invalidate the query to refetch data
+            await queryClient.invalidateQueries({
+              queryKey: ['archive', newArchiveId],
+            })
+            checkStatus()
+          }, 5000)
         }
       }
       // start polling
       checkStatus()
     } catch (error) {
-      alert('예측 중 오류가 발생했습니다. 다시 시도해주세요.')
+      setFailAlertOpen((prev) => true)
       console.log(error)
       setIsPending(false)
     }
@@ -133,11 +164,61 @@ export const SelectJobTypeModal = () => {
   const buttonClassName = (() => {
     if (isPending)
       return 'bg-gradient-to-r from-blue-500 to-[#4BF5CC] text-white'
-    if (isSampleWritten) return 'bg-blue-100 text-blue-500'
+    if (isSampleWritten || isQuestionCreated) return 'bg-blue-100 text-blue-500'
     if (isSampleClicked || isFormValid)
       return 'bg-blue-500 text-white hover:bg-blue-600'
     return ''
   })()
+
+  useEffect(() => {
+    if (isPending) {
+      setButtonChildren(
+        <>
+          <ActivateTwinkleIcon />
+          <span>예상질문 예측 중</span>
+        </>,
+      )
+    } else if (!isSampleWritten && (isSampleClicked || isFormValid)) {
+      setButtonChildren(
+        <>
+          <ActivateTwinkleIcon />
+          <span>예상질문 예측하기</span>
+        </>,
+      )
+    } else if (isSampleWritten || isQuestionCreated) {
+      setButtonChildren(
+        <>
+          <CompleteCheckIcon />
+          <span>예상질문 예측완료</span>
+        </>,
+      )
+    } else {
+      setButtonChildren(
+        <>
+          <NonActivateTwinkleIcon />
+          <span>예상질문 예측하기</span>
+        </>,
+      )
+    }
+  }, [
+    isPending,
+    isSampleWritten,
+    isSampleClicked,
+    isFormValid,
+    isQuestionCreated,
+  ])
+
+  console.log('failAlertOpen', failAlertOpen)
+  useEffect(() => {
+    failAlertOpen && (
+      <AlertModal
+        onClick={() => {}}
+        title="질문 예측 중 오류가 발생했어요"
+        desc="다시 시도해 주시거나 문제가 지속될 경우 /n 관리자에게 문의해주세요."
+        action="다시 시도"
+      />
+    )
+  }, [failAlertOpen])
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -152,29 +233,10 @@ export const SelectJobTypeModal = () => {
           variant="outline"
           onClick={() => {
             isSampleClicked && setIsSampleWritten()
+            setFailAlertOpen((prev) => false)
           }}
         >
-          {isPending ? (
-            <>
-              <ActivateTwinkleIcon />
-              <span>예상질문 예측 중</span>
-            </>
-          ) : !isSampleWritten && (isSampleClicked || isFormValid) ? (
-            <>
-              <ActivateTwinkleIcon />
-              <span>예상질문 예측하기</span>
-            </>
-          ) : isSampleWritten ? (
-            <>
-              <CompleteCheckIcon />
-              <span>예상질문 예측완료</span>
-            </>
-          ) : (
-            <>
-              <NonActivateTwinkleIcon />
-              <span>예상질문 예측하기</span>
-            </>
-          )}
+          {buttonChildren}
         </Button>
       </AlertDialogTrigger>
       {!isSampleClicked && (
@@ -184,7 +246,7 @@ export const SelectJobTypeModal = () => {
               <p className="text-sm text-blue-500">예상질문 정확도 3배 상승!</p>
               <h1 className="text-3xl font-bold">내 직무를 선택해주세요</h1>
             </AlertDialogTitle>
-            <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 py-5">
+            <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 pb-8">
               {JOB_TYPE.map((type, idx) => (
                 <Button
                   key={idx}
@@ -192,7 +254,7 @@ export const SelectJobTypeModal = () => {
                   className={cn(
                     'w-[120px] rounded-sm border-gray-300 bg-gray-50 font-normal',
                     selectedType === type &&
-                      'border-blue-500 bg-white text-blue-500',
+                      'border-blue-500 bg-white text-blue-500 hover:bg-white',
                   )}
                   onClick={() => handleSelectedType(type)}
                 >

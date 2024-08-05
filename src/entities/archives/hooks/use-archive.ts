@@ -11,6 +11,7 @@ export const useArchive = (id: number) => {
       }
       return false
     },
+    enabled: !!id,
   })
   const { data, ...rest } = result
   return {
