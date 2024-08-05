@@ -9,7 +9,10 @@ import { set } from 'zod';
 import { SmileAnimation } from '@/components/lotties/smile-animation';
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
 import Timer from '@/entities/practice-list-modal/components/timer/timer';
-import { useUpdatePractice } from '@/entities/practice-list-modal/hooks';
+import {
+  useUpdatePractice,
+  useUpdateTime,
+} from '@/entities/practice-list-modal/hooks';
 import { ArchiveQuestionItem } from '@/entities/types';
 import { cn } from '@/lib/utils';
 import {
@@ -22,8 +25,7 @@ import { AskCard } from './ask-card';
 import { HintCard } from './hint-card';
 
 const Page = () => {
-  const { timer, practiceList } = usePracticeStore();
-
+  const { timer, practiceList, practiceId } = usePracticeStore();
   const { setResult, correct, incorrect } = usePracticeResultStore();
 
   const smileRef = useRef<LottieRefCurrentProps>(null);
@@ -42,17 +44,18 @@ const Page = () => {
 
   const [q, setQ] = useState(practiceList[0]);
 
-  const [time, setTime] = useState('');
+  const [time, setTime] = useState(0);
   const [pauseTimer, setPauseTimer] = useState(false);
 
   const router = useRouter();
 
-  const { mutate } = useUpdatePractice();
+  const mutationPractice = useUpdatePractice();
+  const mutationTime = useUpdateTime({ practiceId, time });
 
   //TODO: FIX practiceStatus
   const handleCorrect = () => {
     if (questions.length === 0) return;
-    mutate({
+    mutationPractice.mutate({
       questionId: q.questionId,
       practiceStatus: 'ANSWER',
     });
@@ -66,7 +69,7 @@ const Page = () => {
   //TODO: FIX practiceStatus
   const handleInCorrect = () => {
     if (questions.length === 0) return;
-    mutate({
+    mutationPractice.mutate({
       questionId: q.questionId,
       practiceStatus: 'NOT_ANSWER',
     });
@@ -86,11 +89,12 @@ const Page = () => {
         correct: correctQuestions,
         incorrect: inCorrectQuestions,
       });
+      mutationTime.mutate();
       router.push('/practice/result');
     }
   }, [questions, router]);
 
-  const [coachMark, setCoachMark] = useState(false);
+  // const [coachMark, setCoachMark] = useState(false);
 
   return (
     <main>

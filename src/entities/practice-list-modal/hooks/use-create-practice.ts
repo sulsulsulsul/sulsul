@@ -1,17 +1,11 @@
-import { useRouter } from 'next/navigation'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query';
 
-import { createPracticeAction } from '../actions'
+import { createPracticeAction } from '../actions';
 
 export const useCreatePractice = (questionIds: number[]) => {
-  const router = useRouter()
-  const result = useMutation({
+  return useMutation({
     mutationFn: () => createPracticeAction(questionIds),
-    onSuccess: () => router.push('/practice/ing'),
+    onSuccess: () => console.log('Successfully created Practice'),
     onError: () => console.log('Error in creating practice'),
-  })
-  const { ...rest } = result
-  return {
-    ...rest,
-  }
-}
+  });
+};

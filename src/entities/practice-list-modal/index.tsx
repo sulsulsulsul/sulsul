@@ -41,9 +41,10 @@ export default function PracticeSelection({
   setModal,
   resumeId,
 }: PracticeSelectionProp) {
+  const router = useRouter();
   //Get Archives
-  const { archives, isError, isLoading, isSuccess } = useArchives();
-  console.log(archives);
+  const { archives } = useArchives();
+
   //Store Final PracticeList
   const { setStore } = usePracticeStore();
 
@@ -71,6 +72,10 @@ export default function PracticeSelection({
   //Other Option
   const [timer, setTimer] = useState(false);
   const [random, setRandom] = useState(false);
+
+  const { data, mutate, isSuccess, isError } = useCreatePractice(
+    finalList.flatMap((value) => value.questionId),
+  );
 
   const shuffledList = useMemo(() => {
     const newList = [...finalList];
@@ -117,23 +122,23 @@ export default function PracticeSelection({
     setResetQuestion(false);
     setResetResume(false);
     allQuestions && finalList.length === 0 && setAllQuestions(false);
-  }, [allQuestions, finalList]);
-  const { mutate } = useCreatePractice(
-    finalList.flatMap((value) => value.questionId),
-  );
+    isSuccess &&
+      data &&
+      (setStore({
+        timer: timer,
+        practiceList: random ? shuffledList : finalList,
+        practiceId: data,
+      }),
+      router.push('/practice/ing'));
+  }, [allQuestions, finalList, isSuccess]);
 
   const handleCancel = () => {
     setModal(false);
   };
 
   const handleSubmit = () => {
-    finalList.length === 0
-      ? alert('예상질문을 하나라도 선택해주세요! ')
-      : (setStore({
-          timer: timer,
-          practiceList: random ? shuffledList : finalList,
-        }),
-        mutate());
+    finalList.length === 0 && alert('예상질문을 하나라도 선택해주세요! ');
+    mutate();
   };
 
   return (

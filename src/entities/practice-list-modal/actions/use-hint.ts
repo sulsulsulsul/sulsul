@@ -1,7 +1,7 @@
-'use server'
+'use server';
 
-import { API_ENDPOINT } from '@/lib/backend-api/api-end-point'
-import { backendApi } from '@/lib/backend-api/client'
+import { API_ENDPOINT } from '@/lib/backend-api/api-end-point';
+import { backendApi } from '@/lib/backend-api/client';
 
 export const updateHintAction = async (questionId: number) => {
   return backendApi({
@@ -9,5 +9,5 @@ export const updateHintAction = async (questionId: number) => {
     data: {
       questionId: questionId,
     },
-  })
-}
+  });
+};

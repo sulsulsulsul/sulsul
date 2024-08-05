@@ -1,35 +1,42 @@
-import { set } from 'zod'
-import { create } from 'zustand'
+import { set } from 'zod';
+import { create } from 'zustand';
 
-import { ArchiveQuestionItem } from '@/entities/types'
+import { ArchiveQuestionItem } from '@/entities/types';
 
 interface PracticeSelectionList {
-  timer: boolean
-  practiceList: ArchiveQuestionItem[]
+  timer: boolean;
+  practiceList: ArchiveQuestionItem[];
+  practiceId: number;
 }
 interface PracticeSetStore extends PracticeSelectionList {
-  setStore: ({ timer, practiceList }: PracticeSelectionList) => void
+  setStore: ({
+    timer,
+    practiceList,
+    practiceId,
+  }: PracticeSelectionList) => void;
 }
 
 export const usePracticeStore = create<PracticeSetStore>((set) => ({
   timer: false,
   practiceList: [],
-  setStore: ({ timer, practiceList }) =>
+  practiceId: 0,
+  setStore: ({ timer, practiceList, practiceId }) =>
     set(() => ({
       timer: timer,
       practiceList: practiceList,
+      practiceId: practiceId,
     })),
-}))
+}));
 
 interface PracticeResult {
-  time: string
-  correct: ArchiveQuestionItem[]
-  incorrect: ArchiveQuestionItem[]
-  setResult?: ({ time, correct, incorrect }: PracticeResult) => void
+  time: number;
+  correct: ArchiveQuestionItem[];
+  incorrect: ArchiveQuestionItem[];
+  setResult?: ({ time, correct, incorrect }: PracticeResult) => void;
 }
 
 export const usePracticeResultStore = create<PracticeResult>((set) => ({
-  time: '00 : 00',
+  time: 0,
   correct: [],
   incorrect: [],
   setResult: ({ time, correct, incorrect }) =>
@@ -38,4 +45,4 @@ export const usePracticeResultStore = create<PracticeResult>((set) => ({
       correct: correct,
       incorrect: incorrect,
     })),
-}))
+}));

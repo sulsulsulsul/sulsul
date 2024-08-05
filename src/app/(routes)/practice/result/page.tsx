@@ -17,7 +17,7 @@ import {
 
 const Page = () => {
   const { time, correct, incorrect } = usePracticeResultStore();
-  const { timer, setStore } = usePracticeStore();
+  const { timer, setStore, practiceId } = usePracticeStore();
 
   const totalCorrect = correct.length;
   const totalIncorrect = incorrect.length;
@@ -33,9 +33,19 @@ const Page = () => {
       : (setStore({
           timer: timer,
           practiceList: incorrect,
+          practiceId: practiceId,
         }),
         router.push('/practice/ing'));
   };
+
+  const timeText =
+    Math.floor(time / 60)
+      .toString()
+      .padStart(2, '0') +
+    ' : ' +
+    Math.floor(time % 60)
+      .toString()
+      .padStart(2, '0');
 
   return (
     <main className="">
@@ -79,7 +89,7 @@ const Page = () => {
 
             <ResultCard
               title="총 연습시간"
-              result={time}
+              result={timeText}
               icon={
                 <Image
                   alt="clock icon"
