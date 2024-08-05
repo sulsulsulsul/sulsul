@@ -1,22 +1,22 @@
-'use client'
+'use client';
 
-import { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { CheckedState } from '@radix-ui/react-checkbox'
-import { ChevronRight } from 'lucide-react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { CheckedState } from '@radix-ui/react-checkbox';
+import { ChevronRight } from 'lucide-react';
 
-import { Checkbox } from '@/components/ui/checkbox'
-import { useArchive } from '@/entities/archives/hooks'
-import { ArchiveDetailDTO } from '@/entities/types/archive'
-import { cn } from '@/lib/utils'
+import { Checkbox } from '@/components/ui/checkbox';
+import { useArchive } from '@/entities/archives/hooks';
+import { ArchiveDetailDTO } from '@/entities/types/archive';
+import { cn } from '@/lib/utils';
 
 //예상 면접질문
 interface ResumeSelection {
-  title: string
-  companyName: string
-  resetChecked: boolean
-  archiveId: number
-  selectAll: CheckedState
-  setQuestion: Dispatch<SetStateAction<ArchiveDetailDTO[]>>
+  title: string;
+  companyName: string;
+  resetChecked: boolean;
+  archiveId: number;
+  selectAll: CheckedState;
+  setQuestion: Dispatch<SetStateAction<ArchiveDetailDTO[]>>;
 }
 
 export default function MyResumeSelection({
@@ -27,42 +27,41 @@ export default function MyResumeSelection({
   selectAll,
   archiveId,
 }: ResumeSelection) {
-  const [checked, setChecked] = useState(false)
-  const { archive, isError } = useArchive(archiveId)
+  const [checked, setChecked] = useState(false);
+  const { archive, isError } = useArchive(archiveId);
   useEffect(() => {
     //reset the check value
-    resetChecked && setChecked(false)
+    resetChecked && setChecked(false);
 
-    //Add to question All to the list
+    //Add ALL question  to the list
     if (archive && selectAll) {
-      setChecked(true)
+      setChecked(true);
       setQuestion((prev) => {
         return prev.some((item) => item.archiveId === archiveId)
           ? prev
-          : [...prev, archive]
-      })
+          : [...prev, archive];
+      });
     } else {
-      setChecked(false)
+      setChecked(false);
     }
-  }, [resetChecked, selectAll, setQuestion])
+  }, [resetChecked, selectAll, setQuestion]);
 
   const handleCheck = () => {
     setChecked((prev) => {
-      return !prev
-    })
+      return !prev;
+    });
 
     !checked && archive
       ? setQuestion((prev) => [...prev, archive])
       : setQuestion((prev) => {
           return prev.filter((archive) => {
             if (archive.archiveId === archiveId) {
-              return false
-            } else return true
-          })
-        })
-  }
+              return false;
+            } else return true;
+          });
+        });
+  };
 
-  // console.log(checked && archive)
   return (
     <div
       className={cn(
@@ -76,11 +75,7 @@ export default function MyResumeSelection({
             className="size-11 rounded-full p-[10px] hover:bg-blue-100"
             onClick={handleCheck}
           >
-            <Checkbox
-              className="m-[2px] size-5"
-              checked={checked}
-              // onCheckedChange={handleCheck}
-            />
+            <Checkbox className="m-[2px] size-5" checked={checked} />
           </div>
           <div className="truncate text-base text-blue-800">{title}</div>
         </div>
@@ -92,5 +87,5 @@ export default function MyResumeSelection({
         <ChevronRight className={checked ? 'text-blue-800' : 'invisible'} />
       </button>
     </div>
-  )
+  );
 }

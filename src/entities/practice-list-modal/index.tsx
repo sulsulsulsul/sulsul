@@ -63,9 +63,11 @@ export default function PracticeSelection({
   //Final List of practice
   const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([]);
 
+  //Filter Select
   const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
   const [hintFilter, setHintFilter] = useState<CheckedState>(false);
 
+  //ALL select
   const [allResumes, setAllResumes] = useState<CheckedState>(false);
   const [allQuestions, setAllQuestions] = useState<CheckedState>(false);
 
@@ -102,7 +104,6 @@ export default function PracticeSelection({
           })
       : [];
 
-  //reset
   //TODO : ReFactor: useCallBack
   const reset = () => {
     setResetResume(true);

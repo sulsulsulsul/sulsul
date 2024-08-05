@@ -14,7 +14,6 @@ interface HintCardProps extends HTMLAttributes<HTMLDivElement> {
   keywords: ArchiveKeyword[];
 }
 
-//Clean up Console
 export const HintCard = ({
   className,
   showHint,
