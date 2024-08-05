@@ -33,17 +33,17 @@ export const IdleStatus = ({
           height={140}
           alt="궁금해하는 술술이"
         />
-        {/* <AuthSignedOut> */}
-        <div className="mt-3 font-semibold text-gray-500">
-          미리 체험해보고 싶다면?{' '}
-          <span
-            className="cursor-pointer font-normal underline"
-            onClick={setIsSampleClicked}
-          >
-            샘플 자소서로 해보기
-          </span>
-        </div>
-        {/* </AuthSignedOut> */}
+        <AuthSignedOut>
+          <div className="mt-3 font-semibold text-gray-500">
+            미리 체험해보고 싶다면?{' '}
+            <span
+              className="cursor-pointer font-normal underline"
+              onClick={setIsSampleClicked}
+            >
+              샘플 자소서로 해보기
+            </span>
+          </div>
+        </AuthSignedOut>
       </div>
     </div>
   )
