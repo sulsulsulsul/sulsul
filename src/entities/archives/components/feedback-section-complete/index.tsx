@@ -59,8 +59,12 @@ export const FeedbackSectionComplete = ({
               <p>{bad}</p>
             </div>
             <div className="mt-4 text-right" onClick={handleCreateFeedback}>
-              <Button size="sm" disabled={!isAnswerChanged}>
-                <span className="text-base font-semibold">다시 받기</span>
+              <Button
+                size="sm"
+                disabled={!isAnswerChanged}
+                className="text-base font-semibold"
+              >
+                다시 받기
               </Button>
             </div>
           </>

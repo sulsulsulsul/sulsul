@@ -6,8 +6,10 @@ import Image from 'next/image'
 import { PendingStatus } from '@/entities/archives/components/interview-questions/status/pending'
 import { cn } from '@/lib/utils'
 import { usePendingStore } from '@/store/client'
+import { useSampleStore } from '@/store/sampleQuestions'
 
 import { useCreateArchiveFormContext } from '../../hooks/use-create-archive-form'
+import { CompleteStatus } from './status/complete'
 import { IdleStatus } from './status/idle'
 import { ValidStatus } from './status/valid'
 interface InterviewQuestionsProps extends HTMLAttributes<HTMLDivElement> {}
@@ -17,8 +19,8 @@ export const FormStatus = ({
   ...props
 }: InterviewQuestionsProps) => {
   const { isPending } = usePendingStore()
-
   const { form } = useCreateArchiveFormContext()
+  const { isSampleClicked, isSampleWritten } = useSampleStore()
 
   const isSubmitting = form.formState.isSubmitting
   const isFormValid = form.formState.isValid
@@ -34,16 +36,21 @@ export const FormStatus = ({
         />
         <span>면접 예상질문</span>
       </h2>
-      <div className="mt-[18px] size-full rounded-md bg-white shadow-base">
-        {!isFormValid && !isSubmitting && !isPending && (
-          <IdleStatus
-            firstLine="내 자소서에선 어떤 질문이 나올까요?"
-            secondLine="왼쪽에서 내용을 입력해보세요!"
-          />
-        )}
-        {(isSubmitting || isPending) && <PendingStatus />}
-        {isFormValid && !isSubmitting && !isPending && <ValidStatus />}
-      </div>
+      {isSampleWritten ? (
+        <CompleteStatus />
+      ) : (
+        <div className="mt-[18px] size-full rounded-md bg-white shadow-base">
+          {!isSampleClicked && !isFormValid && !isSubmitting && !isPending && (
+            <IdleStatus
+              firstLine="내 자소서에선 어떤 질문이 나올까요?"
+              secondLine="왼쪽에서 내용을 입력해보세요!"
+            />
+          )}
+          {(isSubmitting || isPending) && <PendingStatus />}
+          {(isSampleClicked ||
+            (isFormValid && !isSubmitting && !isPending)) && <ValidStatus />}
+        </div>
+      )}
     </div>
   )
 }
