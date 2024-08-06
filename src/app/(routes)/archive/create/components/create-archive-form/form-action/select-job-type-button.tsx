@@ -24,7 +24,7 @@ import { useCreateQuestion } from '@/entities/questions/hooks/use-create-questio
 import { useCurrentUser } from '@/entities/users/hooks'
 import { useUpdateJob } from '@/entities/users/hooks/use-update-job'
 import { cn } from '@/lib/utils'
-import { usePendingStore } from '@/store/client'
+import { usePendingStore, useUserStore } from '@/store/client'
 import { useCreateQuestionStore } from '@/store/createQuestions'
 import { useCurrentArchiveIdStore } from '@/store/currentArchiveId'
 import { useSampleStore } from '@/store/sampleQuestions'
@@ -56,9 +56,10 @@ const JOB_TYPE: string[] = [
 const wait = () => new Promise((resolve) => setTimeout(resolve, 0))
 
 export const SelectJobTypeModal = () => {
-  const [selectedType, setSelectedType] = useState('')
+  const [selectedType, setSelectedType] = useState('') //직무 타입
   const [open, setOpen] = useState(false) //모달 열림 여부
-  const [failAlertOpen, setFailAlertOpen] = useState(false)
+  const [failAlertOpen, setFailAlertOpen] = useState(false) //다시 시도 모달 열림 여부
+  //자소서 버튼 내용
   const [buttonChildren, setButtonChildren] = useState(
     <>
       <ActivateTwinkleIcon />
@@ -69,18 +70,19 @@ export const SelectJobTypeModal = () => {
   const { form } = useCreateArchiveFormContext()
   const { handleSubmit, getValues } = form
 
-  const { user: session } = useCurrentUser()
-  const userId = session.auth.userId
+  const { auth } = useUserStore()
+  const userId = auth.userId
 
   const { isPending, setIsPending } = usePendingStore()
-  const { mutate: updateJobMutation } = useUpdateJob()
-  const queryClient = useQueryClient()
-  const { mutateAsync: createArchiveMutate } = useCreateArchive()
-  const { mutateAsync: createQuestionMutate } = useCreateQuestion()
   const { isSampleClicked, isSampleWritten, setIsSampleWritten } =
     useSampleStore()
   const { isQuestionCreated, setIsQuestionCreated } = useCreateQuestionStore()
   const { setCurrentId } = useCurrentArchiveIdStore()
+
+  const queryClient = useQueryClient()
+  const { mutate: updateJobMutation } = useUpdateJob()
+  const { mutateAsync: createArchiveMutate } = useCreateArchive()
+  const { mutateAsync: createQuestionMutate } = useCreateQuestion()
 
   const isFormValid = form.formState.isValid
   const isSubmitting = form.formState.isSubmitting
@@ -98,6 +100,7 @@ export const SelectJobTypeModal = () => {
 
   const onSubmit = async () => {
     setIsPending(true)
+    setFailAlertOpen(false)
     wait().then(() => setOpen(false))
 
     try {
@@ -208,76 +211,81 @@ export const SelectJobTypeModal = () => {
     isQuestionCreated,
   ])
 
-  console.log('failAlertOpen', failAlertOpen)
   useEffect(() => {
-    failAlertOpen && (
-      <AlertModal
-        onClick={() => {}}
-        title="질문 예측 중 오류가 발생했어요"
-        desc="다시 시도해 주시거나 문제가 지속될 경우 /n 관리자에게 문의해주세요."
-        action="다시 시도"
-      />
-    )
+    console.log('failAlertOpen', failAlertOpen)
   }, [failAlertOpen])
 
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger asChild>
-        <Button
-          disabled={isButtonDisabled}
-          type="button"
-          className={cn(
-            'grow border-gray-200 bg-gray-200 text-gray-500',
-            buttonClassName,
-          )}
-          variant="outline"
-          onClick={() => {
-            isSampleClicked && setIsSampleWritten()
-            setFailAlertOpen((prev) => false)
-          }}
-        >
-          {buttonChildren}
-        </Button>
-      </AlertDialogTrigger>
-      {!isSampleClicked && (
-        <AlertDialogContent className="h-auto max-w-xl">
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              <p className="text-sm text-blue-500">예상질문 정확도 3배 상승!</p>
-              <h1 className="text-3xl font-bold">내 직무를 선택해주세요</h1>
-            </AlertDialogTitle>
-            <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 pb-8">
-              {JOB_TYPE.map((type, idx) => (
-                <Button
-                  key={idx}
-                  variant="outline"
-                  className={cn(
-                    'w-[120px] rounded-sm border-gray-300 bg-gray-50 font-normal',
-                    selectedType === type &&
-                      'border-blue-500 bg-white text-blue-500 hover:bg-white',
-                  )}
-                  onClick={() => handleSelectedType(type)}
-                >
-                  {type}
-                </Button>
-              ))}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter className="mx-auto">
-            <AlertDialogCancel className="w-[180px]">
-              취소하기
-            </AlertDialogCancel>
-            <AlertDialogAction
-              disabled={selectedType === ''}
-              className="w-[180px] bg-blue-500 text-white"
-              onClick={handleSubmit(onSubmit)}
-            >
-              선택하기
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      )}
-    </AlertDialog>
+    <>
+      <AlertDialog open={failAlertOpen} onOpenChange={setFailAlertOpen}>
+        <AlertModal
+          onClick={handleSubmit(onSubmit)}
+          title="질문 예측 중 오류가 발생했어요"
+          desc="다시 시도해 주시거나 문제가 지속될 경우 <br /> 관리자에게 문의해주세요."
+          action="다시 시도"
+        />
+      </AlertDialog>
+
+      <AlertDialog open={open} onOpenChange={setOpen}>
+        <AlertDialogTrigger asChild>
+          <Button
+            disabled={isButtonDisabled}
+            type="button"
+            className={cn(
+              'grow border-gray-200 bg-gray-200 text-gray-500',
+              buttonClassName,
+            )}
+            variant="outline"
+            onClick={() => {
+              isSampleClicked && setIsSampleWritten()
+              setFailAlertOpen((prev) => false)
+            }}
+          >
+            {buttonChildren}
+          </Button>
+        </AlertDialogTrigger>
+        {!isSampleClicked && !failAlertOpen && (
+          <AlertDialogContent className="h-auto max-w-xl">
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                <p className="text-sm text-blue-500">
+                  예상질문 정확도 3배 상승!
+                </p>
+                <h1 className="text-3xl font-bold">내 직무를 선택해주세요</h1>
+              </AlertDialogTitle>
+              <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 pb-8">
+                {JOB_TYPE.map((type, idx) => (
+                  <Button
+                    key={idx}
+                    variant="outline"
+                    className={cn(
+                      'w-[120px] rounded-sm border-gray-300 bg-gray-50 font-normal',
+                      selectedType === type &&
+                        'border-blue-500 bg-white text-blue-500 hover:bg-white',
+                    )}
+                    onClick={() => handleSelectedType(type)}
+                  >
+                    {type}
+                  </Button>
+                ))}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter className="mx-auto">
+              <AlertDialogCancel className="w-[180px]">
+                취소하기
+              </AlertDialogCancel>
+              <AlertDialogAction
+                disabled={selectedType === ''}
+                className="w-[180px] bg-blue-500 text-white"
+                onClick={handleSubmit(onSubmit)}
+              >
+                선택하기
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        )}
+      </AlertDialog>
+    </>
   )
 }
 
