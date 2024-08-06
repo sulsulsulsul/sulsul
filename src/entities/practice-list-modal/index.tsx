@@ -59,6 +59,7 @@ export default function PracticeSelection({
   const [questionArchiveList, setQuestionArchiveList] = useState<
     ArchiveDetailDTO[]
   >([]);
+  const [submit, setSubmit] = useState(false);
 
   //Final List of practice
   const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([]);
@@ -75,10 +76,9 @@ export default function PracticeSelection({
   const [timer, setTimer] = useState(false);
   const [random, setRandom] = useState(false);
 
-  const { data, mutate, isSuccess, isError } = useCreatePractice(
-    finalList.flatMap((value) => value.questionId),
-  );
+  const mutation = useCreatePractice();
 
+  //Random List
   const shuffledList = useMemo(() => {
     const newList = [...finalList];
     for (let i = finalList.length - 1; i > 0; i--) {
@@ -123,23 +123,31 @@ export default function PracticeSelection({
     setResetQuestion(false);
     setResetResume(false);
     allQuestions && finalList.length === 0 && setAllQuestions(false);
-    isSuccess &&
-      data &&
-      (setStore({
-        timer: timer,
-        practiceList: random ? shuffledList : finalList,
-        practiceId: data,
-      }),
-      router.push('/practice/ing'));
-  }, [allQuestions, finalList, isSuccess]);
+  }, [allQuestions, finalList]);
 
   const handleCancel = () => {
     setModal(false);
   };
 
-  const handleSubmit = () => {
-    finalList.length === 0 && alert('예상질문을 하나라도 선택해주세요! ');
-    mutate();
+  const handleSubmit = async () => {
+    if (finalList.length === 0) {
+      alert('질문을 선택해주세요');
+      return;
+    } else {
+      await mutation.mutate(
+        finalList.flatMap((value) => value.questionId),
+        {
+          onSuccess: (data) => {
+            setStore({
+              timer: timer,
+              practiceList: random ? shuffledList : finalList,
+              practiceId: data,
+            }),
+              router.push('/practice/ing');
+          },
+        },
+      );
+    }
   };
 
   return (

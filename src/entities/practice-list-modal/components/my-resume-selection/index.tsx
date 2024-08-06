@@ -44,13 +44,12 @@ export default function MyResumeSelection({
     } else {
       setChecked(false);
     }
-  }, [resetChecked, selectAll, setQuestion]);
+  }, [resetChecked, selectAll, setQuestion, archiveId, archive]);
 
   const handleCheck = () => {
     setChecked((prev) => {
       return !prev;
     });
-
     !checked && archive
       ? setQuestion((prev) => [...prev, archive])
       : setQuestion((prev) => {
