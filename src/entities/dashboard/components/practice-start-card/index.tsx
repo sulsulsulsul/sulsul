@@ -1,16 +1,16 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+'use client';
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
+
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 interface PracticeStartCardProps extends HTMLAttributes<HTMLDivElement> {
-  nickname: string
-  handleStartPractice: () => void
+  nickname: string;
 }
 
 export const PracticeStartCard = ({
   className,
-  handleStartPractice,
   nickname,
   ...props
 }: PracticeStartCardProps) => {
@@ -31,9 +31,7 @@ export const PracticeStartCard = ({
           height={145}
         />
       </div>
-      <Button className="w-full" onClick={handleStartPractice}>
-        실전 연습하기
-      </Button>
+      <Button className="w-full">실전 연습하기</Button>
     </div>
-  )
-}
+  );
+};
