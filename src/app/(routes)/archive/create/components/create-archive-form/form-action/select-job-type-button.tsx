@@ -181,28 +181,36 @@ export const SelectJobTypeModal = () => {
           <span>예상질문 예측 중</span>
         </>,
       )
-    } else if (!isSampleWritten && (isSampleClicked || isFormValid)) {
+      return
+    }
+    if (
+      !isSampleWritten &&
+      (isSampleClicked || isFormValid) &&
+      !isQuestionCreated
+    ) {
       setButtonChildren(
         <>
           <ActivateTwinkleIcon />
           <span>예상질문 예측하기</span>
         </>,
       )
-    } else if (isSampleWritten || isQuestionCreated) {
+      return
+    }
+    if (isSampleWritten || isQuestionCreated) {
       setButtonChildren(
         <>
           <CompleteCheckIcon />
           <span>예상질문 예측완료</span>
         </>,
       )
-    } else {
-      setButtonChildren(
-        <>
-          <NonActivateTwinkleIcon />
-          <span>예상질문 예측하기</span>
-        </>,
-      )
+      return
     }
+    setButtonChildren(
+      <>
+        <NonActivateTwinkleIcon />
+        <span>예상질문 예측하기</span>
+      </>,
+    )
   }, [
     isPending,
     isSampleWritten,
@@ -253,7 +261,7 @@ export const SelectJobTypeModal = () => {
                 </p>
                 <h1 className="text-3xl font-bold">내 직무를 선택해주세요</h1>
               </AlertDialogTitle>
-              <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 pb-8">
+              <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 py-4">
                 {JOB_TYPE.map((type, idx) => (
                   <Button
                     key={idx}
