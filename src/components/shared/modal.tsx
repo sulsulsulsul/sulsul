@@ -33,7 +33,10 @@ export const AlertModal = ({
       <AlertDialogHeader className="items-center">
         <Image src={alert} alt="경고아이콘" />
         <AlertDialogTitle>{title}</AlertDialogTitle>
-        <AlertDialogDescription>{desc}</AlertDialogDescription>
+        <AlertDialogDescription
+          className="text-center"
+          dangerouslySetInnerHTML={{ __html: desc }}
+        />
       </AlertDialogHeader>
       <AlertDialogFooter className="justify-center">
         <AlertDialogCancel className="grow">취소하기</AlertDialogCancel>
