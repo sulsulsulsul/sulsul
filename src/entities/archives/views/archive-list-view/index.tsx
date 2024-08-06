@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
+import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/pagination'
 import SelectDropdown from '@/app/(routes)/archive/(list)/components/select-dropdown'
 import { IdleStatus } from '@/app/(routes)/archive/create/components/form-status/status/idle'
 import { Loader } from '@/components/shared/loader'
@@ -77,7 +78,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
     sortType === 'recent' ? archives : copyArchives?.reverse()
 
   return (
-    <main>
+    <main className="relative px-0 pt-[-60px] sm:px-[-12px] md:px-[-20px]">
       <div className="flex justify-between">
         <div className="flex items-center gap-1 text-4xl font-bold">
           <Image
@@ -91,7 +92,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
         </div>
         <SelectDropdown onChangeSortType={onChangeSortType} />
       </div>
-      <div className="mt-4">
+      <div className="my-4 mb-14">
         <div className="flex flex-wrap items-center gap-6">
           {archiveLists?.map((archive: ArchiveListItemDTO) => (
             <Link
@@ -102,6 +103,9 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
             </Link>
           ))}
         </div>
+      </div>
+      <div className="fixed -inset-x-6 bottom-0 z-10 w-[full+24px] bg-gray-100 py-3">
+        <PaginationDemo />
       </div>
     </main>
   )
