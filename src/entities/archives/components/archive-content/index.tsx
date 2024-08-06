@@ -43,7 +43,9 @@ export const ArchiveContent = ({
             <h3 className="text-2xl font-semibold">{title}</h3>
           </div>
           <div className="min-h-[400px] w-full">
-            <div className="overflow-hidden text-balance">{resume}</div>
+            <div className="overflow-hidden text-balance break-words">
+              {resume}
+            </div>
           </div>
         </div>
         <div className="text-2xs font-semibold">
