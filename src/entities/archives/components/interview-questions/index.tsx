@@ -38,14 +38,8 @@ export const InterviewQuestions = ({
             <span>면접 예상질문</span>
             <span className="text-blue-500">{data.questions.length}</span>
           </h2>
-          <div className="mt-[18px] size-full">
-            {
-              <LoadedStatus
-                data={data.questions}
-                archiveId={archiveId}
-                className="h-full overflow-y-scroll"
-              />
-            }
+          <div className="mt-[18px] h-[80vh] w-full overflow-y-scroll">
+            {<LoadedStatus data={data.questions} archiveId={archiveId} />}
           </div>
         </>
       )}
