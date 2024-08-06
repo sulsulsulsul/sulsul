@@ -1,14 +1,12 @@
 'use client'
 
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react'
 import Image from 'next/image'
 
-import { ArchiveStatus } from '@/entities/types'
 import { cn } from '@/lib/utils'
 
 import { ArchiveCardMenu } from './archive-card-menu'
 interface ArchiveCardProps extends HTMLAttributes<HTMLDivElement> {
-  status: ArchiveStatus
   title: string
   answerCount: number
   questionCount: number
@@ -16,23 +14,21 @@ interface ArchiveCardProps extends HTMLAttributes<HTMLDivElement> {
   archiveId: number
 }
 
-const DISPLAY_ARCHIVE_STATUS = {
-  READY: '작성 전',
-  COMPLETE: '작성 완료',
-  FAIL: '작성 실패',
-  CREATING: '작성 중',
-} as const
-
 export const ArchiveCard = ({
   className,
   title,
-  status,
   answerCount,
   questionCount,
   companyName,
   archiveId,
 }: ArchiveCardProps) => {
-  const displayStatus = DISPLAY_ARCHIVE_STATUS[status]
+  const [archiveStatus, setArchiveStatus] = useState<string>('')
+
+  useEffect(() => {
+    if (answerCount === 0) return setArchiveStatus('작성 전')
+    if (answerCount < questionCount) return setArchiveStatus('작성 중')
+    if (answerCount === questionCount) return setArchiveStatus('작성 완료')
+  }, [archiveStatus, answerCount, questionCount])
 
   let percentage = !!questionCount ? (answerCount / questionCount) * 100 : 0
 
@@ -42,7 +38,7 @@ export const ArchiveCard = ({
     >
       <div className="absolute left-0 top-[20px] z-0 h-[90%] w-full rounded-md bg-blue-900">
         <span className="absolute right-6 top-[8px] text-2xs font-semibold text-white/70">
-          {displayStatus}
+          {archiveStatus}
         </span>
       </div>
       <Image
