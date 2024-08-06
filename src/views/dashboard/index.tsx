@@ -1,6 +1,10 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
+import MyPracticeStatus from '@/entities/dashboard/components/my-practice-status';
+import PracticeQuestions from '@/entities/dashboard/components/practice-questions';
+import { PracticeResultCard } from '@/entities/dashboard/components/practice-result-card';
+import { PracticeStartCard } from '@/entities/dashboard/components/practice-start-card';
+import { cn } from '@/lib/utils';
 interface DashboardProps extends HTMLAttributes<HTMLDivElement> {}
 
 /**
@@ -8,15 +12,22 @@ interface DashboardProps extends HTMLAttributes<HTMLDivElement> {}
  */
 export const Dashboard = ({ className, ...props }: DashboardProps) => {
   return (
-    <div className={cn(className)} {...props}>
-      {/* Practice Start Section */}
-      {/* Practice Status Section
-      - 술술 말한 면접질문
-      - 답변 못한 면접 질문
-      - 총 연습 시간
-     */}
-      {/* Practice History List */}
-      {/* Practice History Chart */}
-    </div>
-  )
-}
+    <main className={cn(className)} {...props}>
+      <section className={cn('flex gap-[25px]')}>
+        <PracticeStartCard
+          className={cn(
+            'flex h-[273px] min-w-[282px] flex-col items-center justify-between',
+          )}
+          nickname="수리수리"
+        />
+        <PracticeResultCard type="good" value={10} />
+        <PracticeResultCard type="time" value={10} />
+        <PracticeResultCard type="bad" value={10} />
+      </section>
+      <section className="mt-[80px] grid grid-cols-2 gap-6">
+        <PracticeQuestions />
+        <MyPracticeStatus />
+      </section>
+    </main>
+  );
+};
