@@ -33,9 +33,9 @@ export const API_ENDPOINT = {
     },
   },
   archive: {
-    getArchives: () => {
+    getArchives: (page: number) => {
       return {
-        url: `/api/v1/archives`,
+        url: `/api/v1/archives?page=${page}`,
         method: Method.GET,
         authorization: true,
       }
