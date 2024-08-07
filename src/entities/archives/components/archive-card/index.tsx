@@ -1,17 +1,18 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useEffect, useState } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes, useEffect, useState } from 'react';
+import Image from 'next/image';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
-import { ArchiveCardMenu } from './archive-card-menu'
+import { ArchiveCardMenu } from './archive-card-menu';
 interface ArchiveCardProps extends HTMLAttributes<HTMLDivElement> {
-  title: string
-  answerCount: number
-  questionCount: number
-  companyName: string
-  archiveId: number
+  title: string;
+  answerCount: number;
+  questionCount: number;
+  companyName: string;
+  archiveId: number;
+  currentPage: number;
 }
 
 export const ArchiveCard = ({
@@ -21,16 +22,17 @@ export const ArchiveCard = ({
   questionCount,
   companyName,
   archiveId,
+  currentPage,
 }: ArchiveCardProps) => {
-  const [archiveStatus, setArchiveStatus] = useState<string>('')
+  const [archiveStatus, setArchiveStatus] = useState<string>('');
 
   useEffect(() => {
-    if (answerCount === 0) return setArchiveStatus('작성 전')
-    if (answerCount < questionCount) return setArchiveStatus('작성 중')
-    if (answerCount === questionCount) return setArchiveStatus('작성 완료')
-  }, [archiveStatus, answerCount, questionCount])
+    if (answerCount === 0) return setArchiveStatus('작성 전');
+    if (answerCount < questionCount) return setArchiveStatus('작성 중');
+    if (answerCount === questionCount) return setArchiveStatus('작성 완료');
+  }, [archiveStatus, answerCount, questionCount]);
 
-  let percentage = !!questionCount ? (answerCount / questionCount) * 100 : 0
+  let percentage = !!questionCount ? (answerCount / questionCount) * 100 : 0;
 
   return (
     <div
@@ -56,7 +58,7 @@ export const ArchiveCard = ({
             <h3 className="text-2xs font-semibold">{companyName}</h3>
           </div>
           <div onClick={(e) => e.stopPropagation()}>
-            <ArchiveCardMenu archiveId={archiveId} />
+            <ArchiveCardMenu archiveId={archiveId} currentPage={currentPage} />
           </div>
         </div>
         <div className="mt-3 h-[84px]">
@@ -85,5 +87,5 @@ export const ArchiveCard = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

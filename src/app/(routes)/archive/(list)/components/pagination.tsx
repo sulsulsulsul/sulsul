@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 import {
   Pagination,
@@ -7,39 +7,48 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from '@/components/ui/pagination'
+} from '@/components/ui/pagination';
 
-export function PaginationDemo() {
-  const totalPageNum = 3
-  const pagesPerSet = 5
-  const [currentPage, setCurrentPage] = useState(1)
+interface PaginationProps {
+  currentPage: number;
+  setCurrentPage: (number: number) => void;
+  totalPage: number;
+}
+
+export function PaginationDemo({
+  currentPage,
+  setCurrentPage,
+  totalPage,
+}: PaginationProps) {
+  const TOTAL_PAGE_NUM = totalPage;
+  const PAGES_PER_SET = 5;
 
   const handlePageClick = (pageNum: number) => {
-    setCurrentPage(pageNum)
-  }
+    setCurrentPage(pageNum);
+  };
 
   const handlePreviousClick = () => {
     if (currentPage > 1) {
-      setCurrentPage(currentPage - 1)
+      setCurrentPage(currentPage - 1);
     }
-  }
+  };
 
   const handleNextClick = () => {
-    if (currentPage < totalPageNum) {
-      setCurrentPage(currentPage + 1)
+    if (currentPage < TOTAL_PAGE_NUM) {
+      setCurrentPage(currentPage + 1);
     }
-  }
+  };
 
   const getCurrentPageSet = () => {
-    const currentSet = Math.ceil(currentPage / pagesPerSet)
-    const startPage = (currentSet - 1) * pagesPerSet + 1
-    const endPage = Math.min(startPage + pagesPerSet - 1, totalPageNum)
-    return { startPage, endPage }
-  }
+    const currentSet = Math.ceil(currentPage / PAGES_PER_SET);
+    const startPage = (currentSet - 1) * PAGES_PER_SET + 1;
+    const endPage = Math.min(startPage + PAGES_PER_SET - 1, TOTAL_PAGE_NUM);
+    return { startPage, endPage };
+  };
 
   const renderPaginationItems = () => {
-    const { startPage, endPage } = getCurrentPageSet()
-    const items = []
+    const { startPage, endPage } = getCurrentPageSet();
+    const items = [];
     for (let i = startPage; i <= endPage; i++) {
       items.push(
         <PaginationItem key={i}>
@@ -47,24 +56,23 @@ export function PaginationDemo() {
             href="#"
             isActive={i === currentPage}
             onClick={(e) => {
-              e.preventDefault()
-              handlePageClick(i)
+              e.preventDefault();
+              handlePageClick(i);
             }}
           >
             {i}
           </PaginationLink>
         </PaginationItem>,
-      )
+      );
     }
-    return items
-  }
+    return items;
+  };
 
   return (
     <Pagination>
       <PaginationContent>
         <PaginationItem>
           <PaginationPrevious
-            href="#"
             onClick={handlePreviousClick}
             aria-disabled={currentPage === 1}
           />
@@ -72,12 +80,11 @@ export function PaginationDemo() {
         {renderPaginationItems()}
         <PaginationItem>
           <PaginationNext
-            href="#"
             onClick={handleNextClick}
-            aria-disabled={currentPage === totalPageNum}
+            aria-disabled={currentPage === TOTAL_PAGE_NUM}
           />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
-  )
+  );
 }
