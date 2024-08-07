@@ -1,5 +1,6 @@
 import {
   Dispatch,
+  HTMLAttributes,
   SetStateAction,
   useCallback,
   useEffect,
@@ -9,12 +10,19 @@ import {
 import Image from 'next/image';
 import { set } from 'zod';
 
-interface TimerProp {
+import { cn } from '@/lib/utils';
+
+interface TimerProp extends HTMLAttributes<HTMLDivElement> {
   setTime: Dispatch<SetStateAction<number>>;
   pauseTimer: boolean;
 }
 
-export default function Timer({ setTime, pauseTimer }: TimerProp) {
+export default function Timer({
+  setTime,
+  pauseTimer,
+  className,
+  ...props
+}: TimerProp) {
   const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   let timeInterval = useRef<null | ReturnType<typeof setTimeout>>(null);
@@ -57,7 +65,12 @@ export default function Timer({ setTime, pauseTimer }: TimerProp) {
   }, [handlePause, minutes, pauseTimer, seconds, setTime]);
 
   return (
-    <div className="flex w-fit flex-row gap-1 rounded-xl bg-gray-800  px-3 py-[11px]">
+    <div
+      className={cn(
+        'flex w-fit flex-row gap-1 rounded-xl bg-gray-800  px-3 py-[11px]',
+        className,
+      )}
+    >
       {isRunning ? (
         <button onClick={handlePause}>
           <Image

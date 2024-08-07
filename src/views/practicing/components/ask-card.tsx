@@ -1,11 +1,11 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { ArchiveQuestionItem } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
 interface AskCardProps extends HTMLAttributes<HTMLDivElement> {
-  question: ArchiveQuestionItem
-  remainingQuestions: number
+  question: ArchiveQuestionItem;
+  remainingQuestions: number;
 }
 
 export const AskCard = ({
@@ -32,5 +32,5 @@ export const AskCard = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};

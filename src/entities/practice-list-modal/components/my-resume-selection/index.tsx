@@ -16,19 +16,36 @@ interface ResumeSelection {
   resetChecked: boolean;
   archiveId: number;
   selectAll: CheckedState;
-  setQuestion: Dispatch<SetStateAction<ArchiveDetailDTO[]>>;
+  setSelectArchives: Dispatch<SetStateAction<ArchiveDetailDTO[]>>;
 }
 
 export default function MyResumeSelection({
   title,
   companyName,
   resetChecked,
-  setQuestion,
+  setSelectArchives,
   selectAll,
   archiveId,
 }: ResumeSelection) {
   const [checked, setChecked] = useState(false);
-  const { archive, isError } = useArchive(archiveId);
+  // const { archive, isError } = useArchive(archiveId);
+  const archive: ArchiveDetailDTO = {
+    archiveId: 0,
+    companyName: 'string',
+    title: 'string',
+    resume: 'string',
+    status: 'READY',
+    questions: [
+      {
+        questionId: 0,
+        content: 'string',
+        answer: 'string',
+        isAnswered: true,
+        isHint: true,
+        keywords: [],
+      },
+    ],
+  };
   useEffect(() => {
     //reset the check value
     resetChecked && setChecked(false);
@@ -36,7 +53,7 @@ export default function MyResumeSelection({
     //Add ALL question  to the list
     if (archive && selectAll) {
       setChecked(true);
-      setQuestion((prev) => {
+      setSelectArchives((prev) => {
         return prev.some((item) => item.archiveId === archiveId)
           ? prev
           : [...prev, archive];
@@ -44,15 +61,15 @@ export default function MyResumeSelection({
     } else {
       setChecked(false);
     }
-  }, [resetChecked, selectAll, setQuestion, archiveId, archive]);
+  }, [resetChecked, selectAll, setSelectArchives, archiveId, archive]);
 
   const handleCheck = () => {
     setChecked((prev) => {
       return !prev;
     });
     !checked && archive
-      ? setQuestion((prev) => [...prev, archive])
-      : setQuestion((prev) => {
+      ? setSelectArchives((prev) => [...prev, archive])
+      : setSelectArchives((prev) => {
           return prev.filter((archive) => {
             if (archive.archiveId === archiveId) {
               return false;

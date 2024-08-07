@@ -1,14 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
-import MyResumeSelection from '.'
+import MyResumeSelection from '.';
 
 const meta = {
   component: MyResumeSelection,
-} satisfies Meta<typeof MyResumeSelection>
+} satisfies Meta<typeof MyResumeSelection>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
@@ -17,6 +17,6 @@ export const Default = {
     resetChecked: false,
     archiveId: 137,
     selectAll: false,
-    setQuestion: () => {},
+    setSelectArchives: () => {},
   },
-} satisfies Story
+} satisfies Story;

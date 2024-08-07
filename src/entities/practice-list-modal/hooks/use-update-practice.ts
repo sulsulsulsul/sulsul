@@ -15,7 +15,5 @@ export const useUpdatePractice = () => {
         questionId: questionId,
         practiceStatus: practiceStatus,
       }),
-    onSuccess: () => console.log('Succefully changed practice Status'),
-    onError: () => console.log('Error in creating practice'),
   });
 };

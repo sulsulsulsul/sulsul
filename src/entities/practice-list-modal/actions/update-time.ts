@@ -10,8 +10,7 @@ export const updateTimerAction = async ({
   practiceId: number;
   time: number;
 }) => {
-  return backendApi<number>({
-    //fix this
+  return backendApi({
     endpoint: API_ENDPOINT.practice.updateTime(practiceId),
     data: {
       practiceTimeSec: time,
