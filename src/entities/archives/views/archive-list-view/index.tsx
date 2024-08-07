@@ -76,6 +76,12 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
     );
   }
 
+  const archivesArray = archives?.archives;
+  const copyArchives =
+    archivesArray && JSON.parse(JSON.stringify(archivesArray));
+  const archiveLists =
+    sortType === 'old' ? archivesArray : copyArchives?.reverse();
+
   return (
     <main className="relative px-0 pt-[-60px] sm:px-[-12px] md:px-[-20px]">
       <div className="flex justify-between">
@@ -93,18 +99,19 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
       </div>
       <div className="my-4 mb-14">
         <div className="flex flex-wrap items-center gap-6">
-          {archives?.archives?.map((archive: ArchiveListItemDTO) => (
-            <Link
-              key={archive.archiveId}
-              href={APP_ROUTES.archiveDetail(archive.archiveId)}
-            >
-              <ArchiveCard
+          {archiveLists &&
+            archiveLists?.map((archive: ArchiveListItemDTO) => (
+              <Link
                 key={archive.archiveId}
-                currentPage={currentPage}
-                {...archive}
-              />
-            </Link>
-          ))}
+                href={APP_ROUTES.archiveDetail(archive.archiveId)}
+              >
+                <ArchiveCard
+                  key={archive.archiveId}
+                  currentPage={currentPage}
+                  {...archive}
+                />
+              </Link>
+            ))}
         </div>
       </div>
       <div className="fixed -inset-x-6 bottom-0 z-10 w-[full+24px] bg-gray-100 py-3">
