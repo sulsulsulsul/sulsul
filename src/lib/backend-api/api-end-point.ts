@@ -24,6 +24,13 @@ export const API_ENDPOINT = {
         authorization: true,
       }
     },
+    updateUserJob: (userId: number, jobId: number) => {
+      return {
+        url: `/api/v1/users/${userId}/jobs/${jobId}`,
+        method: Method.PATCH,
+        authorization: true,
+      }
+    },
     updateUserNickname: (id: number) => {
       return {
         url: `/api/v1/users/${id}/nickname`,
@@ -102,10 +109,32 @@ export const API_ENDPOINT = {
       }
     },
 
-    deleteKeyword: ({ questionId, id }: { questionId: number; id: number }) => {
+    deleteKeyword: ({
+      questionId,
+      keywordId,
+    }: {
+      questionId: number
+      keywordId: number
+    }) => {
       return {
-        url: `/api/v1/questions/${questionId}/keywords/${id}`,
+        url: `/api/v1/questions/${questionId}/keywords/${keywordId}`,
         method: Method.DELETE,
+        authorization: true,
+      }
+    },
+  },
+  question: {
+    createQuestions: (archiveId: number) => {
+      return {
+        url: `/api/v1/questions/${archiveId}/ai`,
+        method: Method.POST,
+        authorization: true,
+      }
+    },
+    updateAnswer: (questionId: number) => {
+      return {
+        url: `/api/v1/questions/${questionId}/answers`,
+        method: Method.PATCH,
         authorization: true,
       }
     },
