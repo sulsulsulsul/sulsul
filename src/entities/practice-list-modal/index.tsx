@@ -114,8 +114,6 @@ export default function PracticeSelection({
     return newList;
   }, [finalList]);
 
-  console.log(selectedArchiveList);
-
   const questionCollection = selectedArchiveList.flatMap((value) => {
     return value.questions;
   });

@@ -28,8 +28,10 @@ export default function MyResumeSelection({
   archiveId,
 }: ResumeSelection) {
   const [checked, setChecked] = useState(false);
-  // const { archive, isError } = useArchive(archiveId);
-  const archive: ArchiveDetailDTO = {
+  const { archive, isError } = useArchive(137);
+
+  //FIX: remove MockArchive
+  const mockArchive: ArchiveDetailDTO = {
     archiveId: 0,
     companyName: 'string',
     title: 'string',
@@ -46,17 +48,15 @@ export default function MyResumeSelection({
       },
     ],
   };
-  useEffect(() => {
-    //reset the check value
-    resetChecked && setChecked(false);
 
-    //Add ALL question  to the list
-    if (archive && selectAll) {
+  useEffect(() => {
+    resetChecked && setChecked(false);
+    if (selectAll) {
       setChecked(true);
       setSelectArchives((prev) => {
         return prev.some((item) => item.archiveId === archiveId)
           ? prev
-          : [...prev, archive];
+          : [...prev, mockArchive];
       });
     } else {
       setChecked(false);
@@ -67,8 +67,8 @@ export default function MyResumeSelection({
     setChecked((prev) => {
       return !prev;
     });
-    !checked && archive
-      ? setSelectArchives((prev) => [...prev, archive])
+    !checked && mockArchive
+      ? setSelectArchives((prev) => [...prev, mockArchive])
       : setSelectArchives((prev) => {
           return prev.filter((archive) => {
             if (archive.archiveId === archiveId) {
