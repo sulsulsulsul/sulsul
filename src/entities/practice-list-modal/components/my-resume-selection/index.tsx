@@ -9,7 +9,6 @@ import { useArchive } from '@/entities/archives/hooks';
 import { ArchiveDetailDTO } from '@/entities/types/archive';
 import { cn } from '@/lib/utils';
 
-//예상 면접질문
 interface ResumeSelection {
   title: string;
   companyName: string;
@@ -28,35 +27,15 @@ export default function MyResumeSelection({
   archiveId,
 }: ResumeSelection) {
   const [checked, setChecked] = useState(false);
-  const { archive, isError } = useArchive(137);
-
-  //FIX: remove MockArchive
-  const mockArchive: ArchiveDetailDTO = {
-    archiveId: 0,
-    companyName: 'string',
-    title: 'string',
-    resume: 'string',
-    status: 'READY',
-    questions: [
-      {
-        questionId: 0,
-        content: 'string',
-        answer: 'string',
-        isAnswered: true,
-        isHint: true,
-        keywords: [],
-      },
-    ],
-  };
-
+  const { archive } = useArchive(archiveId);
   useEffect(() => {
     resetChecked && setChecked(false);
-    if (selectAll) {
+    if (archive && selectAll) {
       setChecked(true);
       setSelectArchives((prev) => {
         return prev.some((item) => item.archiveId === archiveId)
           ? prev
-          : [...prev, mockArchive];
+          : [...prev, archive];
       });
     } else {
       setChecked(false);
@@ -67,8 +46,8 @@ export default function MyResumeSelection({
     setChecked((prev) => {
       return !prev;
     });
-    !checked && mockArchive
-      ? setSelectArchives((prev) => [...prev, mockArchive])
+    !checked && archive
+      ? setSelectArchives((prev) => [...prev, archive])
       : setSelectArchives((prev) => {
           return prev.filter((archive) => {
             if (archive.archiveId === archiveId) {

@@ -34,57 +34,8 @@ import { HintCard } from './components/hint-card';
 nJz7tpOBv-1
 */
 export const Practicing = ({ className, ...props }: PracticingProps) => {
-  // const { timer, practiceList, practiceId } = usePracticeStore();
+  const { timer, practiceList, practiceId } = usePracticeStore();
   const { setResult, correct, incorrect } = usePracticeResultStore();
-  //FIX GET rid of mock data
-  const timer = true;
-  const practiceId = 44;
-  const practiceList: ArchiveQuestionItem[] = [
-    {
-      questionId: 198,
-      content:
-        'SK SUNNY 사회변화 챌린지 프로젝트에 참여하신 동기는 무엇이었나요?',
-      answer: 'Answer Something',
-      isAnswered: true,
-      isHint: true,
-      keywords: [],
-    },
-    {
-      questionId: 199,
-      content: "'슬기로운 화재대피' 팀에서 어떤 역할을 맡으셨나요?",
-      answer: 'Answer Something',
-      isAnswered: true,
-      isHint: true,
-      keywords: [],
-    },
-    {
-      questionId: 200,
-      content:
-        '지하철 화재 대피요령을 개선하기 위해 어떤 문제를 해결하고자 했나요?',
-      answer: '',
-      isAnswered: false,
-      isHint: true,
-      keywords: [],
-    },
-    {
-      questionId: 201,
-      content:
-        '솔루션 부착을 승인받기 어려웠던 서울교통공사를 어떻게 설득하셨나요?',
-      answer: '',
-      isAnswered: false,
-      isHint: true,
-      keywords: [],
-    },
-    {
-      questionId: 202,
-      content:
-        '팀원들과 어떤 공동체 의식을 나누었고, 어떤 역량을 함양하셨나요?',
-      answer: '',
-      isAnswered: false,
-      isHint: true,
-      keywords: [],
-    },
-  ];
 
   const smileRef = useRef<LottieRefCurrentProps>(null);
   const thinkingRef = useRef<LottieRefCurrentProps>(null);

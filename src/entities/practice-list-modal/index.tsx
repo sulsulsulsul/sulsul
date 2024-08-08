@@ -42,56 +42,19 @@ export default function PracticeSelection({
 }: PracticeSelectionProp) {
   const router = useRouter();
 
-  // const { archives } = useArchives();
-  //FIX mockArchive
-  const mockArchive: ArchiveListItemDTO[] = [
-    {
-      archiveId: 137,
-      companyName: '술술',
-      title: '팀으로 함께 성과를 만들어낸 경험을 작성해주세요.',
-      status: 'COMPLETE',
-      questionCount: 5,
-      answerCount: 2,
-      createdAt: '',
-      modifiedAt: '',
-    },
-    {
-      archiveId: 138,
-      companyName: '술술',
-      title: '팀으로 함께 성과를 만들어낸 경험을 작성해주세요.',
-      status: 'COMPLETE',
-      questionCount: 6,
-      answerCount: 1,
-      createdAt: '',
-      modifiedAt: '',
-    },
-    {
-      archiveId: 139,
-      companyName: '술술',
-      title: '공통 컴포넌트',
-      status: 'COMPLETE',
-      questionCount: 5,
-      answerCount: 1,
-      createdAt: '',
-      modifiedAt: '',
-    },
-  ];
+  const { archives } = useArchives(0);
+  const archiveList = archives?.archives;
 
-  //Store Final PracticeList
   const { setStore } = usePracticeStore();
 
-  //To trigger reset to resume component checkbox
   const [resetResume, setResetResume] = useState(false);
 
-  //To trigger reset to question component checkbox
   const [resetQuestion, setResetQuestion] = useState(false);
 
-  //Collection of ArchviesDetail
   const [selectedArchiveList, setSelectedArchiveList] = useState<
     ArchiveDetailDTO[]
   >([]);
 
-  //Final List of practice
   const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([]);
 
   const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
@@ -139,8 +102,10 @@ export default function PracticeSelection({
     setFinalList([]);
   }, []);
 
-  //TODO WHILE  SELECT ALL RESUME OR QUESTION is true and clicked item should change the state
-  useEffect(() => {}, []);
+  //TODO: State interaction with item click and all click
+  useEffect(() => {
+    selectedArchiveList.length === archiveList?.length && setAllResumes(true);
+  }, [archiveList?.length, selectedArchiveList]);
 
   const handleSubmit = async () => {
     await mutation.mutate(
@@ -192,19 +157,20 @@ export default function PracticeSelection({
         </section>
         <section className="flex flex-row">
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
-            {mockArchive.map((value: any) => {
-              return (
-                <MyResumeSelection
-                  key={value.archiveId}
-                  resetChecked={resetResume}
-                  setSelectArchives={setSelectedArchiveList}
-                  selectAll={allResumes}
-                  archiveId={value.archiveId}
-                  title={value.title}
-                  companyName={value.companyName}
-                />
-              );
-            })}
+            {archiveList &&
+              archiveList.map((value: ArchiveListItemDTO) => {
+                return (
+                  <MyResumeSelection
+                    key={value.archiveId}
+                    resetChecked={resetResume}
+                    setSelectArchives={setSelectedArchiveList}
+                    selectAll={allResumes}
+                    archiveId={value.archiveId}
+                    title={value.title}
+                    companyName={value.companyName}
+                  />
+                );
+              })}
           </div>
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
             {hintFilter || answerFilter || filteredList.length !== 0
@@ -220,7 +186,7 @@ export default function PracticeSelection({
                     />
                   );
                 })
-              : questionCollection.map((value: ArchiveQuestionItem, index) => {
+              : questionCollection.map((value: ArchiveQuestionItem) => {
                   return (
                     <QuestionSelection
                       key={value.questionId}
