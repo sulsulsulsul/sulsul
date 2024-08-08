@@ -40,7 +40,11 @@ export const HintCard = ({
     >
       <div className="flex h-[53px] w-full items-center gap-1 overflow-scroll">
         {keywords.map((value: ArchiveKeyword) => (
-          <Badge key={value.id} variant={'keyword'} className="min-w-fit">
+          <Badge
+            key={value.keywordId}
+            variant={'keyword'}
+            className="min-w-fit"
+          >
             {value.content}
           </Badge>
         ))}
