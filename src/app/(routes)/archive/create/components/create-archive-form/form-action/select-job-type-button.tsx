@@ -1,11 +1,10 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useQueryClient } from '@tanstack/react-query'
+import { useEffect, useMemo, useState } from 'react';
+import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { AlertModal } from '@/components/shared/modal'
+import { AlertModal } from '@/components/shared/modal';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,20 +15,19 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { getArchiveDetailAction } from '@/entities/archives/actions'
-import { useCreateArchive } from '@/entities/archives/hooks'
-import { useCreateQuestion } from '@/entities/questions/hooks/use-create-question'
-import { useCurrentUser } from '@/entities/users/hooks'
-import { useUpdateJob } from '@/entities/users/hooks/use-update-job'
-import { cn } from '@/lib/utils'
-import { usePendingStore, useUserStore } from '@/store/client'
-import { useCreateQuestionStore } from '@/store/createQuestions'
-import { useCurrentArchiveIdStore } from '@/store/currentArchiveId'
-import { useSampleStore } from '@/store/sampleQuestions'
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { getArchiveDetailAction } from '@/entities/archives/actions';
+import { useCreateArchive } from '@/entities/archives/hooks';
+import { useCreateQuestion } from '@/entities/questions/hooks/use-create-question';
+import { useUpdateJob } from '@/entities/users/hooks/use-update-job';
+import { cn } from '@/lib/utils';
+import { usePendingStore, useUserStore } from '@/store/client';
+import { useCreateQuestionStore } from '@/store/createQuestions';
+import { useCurrentArchiveIdStore } from '@/store/currentArchiveId';
+import { useSampleStore } from '@/store/sampleQuestions';
 
-import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
+import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form';
 
 const JOB_TYPE: string[] = [
   '기획·전략',
@@ -51,177 +49,145 @@ const JOB_TYPE: string[] = [
   '연구·R&D',
   '제조·생산',
   '공공·복지',
-] as const
+] as const;
 
-const wait = () => new Promise((resolve) => setTimeout(resolve, 0))
+const wait = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 export const SelectJobTypeModal = () => {
-  const [selectedType, setSelectedType] = useState('') //직무 타입
-  const [open, setOpen] = useState(false) //모달 열림 여부
-  const [failAlertOpen, setFailAlertOpen] = useState(false) //다시 시도 모달 열림 여부
-  //자소서 버튼 내용
-  const [buttonChildren, setButtonChildren] = useState(
-    <>
-      <ActivateTwinkleIcon />
-      <span>예상질문 예측하기</span>
-    </>,
-  )
+  const [selectedJobType, setSelectedJobType] = useState('');
+  const [open, setOpen] = useState(false); //모달 열림 여부
+  const [failAlertOpen, setFailAlertOpen] = useState(false); //다시 시도 모달 열림 여부
 
-  const { form } = useCreateArchiveFormContext()
-  const { handleSubmit, getValues } = form
+  const { form } = useCreateArchiveFormContext();
+  const { handleSubmit, getValues } = form;
 
-  const { auth } = useUserStore()
-  const userId = auth.userId
+  const { auth } = useUserStore();
+  const userId = auth.userId;
 
-  const { isPending, setIsPending } = usePendingStore()
+  const { isPending, setIsPending } = usePendingStore();
   const { isSampleClicked, isSampleWritten, setIsSampleWritten } =
-    useSampleStore()
-  const { isQuestionCreated, setIsQuestionCreated } = useCreateQuestionStore()
-  const { setCurrentId } = useCurrentArchiveIdStore()
+    useSampleStore();
+  const { isQuestionCreated, setIsQuestionCreated } = useCreateQuestionStore();
+  const { setCurrentId } = useCurrentArchiveIdStore();
 
-  const queryClient = useQueryClient()
-  const { mutate: updateJobMutation } = useUpdateJob()
-  const { mutateAsync: createArchiveMutate } = useCreateArchive()
-  const { mutateAsync: createQuestionMutate } = useCreateQuestion()
+  const queryClient = useQueryClient();
+  const { mutate: updateJobMutation } = useUpdateJob();
+  const { mutateAsync: createArchiveMutate } = useCreateArchive();
+  const { mutateAsync: createQuestionMutate } = useCreateQuestion();
 
-  const isFormValid = form.formState.isValid
-  const isSubmitting = form.formState.isSubmitting
+  const isFormValid = form.formState.isValid;
+  const isSubmitting = form.formState.isSubmitting;
 
   const handleSelectedType = (value: string) => {
-    setSelectedType(value)
-  }
+    setSelectedJobType(value);
+  };
 
-  useEffect(() => {
-    if (isQuestionCreated) {
-      console.log('isQuestionCreated', isQuestionCreated)
-      console.log('polling 끝')
-    }
-  }, [isQuestionCreated])
+  useEffect(() => {}, [isQuestionCreated, failAlertOpen]);
 
   const onSubmit = async () => {
-    setIsPending(true)
-    setFailAlertOpen(false)
-    wait().then(() => setOpen(false))
+    setIsPending(true);
+    setFailAlertOpen(false);
+    wait().then(() => setOpen(false));
 
     try {
-      console.log('job update start')
       //jobId update
-      const jobId = JOB_TYPE.indexOf(selectedType) + 1
-      if (userId) updateJobMutation({ userId, jobId })
-      console.log('job update완료', jobId)
+      const jobId = JOB_TYPE.indexOf(selectedJobType) + 1;
+      if (userId) updateJobMutation({ userId, jobId });
 
-      console.log('create archive start')
       //create archive
       const newArchiveId = await createArchiveMutate({
         title: getValues('title'),
         resume: getValues('resume'),
         companyName: getValues('companyName'),
-      })
+      });
+      setCurrentId(newArchiveId);
 
-      setCurrentId(newArchiveId)
-      console.log('create archive 완료', newArchiveId)
-
-      console.log('create questions start')
       //create questions ai
-      await createQuestionMutate({ archiveId: newArchiveId })
+      await createQuestionMutate({ archiveId: newArchiveId });
 
       // polling function to check status
       const checkStatus = async () => {
         const updatedArchive = await queryClient.fetchQuery({
           queryKey: ['archive', newArchiveId],
           queryFn: () => getArchiveDetailAction(newArchiveId),
-        })
-        console.log('updatedArchive', updatedArchive)
+        });
 
         if (updatedArchive && updatedArchive.status === 'COMPLETE') {
-          setIsPending(false)
-          setIsQuestionCreated(true)
+          setIsPending(false);
+          setIsQuestionCreated(true);
         } else if (updatedArchive && updatedArchive.status === 'FAIL') {
-          setFailAlertOpen((prev) => true)
+          setFailAlertOpen(true);
         } else {
           setTimeout(async () => {
             // Invalidate the query to refetch data
             await queryClient.invalidateQueries({
               queryKey: ['archive', newArchiveId],
-            })
-            checkStatus()
-          }, 5000)
+            });
+            checkStatus();
+          }, 5000);
         }
-      }
+      };
       // start polling
-      checkStatus()
+      checkStatus();
     } catch (error) {
-      setFailAlertOpen((prev) => true)
-      console.log(error)
-      setIsPending(false)
+      setFailAlertOpen(true);
+      setIsPending(false);
     }
-  }
+  };
 
   const isButtonDisabled = (() => {
-    if (isSampleWritten) return true
-    if (isSampleClicked) return false
-    if (isSubmitting || !isFormValid || isPending) return true
-    return false
-  })()
+    if (isSampleWritten) return true;
+    if (isSampleClicked) return false;
+    if (isSubmitting || !isFormValid || isPending) return true;
+    return false;
+  })();
 
   const buttonClassName = (() => {
     if (isPending)
-      return 'bg-gradient-to-r from-blue-500 to-[#4BF5CC] text-white'
-    if (isSampleWritten || isQuestionCreated) return 'bg-blue-100 text-blue-500'
+      return 'bg-gradient-to-r from-blue-500 to-[#4BF5CC] text-white';
+    if (isSampleWritten || isQuestionCreated)
+      return 'bg-blue-100 text-blue-500';
     if (isSampleClicked || isFormValid)
-      return 'bg-blue-500 text-white hover:bg-blue-600'
-    return ''
-  })()
+      return 'bg-blue-500 text-white hover:bg-blue-600';
+    return '';
+  })();
 
-  useEffect(() => {
-    if (isPending) {
-      setButtonChildren(
+  const buttonChildren = useMemo(() => {
+    if (isPending)
+      return (
         <>
           <ActivateTwinkleIcon />
           <span>예상질문 예측 중</span>
-        </>,
-      )
-      return
-    }
-    if (
-      !isSampleWritten &&
-      (isSampleClicked || isFormValid) &&
-      !isQuestionCreated
-    ) {
-      setButtonChildren(
-        <>
-          <ActivateTwinkleIcon />
-          <span>예상질문 예측하기</span>
-        </>,
-      )
-      return
-    }
-    if (isSampleWritten || isQuestionCreated) {
-      setButtonChildren(
+        </>
+      );
+    else if (isSampleWritten || isQuestionCreated)
+      return (
         <>
           <CompleteCheckIcon />
           <span>예상질문 예측완료</span>
-        </>,
-      )
-      return
-    }
-    setButtonChildren(
-      <>
-        <NonActivateTwinkleIcon />
-        <span>예상질문 예측하기</span>
-      </>,
-    )
+        </>
+      );
+    else if (isSampleClicked || isFormValid)
+      return (
+        <>
+          <ActivateTwinkleIcon />
+          <span>예상질문 예측하기</span>
+        </>
+      );
+    else
+      return (
+        <>
+          <NonActivateTwinkleIcon />
+          <span>예상질문 예측하기</span>
+        </>
+      );
   }, [
     isPending,
     isSampleWritten,
     isSampleClicked,
     isFormValid,
     isQuestionCreated,
-  ])
-
-  useEffect(() => {
-    console.log('failAlertOpen', failAlertOpen)
-  }, [failAlertOpen])
+  ]);
 
   return (
     <>
@@ -245,8 +211,8 @@ export const SelectJobTypeModal = () => {
             )}
             variant="outline"
             onClick={() => {
-              isSampleClicked && setIsSampleWritten()
-              setFailAlertOpen((prev) => false)
+              isSampleClicked && setIsSampleWritten();
+              setFailAlertOpen((prev) => false);
             }}
           >
             {buttonChildren}
@@ -268,7 +234,7 @@ export const SelectJobTypeModal = () => {
                     variant="outline"
                     className={cn(
                       'w-[120px] rounded-sm border-gray-300 bg-gray-50 font-normal',
-                      selectedType === type &&
+                      selectedJobType === type &&
                         'border-blue-500 bg-white text-blue-500 hover:bg-white',
                     )}
                     onClick={() => handleSelectedType(type)}
@@ -283,7 +249,7 @@ export const SelectJobTypeModal = () => {
                 취소하기
               </AlertDialogCancel>
               <AlertDialogAction
-                disabled={selectedType === ''}
+                disabled={selectedJobType === ''}
                 className="w-[180px] bg-blue-500 text-white"
                 onClick={handleSubmit(onSubmit)}
               >
@@ -294,8 +260,8 @@ export const SelectJobTypeModal = () => {
         )}
       </AlertDialog>
     </>
-  )
-}
+  );
+};
 
 const NonActivateTwinkleIcon = () => {
   return (
@@ -305,8 +271,8 @@ const NonActivateTwinkleIcon = () => {
       height={24}
       alt="icon"
     />
-  )
-}
+  );
+};
 
 const ActivateTwinkleIcon = () => {
   return (
@@ -316,8 +282,8 @@ const ActivateTwinkleIcon = () => {
       height={24}
       alt="icon"
     />
-  )
-}
+  );
+};
 
 const CompleteCheckIcon = () => {
   return (
@@ -327,5 +293,5 @@ const CompleteCheckIcon = () => {
       height={24}
       alt="icon"
     />
-  )
-}
+  );
+};
