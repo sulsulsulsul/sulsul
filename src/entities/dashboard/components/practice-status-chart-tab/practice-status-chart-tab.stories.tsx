@@ -1,18 +1,19 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
-import { PracticedQuestionTab } from './'
+import { PracticedStatusChartTab } from './';
 
 const meta = {
   args: {
-    onTabChange: fn(),
+    chartType: 'weekly',
+    onChangeChartType: fn(),
   },
-  component: PracticedQuestionTab,
-} satisfies Meta<typeof PracticedQuestionTab>
+  component: PracticedStatusChartTab,
+} satisfies Meta<typeof PracticedStatusChartTab>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {},
-}
+};

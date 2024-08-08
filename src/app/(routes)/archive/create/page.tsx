@@ -6,8 +6,8 @@ const Page = () => {
   return (
     <ArchiveFormProvider>
       <main className="flex items-start gap-6">
-        <CreateArchiveForm className="min-h-[60vh] w-[486px]" />
-        <FormStatus className="h-[60vh] w-[690px]" />
+        <CreateArchiveForm className="h-[650px] w-[486px]" />
+        <FormStatus className="h-[650px] w-[690px]" />
       </main>
     </ArchiveFormProvider>
   )

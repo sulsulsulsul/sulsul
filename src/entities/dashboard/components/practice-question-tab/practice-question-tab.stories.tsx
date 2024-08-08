@@ -1,17 +1,17 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
-import { PracticedQuestionTab } from './'
+import { PracticedQuestionTab } from './';
 
 const meta = {
   args: {
     onTabChange: fn(),
   },
   component: PracticedQuestionTab,
-} satisfies Meta<typeof PracticedQuestionTab>
+} satisfies Meta<typeof PracticedQuestionTab>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -19,7 +19,7 @@ export const Default: Story = {
     hintUsedCount: 3,
     favoriteCount: 7,
   },
-}
+};
 
 export const NoUnanswered: Story = {
   args: {
@@ -27,7 +27,7 @@ export const NoUnanswered: Story = {
     hintUsedCount: 2,
     favoriteCount: 4,
   },
-}
+};
 
 export const NoHintsUsed: Story = {
   args: {
@@ -35,7 +35,7 @@ export const NoHintsUsed: Story = {
     hintUsedCount: 0,
     favoriteCount: 5,
   },
-}
+};
 
 export const NoFavorites: Story = {
   args: {
@@ -43,4 +43,4 @@ export const NoFavorites: Story = {
     hintUsedCount: 6,
     favoriteCount: 0,
   },
-}
+};

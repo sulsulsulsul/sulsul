@@ -1,21 +1,23 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
 import {
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
-import { cn } from '@/lib/utils'
-import { useSampleStore } from '@/store/sampleQuestions'
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { useCurrentUser } from '@/entities/users/hooks';
+import { cn } from '@/lib/utils';
+import { useSampleStore } from '@/store/sampleQuestions';
 
-import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
+import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form';
 interface ContentFieldProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ContentField = ({ className, ...props }: ContentFieldProps) => {
-  const { form } = useCreateArchiveFormContext()
-  const { isSampleClicked } = useSampleStore()
+  const { form } = useCreateArchiveFormContext();
+  const { isSampleClicked } = useSampleStore();
+  const { status } = useCurrentUser();
 
   return (
     <div className={cn(className)} {...props}>
@@ -46,13 +48,15 @@ export const ContentField = ({ className, ...props }: ContentFieldProps) => {
         <FormField
           control={form.control}
           name="resume"
+          disabled={status === 'unauthenticated'}
           render={({ field }) => (
             <FormItem className="size-full">
               <FormControl>
                 <Textarea
                   maxLength={1999}
-                  className="min-h-[400px] w-full border-0 px-0"
+                  className="size-full border-0 px-0"
                   placeholder="300자 이상 2000자 이내의 내용을 입력해주세요."
+                  onFocus={() => form.clearErrors('resume')}
                   {...field}
                 />
               </FormControl>
@@ -62,5 +66,5 @@ export const ContentField = ({ className, ...props }: ContentFieldProps) => {
         />
       )}
     </div>
-  )
-}
+  );
+};

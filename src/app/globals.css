@@ -75,3 +75,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+.size-full > .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  float: right;
+  margin-bottom: -10px;
+  margin-top: 10px;
+}
+
+.card--skeleton::before {
+  content: '';
+  position: absolute;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.9),
+    transparent
+  );
+  width: 50%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  animation: shimmer 1.4s infinite;
+}
