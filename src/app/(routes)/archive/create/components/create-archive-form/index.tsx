@@ -28,18 +28,33 @@ export const CreateArchiveForm = ({
     mutate(data)
   })
 
+  //초기화 함수
+  const onClickResetContents = () => {
+    form.reset({
+      title: '',
+      companyName: '',
+      resume: '',
+    })
+    setTimeout(() => {
+      form.clearErrors(['title', 'companyName', 'resume'])
+    }, 0)
+  }
+
   return (
     <div className={cn('h-full', className)} {...props}>
       <Form {...form}>
         <form className="h-full" onSubmit={handleSubmit}>
           <Heading />
-          <div className="mt-[18px] size-full rounded-md bg-white p-[28px]">
+          <div className="mt-[18px] size-full rounded-md bg-white p-[28px] shadow-base">
             <div className="flex size-full flex-col items-start gap-2">
-              <CompanyNameField />
+              <CompanyNameField className="w-full" />
               <TitleField className="w-full" />
-              <ContentField className="w-full" />
+              <ContentField className="size-full" />
               <ContentLength />
-              <FormAction />
+              <FormAction
+                onClickResetContents={onClickResetContents}
+                className="w-full"
+              />
             </div>
           </div>
         </form>

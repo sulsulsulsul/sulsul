@@ -27,20 +27,21 @@ export type ArchiveStatus = 'READY' | 'CREATING' | 'COMPLETE' | 'FAIL';
 export type ArchiveFeedbackStatus = 'READY' | 'CREATING' | 'COMPLETE' | 'FAIL';
 
 export interface ArchiveQuestionItem {
-  id: number;
-  content: string;
-  isAnswered: boolean;
-  answer: string;
-  keywords: ArchiveKeyword[];
+  questionId: number
+  content: string
+  isAnswered: boolean
+  answer: string
+  keywords: ArchiveKeyword[]
 }
 
 export interface ArchiveKeyword {
-  id: number;
-  content: string;
+  keywordId: number
+  content: string
 }
 
 export interface ArchiveFeedback {
-  feedbackId: 0;
-  content: string;
-  status: ArchiveFeedbackStatus;
+  feedbackId: number
+  goodPoint: string
+  improvePoint: string
+  content: string
 }

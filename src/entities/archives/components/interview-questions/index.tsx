@@ -1,16 +1,16 @@
-'use client'
+'use client';
 
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { FormStatus } from '@/app/(routes)/archive/create/components/form-status'
-import { ArchiveFormProvider } from '@/app/(routes)/archive/create/hooks/use-create-archive-form'
-import { ArchiveDetailDTO } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { FormStatus } from '@/app/(routes)/archive/create/components/form-status';
+import { ArchiveFormProvider } from '@/app/(routes)/archive/create/hooks/use-create-archive-form';
+import { ArchiveDetailDTO } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { LoadedStatus } from './status/loaded'
+import { LoadedStatus } from './status/loaded';
 interface InterviewQuestionsProps extends HTMLAttributes<HTMLDivElement> {
-  data: ArchiveDetailDTO
+  data: ArchiveDetailDTO;
 }
 
 export const InterviewQuestions = ({
@@ -18,7 +18,7 @@ export const InterviewQuestions = ({
   data,
   ...props
 }: InterviewQuestionsProps) => {
-  const { status } = data
+  const { status, archiveId } = data;
   return (
     <div className={cn(className)} {...props}>
       {status === 'READY' && (
@@ -36,17 +36,13 @@ export const InterviewQuestions = ({
               alt="icon"
             />
             <span>면접 예상질문</span>
+            <span className="text-blue-500">{data.questions.length}</span>
           </h2>
-          <div className="mt-[18px] size-full">
-            {
-              <LoadedStatus
-                data={data.questions}
-                className="h-full overflow-y-scroll"
-              />
-            }
+          <div className="mt-[18px] h-[80vh] w-full overflow-y-scroll">
+            <LoadedStatus data={data.questions} archiveId={archiveId} />
           </div>
         </>
       )}
     </div>
-  )
-}
+  );
+};
