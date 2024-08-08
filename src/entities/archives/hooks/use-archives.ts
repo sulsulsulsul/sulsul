@@ -1,31 +1,22 @@
-'use client'
+'use client';
 
-import { queryOptions, useQuery } from '@tanstack/react-query'
+import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { getArchiveListAction } from '@/entities/archives/actions'
+import { getArchiveListAction } from '@/entities/archives/actions';
 
-export const ArchiveListQueryOptions = queryOptions({
-  queryKey: ['archives', 'list'],
-  queryFn: () => {
-    return getArchiveListAction()
-  },
-  refetchInterval({ state }) {
-    if (state.data && state.data.length > 0) {
-      if (
-        state.data.filter((archive) => archive.status === 'READY').length > 0
-      ) {
-        return 1000 * 10
-      }
-    }
-    return false
-  },
-})
+export const ArchiveListQueryOptions = (page: number) =>
+  queryOptions({
+    queryKey: ['archives', 'list', page],
+    queryFn: () => {
+      return getArchiveListAction(page);
+    },
+  });
 
-export const useArchives = () => {
-  const result = useQuery(ArchiveListQueryOptions)
-  const { data, ...rest } = result
+export const useArchives = (page: number) => {
+  const result = useQuery(ArchiveListQueryOptions(page));
+  const { data, ...rest } = result;
   return {
     ...rest,
     archives: data,
-  }
-}
+  };
+};
