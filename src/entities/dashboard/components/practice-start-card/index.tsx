@@ -1,17 +1,19 @@
 'use client';
 
-import { HTMLAttributes } from 'react';
+import { Dispatch, HTMLAttributes, SetStateAction } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 interface PracticeStartCardProps extends HTMLAttributes<HTMLDivElement> {
   nickname: string;
+  setModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const PracticeStartCard = ({
   className,
   nickname,
+  setModalOpen,
   ...props
 }: PracticeStartCardProps) => {
   return (
@@ -31,7 +33,9 @@ export const PracticeStartCard = ({
           height={145}
         />
       </div>
-      <Button className="w-full">실전 연습하기</Button>
+      <Button className="w-full" onClick={() => setModalOpen(true)}>
+        실전 연습하기
+      </Button>
     </div>
   );
 };

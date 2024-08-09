@@ -1,11 +1,13 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { cn } from '@/lib/utils'
+import { AuthSignedOut } from '@/components/auth/auth-signed-out';
+import { cn } from '@/lib/utils';
+import { useSampleStore } from '@/store/sampleQuestions';
 
 interface InitialInterviewQuestionProps extends HTMLAttributes<HTMLDivElement> {
-  firstLine: string
-  secondLine: string
+  firstLine: string;
+  secondLine: string;
 }
 
 export const IdleStatus = ({
@@ -14,6 +16,7 @@ export const IdleStatus = ({
   secondLine,
   ...props
 }: InitialInterviewQuestionProps) => {
+  const { setIsSampleClicked } = useSampleStore();
   return (
     <div className={cn('h-full', className)} {...props}>
       <div className="flex size-full flex-col items-center justify-center gap-4">
@@ -30,7 +33,18 @@ export const IdleStatus = ({
           height={140}
           alt="궁금해하는 술술이"
         />
+        <AuthSignedOut>
+          <div className="mt-3 font-semibold text-gray-500">
+            미리 체험해보고 싶다면?{' '}
+            <span
+              className="cursor-pointer font-normal underline"
+              onClick={setIsSampleClicked}
+            >
+              샘플 자소서로 해보기
+            </span>
+          </div>
+        </AuthSignedOut>
       </div>
     </div>
-  )
-}
+  );
+};

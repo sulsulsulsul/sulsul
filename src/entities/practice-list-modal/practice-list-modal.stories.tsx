@@ -1,17 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { fn } from '@storybook/test'
 
-import { FeedbackSectionIdle } from './index'
+import PracticeSelection from '.'
 
 const meta = {
-  component: FeedbackSectionIdle,
-} satisfies Meta<typeof FeedbackSectionIdle>
+  component: PracticeSelection,
+} satisfies Meta<typeof PracticeSelection>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default = {
   args: {
-    handleCreateFeedback: fn(),
+    setModal: () => {},
+    resumeId: 139,
   },
 } satisfies Story

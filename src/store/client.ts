@@ -1,27 +1,37 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
+
+interface PendingState {
+  isPending: boolean;
+  setIsPending: (pending: boolean) => void;
+}
+
+export const usePendingStore = create<PendingState>((set) => ({
+  isPending: false,
+  setIsPending: (pending) => set({ isPending: pending }),
+}));
 
 interface Job {
-  jobId: number
-  name: string
+  jobId: number;
+  name: string;
 }
 
 interface AuthState {
-  userId: number
-  token: string
+  userId: number;
+  token: string;
 }
 
 interface DataState {
-  email: string
-  job: Job
-  nickname: string
-  userId: number
+  email: string;
+  job: Job;
+  nickname: string;
+  userId: number;
 }
 
 interface UserState {
-  auth: AuthState
-  data: DataState
-  image: string
-  setUserInfo: (userInfo: Partial<UserState>) => void
+  auth: AuthState;
+  data: DataState;
+  image: string;
+  setUserInfo: (userInfo: Partial<UserState>) => void;
 }
 
 export const useUserStore = create<UserState>((set) => ({
@@ -51,4 +61,4 @@ export const useUserStore = create<UserState>((set) => ({
       },
       image: userInfo.image ?? state.image,
     })),
-}))
+}));
