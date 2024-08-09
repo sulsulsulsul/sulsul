@@ -138,13 +138,6 @@ export default function PracticeSelection({
     finalList,
   ]);
 
-  console.log(hintFilter, answerFilter, allQuestions);
-  console.log(finalList, modifiedQuestionCollection);
-  console.log(
-    finalList.length !== 0 &&
-      modifiedQuestionCollection.length === finalList.length,
-  );
-
   const handleSubmit = async () => {
     await mutation.mutate(
       finalList.flatMap((value) => value.questionId),
