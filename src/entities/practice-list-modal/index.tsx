@@ -31,11 +31,10 @@ import { useCreatePractice } from './hooks/use-create-practice';
 
 interface PracticeSelectionProp {
   setModal: Dispatch<SetStateAction<boolean>>;
-  //다시 하기 눌렀을떄 해당 resume 체크
+  //TODO: Get ResumeId on dashboard 다시하기 클릭
   resumeId?: number;
 }
 
-//TODO: clean up  annotation
 export default function PracticeSelection({
   setModal,
   resumeId,
@@ -66,6 +65,8 @@ export default function PracticeSelection({
   const [timer, setTimer] = useState<CheckedState>(false);
   const [random, setRandom] = useState<boolean>(false);
 
+  // const [archiveIds , setArchiveIds]= useState<number[]>([])
+
   const mutation = useCreatePractice();
 
   const shuffledList = useMemo(() => {
@@ -77,17 +78,26 @@ export default function PracticeSelection({
     return newList;
   }, [finalList]);
 
-  const questionCollection = selectedArchiveList.flatMap((value) => {
+  const rawQuestionCollection = selectedArchiveList.flatMap((value) => {
     return value.questions;
   });
-  const filteredList =
+
+  const handleFilter = useCallback(
+    (list: ArchiveQuestionItem[]) => {
+      return list?.filter((item) => {
+        const answerCondition = !answerFilter || !item.isAnswered;
+        const hintCondition = !hintFilter || item.isHint;
+        return answerCondition && hintCondition;
+      });
+    },
+    [answerFilter, hintFilter],
+  );
+
+  const modifiedQuestionCollection =
     answerFilter || hintFilter
-      ? questionCollection.filter((item) => {
-          const answerCondition = !answerFilter || !item.isAnswered;
-          const hintCondition = !hintFilter || item.isHint;
-          return answerCondition && hintCondition;
-        })
-      : [];
+      ? handleFilter(rawQuestionCollection)
+      : rawQuestionCollection;
+
   const reset = useCallback(() => {
     setResetResume(true);
     setAllQuestions(false);
@@ -102,10 +112,38 @@ export default function PracticeSelection({
     setFinalList([]);
   }, []);
 
-  //TODO: State interaction with item click and all click
   useEffect(() => {
-    selectedArchiveList.length === archiveList?.length && setAllResumes(true);
-  }, [archiveList?.length, selectedArchiveList]);
+    setResetResume(false);
+    !allResumes &&
+      selectedArchiveList.length === archiveList?.length &&
+      setAllResumes(true);
+
+    allResumes &&
+      selectedArchiveList.length !== archiveList?.length &&
+      setAllResumes(false);
+
+    if ((hintFilter || answerFilter) && allQuestions) {
+      setFinalList(modifiedQuestionCollection);
+    }
+
+    finalList.length !== 0 &&
+      modifiedQuestionCollection.length === finalList.length &&
+      setAllQuestions(true);
+  }, [
+    archiveList?.length,
+    selectedArchiveList,
+    modifiedQuestionCollection.length,
+    answerFilter,
+    hintFilter,
+    finalList,
+  ]);
+
+  console.log(hintFilter, answerFilter, allQuestions);
+  console.log(finalList, modifiedQuestionCollection);
+  console.log(
+    finalList.length !== 0 &&
+      modifiedQuestionCollection.length === finalList.length,
+  );
 
   const handleSubmit = async () => {
     await mutation.mutate(
@@ -143,14 +181,14 @@ export default function PracticeSelection({
           <PracticeModalSelectAll
             sectionId="resumes"
             setAllitems={setAllResumes}
-            reset={reset}
             allitems={allResumes}
+            reset={reset}
             description="내 자기소개서 전체"
           />
           <PracticeModalSelectAll
             sectionId="questions"
-            setAllitems={setAllQuestions}
             reset={resetQuestionList}
+            setAllitems={setAllQuestions}
             allitems={allQuestions}
             description="예상 문제 전체"
           />
@@ -173,31 +211,18 @@ export default function PracticeSelection({
               })}
           </div>
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
-            {hintFilter || answerFilter || filteredList.length !== 0
-              ? filteredList.map((value: ArchiveQuestionItem) => {
-                  return (
-                    <QuestionSelection
-                      key={value.questionId}
-                      questionProp={value}
-                      questionId={value.questionId}
-                      resetQuestion={resetQuestion}
-                      setFinalQuestions={setFinalList}
-                      selectAll={allQuestions}
-                    />
-                  );
-                })
-              : questionCollection.map((value: ArchiveQuestionItem) => {
-                  return (
-                    <QuestionSelection
-                      key={value.questionId}
-                      questionProp={value}
-                      questionId={value.questionId}
-                      resetQuestion={resetQuestion}
-                      setFinalQuestions={setFinalList}
-                      selectAll={allQuestions}
-                    />
-                  );
-                })}
+            {modifiedQuestionCollection.map((value: ArchiveQuestionItem) => {
+              return (
+                <QuestionSelection
+                  key={value.questionId}
+                  questionProp={value}
+                  questionId={value.questionId}
+                  resetQuestion={resetQuestion}
+                  setFinalQuestions={setFinalList}
+                  selectAll={allQuestions}
+                />
+              );
+            })}
           </div>
         </section>
         <section>

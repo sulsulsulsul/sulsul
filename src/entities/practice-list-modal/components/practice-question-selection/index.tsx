@@ -14,7 +14,6 @@ interface QuestionDetail {
   setFinalQuestions: Dispatch<SetStateAction<ArchiveQuestionItem[]>>;
 }
 
-//예상 면접질문
 export default function QuestionSelection({
   resetQuestion,
   setFinalQuestions,
@@ -26,14 +25,13 @@ export default function QuestionSelection({
 
   useEffect(() => {
     resetQuestion && setChecked(false);
-    selectAll
-      ? (setChecked(true),
-        setFinalQuestions((prev) => {
-          return prev.some((item) => item.questionId === questionId)
-            ? prev
-            : [...prev, questionProp];
-        }))
-      : setChecked(false);
+    selectAll &&
+      (setChecked(true),
+      setFinalQuestions((prev) => {
+        return prev.some((item) => item.questionId === questionId)
+          ? prev
+          : [...prev, questionProp];
+      }));
   }, [resetQuestion, selectAll]);
 
   return (

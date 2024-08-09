@@ -28,6 +28,7 @@ export default function MyResumeSelection({
 }: ResumeSelection) {
   const [checked, setChecked] = useState(false);
   const { archive } = useArchive(archiveId);
+
   useEffect(() => {
     resetChecked && setChecked(false);
     if (archive && selectAll) {
@@ -37,15 +38,17 @@ export default function MyResumeSelection({
           ? prev
           : [...prev, archive];
       });
-    } else {
-      setChecked(false);
+
+      // 아카이브 아이디만 저장
+      // setArchiveIds((prev) => {
+      //   return prev.some((item) => item  === archiveId)
+      //     ? prev
+      //     : [...prev, archiveId];
+      // })
     }
   }, [resetChecked, selectAll, setSelectArchives, archiveId, archive]);
 
   const handleCheck = () => {
-    setChecked((prev) => {
-      return !prev;
-    });
     !checked && archive
       ? setSelectArchives((prev) => [...prev, archive])
       : setSelectArchives((prev) => {
@@ -55,6 +58,7 @@ export default function MyResumeSelection({
             } else return true;
           });
         });
+    setChecked((prev) => !prev);
   };
 
   return (
