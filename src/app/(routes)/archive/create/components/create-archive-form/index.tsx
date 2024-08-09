@@ -1,18 +1,18 @@
-'use client'
+'use client';
 
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { Form } from '@/components/ui/form'
-import { useCreateArchive } from '@/entities/archives/hooks'
-import { cn } from '@/lib/utils'
+import { Form } from '@/components/ui/form';
+import { useCreateArchive } from '@/entities/archives/hooks';
+import { cn } from '@/lib/utils';
 
-import { useCreateArchiveFormContext } from '../../hooks/use-create-archive-form'
-import { ContentLength } from './content-length'
-import { CompanyNameField } from './fields/company-name-field'
-import { ContentField } from './fields/content-field'
-import { TitleField } from './fields/title-field'
-import { FormAction } from './form-action'
-import { Heading } from './heading'
+import { useCreateArchiveFormContext } from '../../hooks/use-create-archive-form';
+import { ContentLength } from './content-length';
+import { CompanyNameField } from './fields/company-name-field';
+import { ContentField } from './fields/content-field';
+import { TitleField } from './fields/title-field';
+import { FormAction } from './form-action';
+import { Heading } from './heading';
 
 interface CreateArchiveFormProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -20,13 +20,13 @@ export const CreateArchiveForm = ({
   className,
   ...props
 }: CreateArchiveFormProps) => {
-  const { form } = useCreateArchiveFormContext()
-  const { mutate, isPending } = useCreateArchive()
+  const { form } = useCreateArchiveFormContext();
+  const { mutate, isPending } = useCreateArchive();
 
   const handleSubmit = form.handleSubmit((data) => {
-    if (isPending) return
-    mutate(data)
-  })
+    if (isPending) return;
+    mutate(data);
+  });
 
   //초기화 함수
   const onClickResetContents = () => {
@@ -34,11 +34,11 @@ export const CreateArchiveForm = ({
       title: '',
       companyName: '',
       resume: '',
-    })
+    });
     setTimeout(() => {
-      form.clearErrors(['title', 'companyName', 'resume'])
-    }, 0)
-  }
+      form.clearErrors(['title', 'companyName', 'resume']);
+    }, 0);
+  };
 
   return (
     <div className={cn('h-full', className)} {...props}>
@@ -60,5 +60,5 @@ export const CreateArchiveForm = ({
         </form>
       </Form>
     </div>
-  )
-}
+  );
+};

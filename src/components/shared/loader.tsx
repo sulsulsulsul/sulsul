@@ -1,10 +1,10 @@
-'use client'
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+'use client';
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
-import './loader.css'
+import './loader.css';
 interface LoaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Loader = ({ className, ...props }: LoaderProps) => {
@@ -26,5 +26,5 @@ export const Loader = ({ className, ...props }: LoaderProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -1,8 +1,8 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 interface CurrentArchiveId {
-  currentId: number
-  setCurrentId: (id: number) => void
+  currentId: number;
+  setCurrentId: (id: number) => void;
 }
 
 export const useCurrentArchiveIdStore = create<CurrentArchiveId>((set) => ({
@@ -11,4 +11,4 @@ export const useCurrentArchiveIdStore = create<CurrentArchiveId>((set) => ({
     set({
       currentId: state,
     }),
-}))
+}));

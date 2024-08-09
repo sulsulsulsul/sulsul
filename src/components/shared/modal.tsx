@@ -1,7 +1,7 @@
-'use client'
+'use client';
 
-import React from 'react'
-import Image from 'next/image'
+import React from 'react';
+import Image from 'next/image';
 
 import {
   AlertDialogAction,
@@ -11,15 +11,15 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
+} from '@/components/ui/alert-dialog';
 
-import alert from '/public/images/icons/alert.svg'
+import alert from '/public/images/icons/alert.svg';
 
 interface AlertModalProps {
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void
-  title: string
-  desc: string
-  action: string
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  title: string;
+  desc: string;
+  action: string;
 }
 
 export const AlertModal = ({
@@ -48,5 +48,5 @@ export const AlertModal = ({
         </AlertDialogAction>
       </AlertDialogFooter>
     </AlertDialogContent>
-  )
-}
+  );
+};

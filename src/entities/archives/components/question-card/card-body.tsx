@@ -1,21 +1,21 @@
-import { HTMLAttributes, useEffect, useState } from 'react'
-import { useQueryClient } from '@tanstack/react-query'
+import { HTMLAttributes, useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback'
-import { useUpdateAnswer } from '@/entities/questions/hooks/use-update-answer'
-import { ArchiveQuestionItem } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback';
+import { useUpdateAnswer } from '@/entities/questions/hooks/use-update-answer';
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { FeedbackSectionComplete } from '../feedback-section-complete'
-import { FeedbackSectionIdle } from '../feedback-section-idle'
-import { KeywordSection } from '../keyword-section'
-import { QuestionAnswer } from '../question-answer'
-import { QuestionAnswerForm } from '../question-answer-form'
+import { FeedbackSectionComplete } from '../feedback-section-complete';
+import { FeedbackSectionIdle } from '../feedback-section-idle';
+import { KeywordSection } from '../keyword-section';
+import { QuestionAnswer } from '../question-answer';
+import { QuestionAnswerForm } from '../question-answer-form';
 interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
-  question: ArchiveQuestionItem
-  questionId: number
-  isAnswered: boolean
-  archiveId: number
+  question: ArchiveQuestionItem;
+  questionId: number;
+  isAnswered: boolean;
+  archiveId: number;
 }
 
 export const CardBody = ({
@@ -26,13 +26,13 @@ export const CardBody = ({
   archiveId,
   ...props
 }: CardBodyProps) => {
-  const { answer } = question
-  const [isAnswerChanged, setIsAnswerChanged] = useState(false)
+  const { answer } = question;
+  const [isAnswerChanged, setIsAnswerChanged] = useState(false);
 
-  const { mutate: updateAnswerMutation } = useUpdateAnswer()
+  const { mutate: updateAnswerMutation } = useUpdateAnswer();
 
-  const { feedback, refetch } = useFeedback(questionId)
-  const queryClient = useQueryClient()
+  const { feedback, refetch } = useFeedback(questionId);
+  const queryClient = useQueryClient();
 
   const onSubmit = (data: { answer: string }) => {
     updateAnswerMutation(
@@ -41,19 +41,19 @@ export const CardBody = ({
         onSuccess: () => {
           queryClient.invalidateQueries({
             queryKey: ['archive', archiveId],
-          })
+          });
           queryClient.invalidateQueries({
             queryKey: ['feedback', questionId],
-          })
-          setIsAnswerChanged(true)
+          });
+          setIsAnswerChanged(true);
         },
       },
-    )
-  }
+    );
+  };
 
   const handleAnswerChanged = () => {
-    setIsAnswerChanged(false)
-  }
+    setIsAnswerChanged(false);
+  };
 
   return (
     <div className={cn('flex flex-col gap-2', className)} {...props}>
@@ -92,5 +92,5 @@ export const CardBody = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -1,6 +1,6 @@
-import * as React from 'react'
+import * as React from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
@@ -10,52 +10,52 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     { className, type, placeholder, value, onChange, onKeyDown, ...props },
     ref,
   ) => {
-    const inputRef = React.useRef<HTMLInputElement | null>(null)
-    const spanRef = React.useRef<HTMLSpanElement | null>(null)
-    const [inputWidth, setInputWidth] = React.useState('auto')
+    const inputRef = React.useRef<HTMLInputElement | null>(null);
+    const spanRef = React.useRef<HTMLSpanElement | null>(null);
+    const [inputWidth, setInputWidth] = React.useState('auto');
 
     React.useEffect(() => {
       const handleInput = () => {
         if (spanRef.current && inputRef.current) {
           spanRef.current.textContent =
-            inputRef.current.value || placeholder || ''
-          setInputWidth(`${spanRef.current.scrollWidth}px`)
+            inputRef.current.value || placeholder || '';
+          setInputWidth(`${spanRef.current.scrollWidth}px`);
         }
-      }
+      };
 
       if (inputRef.current) {
-        handleInput() // Initialize width
+        handleInput(); // Initialize width
 
-        inputRef.current.addEventListener('input', handleInput)
+        inputRef.current.addEventListener('input', handleInput);
         return () => {
-          inputRef.current?.removeEventListener('input', handleInput)
-        }
+          inputRef.current?.removeEventListener('input', handleInput);
+        };
       }
-    }, [placeholder])
+    }, [placeholder]);
 
     React.useEffect(() => {
       if (inputRef.current) {
-        inputRef.current.value = String(value) || ''
+        inputRef.current.value = String(value) || '';
       }
 
       const handleEnterKeyUp = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
           if (inputRef.current) {
-            inputRef.current.value = ''
+            inputRef.current.value = '';
           }
 
-          setInputWidth((prev) => '73px') // Reset width on Enter
+          setInputWidth((prev) => '73px'); // Reset width on Enter
         }
-      }
+      };
 
       if (inputRef.current) {
-        inputRef.current.addEventListener('keyup', handleEnterKeyUp)
+        inputRef.current.addEventListener('keyup', handleEnterKeyUp);
 
         return () => {
-          inputRef.current?.removeEventListener('keyup', handleEnterKeyUp)
-        }
+          inputRef.current?.removeEventListener('keyup', handleEnterKeyUp);
+        };
       }
-    }, [value])
+    }, [value]);
 
     return (
       <div className="relative inline-block">
@@ -66,18 +66,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             className,
           )}
           ref={(instance) => {
-            inputRef.current = instance
+            inputRef.current = instance;
             if (typeof ref === 'function') {
-              ref(instance)
+              ref(instance);
             } else if (ref) {
-              ref.current = instance
+              ref.current = instance;
             }
           }}
           onChange={(e) => {
-            onChange && onChange(e)
+            onChange && onChange(e);
             if (spanRef.current && inputRef.current) {
-              spanRef.current.textContent = e.target.value || placeholder || ''
-              setInputWidth(`${spanRef.current.scrollWidth}px`)
+              spanRef.current.textContent = e.target.value || placeholder || '';
+              setInputWidth(`${spanRef.current.scrollWidth}px`);
             }
           }}
           onKeyDown={onKeyDown}
@@ -91,9 +91,9 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           aria-hidden="true"
         />
       </div>
-    )
+    );
   },
-)
-Input.displayName = 'Input'
+);
+Input.displayName = 'Input';
 
-export { Input }
+export { Input };

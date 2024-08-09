@@ -4,24 +4,24 @@ import {
   KeyboardEvent,
   useRef,
   useState,
-} from 'react'
-import { useQueryClient } from '@tanstack/react-query'
-import { HelpCircle } from 'lucide-react'
+} from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { HelpCircle } from 'lucide-react';
 
-import { Input } from '@/components/ui/input'
+import { Input } from '@/components/ui/input';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip'
-import { useCreateKeyword } from '@/entities/keywords/hooks/use-create-keyword'
-import { useKeywords } from '@/entities/keywords/hooks/use-get-keyword'
-import { cn } from '@/lib/utils'
+} from '@/components/ui/tooltip';
+import { useCreateKeyword } from '@/entities/keywords/hooks/use-create-keyword';
+import { useKeywords } from '@/entities/keywords/hooks/use-get-keyword';
+import { cn } from '@/lib/utils';
 
-import { KeywordSet } from './keyword'
+import { KeywordSet } from './keyword';
 interface KeywordSectionProps extends HTMLAttributes<HTMLDivElement> {
-  questionId: number
+  questionId: number;
 }
 
 export const KeywordSection = ({
@@ -29,38 +29,38 @@ export const KeywordSection = ({
   questionId,
   ...props
 }: KeywordSectionProps) => {
-  const [inputValue, setInputValue] = useState('')
-  const inputRef = useRef<HTMLInputElement>(null)
+  const [inputValue, setInputValue] = useState('');
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const { mutate: createKeywordMutation } = useCreateKeyword()
-  const { keywords } = useKeywords(questionId)
-  const queryClient = useQueryClient()
+  const { mutate: createKeywordMutation } = useCreateKeyword();
+  const { keywords } = useKeywords(questionId);
+  const queryClient = useQueryClient();
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value)
-  }
+    setInputValue(e.target.value);
+  };
 
   const handleInputSubmit = () => {
-    if (inputValue.trim() === '') return
+    if (inputValue.trim() === '') return;
 
-    const newKeyword = inputValue.trim()
+    const newKeyword = inputValue.trim();
     createKeywordMutation(
       { questionId, content: newKeyword },
       {
         onSuccess: () => {
-          setInputValue(() => '')
-          queryClient.invalidateQueries({ queryKey: ['keywords', questionId] })
+          setInputValue(() => '');
+          queryClient.invalidateQueries({ queryKey: ['keywords', questionId] });
         },
       },
-    )
-  }
+    );
+  };
 
   const handleCreateKeyword = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && e.nativeEvent.isComposing === false) {
-      e.preventDefault()
-      handleInputSubmit()
+      e.preventDefault();
+      handleInputSubmit();
     }
-  }
+  };
 
   return (
     <div className={cn(className)} {...props}>
@@ -93,5 +93,5 @@ export const KeywordSection = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};

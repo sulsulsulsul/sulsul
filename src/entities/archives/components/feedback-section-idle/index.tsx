@@ -1,19 +1,19 @@
-import { HTMLAttributes, useState } from 'react'
-import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query'
+import { HTMLAttributes, useState } from 'react';
+import { QueryObserverResult, RefetchOptions } from '@tanstack/react-query';
 
-import { Button } from '@/components/ui/button'
-import { useCreateFeedback } from '@/entities/feedbacks/hooks/use-create-feedback'
-import { ArchiveFeedback } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { useCreateFeedback } from '@/entities/feedbacks/hooks/use-create-feedback';
+import { ArchiveFeedback } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { FeedbackSectionPending } from '../feedback-section-pending'
+import { FeedbackSectionPending } from '../feedback-section-pending';
 
 interface FeedbackSectionIdleProps extends HTMLAttributes<HTMLDivElement> {
-  questionId: number
-  isAnswered: boolean
+  questionId: number;
+  isAnswered: boolean;
   refetch: (
     options?: RefetchOptions,
-  ) => Promise<QueryObserverResult<ArchiveFeedback, Error>>
+  ) => Promise<QueryObserverResult<ArchiveFeedback, Error>>;
 }
 
 export const FeedbackSectionIdle = ({
@@ -23,27 +23,27 @@ export const FeedbackSectionIdle = ({
   refetch,
   ...props
 }: FeedbackSectionIdleProps) => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { mutate: createFeedbackMutation } = useCreateFeedback()
+  const { mutate: createFeedbackMutation } = useCreateFeedback();
 
   const handleCreateFeedback = () => {
     if (isAnswered) {
-      setIsLoading(true)
+      setIsLoading(true);
       createFeedbackMutation(
         { questionId },
         {
           onSuccess: () => {
-            refetch()
+            refetch();
             setTimeout(() => {
-              refetch()
-              setIsLoading(false)
-            }, 5000)
+              refetch();
+              setIsLoading(false);
+            }, 5000);
           },
         },
-      )
+      );
     }
-  }
+  };
 
   return (
     <div className={cn(className)} {...props}>
@@ -67,5 +67,5 @@ export const FeedbackSectionIdle = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};

@@ -1,18 +1,18 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
-import { useSampleStore } from '@/store/sampleQuestions'
+import { cn } from '@/lib/utils';
+import { useSampleStore } from '@/store/sampleQuestions';
 
-import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form'
+import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form';
 interface ContentLengthProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ContentLength = ({ className, ...props }: ContentLengthProps) => {
-  const SAMPLE_CONTENT_LENGTH = 523
+  const SAMPLE_CONTENT_LENGTH = 523;
 
-  const { form } = useCreateArchiveFormContext()
-  const { isSampleClicked } = useSampleStore()
+  const { form } = useCreateArchiveFormContext();
+  const { isSampleClicked } = useSampleStore();
 
-  const contentLength = form.watch('resume')?.length || 0
+  const contentLength = form.watch('resume')?.length || 0;
 
   return (
     <div className={cn(className)} {...props}>
@@ -23,5 +23,5 @@ export const ContentLength = ({ className, ...props }: ContentLengthProps) => {
         <span className="text-gray-400">/2000자</span>
       </div>
     </div>
-  )
-}
+  );
+};

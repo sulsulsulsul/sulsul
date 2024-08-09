@@ -1,24 +1,24 @@
-import { HTMLAttributes, PropsWithChildren } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { signIn } from 'next-auth/react'
+import { HTMLAttributes, PropsWithChildren } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { signIn } from 'next-auth/react';
 
-import { AuthSignedOut } from '@/components/auth/auth-signed-out'
-import { AlertDialogCancel } from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { useVideoStateStore } from '@/store/modal'
+import { AuthSignedOut } from '@/components/auth/auth-signed-out';
+import { AlertDialogCancel } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { useVideoStateStore } from '@/store/modal';
 
 type SingInViewProps = HTMLAttributes<HTMLDivElement> &
   PropsWithChildren & {
-    callbackUrl: string
-  }
+    callbackUrl: string;
+  };
 export const SignInView = ({
   className,
   callbackUrl,
   ...props
 }: SingInViewProps) => {
-  const { restart } = useVideoStateStore()
+  const { restart } = useVideoStateStore();
 
   return (
     <AuthSignedOut>
@@ -114,5 +114,5 @@ export const SignInView = ({
         </main>
       </div>
     </AuthSignedOut>
-  )
-}
+  );
+};

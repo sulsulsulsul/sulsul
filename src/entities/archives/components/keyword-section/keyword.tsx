@@ -1,13 +1,13 @@
-import { useQueryClient } from '@tanstack/react-query'
-import { X } from 'lucide-react'
+import { useQueryClient } from '@tanstack/react-query';
+import { X } from 'lucide-react';
 
-import { useDeleteKeyword } from '@/entities/keywords/hooks/use-delete-keyword'
-import { KeywordDTO } from '@/entities/types'
+import { useDeleteKeyword } from '@/entities/keywords/hooks/use-delete-keyword';
+import { KeywordDTO } from '@/entities/types';
 
 interface KeywordProps {
-  keywords?: KeywordDTO[]
-  isHeader?: boolean
-  questionId?: number
+  keywords?: KeywordDTO[];
+  isHeader?: boolean;
+  questionId?: number;
 }
 
 export const KeywordSet = ({
@@ -15,8 +15,8 @@ export const KeywordSet = ({
   isHeader = false,
   questionId = 0,
 }: KeywordProps) => {
-  const { mutate: deleteKeywordMutation } = useDeleteKeyword()
-  const queryClient = useQueryClient()
+  const { mutate: deleteKeywordMutation } = useDeleteKeyword();
+  const queryClient = useQueryClient();
 
   const onDeleteKeyword = (keywordId: number) => {
     {
@@ -26,12 +26,12 @@ export const KeywordSet = ({
           onSuccess: () => {
             queryClient.invalidateQueries({
               queryKey: ['keywords', questionId],
-            })
+            });
           },
         },
-      )
+      );
     }
-  }
+  };
   return keywords.map((keyword) => (
     <div
       key={keyword.keywordId}
@@ -47,7 +47,7 @@ export const KeywordSet = ({
         </span>
       )}
     </div>
-  ))
-}
+  ));
+};
 
-KeywordSet.displayName = 'KeywordSet'
+KeywordSet.displayName = 'KeywordSet';

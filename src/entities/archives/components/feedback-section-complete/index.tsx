@@ -1,16 +1,16 @@
-import { HTMLAttributes, useState } from 'react'
+import { HTMLAttributes, useState } from 'react';
 
-import { Button } from '@/components/ui/button'
-import { useCreateFeedback } from '@/entities/feedbacks/hooks/use-create-feedback'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { useCreateFeedback } from '@/entities/feedbacks/hooks/use-create-feedback';
+import { cn } from '@/lib/utils';
 
-import { FeedbackSectionPending } from '../feedback-section-pending'
+import { FeedbackSectionPending } from '../feedback-section-pending';
 interface FeedbackSectionCompleteProps extends HTMLAttributes<HTMLDivElement> {
-  goodFeedback: string
-  badFeedback: string
-  isAnswerChanged: boolean
-  handleAnswerChanged: () => void
-  questionId: number
+  goodFeedback: string;
+  badFeedback: string;
+  isAnswerChanged: boolean;
+  handleAnswerChanged: () => void;
+  questionId: number;
 }
 
 export const FeedbackSectionComplete = ({
@@ -22,26 +22,26 @@ export const FeedbackSectionComplete = ({
   questionId,
   ...props
 }: FeedbackSectionCompleteProps) => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { mutate: createFeedbackMutation } = useCreateFeedback()
+  const { mutate: createFeedbackMutation } = useCreateFeedback();
 
   const handleCreateFeedback = () => {
     if (isAnswerChanged) {
-      setIsLoading(true)
+      setIsLoading(true);
       createFeedbackMutation(
         { questionId },
         {
           onSuccess: () => {
-            handleAnswerChanged()
+            handleAnswerChanged();
             setTimeout(() => {
-              setIsLoading(false)
-            }, 5000)
+              setIsLoading(false);
+            }, 5000);
           },
         },
-      )
+      );
     }
-  }
+  };
 
   return (
     <div className={cn(className)} {...props}>
@@ -71,5 +71,5 @@ export const FeedbackSectionComplete = ({
         )}
       </div>
     </div>
-  )
-}
+  );
+};

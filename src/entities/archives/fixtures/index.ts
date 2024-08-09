@@ -36,6 +36,7 @@ export const mockArchiveQuestionItem = (): ArchiveQuestionItem => ({
   isAnswered: faker.datatype.boolean(),
   answer: faker.lorem.paragraph(),
   keywords: Array.from({ length: 5 }, () => mockArchiveKeyword()),
+  isHint: faker.datatype.boolean(),
 });
 
 export const mockArchiveKeyword = (): ArchiveKeyword => ({
@@ -48,7 +49,6 @@ export const mockArchiveFeedback = (): ArchiveFeedback => ({
   goodPoint: faker.lorem.paragraph(10),
   improvePoint: faker.lorem.paragraph(10),
   content: faker.lorem.paragraph(10),
-  status: 'COMPLETE',
 });
 
 export const mockGetArchiveListAction = async (): ReturnType<

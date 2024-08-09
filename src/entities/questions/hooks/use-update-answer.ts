@@ -1,15 +1,15 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
   updateAnswerAction,
   UpdateAnswerParams,
-} from '../actions/update-answer-action'
+} from '../actions/update-answer-action';
 
 export const useUpdateAnswer = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async (params: UpdateAnswerParams) => {
-      return updateAnswerAction(params)
+      return updateAnswerAction(params);
     },
-  })
-}
+  });
+};

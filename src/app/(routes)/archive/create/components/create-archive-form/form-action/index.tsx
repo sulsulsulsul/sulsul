@@ -1,13 +1,13 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-import { SelectJobTypeModal } from './select-job-type-button'
+import { SelectJobTypeModal } from './select-job-type-button';
 
 interface FormActionProps extends HTMLAttributes<HTMLDivElement> {
-  onClickResetContents: () => void
+  onClickResetContents: () => void;
 }
 
 export const FormAction = ({
@@ -34,5 +34,5 @@ export const FormAction = ({
         <SelectJobTypeModal />
       </div>
     </div>
-  )
-}
+  );
+};

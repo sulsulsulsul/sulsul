@@ -1,26 +1,26 @@
-'use client'
+'use client';
 
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
-import { cn } from '@/lib/utils'
+} from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
+import { cn } from '@/lib/utils';
 
 import {
   QuestionAnswerFormValues,
   useQuestionAnswerForm,
-} from '../../hooks/use-question-answer-form'
+} from '../../hooks/use-question-answer-form';
 
 interface QuestionAnswerFormProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onSubmit'> {
-  onSubmit: (data: QuestionAnswerFormValues) => void
+  onSubmit: (data: QuestionAnswerFormValues) => void;
 }
 
 export const QuestionAnswerForm = ({
@@ -28,12 +28,12 @@ export const QuestionAnswerForm = ({
   onSubmit,
   ...props
 }: QuestionAnswerFormProps) => {
-  const form = useQuestionAnswerForm()
-  const answerLength = form.watch('answer')?.length
+  const form = useQuestionAnswerForm();
+  const answerLength = form.watch('answer')?.length;
 
   const handleSubmit = form.handleSubmit((data) => {
-    onSubmit(data)
-  })
+    onSubmit(data);
+  });
 
   return (
     <Form {...form}>
@@ -113,5 +113,5 @@ export const QuestionAnswerForm = ({
         </form>
       </div>
     </Form>
-  )
-}
+  );
+};

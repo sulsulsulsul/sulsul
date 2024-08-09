@@ -1,13 +1,13 @@
-'use server'
+'use server';
 
-import { API_ENDPOINT } from '@/lib/backend-api/api-end-point'
-import { backendApi } from '@/lib/backend-api/client'
+import { API_ENDPOINT } from '@/lib/backend-api/api-end-point';
+import { backendApi } from '@/lib/backend-api/client';
 
 export type CreateKeywordActionParams = {
-  questionId: number
-  content: string
-  accessToken?: string
-}
+  questionId: number;
+  content: string;
+  accessToken?: string;
+};
 
 export const createKeywordAction = ({
   questionId,
@@ -20,5 +20,5 @@ export const createKeywordAction = ({
       content,
     },
     accessToken,
-  })
-}
+  });
+};

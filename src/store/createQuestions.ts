@@ -1,8 +1,8 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 interface isQuestionCreated {
-  isQuestionCreated: boolean
-  setIsQuestionCreated: (state: boolean) => void
+  isQuestionCreated: boolean;
+  setIsQuestionCreated: (state: boolean) => void;
 }
 
 export const useCreateQuestionStore = create<isQuestionCreated>((set) => ({
@@ -11,4 +11,4 @@ export const useCreateQuestionStore = create<isQuestionCreated>((set) => ({
     set({
       isQuestionCreated: state,
     }),
-}))
+}));

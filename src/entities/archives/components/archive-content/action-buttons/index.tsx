@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-import { Button } from '@/components/ui/button'
-import { APP_ROUTES } from '@/config/constants/app-routes'
-import { ArchiveFeedbackStatus } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { APP_ROUTES } from '@/config/constants/app-routes';
+import { ArchiveFeedbackStatus } from '@/entities/types';
+import { cn } from '@/lib/utils';
 interface ActionButtonsProps extends HTMLAttributes<HTMLDivElement> {
-  status: ArchiveFeedbackStatus
+  status: ArchiveFeedbackStatus;
 }
 
 export const ActionButtons = ({
@@ -17,10 +17,10 @@ export const ActionButtons = ({
   status,
   ...props
 }: ActionButtonsProps) => {
-  const router = useRouter()
+  const router = useRouter();
   const handleNew = () => {
-    router.push(APP_ROUTES.createArchive())
-  }
+    router.push(APP_ROUTES.createArchive());
+  };
 
   return (
     <div className={cn('flex items-center gap-2', className)} {...props}>
@@ -55,5 +55,5 @@ export const ActionButtons = ({
         </Button>
       )}
     </div>
-  )
-}
+  );
+};

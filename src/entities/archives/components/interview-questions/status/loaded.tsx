@@ -1,12 +1,12 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { ArchiveQuestionItem } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { QuestionCard } from '../../question-card'
+import { QuestionCard } from '../../question-card';
 interface LoadedInterviewQuestionProps extends HTMLAttributes<HTMLDivElement> {
-  data: ArchiveQuestionItem[]
-  archiveId: number
+  data: ArchiveQuestionItem[];
+  archiveId: number;
 }
 
 export const LoadedStatus = ({
@@ -23,5 +23,5 @@ export const LoadedStatus = ({
         ))}
       </div>
     </div>
-  )
-}
+  );
+};

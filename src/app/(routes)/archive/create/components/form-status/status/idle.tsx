@@ -1,13 +1,13 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { AuthSignedOut } from '@/components/auth/auth-signed-out'
-import { cn } from '@/lib/utils'
-import { useSampleStore } from '@/store/sampleQuestions'
+import { AuthSignedOut } from '@/components/auth/auth-signed-out';
+import { cn } from '@/lib/utils';
+import { useSampleStore } from '@/store/sampleQuestions';
 
 interface InitialInterviewQuestionProps extends HTMLAttributes<HTMLDivElement> {
-  firstLine: string
-  secondLine: string
+  firstLine: string;
+  secondLine: string;
 }
 
 export const IdleStatus = ({
@@ -16,7 +16,7 @@ export const IdleStatus = ({
   secondLine,
   ...props
 }: InitialInterviewQuestionProps) => {
-  const { setIsSampleClicked } = useSampleStore()
+  const { setIsSampleClicked } = useSampleStore();
   return (
     <div className={cn('h-full', className)} {...props}>
       <div className="flex size-full flex-col items-center justify-center gap-4">
@@ -46,5 +46,5 @@ export const IdleStatus = ({
         </AuthSignedOut>
       </div>
     </div>
-  )
-}
+  );
+};

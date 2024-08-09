@@ -1,13 +1,13 @@
-import { HTMLAttributes } from 'react'
-import { motion } from 'framer-motion'
+import { HTMLAttributes } from 'react';
+import { motion } from 'framer-motion';
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { Question } from './page'
 interface AnswerButtonProps extends HTMLAttributes<HTMLDivElement> {
-  questions: Question[]
-  handleCorrect: () => void
+  questions: ArchiveQuestionItem[];
+  handleCorrect: () => void;
 }
 
 export const AnswerButton = ({
@@ -25,11 +25,11 @@ export const AnswerButton = ({
             transition={{
               layout: { duration: 0.2 },
             }}
-            key={item.id}
-            layoutId={item.id}
+            key={item.questionId}
+            layoutId={item.questionId.toString()}
             className="absolute  left-[2.5%] top-[-10px] w-[95%] rounded-md bg-blue-500 p-4 text-white"
           ></motion.div>
-        )
+        );
       })}
 
       <Button
@@ -41,5 +41,5 @@ export const AnswerButton = ({
         <span className="text-gray-300">{questions.length}</span>
       </Button>
     </div>
-  )
-}
+  );
+};

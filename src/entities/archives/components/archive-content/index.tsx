@@ -1,16 +1,16 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { ArchiveStatus } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { ArchiveStatus } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { ActionButtons } from './action-buttons'
+import { ActionButtons } from './action-buttons';
 
 interface ArchiveContentProps extends HTMLAttributes<HTMLDivElement> {
-  title: string
-  resume: string
-  companyName: string
-  status: ArchiveStatus
+  title: string;
+  resume: string;
+  companyName: string;
+  status: ArchiveStatus;
 }
 
 export const ArchiveContent = ({
@@ -55,5 +55,5 @@ export const ArchiveContent = ({
         <ActionButtons status={status} className="mt-4" />
       </div>
     </div>
-  )
-}
+  );
+};

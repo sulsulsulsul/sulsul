@@ -1,24 +1,24 @@
-'use client'
+'use client';
 
-import { useEffect, useRef, useState } from 'react'
-import { HighlightMenu } from 'react-highlight-menu'
-import { HighlightWithinTextarea } from 'react-highlight-within-textarea'
-import { useForm } from 'react-hook-form'
+import { useEffect, useRef, useState } from 'react';
+import { HighlightMenu } from 'react-highlight-menu';
+import { HighlightWithinTextarea } from 'react-highlight-within-textarea';
+import { useForm } from 'react-hook-form';
 
-import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
-import { ArchiveKeyword } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem } from '@/components/ui/form';
+import { ArchiveKeyword } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { useQuestionAnswerForm } from '../../hooks/use-question-answer-form'
-import { KeywordNote } from './keyword-note'
+import { useQuestionAnswerForm } from '../../hooks/use-question-answer-form';
+import { KeywordNote } from './keyword-note';
 
 interface QuestionAnswerProps {
-  className?: string
-  answer: string
-  keywords: ArchiveKeyword[]
-  questionId: number
-  onSubmit: (data: { answer: string }) => void
+  className?: string;
+  answer: string;
+  keywords: ArchiveKeyword[];
+  questionId: number;
+  onSubmit: (data: { answer: string }) => void;
 }
 
 export const QuestionAnswer = ({
@@ -29,31 +29,31 @@ export const QuestionAnswer = ({
   onSubmit,
   ...props
 }: QuestionAnswerProps) => {
-  const [isEditing, setIsEditing] = useState(false)
-  const [isFocused, setIsFocused] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const form = useQuestionAnswerForm()
+  const form = useQuestionAnswerForm();
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       answer: answer,
     },
-  })
-  const localAnswer = watch('answer')
+  });
+  const localAnswer = watch('answer');
 
   useEffect(() => {
-    setValue('answer', answer)
-  }, [answer, setValue])
+    setValue('answer', answer);
+  }, [answer, setValue]);
 
   useEffect(() => {
-    setIsEditing(localAnswer !== answer)
-  }, [localAnswer])
+    setIsEditing(localAnswer !== answer);
+  }, [localAnswer]);
 
   const onFormSubmit = handleSubmit((data) => {
-    onSubmit({ answer: data.answer })
-    setIsEditing(false)
-  })
+    onSubmit({ answer: data.answer });
+    setIsEditing(false);
+  });
 
   return (
     <Form {...form}>
@@ -76,7 +76,7 @@ export const QuestionAnswer = ({
                           return {
                             highlight: keyword.content,
                             className: 'bg-green-300',
-                          }
+                          };
                         })}
                         onChange={(value) => field.onChange(value)}
                         onFocus={() => setIsFocused(true)}
@@ -128,5 +128,5 @@ export const QuestionAnswer = ({
         </form>
       </div>
     </Form>
-  )
-}
+  );
+};

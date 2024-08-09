@@ -1,19 +1,19 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogTrigger,
-} from '@radix-ui/react-alert-dialog'
+} from '@radix-ui/react-alert-dialog';
 
 import {
   AlertDialogDescription,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { SignInView } from '@/entities/auth/views/sign-in-view'
-import { cn } from '@/lib/utils'
+} from '@/components/ui/alert-dialog';
+import { SignInView } from '@/entities/auth/views/sign-in-view';
+import { cn } from '@/lib/utils';
 
-import dropdown from '/public/images/icons/dropdown.svg'
+import dropdown from '/public/images/icons/dropdown.svg';
 
 interface ValidInterviewQuestionProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -28,7 +28,7 @@ export const CompleteStatus = ({
     'MVP 테스트를 진행하는 과정에서 어려웠던 점은 무엇이었나요?',
     'MVP 테스트를 진행하면서 얻은 피드백 중에서 가장 기억에 남는 것은 무엇이었나요?',
     '팀원들과의 협업 과정에서 특별히 어려웠던 부분이 있었나요?',
-  ]
+  ];
 
   return (
     <div className="flex size-full cursor-pointer flex-col gap-3">
@@ -57,5 +57,5 @@ export const CompleteStatus = ({
         </AlertDialog>
       ))}
     </div>
-  )
-}
+  );
+};

@@ -1,8 +1,8 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { AuthSignedOut } from '@/components/auth/auth-signed-out'
-import { cn } from '@/lib/utils'
+import { AuthSignedOut } from '@/components/auth/auth-signed-out';
+import { cn } from '@/lib/utils';
 
 interface ValidInterviewQuestionProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -39,5 +39,5 @@ export const ValidStatus = ({
         </AuthSignedOut>
       </div>
     </div>
-  )
-}
+  );
+};

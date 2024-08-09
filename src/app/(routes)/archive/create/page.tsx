@@ -1,6 +1,6 @@
-import { CreateArchiveForm } from './components/create-archive-form'
-import { FormStatus } from './components/form-status'
-import { ArchiveFormProvider } from './hooks/use-create-archive-form'
+import { CreateArchiveForm } from './components/create-archive-form';
+import { FormStatus } from './components/form-status';
+import { ArchiveFormProvider } from './hooks/use-create-archive-form';
 
 const Page = () => {
   return (
@@ -10,7 +10,7 @@ const Page = () => {
         <FormStatus className="h-[650px] w-[690px]" />
       </main>
     </ArchiveFormProvider>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;

@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import { MenuArgs } from 'react-highlight-menu'
-import Image from 'next/image'
-import { useQueryClient } from '@tanstack/react-query'
+import { useState } from 'react';
+import { MenuArgs } from 'react-highlight-menu';
+import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { Button } from '@/components/ui/button'
-import { useCreateKeyword } from '@/entities/keywords/hooks/use-create-keyword'
+import { Button } from '@/components/ui/button';
+import { useCreateKeyword } from '@/entities/keywords/hooks/use-create-keyword';
 
 interface KeywordNoteProps extends MenuArgs {
-  questionId: number
+  questionId: number;
 }
 export const KeywordNote = ({
   selectedText = '',
@@ -15,10 +15,10 @@ export const KeywordNote = ({
   setMenuOpen,
   questionId,
 }: KeywordNoteProps) => {
-  const [isHovered, setIsHovered] = useState(false)
+  const [isHovered, setIsHovered] = useState(false);
 
-  const queryClient = useQueryClient()
-  const { mutate: createKeywordMutation } = useCreateKeyword()
+  const queryClient = useQueryClient();
+  const { mutate: createKeywordMutation } = useCreateKeyword();
 
   return (
     <div>
@@ -28,7 +28,7 @@ export const KeywordNote = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={(e) => {
-          e.preventDefault()
+          e.preventDefault();
           setClipboard(selectedText, () => {
             createKeywordMutation(
               { questionId, content: selectedText },
@@ -36,12 +36,12 @@ export const KeywordNote = ({
                 onSuccess: () => {
                   queryClient.invalidateQueries({
                     queryKey: ['keywords', questionId],
-                  })
-                  setMenuOpen(false)
+                  });
+                  setMenuOpen(false);
                 },
               },
-            )
-          })
+            );
+          });
         }}
       >
         <Image
@@ -59,5 +59,5 @@ export const KeywordNote = ({
         </span>
       </Button>
     </div>
-  )
-}
+  );
+};

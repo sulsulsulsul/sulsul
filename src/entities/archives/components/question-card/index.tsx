@@ -1,22 +1,22 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useState } from 'react'
+import { HTMLAttributes, useState } from 'react';
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion'
-import { ArchiveQuestionItem } from '@/entities/types'
-import { cn } from '@/lib/utils'
+} from '@/components/ui/accordion';
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { CardBody } from './card-body'
-import { CardHeader } from './card-header'
+import { CardBody } from './card-body';
+import { CardHeader } from './card-header';
 
 interface QuestionCardProps extends HTMLAttributes<HTMLDivElement> {
-  data: ArchiveQuestionItem
-  archiveId?: number
+  data: ArchiveQuestionItem;
+  archiveId?: number;
 }
 
 export const QuestionCard = ({
@@ -25,9 +25,9 @@ export const QuestionCard = ({
   archiveId,
   ...props
 }: QuestionCardProps) => {
-  const [isAccodionOpen, setIsAccodionOpen] = useState(false)
+  const [isAccodionOpen, setIsAccodionOpen] = useState(false);
 
-  const { content, keywords, isAnswered, questionId } = data
+  const { content, keywords, isAnswered, questionId } = data;
 
   return (
     <div className={cn(className)} {...props}>
@@ -57,5 +57,5 @@ export const QuestionCard = ({
         </Accordion>
       </div>
     </div>
-  )
-}
+  );
+};

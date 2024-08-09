@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export const createArchiveSchema = z.object({
   title: z.string(),
@@ -11,6 +11,6 @@ export const createArchiveSchema = z.object({
     .max(2000, {
       message: '300자 이상 2000자 이내의 내용을 입력해주세요.',
     }),
-})
+});
 
-export type CreateArchiveFormData = z.infer<typeof createArchiveSchema>
+export type CreateArchiveFormData = z.infer<typeof createArchiveSchema>;

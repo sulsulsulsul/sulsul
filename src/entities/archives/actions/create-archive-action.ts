@@ -1,12 +1,12 @@
-'use server'
+'use server';
 
-import { API_ENDPOINT } from '@/lib/backend-api/api-end-point'
-import { backendApi } from '@/lib/backend-api/client'
+import { API_ENDPOINT } from '@/lib/backend-api/api-end-point';
+import { backendApi } from '@/lib/backend-api/client';
 
 export interface CreateArchiveActionRequest {
-  title: string
-  resume: string
-  companyName: string
+  title: string;
+  resume: string;
+  companyName: string;
 }
 
 export const createArchiveAction = async (
@@ -17,5 +17,5 @@ export const createArchiveAction = async (
     data: {
       ...props,
     },
-  })
-}
+  });
+};

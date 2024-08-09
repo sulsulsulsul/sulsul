@@ -1,10 +1,10 @@
-import { create } from 'zustand'
+import { create } from 'zustand';
 
 interface SampleState {
-  isSampleClicked: boolean
-  isSampleWritten: boolean
-  setIsSampleClicked: () => void
-  setIsSampleWritten: () => void
+  isSampleClicked: boolean;
+  isSampleWritten: boolean;
+  setIsSampleClicked: () => void;
+  setIsSampleWritten: () => void;
 }
 
 export const useSampleStore = create<SampleState>((set) => ({
@@ -12,4 +12,4 @@ export const useSampleStore = create<SampleState>((set) => ({
   isSampleWritten: false,
   setIsSampleClicked: () => set({ isSampleClicked: true }),
   setIsSampleWritten: () => set({ isSampleWritten: true }),
-}))
+}));
