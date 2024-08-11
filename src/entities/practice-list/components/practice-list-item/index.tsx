@@ -1,7 +1,22 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { Checkbox } from '@/components/ui/checkbox';
-import { PracticeQuestionsProps } from '@/entities/dashboard/components/practice-questions';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 interface PracticeListItemProps {
   archiveId: number;
   title: string;
@@ -79,14 +94,25 @@ export default function PracticeListItem({
             alt="icon"
           />
         )}
-        <button>
-          <Image
-            src="/images/icons/icn-more-gray.svg"
-            width={24}
-            height={24}
-            alt="icon"
-          />
-        </button>
+
+        {/* {TODO:FIX THE LINK POSSIBLE USE ROUTER PUSH WITH QUERY BEHIND  } */}
+
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            {' '}
+            <Image
+              src="/images/icons/icn-more-gray.svg"
+              width={24}
+              height={24}
+              alt="icon"
+            />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>
+              <Link href={'/'}>blah</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   );

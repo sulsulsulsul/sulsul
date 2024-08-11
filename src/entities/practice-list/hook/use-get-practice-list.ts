@@ -11,7 +11,7 @@ export const usePracticeList = () => {
   });
   const { data, ...rest } = result;
   return {
-    list: data!,
+    questions: data?.questionsCollection,
     ...rest,
   };
 };

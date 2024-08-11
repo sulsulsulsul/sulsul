@@ -36,11 +36,21 @@ export const getArchiveDetailedAction = async () => {
     }
     const allQuestionsDetail = await Promise.all(questionDetailPromises);
     const newAlllQuestionDetail = allQuestionsDetail.map((value, index) => {
-      return { ...value, questionId: i.questions[index].questionId };
+      return {
+        ...value,
+        questionId: i.questions[index].questionId,
+        archiveId: i.archiveId,
+        companyName: i.companyName,
+        title: i.title,
+      };
     });
     const collect = { ...i, allQuestionsDetail: newAlllQuestionDetail };
     modifiedList.push(collect);
     questionDetailPromises = [];
   }
-  return modifiedList;
+  const questionsCollection = modifiedList.flatMap((value) => {
+    return value.allQuestionsDetail;
+  });
+
+  return { questionsCollection: questionsCollection };
 };

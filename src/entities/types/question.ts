@@ -5,6 +5,9 @@ import {
 } from './archive';
 
 export interface QuestionDetailType {
+  archiveId: number;
+  title: string;
+  companyName: string;
   questionId: number;
   content: string;
   baseStartIndex: number;

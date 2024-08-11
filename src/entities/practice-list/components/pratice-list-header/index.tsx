@@ -33,12 +33,12 @@ export default function PracticeListHeader({ setFilter, setHint }: HeaderProp) {
             setHint(value);
           }}
         >
-          <SelectTrigger className="mr-[30px] flex h-full w-fit flex-row justify-center border-none outline-none ring-0 focus:ring-0 focus:ring-offset-0">
+          <SelectTrigger className="mr-[30px] flex h-full w-fit flex-row justify-start border-none outline-none ring-0 focus:ring-0 focus:ring-offset-0">
             <span className="">힌트</span>
           </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              <SelectItem value="on">
+          <SelectContent className="ml-4">
+            <SelectGroup className="justify-start">
+              <SelectItem value="on" className="justify-start">
                 <Image
                   src="/images/icons/icon-eye-on.svg"
                   width={24}
@@ -62,10 +62,10 @@ export default function PracticeListHeader({ setFilter, setHint }: HeaderProp) {
             setFilter(value);
           }}
         >
-          <SelectTrigger className="mr-[20px] flex h-full w-fit flex-none flex-row justify-center ring-0 focus:ring-0 focus:ring-offset-0">
-            <SelectValue placeholder="최근 순" className="w-fit" />
+          <SelectTrigger className="mr-[20px] flex h-full w-[75px] flex-none flex-row justify-center ring-0 focus:ring-0 focus:ring-offset-0">
+            <SelectValue placeholder="최근 순" className="w-[37px] truncate" />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="ml-4">
             <SelectGroup>
               <SelectItem value="recent">최근 순</SelectItem>
               <SelectItem value="old">오래된 순</SelectItem>
