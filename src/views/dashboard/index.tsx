@@ -5,7 +5,7 @@ import MyPracticeStatus from '@/entities/dashboard/components/my-practice-status
 import PracticeQuestions from '@/entities/dashboard/components/practice-questions';
 import { PracticeResultCard } from '@/entities/dashboard/components/practice-result-card';
 import { PracticeStartCard } from '@/entities/dashboard/components/practice-start-card';
-import PracticeSelection from '@/entities/practice-list-modal';
+import PracticeSelection from '@/entities/practice-modal';
 import { cn } from '@/lib/utils';
 interface DashboardProps extends HTMLAttributes<HTMLDivElement> {}
 

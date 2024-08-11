@@ -14,11 +14,11 @@ import { set } from 'zod';
 
 import { SmileAnimation } from '@/components/lotties/smile-animation';
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
-import Timer from '@/entities/practice-list-modal/components/timer/timer';
+import Timer from '@/entities/practice-modal/components/timer/timer';
 import {
   useUpdatePractice,
   useUpdateTime,
-} from '@/entities/practice-list-modal/hooks';
+} from '@/entities/practice-modal/hooks';
 import { ArchiveQuestionItem } from '@/entities/types';
 import {
   usePracticeResultStore,

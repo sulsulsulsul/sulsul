@@ -1,4 +1,11 @@
+import {
+  ArchiveDetailDTO,
+  ArchiveListItemDTO,
+  ArchiveQuestionItem,
+} from './archive';
+
 export interface QuestionDetailType {
+  questionId: number;
   content: string;
   baseStartIndex: number;
   baseEndIndex: number;
@@ -22,4 +29,8 @@ export interface QuestionDetailType {
       content: string;
     },
   ];
+}
+
+export interface PracticeQuestionListType extends ArchiveDetailDTO {
+  allQuestionsDetail: QuestionDetailType[];
 }
