@@ -20,6 +20,7 @@ import {
   useUpdateTime,
 } from '@/entities/practice-list-modal/hooks';
 import { ArchiveQuestionItem } from '@/entities/types';
+import { useUserStore } from '@/store/client';
 import {
   usePracticeResultStore,
   usePracticeStore,
@@ -36,6 +37,10 @@ nJz7tpOBv-1
 export const Practicing = ({ className, ...props }: PracticingProps) => {
   const { timer, practiceList, practiceId } = usePracticeStore();
   const { setResult, correct, incorrect } = usePracticeResultStore();
+  const { firstPractice } = useUserStore((state) => ({
+    firstPractice: state.data.firstPractice,
+  }));
+  const [coachModal, setCoachModal] = useState(firstPractice);
 
   const smileRef = useRef<LottieRefCurrentProps>(null);
   const thinkingRef = useRef<LottieRefCurrentProps>(null);
@@ -102,24 +107,24 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
     }
   }, [questions, router]);
 
-  const [coachModal, setCoachModal] = useState(true);
+  const handleCoachMark = () => {
+    //TODO: Add API to change user firstPractice = false
+    setCoachModal(false);
+  };
 
   return (
     <div className={cn(className)} {...props}>
       {coachModal && (
         <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-gray-800/80"></div>
       )}
-      {timer &&
-        (coachModal ? (
-          <div className={cn('flex justify-between  mt-1')}>
+      {coachModal ? (
+        <>
+          <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-gray-800/80"></div>
+          <div className={cn('flex justify-between')}>
             <div className="flex items-center">
               <button
                 className="absolute z-30 flex w-fit flex-row items-center gap-px p-[16px]"
-                onClick={() =>
-                  setCoachModal((prev) => {
-                    return !prev;
-                  })
-                }
+                onClick={handleCoachMark}
               >
                 <Image
                   src="/images/icons/check-box.svg"
@@ -133,40 +138,47 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
                 </span>
               </button>
             </div>
-            <div className="flex flex-col">
-              <div className=" z-[60] rounded-md bg-white">
-                <Timer
-                  setTime={setTime}
-                  pauseTimer={pauseTimer}
-                  className="relative z-20 m-2"
-                />
-              </div>
-              <div className="sticky z-20 flex items-start justify-center">
-                <div className="absolute flex size-fit flex-row gap-x-1.5">
-                  <span className="mt-[38px] font-semibold text-white">
-                    타이머
-                  </span>
-                  <Image
-                    src="/images/icons/arrow-hint.svg"
-                    className="mb-[10px] mr-6 rotate-180 "
-                    width={65}
-                    height={76}
-                    alt="icon"
+            {timer && (
+              <div className="flex flex-col">
+                <div className="z-[60] rounded-md bg-white">
+                  <Timer
+                    setTime={setTime}
+                    pauseTimer={pauseTimer}
+                    className="relative z-20 m-2"
                   />
                 </div>
+                <div className="sticky z-20 flex items-start justify-center">
+                  <div className="absolute flex size-fit flex-row gap-x-1.5">
+                    <span className="mt-[38px] font-semibold text-white">
+                      타이머
+                    </span>
+                    <Image
+                      src="/images/icons/arrow-hint.svg"
+                      className="mb-[10px] mr-6 rotate-180 "
+                      width={65}
+                      height={76}
+                      alt="icon"
+                    />
+                  </div>
+                </div>
               </div>
+            )}
+          </div>
+        </>
+      ) : (
+        <>
+          {timer && (
+            <div className={cn('flex justify-end')}>
+              <Timer
+                setTime={setTime}
+                pauseTimer={pauseTimer}
+                className="relative z-20 m-2"
+              />
             </div>
-          </div>
-        ) : (
-          <div className={cn('flex justify-end')}>
-            <Timer
-              setTime={setTime}
-              pauseTimer={pauseTimer}
-              className="relative z-20 "
-            />
-          </div>
-        ))}
-      {questions.length == 0 && (
+          )}
+        </>
+      )}
+      {questions.length === 0 && (
         <div className="relative mt-[86px] h-[468px] w-[792px]  min-w-[343px] "></div>
       )}
       {questions.length > 0 && (
@@ -237,7 +249,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
                 alt="icon"
               />
               <div className="flex size-fit flex-col gap-2">
-                <div className="flex h-[32px] flex-row items-center justify-items-center">
+                <div className="flex h-[32px] flex-row items-center justify-items-center gap-2">
                   <Image
                     src="/images/icons/face-smile.svg"
                     width={32}
@@ -248,7 +260,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
                     잘 답변했다면
                   </span>
                 </div>
-                <div className="mb-20 flex h-[32px] flex-row items-center justify-items-center">
+                <div className="mb-20 flex h-[32px] flex-row items-center justify-items-center gap-2">
                   <Image
                     src="/images/icons/face-thinking.svg"
                     width={32}
