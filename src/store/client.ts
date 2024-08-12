@@ -25,6 +25,8 @@ interface DataState {
   job: Job;
   nickname: string;
   userId: number;
+  firstLogin: boolean;
+  firstPractice: boolean;
 }
 
 interface UserState {
@@ -47,6 +49,8 @@ export const useUserStore = create<UserState>((set) => ({
     },
     nickname: '',
     userId: 0,
+    firstLogin: false,
+    firstPractice: false,
   },
   image: '',
   setUserInfo: (userInfo) =>

@@ -1,37 +1,38 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
-import { useUserStore } from '@/store/client'
-import { useVideoStateStore } from '@/store/modal'
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { useUserStore } from '@/store/client';
+import { useVideoStateStore } from '@/store/modal';
 
-import { AvatarSuri } from '../../components/avatar'
-import { ListDialog } from '../../components/list-dialog'
-import { DialogListProp, OnBoardProp } from '../../types/onboard'
+import { AvatarSuri } from '../../components/avatar';
+import { ListDialog } from '../../components/list-dialog';
+import { DialogListProp, OnBoardProp } from '../../types/onboard';
 
 export const OnboardModal = () => {
-  const { nickname } = useUserStore((state) => ({
+  const { nickname, firstLogin } = useUserStore((state) => ({
     nickname: state.data.nickname,
-  }))
-  const [buttonDisable, setButtonDisable] = useState<boolean>(true)
-  const [step, setStep] = useState<number>(0)
-  const [dialogNumber, setDialogNumber] = useState<number>(0)
-  const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible')
-  const descriptionText = buttonDisable ? 'text-gray-500' : 'text-blue-500'
-  const { pause, restart } = useVideoStateStore()
+    firstLogin: state.data.firstLogin,
+  }));
+  const [buttonDisable, setButtonDisable] = useState<boolean>(true);
+  const [step, setStep] = useState<number>(0);
+  const [dialogNumber, setDialogNumber] = useState<number>(0);
+  const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible');
+  const descriptionText = buttonDisable ? 'text-gray-500' : 'text-blue-500';
+  const { pause, restart } = useVideoStateStore();
 
   useEffect(() => {
-    pause()
+    pause();
     const timerId = setInterval(() => {
-      setStep((prev) => (prev += 1))
-    }, 1000)
+      setStep((prev) => (prev += 1));
+    }, 1000);
     setTimeout(() => {
-      clearInterval(timerId)
-      setButtonDisable(false)
-    }, 1000 * dialog[dialogNumber].messageListProp.length)
-  }, [dialogNumber])
+      clearInterval(timerId);
+      setButtonDisable(false);
+    }, 1000 * dialog[dialogNumber].messageListProp.length);
+  }, [dialogNumber]);
 
   const dialog: OnBoardProp[] = [
     {
@@ -152,60 +153,62 @@ export const OnboardModal = () => {
       ],
       buttonText: '좋아! 시작해볼래',
     },
-  ]
+  ];
 
   const initialize = () => {
-    setButtonDisable(true)
-    setDialogNumber(1)
-    setStep(0)
-  }
+    setButtonDisable(true);
+    setDialogNumber(1);
+    setStep(0);
+  };
   const handleClose = () => {
-    restart()
-    setVisibility('hidden')
-  }
+    restart();
+    setVisibility('hidden');
+  };
 
   return (
-    <div
-      className={cn(
-        'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80',
-        visibility,
-      )}
-    >
-      <div className="left-[40rem] z-[60] flex h-[38rem] w-[32rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
-        <div className="flex flex-col gap-3 self-start">
-          <AvatarSuri></AvatarSuri>
-          {dialog &&
-            dialog[dialogNumber].messageListProp &&
-            dialog[dialogNumber].messageListProp.map(
-              (value: DialogListProp, index: number) => {
-                return (
-                  <ListDialog
-                    firstDialog={value.firstDialog}
-                    key={index}
-                    dialogContents={value.dialogContents}
-                    id={value.id}
-                    iconMessage={value.iconMessage}
-                    hidden={index === 0 || index <= step ? false : true}
-                  />
-                )
-              },
-            )}
-        </div>
-        <div
-          className={`flex flex-col  gap-2  text-[14px]  ${descriptionText}`}
-        >
-          {dialogNumber === 1 &&
-            '* 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.'}
-          <Button
-            className="w-[340px]"
-            variant="default"
-            disabled={buttonDisable}
-            onClick={dialogNumber === 0 ? initialize : handleClose}
+    firstLogin && (
+      <div
+        className={cn(
+          'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80',
+          visibility,
+        )}
+      >
+        <div className="left-[40rem] z-[60] flex h-[38rem] w-[32rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
+          <div className="flex flex-col gap-3 self-start">
+            <AvatarSuri></AvatarSuri>
+            {dialog &&
+              dialog[dialogNumber].messageListProp &&
+              dialog[dialogNumber].messageListProp.map(
+                (value: DialogListProp, index: number) => {
+                  return (
+                    <ListDialog
+                      firstDialog={value.firstDialog}
+                      key={index}
+                      dialogContents={value.dialogContents}
+                      id={value.id}
+                      iconMessage={value.iconMessage}
+                      hidden={index === 0 || index <= step ? false : true}
+                    />
+                  );
+                },
+              )}
+          </div>
+          <div
+            className={`flex flex-col  gap-2  text-[14px]  ${descriptionText}`}
           >
-            {dialog[dialogNumber].buttonText}
-          </Button>
+            {dialogNumber === 1 &&
+              '* 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.'}
+            <Button
+              className="w-[340px]"
+              variant="default"
+              disabled={buttonDisable}
+              onClick={dialogNumber === 0 ? initialize : handleClose}
+            >
+              {dialog[dialogNumber].buttonText}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
-  )
-}
+    )
+  );
+};

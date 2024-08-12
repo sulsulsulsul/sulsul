@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { useSession } from 'next-auth/react'
+import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
-import { useUserStore } from '@/store/client'
+import { useUserStore } from '@/store/client';
 
 export const useCurrentUser = () => {
-  const { data, status, update } = useSession()
-  const setUserInfo = useUserStore((state) => state.setUserInfo)
+  const { data, status, update } = useSession();
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
 
   useEffect(() => {
     if (data?.user) {
@@ -21,15 +21,17 @@ export const useCurrentUser = () => {
           job: data.user.data?.job || { jobId: 0, name: '' },
           nickname: data.user.data?.nickname || '',
           userId: data.user.auth?.userId || 0,
+          firstLogin: data.user.data?.firstLogin || false,
+          firstPractice: data.user.data?.firstPractice || false,
         },
         image: data.user.image || '',
-      })
+      });
     }
-  }, [data])
+  }, [data]);
 
   return {
     user: useUserStore((state) => state),
     status,
     update,
-  }
-}
+  };
+};
