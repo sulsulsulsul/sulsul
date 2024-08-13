@@ -70,7 +70,7 @@ export const OnboardModal = () => {
                 className: 'font-bold',
               },
               {
-                message: '라고 해요!',
+                message: '에요!',
                 className: 'font-normal',
               },
             ],
@@ -87,7 +87,7 @@ export const OnboardModal = () => {
           dialogContents: [
             [
               {
-                message: '을 통해서',
+                message: ' 을 통해서',
                 className: 'font-normal',
               },
             ],
