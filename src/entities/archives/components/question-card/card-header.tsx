@@ -61,6 +61,7 @@ export const CardHeader = ({
   }, [inputValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.stopPropagation();
     setInputValue(e.target.value);
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';

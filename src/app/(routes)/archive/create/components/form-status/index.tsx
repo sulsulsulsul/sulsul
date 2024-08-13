@@ -5,6 +5,7 @@ import Image from 'next/image';
 
 import { InterviewQuestions } from '@/entities/archives/components/interview-questions';
 import { PendingStatus } from '@/entities/archives/components/interview-questions/status/pending';
+import { AddQuestion } from '@/entities/archives/components/question-card/add-question';
 import { useArchive } from '@/entities/archives/hooks';
 import { cn } from '@/lib/utils';
 import { usePendingStore } from '@/store/client';
@@ -35,7 +36,10 @@ export const FormStatus = ({
   return (
     <div className={cn(className)} {...props}>
       {isQuestionCreated ? (
-        <InterviewQuestions data={archive!} className="h-full w-[690px]" />
+        <>
+          <InterviewQuestions data={archive!} className="h-full w-[690px]" />
+          {isQuestionCreated && <AddQuestion archiveId={currentId} />}
+        </>
       ) : (
         <>
           <h2 className="flex items-center gap-1 text-4xl font-bold">
@@ -52,7 +56,7 @@ export const FormStatus = ({
           ) : (
             <div className="mt-[18px] size-full rounded-md shadow-base">
               {isSubmitting || isPending ? (
-                <PendingStatus className="bg-gray-50" />
+                <PendingStatus />
               ) : isSampleClicked ||
                 (isFormValid && !isSubmitting && !isPending) ? (
                 <ValidStatus />
