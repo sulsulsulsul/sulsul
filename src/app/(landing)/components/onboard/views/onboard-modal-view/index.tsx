@@ -176,8 +176,8 @@ export const OnboardModal = () => {
       )}
     >
       <div className="left-[40rem] z-[60] flex h-[32.75rem] w-[27rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
-        <div className="self-star mb-3 flex w-full flex-col">
-          <div className="flex size-full justify-between">
+        <div className="mb-3 flex w-full flex-col self-start">
+          <div className="mb-3 flex size-full justify-between">
             <AvatarSuri></AvatarSuri>
             <div className="my-2.5 text-2xl">
               <span className="text-gray-500">{`${dialogNumber + 1}`}</span>{' '}
