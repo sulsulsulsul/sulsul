@@ -1,44 +1,48 @@
-import React, { HTMLAttributes, useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import React, { HTMLAttributes, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-import SelectDropdown from '@/app/(routes)/archive/(list)/components/select-dropdown'
-import { IdleStatus } from '@/app/(routes)/archive/create/components/form-status/status/idle'
-import { Loader } from '@/components/shared/loader'
-import { Button } from '@/components/ui/button'
-import { APP_ROUTES } from '@/config/constants/app-routes'
-import { ArchiveListItemDTO } from '@/entities/types'
+import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/pagination';
+import SelectDropdown from '@/app/(routes)/archive/(list)/components/select-dropdown';
+import { IdleStatus } from '@/app/(routes)/archive/create/components/form-status/status/idle';
+import { Loader } from '@/components/shared/loader';
+import { Button } from '@/components/ui/button';
+import { APP_ROUTES } from '@/config/constants/app-routes';
+import { ArchiveListItemDTO } from '@/entities/types';
 
-import arrowUpRight from '../../../../../public/images/icons/icon-arrow_up_right.svg'
-import { ArchiveCard } from '../../components/archive-card'
-import { useArchives } from '../../hooks'
+import arrowUpRight from '../../../../../public/images/icons/icon-arrow_up_right.svg';
+import { ArchiveCard } from '../../components/archive-card';
+import { useArchives } from '../../hooks';
 
 interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
-  const { archives, isError, isLoading, isSuccess } = useArchives()
-  const [sortType, setSortType] = useState<'recent' | 'old'>('recent')
+  const [currentPage, setCurrentPage] = useState(1);
+  const { archives, isError, isLoading, isSuccess } = useArchives(
+    currentPage - 1,
+  );
+  const [sortType, setSortType] = useState<'recent' | 'old'>('recent');
 
-  const router = useRouter()
+  const router = useRouter();
 
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
 
   if (isError) {
-    return <div>Error</div>
+    return <div>Error</div>;
   }
 
   if (!isSuccess) {
-    return null
+    return null;
   }
 
   const onChangeSortType = (value: 'recent' | 'old') => {
-    setSortType(value)
-  }
+    setSortType(value);
+  };
 
-  if (archives?.length === 0) {
+  if (archives?.totalCount === 0) {
     return (
       <main>
         <div className="flex justify-between">
@@ -69,15 +73,17 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
           </div>
         </div>
       </main>
-    )
+    );
   }
 
-  const copyArchives = archives && JSON.parse(JSON.stringify(archives))
+  const archivesArray = archives?.archives;
+  const copyArchives =
+    archivesArray && JSON.parse(JSON.stringify(archivesArray));
   const archiveLists =
-    sortType === 'recent' ? archives : copyArchives?.reverse()
+    sortType === 'old' ? archivesArray : copyArchives?.reverse();
 
   return (
-    <main>
+    <main className="relative px-0 pt-[-60px] sm:px-[-12px] md:px-[-20px]">
       <div className="flex justify-between">
         <div className="flex items-center gap-1 text-4xl font-bold">
           <Image
@@ -87,22 +93,36 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
             alt="etc folder"
           />
           <h2>내 면접 질문 및 답변 </h2>
-          <span className="text-blue-500">{archives?.length}</span>
+          <span className="text-blue-500">{archives?.totalCount}</span>
         </div>
         <SelectDropdown onChangeSortType={onChangeSortType} />
       </div>
-      <div className="mt-4">
+      <div className="my-4 mb-14">
         <div className="flex flex-wrap items-center gap-6">
-          {archiveLists?.map((archive: ArchiveListItemDTO) => (
-            <Link
-              key={archive.archiveId}
-              href={APP_ROUTES.archiveDetail(archive.archiveId)}
-            >
-              <ArchiveCard key={archive.archiveId} {...archive} />
-            </Link>
-          ))}
+          {archiveLists &&
+            archiveLists?.map((archive: ArchiveListItemDTO) => (
+              <Link
+                key={archive.archiveId}
+                href={APP_ROUTES.archiveDetail(archive.archiveId)}
+              >
+                <ArchiveCard
+                  key={archive.archiveId}
+                  currentPage={currentPage}
+                  {...archive}
+                />
+              </Link>
+            ))}
         </div>
       </div>
+      <div className="fixed -inset-x-6 bottom-0 z-10 w-[full+24px] bg-gray-100 py-3">
+        {archives && (
+          <PaginationDemo
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+            totalPage={archives.totalPages}
+          />
+        )}
+      </div>
     </main>
-  )
-}
+  );
+};

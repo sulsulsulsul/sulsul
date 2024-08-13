@@ -1,17 +1,19 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+'use client';
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Dispatch, HTMLAttributes, SetStateAction } from 'react';
+import Image from 'next/image';
+
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 interface PracticeStartCardProps extends HTMLAttributes<HTMLDivElement> {
-  nickname: string
-  handleStartPractice: () => void
+  nickname: string;
+  setModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const PracticeStartCard = ({
   className,
-  handleStartPractice,
   nickname,
+  setModalOpen,
   ...props
 }: PracticeStartCardProps) => {
   return (
@@ -31,9 +33,9 @@ export const PracticeStartCard = ({
           height={145}
         />
       </div>
-      <Button className="w-full" onClick={handleStartPractice}>
+      <Button className="w-full" onClick={() => setModalOpen(true)}>
         실전 연습하기
       </Button>
     </div>
-  )
-}
+  );
+};

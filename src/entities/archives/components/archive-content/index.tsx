@@ -1,16 +1,16 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { ArchiveStatus } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { ArchiveStatus } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { ActionButtons } from './action-buttons'
+import { ActionButtons } from './action-buttons';
 
 interface ArchiveContentProps extends HTMLAttributes<HTMLDivElement> {
-  title: string
-  resume: string
-  companyName: string
-  status: ArchiveStatus
+  title: string;
+  resume: string;
+  companyName: string;
+  status: ArchiveStatus;
 }
 
 export const ArchiveContent = ({
@@ -35,15 +35,17 @@ export const ArchiveContent = ({
         <span>내 자기 소개서</span>
       </h2>
       <div className="mt-[18px] size-full rounded-md bg-white p-[28px]">
-        <div className="flex size-full flex-col items-start gap-2">
-          <div className="rounded-sm bg-gray-100 px-3 py-1 text-sm font-medium text-gray-600">
+        <div className="flex size-full flex-col justify-between gap-3">
+          <div className="w-fit rounded-sm bg-gray-100 px-3 py-2 text-sm font-medium text-gray-600">
             {companyName}
           </div>
           <div>
-            <h3 className="text-2xl font-semibold">{title}</h3>
+            <h3 className="w-full text-2xl font-semibold">{title}</h3>
           </div>
           <div className="min-h-[400px] w-full">
-            <div className="overflow-hidden text-balance">{resume}</div>
+            <div className="overflow-hidden text-balance break-words">
+              {resume}
+            </div>
           </div>
         </div>
         <div className="text-2xs font-semibold">
@@ -53,5 +55,5 @@ export const ArchiveContent = ({
         <ActionButtons status={status} className="mt-4" />
       </div>
     </div>
-  )
-}
+  );
+};

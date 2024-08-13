@@ -1,44 +1,47 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { toast } from 'sonner'
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
-import { deleteArchiveAction } from '@/entities/archives/actions'
+import { deleteArchiveAction } from '@/entities/archives/actions';
+import { ArchiveListItemDTO, ArchiveListsDTO } from '@/entities/types';
 
-import { ArchiveListQueryOptions } from './use-archives'
+import { ArchiveListQueryOptions } from './use-archives';
 
-export const useDeleteArchive = () => {
-  const queryClient = useQueryClient()
+export const useDeleteArchive = (page: number) => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (id: number) => {
-      return deleteArchiveAction({ id })
+      return deleteArchiveAction(id);
     },
     onMutate: async (id) => {
-      await queryClient.cancelQueries({
-        queryKey: ArchiveListQueryOptions.queryKey,
-      })
+      const queryKey = ['archives', 'list', page];
 
-      const snapshot = queryClient.getQueryData(
-        ArchiveListQueryOptions.queryKey,
-      )
+      await queryClient.cancelQueries({ queryKey });
 
-      queryClient.setQueryData(ArchiveListQueryOptions.queryKey, (prev) =>
-        prev?.filter((archive) => archive.archiveId !== id),
-      )
+      const snapshot = queryClient.getQueryData(queryKey);
 
-      return () => {
-        queryClient.setQueryData(ArchiveListQueryOptions.queryKey, snapshot)
-      }
+      queryClient.setQueryData(queryKey, (prev: ArchiveListsDTO | undefined) =>
+        prev?.archives.filter((archive) => archive.archiveId !== id),
+      );
+
+      return {
+        snapshot,
+      };
     },
     onSuccess: () => {
-      toast.success('성공적으로 삭제되었습니다.')
+      toast.success('성공적으로 삭제되었습니다.');
     },
-    onError: (error, variables, rollback) => {
-      toast.error('삭제 중 오류가 발생했습니다.')
-      rollback?.()
+    onError: (error, id, context) => {
+      console.log(error);
+      toast.error('삭제 중 오류가 발생했습니다.');
+      if (context?.snapshot) {
+        queryClient.setQueryData(['archives', 'list', page], context.snapshot);
+      }
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: ArchiveListQueryOptions.queryKey,
-      })
+        queryKey: ['archives', 'list', page],
+      });
     },
-  })
-}
+  });
+};

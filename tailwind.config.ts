@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config = {
   darkMode: ['class'],
@@ -168,6 +168,11 @@ const config = {
       },
       backgroundImage: {
         hero: "url('/images/hero.png')",
+        'loading-skeleton':
+          'linear-gradient(to right, transparent 0%, #eee 50%, transparent 100%)',
+      },
+      backgroundSize: {
+        custom: '50% 100%',
       },
       keyframes: {
         'accordion-down': {
@@ -178,10 +183,9 @@ const config = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: '0' },
         },
-        // 옆으로 늘어났다 줄어들었다 하는 loading 애니메이션
-        'loading-expand-width': {
-          from: { width: '30%' },
-          to: { width: '100%' },
+        shimmer: {
+          '0%': { transform: 'skewX(-30deg) translateX(-100%)' },
+          '100%': { transform: 'skewX(-30deg) translateX(200%)' },
         },
         'cheering-animation': {
           '0%, 100%': { transform: 'translateY(0)' },
@@ -191,13 +195,13 @@ const config = {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'loading-expand-width':
-          'loading-expand-width 1s ease-in-out infinite, pulse 1.5s ease-in-out infinite',
-        'cheering-animation': 'cheering-animation 1.5s linear infinite',
+        shimmer: 'shimmer 1.5s infinite linear',
+        'cheering-animation':
+          'cheering-animation 1.5s linear ease-out infinite',
       },
     },
   },
   plugins: [require('tailwindcss-animate'), require('tailwind-scrollbar-hide')],
-} satisfies Config
+} satisfies Config;
 
-export default config
+export default config;

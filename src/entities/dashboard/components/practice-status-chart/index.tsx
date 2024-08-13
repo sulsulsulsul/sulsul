@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 import {
   BarElement,
   CategoryScale,
@@ -11,18 +11,23 @@ import {
   LinearScale,
   Title,
   Tooltip,
-} from 'chart.js'
+} from 'chart.js';
 
-import { cn, tailwindTheme } from '@/lib/utils'
+import { cn, tailwindTheme } from '@/lib/utils';
 
-import { MonthlyChart } from './monthly'
-import { WeeklyChart } from './weekly'
+import { MonthlyChart } from './monthly';
+import { WeeklyChart } from './weekly';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+);
 
 export const options: ChartOptions<'bar'> = {
-  // responsive: true,
-
   plugins: {
     legend: {
       display: false,
@@ -44,7 +49,7 @@ export const options: ChartOptions<'bar'> = {
 
       callbacks: {
         title: () => {
-          return ''
+          return '';
         },
       },
     },
@@ -77,23 +82,23 @@ export const options: ChartOptions<'bar'> = {
         includeBounds: true,
         callback: (value, index) => {
           if (index === 1 || index === 3) {
-            return ''
+            return '';
           }
-          return Math.floor(value as number)
+          return Math.floor(value as number);
         },
       },
     },
   },
-}
+};
 
 interface PracticeStatusChartProps extends HTMLAttributes<HTMLDivElement> {
-  type?: 'weekly' | 'monthly'
-  data: number[]
+  type: 'weekly' | 'monthly';
+  data: number[];
 }
 export const PracticeStatusChart = ({
   className,
   data,
-  type = 'weekly',
+  type,
   ...props
 }: PracticeStatusChartProps) => {
   const chartData: ChartData<'bar'> = {
@@ -105,7 +110,7 @@ export const PracticeStatusChart = ({
         borderRadius: 4,
       },
     ],
-  }
+  };
   return (
     <div
       className={cn(
@@ -120,5 +125,5 @@ export const PracticeStatusChart = ({
         <MonthlyChart options={options} data={chartData} />
       )}
     </div>
-  )
-}
+  );
+};
