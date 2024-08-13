@@ -39,6 +39,7 @@ export const QuestionCard = ({
             >
               <CardHeader
                 content={content}
+                questionId={questionId}
                 keywords={keywords}
                 isAnswered={isAnswered}
                 isAccodionOpen={isAccodionOpen}
