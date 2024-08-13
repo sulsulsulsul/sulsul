@@ -131,9 +131,23 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    createOwnQuestion: (archiveId: number) => {
+      return {
+        url: `/api/v1/questions/${archiveId}`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
     updateAnswer: (questionId: number) => {
       return {
         url: `/api/v1/questions/${questionId}/answers`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    updateQuestion: (questionId: number) => {
+      return {
+        url: `/api/v1/questions/${questionId}`,
         method: Method.PATCH,
         authorization: true,
       };
