@@ -10,8 +10,8 @@ export interface QuestionDetailType {
   companyName: string;
   questionId: number;
   content: string;
-  baseStartIndex: number;
-  baseEndIndex: number;
+  baseStartIndex?: number;
+  baseEndIndex?: number;
   answer: string;
   isAnswered: boolean;
   isStar: boolean;

@@ -14,12 +14,10 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 import { cn } from '@/lib/utils';
 import { usePracticeStore } from '@/store/practiceStore';
 
-import { useArchives } from '../archives/hooks';
-import {
-  ArchiveDetailDTO,
-  ArchiveListItemDTO,
-  ArchiveQuestionItem,
-} from '../types/archive';
+import { useArchives } from '../../archives/hooks';
+import { ArchiveDetailDTO, ArchiveListItemDTO } from '../../types/archive';
+import { QuestionDetailType } from '../../types/question';
+import { getPracticeQuestion } from './actions/get-practice';
 import ModalHeader from './components/modal-header';
 import MyResumeSelection from './components/my-resume-selection';
 import PracticeModalButton from './components/practice-modal-button';
@@ -54,7 +52,11 @@ export default function PracticeSelection({
     ArchiveDetailDTO[]
   >([]);
 
-  const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([]);
+  const [questionSelection, setQuestionSelection] = useState<
+    QuestionDetailType[]
+  >([]);
+
+  const [finalList, setFinalList] = useState<QuestionDetailType[]>([]);
 
   const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
   const [hintFilter, setHintFilter] = useState<CheckedState>(false);
@@ -78,12 +80,17 @@ export default function PracticeSelection({
     return newList;
   }, [finalList]);
 
-  const rawQuestionCollection = selectedArchiveList.flatMap((value) => {
-    return value.questions;
-  });
-
+  useEffect(() => {
+    const rawQuestionCollection = async () => {
+      const x = await getPracticeQuestion(selectedArchiveList);
+      const flatted: QuestionDetailType[] = x.flat();
+      setQuestionSelection(flatted);
+    };
+    rawQuestionCollection();
+  }, [selectedArchiveList]);
+  console.log(questionSelection);
   const handleFilter = useCallback(
-    (list: ArchiveQuestionItem[]) => {
+    (list: QuestionDetailType[]) => {
       return list?.filter((item) => {
         const answerCondition = !answerFilter || !item.isAnswered;
         const hintCondition = !hintFilter || item.isHint;
@@ -95,8 +102,8 @@ export default function PracticeSelection({
 
   const modifiedQuestionCollection =
     answerFilter || hintFilter
-      ? handleFilter(rawQuestionCollection)
-      : rawQuestionCollection;
+      ? handleFilter(questionSelection)
+      : questionSelection;
 
   const reset = useCallback(() => {
     setResetResume(true);
@@ -125,7 +132,6 @@ export default function PracticeSelection({
     if ((hintFilter || answerFilter) && allQuestions) {
       setFinalList(modifiedQuestionCollection);
     }
-
     finalList.length !== 0 &&
       modifiedQuestionCollection.length === finalList.length &&
       setAllQuestions(true);
@@ -204,7 +210,7 @@ export default function PracticeSelection({
               })}
           </div>
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
-            {modifiedQuestionCollection.map((value: ArchiveQuestionItem) => {
+            {modifiedQuestionCollection.map((value: QuestionDetailType) => {
               return (
                 <QuestionSelection
                   key={value.questionId}

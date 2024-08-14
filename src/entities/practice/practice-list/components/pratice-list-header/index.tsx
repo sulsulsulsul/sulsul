@@ -20,7 +20,7 @@ interface HeaderProp {
 
 export default function PracticeListHeader({ setFilter, setHint }: HeaderProp) {
   return (
-    <div className="flex h-[44px] w-full flex-row items-center justify-between pl-[24px] text-sm text-gray-500">
+    <div className="flex h-[44px] w-full flex-row items-center justify-between pl-[24px] pr-[44px] text-sm text-gray-500">
       <div className="flex h-full items-center">
         <Checkbox className="m-[10px] size-6" />
         <span className="ml-[66px]">면접질문</span>
@@ -62,7 +62,7 @@ export default function PracticeListHeader({ setFilter, setHint }: HeaderProp) {
             setFilter(value);
           }}
         >
-          <SelectTrigger className="mr-[20px] flex h-full w-[75px] flex-none flex-row justify-center ring-0 focus:ring-0 focus:ring-offset-0">
+          <SelectTrigger className=" flex h-full w-[75px] flex-none flex-row justify-center ring-0 focus:ring-0 focus:ring-offset-0">
             <SelectValue placeholder="최근 순" className="w-[37px] truncate" />
           </SelectTrigger>
           <SelectContent className="ml-4">

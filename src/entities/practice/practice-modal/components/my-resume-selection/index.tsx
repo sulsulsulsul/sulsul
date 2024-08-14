@@ -29,6 +29,15 @@ export default function MyResumeSelection({
   const [checked, setChecked] = useState(false);
   const { archive } = useArchive(archiveId);
 
+  // export interface ArchiveDetailDTO {
+  //   archiveId: number;
+  //   title: string;
+  //   companyName: string;
+  //   resume: string;
+  //   status: ArchiveStatus;
+  //   questions: ArchiveQuestionItem[];
+  // }
+
   useEffect(() => {
     resetChecked && setChecked(false);
     if (archive && selectAll) {
@@ -38,7 +47,6 @@ export default function MyResumeSelection({
           ? prev
           : [...prev, archive];
       });
-
       // 아카이브 아이디만 저장
       // setArchiveIds((prev) => {
       //   return prev.some((item) => item  === archiveId)

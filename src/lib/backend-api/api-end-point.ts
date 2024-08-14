@@ -154,6 +154,13 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    createPracticeQuestion: (questionId: number) => {
+      return {
+        url: `/api/v1/practice/question/${questionId}`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
     updatePractice: () => {
       return {
         url: `/api/v1/practice/question-status`,
@@ -171,6 +178,13 @@ export const API_ENDPOINT = {
     updateHintUsage: () => {
       return {
         url: `/api/v1/practice/question-hint`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    updateStar: () => {
+      return {
+        url: `/api/v1/practice/question-star`,
         method: Method.PATCH,
         authorization: true,
       };

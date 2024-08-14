@@ -14,12 +14,12 @@ import { set } from 'zod';
 
 import { SmileAnimation } from '@/components/lotties/smile-animation';
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
-import Timer from '@/entities/practice-modal/components/timer/timer';
+import Timer from '@/entities/practice/practice-modal/components/timer/timer';
 import {
   useUpdatePractice,
   useUpdateTime,
-} from '@/entities/practice-modal/hooks';
-import { ArchiveQuestionItem } from '@/entities/types';
+} from '@/entities/practice/practice-modal/hooks';
+import { QuestionDetailType } from '@/entities/types/question';
 import {
   usePracticeResultStore,
   usePracticeStore,
@@ -41,13 +41,13 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const thinkingRef = useRef<LottieRefCurrentProps>(null);
 
   const [questions, setQuestions] =
-    useState<ArchiveQuestionItem[]>(practiceList);
+    useState<QuestionDetailType[]>(practiceList);
 
   const [correctQuestions, setCorrectQuestions] = useState<
-    ArchiveQuestionItem[]
+    QuestionDetailType[]
   >([]);
   const [inCorrectQuestions, setInCorrectQuestions] = useState<
-    ArchiveQuestionItem[]
+    QuestionDetailType[]
   >([]);
 
   const [showHint, setShowHint] = useState(false);
@@ -102,7 +102,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
     }
   }, [questions, router]);
 
-  const [coachModal, setCoachModal] = useState(true);
+  const [coachModal, setCoachModal] = useState(false);
 
   return (
     <div className={cn(className)} {...props}>

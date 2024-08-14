@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
-import { useUpdateHint } from '@/entities/practice-modal/hooks';
+import { useUpdateHint } from '@/entities/practice/practice-modal/hooks';
 import { ArchiveKeyword } from '@/entities/types';
 import { cn } from '@/lib/utils';
 interface HintCardProps extends HTMLAttributes<HTMLDivElement> {

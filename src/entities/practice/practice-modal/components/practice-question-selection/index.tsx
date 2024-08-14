@@ -5,13 +5,14 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArchiveQuestionItem } from '@/entities/types';
+import { QuestionDetailType } from '@/entities/types/question';
 
 interface QuestionDetail {
   resetQuestion: boolean;
   questionId: number;
   selectAll: CheckedState;
-  questionProp: ArchiveQuestionItem;
-  setFinalQuestions: Dispatch<SetStateAction<ArchiveQuestionItem[]>>;
+  questionProp: QuestionDetailType;
+  setFinalQuestions: Dispatch<SetStateAction<QuestionDetailType[]>>;
 }
 
 export default function QuestionSelection({
