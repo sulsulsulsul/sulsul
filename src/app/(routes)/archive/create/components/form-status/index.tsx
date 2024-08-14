@@ -54,12 +54,12 @@ export const FormStatus = ({
           {isSampleWritten ? (
             <CompleteStatus />
           ) : (
-            <div className="mt-[18px] size-full rounded-md shadow-base">
+            <div className="mt-[18px] size-full rounded-md">
               {isSubmitting || isPending ? (
                 <PendingStatus />
               ) : isSampleClicked ||
                 (isFormValid && !isSubmitting && !isPending) ? (
-                <ValidStatus />
+                <ValidStatus className="shadow-base" />
               ) : (
                 <IdleStatus
                   className="rounded-md bg-white shadow-base"
