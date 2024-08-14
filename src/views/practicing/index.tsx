@@ -40,6 +40,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const { firstPractice } = useUserStore((state) => ({
     firstPractice: state.data.firstPractice,
   }));
+
   const [coachModal, setCoachModal] = useState(firstPractice);
 
   const smileRef = useRef<LottieRefCurrentProps>(null);
@@ -108,7 +109,6 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   }, [questions, router]);
 
   const handleCoachMark = () => {
-    //TODO: Add API to change user firstPractice = false
     setCoachModal(false);
   };
 

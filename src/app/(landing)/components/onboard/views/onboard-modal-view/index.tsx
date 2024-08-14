@@ -161,7 +161,6 @@ export const OnboardModal = () => {
     setStep(0);
   };
   const handleClose = () => {
-    //TODO: change user data firstLogin state to false
     restart();
     setVisibility('hidden');
   };
