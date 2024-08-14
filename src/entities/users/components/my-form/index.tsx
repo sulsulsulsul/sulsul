@@ -22,7 +22,8 @@ export const MyForm = ({ className, ...props }: MyFormProps) => {
   const { email } = useUserStore((state) => ({
     email: state.data.email,
   }));
-  const { form, isEnableSubmit, handleSubmit } = useMyForm();
+  const { form, isEnableSubmit, handleSubmit, errors } = useMyForm();
+  const isError = !!errors.nickname;
   return (
     <div className={cn('flex flex-col items-center', className)} {...props}>
       <Form {...form}>
@@ -40,10 +41,12 @@ export const MyForm = ({ className, ...props }: MyFormProps) => {
                     <input
                       placeholder="2~9자 사이로 입력해주세요."
                       autoComplete="off"
-                      className="h-[58px] w-[449px] rounded-xl border border-gray-200 bg-transparent px-5 py-[10px] outline-red-500"
+                      className={`h-[58px] w-[449px] rounded-xl border border-gray-200 bg-transparent px-5 py-[10px] ${isError ? `outline-red-500` : `outline-blue-500`}`}
                       {...field}
                     />
-                    <FormMessage className="absolute bottom-0 translate-y-6" />
+                    <FormMessage
+                      className={`absolute bottom-0 translate-x-4 translate-y-6 ${isError ? `text-red-500` : `text-blue-500`}`}
+                    />
                   </div>
                 </FormControl>
               </FormItem>
@@ -59,8 +62,8 @@ export const MyForm = ({ className, ...props }: MyFormProps) => {
           로그인 계정
         </Label>
         <div className="relative">
-          <Input
-            className="h-[58px] w-[449px] rounded-sm bg-transparent text-gray-500"
+          <input
+            className="h-[58px] w-[449px] rounded-xl border border-gray-200 bg-transparent px-5 py-[10px] text-gray-500"
             readOnly
             value={email as string}
           />
