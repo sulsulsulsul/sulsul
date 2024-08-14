@@ -97,3 +97,7 @@
   left: 0;
   animation: shimmer 1.4s infinite;
 }
+
+p.translate-y-6 {
+  --tw-translate-x: 1rem;
+}
