@@ -36,18 +36,14 @@ export const InterviewQuestions = ({
 
   const [clickedQuestions, setClickedQuestions] = useState<number[]>([]);
 
-  const handleCancel = () => {
+  const handleReset = () => {
     setIsEditing(false);
     setDeleteQuestions([]);
     setClickedQuestions([]);
   };
 
   useEffect(() => {
-    return () => {
-      setIsEditing(false);
-      setDeleteQuestions([]);
-      setClickedQuestions([]);
-    };
+    return handleReset;
   }, []);
 
   return (
@@ -84,16 +80,13 @@ export const InterviewQuestions = ({
                     className="absolute right-12 cursor-pointer text-sm font-normal text-red-500"
                     onClick={async () => {
                       try {
-                        console.log('delete', deleteQuestions);
                         await Promise.all(
                           deleteQuestions.map((questionId) =>
                             deleteQuestionMutation({ questionId }),
                           ),
                         );
                         toast.success('삭제가 완료되었습니다.');
-                        setIsEditing(false);
-                        setDeleteQuestions([]);
-                        setClickedQuestions([]);
+                        handleReset();
                       } catch (error) {
                         toast.error(
                           '삭제 중 오류가 발생했습니다. 다시 시도해주세요.',
@@ -105,7 +98,7 @@ export const InterviewQuestions = ({
                   </span>
                   <span
                     className="absolute right-3 cursor-pointer text-sm font-normal text-gray-700"
-                    onClick={handleCancel}
+                    onClick={handleReset}
                   >
                     취소
                   </span>
