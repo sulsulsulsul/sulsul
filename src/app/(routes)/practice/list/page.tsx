@@ -1,7 +1,10 @@
-'use client';
+'use server';
+
+import { useParams } from 'next/navigation';
+
 import PracticeList from '@/entities/practice/practice-list';
 
-const Page = () => {
+const Page = async () => {
   return <PracticeList />;
 };
 

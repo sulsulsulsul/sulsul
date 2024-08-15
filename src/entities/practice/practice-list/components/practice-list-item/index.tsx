@@ -2,14 +2,12 @@
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { QuestionDetailType } from '@/entities/types/question';
