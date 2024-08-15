@@ -29,7 +29,7 @@ export const CardHeader = ({
   const { isSaving, setIsSaving } = useSaveUpdatedQuestionStore();
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  //3초마다 변경된 질문 저장
+  //2초마다 변경된 질문 저장
   useEffect(() => {
     if (inputValue !== content) {
       const delayDebounceFn = setTimeout(() => {
@@ -61,11 +61,13 @@ export const CardHeader = ({
   }, [inputValue]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    e.stopPropagation();
     setInputValue(e.target.value);
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === ' ') {
+      e.preventDefault();
+      e.stopPropagation();
     }
   };
 
@@ -81,6 +83,7 @@ export const CardHeader = ({
           placeholder="예상질문을 작성해주세요"
           className="w-[500px] resize-none overflow-hidden focus:outline-none"
           onClick={(e) => e.stopPropagation()}
+          onKeyDown={handleKeyDown}
           onChange={handleInputChange}
           rows={1}
         />
