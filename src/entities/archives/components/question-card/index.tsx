@@ -17,12 +17,16 @@ import { CardHeader } from './card-header';
 interface QuestionCardProps extends HTMLAttributes<HTMLDivElement> {
   data: ArchiveQuestionItem;
   archiveId?: number;
+  isClicked: boolean;
+  setClickedQuestions: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export const QuestionCard = ({
   className,
   data,
   archiveId,
+  isClicked,
+  setClickedQuestions,
   ...props
 }: QuestionCardProps) => {
   const [isAccodionOpen, setIsAccodionOpen] = useState(false);
@@ -35,10 +39,14 @@ export const QuestionCard = ({
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none">
             <AccordionTrigger
+              questionId={questionId}
+              isClicked={isClicked}
+              setClickedQuestions={setClickedQuestions}
               onClick={() => setIsAccodionOpen((prev) => !prev)}
             >
               <CardHeader
                 content={content}
+                questionId={questionId}
                 keywords={keywords}
                 isAnswered={isAnswered}
                 isAccodionOpen={isAccodionOpen}
