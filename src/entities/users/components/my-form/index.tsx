@@ -24,6 +24,7 @@ export const MyForm = ({ className, ...props }: MyFormProps) => {
   }));
   const { form, isEnableSubmit, handleSubmit, errors } = useMyForm();
   const isError = !!errors.nickname;
+
   return (
     <div className={cn('flex flex-col items-center', className)} {...props}>
       <Form {...form}>
@@ -53,7 +54,7 @@ export const MyForm = ({ className, ...props }: MyFormProps) => {
                       {isError ? (
                         <FormMessage
                           type="error"
-                          className={`absolute bottom-0 translate-x-4 translate-y-6`}
+                          className="absolute bottom-0 translate-x-4 translate-y-6"
                         />
                       ) : isNicknameChanged ? (
                         <FormMessage

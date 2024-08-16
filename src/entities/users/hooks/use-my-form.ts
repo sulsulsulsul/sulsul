@@ -1,5 +1,7 @@
 import { useForm } from 'react-hook-form';
+import { useSession } from 'next-auth/react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import {
@@ -8,15 +10,14 @@ import {
 } from '@/config/validations/my-form-validation';
 import { useUserStore } from '@/store/client';
 
-import { useCurrentUser } from './use-current-user';
 import { useUpdateNickname } from './use-update-nickname';
 
 export const useMyForm = () => {
-  const { update } = useCurrentUser();
-  const { nickname, userId } = useUserStore((state) => ({
-    nickname: state.data.nickname,
-    userId: state.auth.userId,
-  }));
+  const queryClient = useQueryClient();
+  const { data, setUserInfo } = useUserStore();
+  const { nickname, userId } = data;
+  const { update, data: session } = useSession();
+
   const { mutate: updateNicknameMutation } = useUpdateNickname();
   const form = useForm<MyFormData>({
     resolver: zodResolver(myFormValidation),
@@ -28,16 +29,34 @@ export const useMyForm = () => {
 
   const isSubmitting = form.formState.isSubmitting;
   const errors = form.formState.errors;
+
   const handleSubmit = form.handleSubmit(async () => {
-    console.log('nickname', form.watch('nickname'));
     updateNicknameMutation(
       {
         nickname: form.watch('nickname'),
         userId: userId!,
       },
       {
-        onSuccess: () => {
-          update({ nickname: form.watch('nickname') });
+        onSuccess: async () => {
+          queryClient.invalidateQueries({ queryKey: ['nickname', userId] });
+
+          await update({
+            user: {
+              ...session?.user,
+              data: {
+                ...session?.user.data,
+                nickname: form.watch('nickname'),
+              },
+            },
+          });
+
+          setUserInfo({
+            data: {
+              ...useUserStore.getState().data,
+              nickname: form.watch('nickname'),
+            },
+          });
+
           toast.success('수정되었어요.');
         },
         onError: () => {
