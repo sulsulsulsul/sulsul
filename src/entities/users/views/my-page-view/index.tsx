@@ -21,10 +21,10 @@ export const MyPageView = () => {
           <div className="flex min-w-[792px] flex-col gap-20">
             <ProfileImage />
             <MyForm />
+            <Separator className="-mb-10 border" />
+            <DropOut />
           </div>
         </div>
-        <Separator className="mb-8 mt-20" />
-        <DropOut />
       </AuthSignedIn>
     </main>
   );

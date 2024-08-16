@@ -38,6 +38,13 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    withdrawUser: (id: number) => {
+      return {
+        url: `/api/v1/users/${id}/withdraw`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
   },
   archive: {
     getArchives: (page: number) => {
