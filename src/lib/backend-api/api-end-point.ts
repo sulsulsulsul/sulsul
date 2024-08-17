@@ -40,9 +40,9 @@ export const API_ENDPOINT = {
     },
   },
   archive: {
-    getArchives: (page: number) => {
+    getArchives: (page: number, sortType: 'asc' | 'desc') => {
       return {
-        url: `/api/v1/archives?page=${page}`,
+        url: `/api/v1/archives?page=${page}&direction=${sortType}`,
         method: Method.GET,
         authorization: true,
       };
