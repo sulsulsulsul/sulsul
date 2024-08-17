@@ -1,16 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Dashboard from '.';
+import { PracticeResultCard } from '.';
 
 const meta = {
-  component: Dashboard,
-} satisfies Meta<typeof Dashboard>;
+  component: PracticeResultCard,
+} satisfies Meta<typeof PracticeResultCard>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
-    userId: 14,
+    type: 'good',
+    value: 32,
+    className: 'w-[273px]',
   },
 } satisfies Story;

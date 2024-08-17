@@ -1,17 +1,17 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
+import { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
-import { PracticeQuestionSelect } from '.'
+import { PracticeQuestionSelect } from '.';
 
 const meta = {
   args: {
     handleSelect: fn(),
   },
   component: PracticeQuestionSelect,
-} satisfies Meta<typeof PracticeQuestionSelect>
+} satisfies Meta<typeof PracticeQuestionSelect>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
@@ -33,4 +33,4 @@ export const Default: Story = {
       },
     ],
   },
-}
+};

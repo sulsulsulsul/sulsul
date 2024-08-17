@@ -1,11 +1,11 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { Checkbox } from '@/components/ui/checkbox'
-import { Separator } from '@/components/ui/separator'
-import { cn } from '@/lib/utils'
+import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 interface PracticeQuestionSelectProps extends HTMLAttributes<HTMLDivElement> {
-  data: PracticeQuestionSelectItemProps[]
-  handleSelect?: (id: string) => void
+  data: PracticeQuestionSelectItemProps[];
+  handleSelect?: (id: string) => void;
 }
 
 export const PracticeQuestionSelect = ({
@@ -26,14 +26,14 @@ export const PracticeQuestionSelect = ({
         </>
       ))}
     </div>
-  )
-}
+  );
+};
 
 export interface PracticeQuestionSelectItemProps {
-  isSelect?: boolean
-  id: string
-  title: string
-  onClick?: (id: string) => void
+  isSelect?: boolean;
+  id: string;
+  title: string;
+  onClick?: (id: string) => void;
 }
 
 const PracticeQuestionSelectItem = ({
@@ -45,7 +45,7 @@ const PracticeQuestionSelectItem = ({
   return (
     <div
       onClick={() => {
-        !isSelect && onClick?.(id)
+        !isSelect && onClick?.(id);
       }}
       className={cn(
         'flex items-center transition px-3 py-5 justify-between gap-2',
@@ -67,5 +67,5 @@ const PracticeQuestionSelectItem = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

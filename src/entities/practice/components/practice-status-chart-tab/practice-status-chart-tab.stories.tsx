@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import { PracticedStatusChartTab } from './';
+import { PracticedStatusChartTab } from '.';
 
 const meta = {
   args: {
