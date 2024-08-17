@@ -1,19 +1,23 @@
 'use client';
-
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useState } from 'react';
 
 import MyPracticeStatus from '@/entities/practice/components/my-practice-status';
 import PracticeQuestions from '@/entities/practice/components/practice-questions';
 import { PracticeResultCard } from '@/entities/practice/components/practice-result-card';
 import { PracticeStartCard } from '@/entities/practice/components/practice-start-card';
 import useStatisticsSummary from '@/entities/practice/hooks/use-statistics-summary';
+import PracticeSelection from '@/entities/practice-list-modal';
 import { cn } from '@/lib/utils';
-interface PracticeProps extends HTMLAttributes<HTMLDivElement> {
+interface DashboardProps extends HTMLAttributes<HTMLDivElement> {
   userId: number;
 }
 
-const Dashboard = ({ userId, className }: PracticeProps) => {
+/**
+ * https://www.figma.com/design/300FZcKnRKJSVsVLdTxQeN/%F0%9F%92%AC-Sulsul_team?m=dev&node-id=4308-9475&t=OZrGkP4ZgEF84mEl-1
+ */
+const Dashboard = ({ className, userId }: DashboardProps) => {
   const { data: statisticsSummary } = useStatisticsSummary({ userId });
+  const [openModal, setOpenModal] = useState(false);
 
   if (!statisticsSummary) {
     // TODO: loading 처리
@@ -24,11 +28,13 @@ const Dashboard = ({ userId, className }: PracticeProps) => {
     <main className={cn(className)}>
       <section className={cn('flex gap-[25px]')}>
         <PracticeStartCard
+          setModalOpen={setOpenModal}
           className={cn(
             'flex h-[273px] min-w-[282px] flex-col items-center justify-between',
           )}
           nickname="수리수리"
         />
+        {openModal && <PracticeSelection setModal={setOpenModal} />}
         <PracticeResultCard
           type="good"
           value={statisticsSummary?.answerCount || 0}

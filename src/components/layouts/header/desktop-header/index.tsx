@@ -1,22 +1,22 @@
-import { HTMLAttributes, useState } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { signOut } from 'next-auth/react'
+import { HTMLAttributes, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { signOut } from 'next-auth/react';
 import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogTrigger,
-} from '@radix-ui/react-alert-dialog'
-import { ChevronDown, ChevronRight } from 'lucide-react'
+} from '@radix-ui/react-alert-dialog';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 
-import { Logo } from '@/components/shared/logo'
+import { Logo } from '@/components/shared/logo';
 import {
   AlertDialogCancel,
   AlertDialogDescription,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,25 +24,25 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { APP_ROUTES } from '@/config/constants/app-routes'
-import { SignInView } from '@/entities/auth/views/sign-in-view'
-import { useCurrentUser } from '@/entities/users/hooks'
-import { cn } from '@/lib/utils'
-import { useUserStore } from '@/store/client'
-import { useVideoStateStore } from '@/store/modal'
+} from '@/components/ui/dropdown-menu';
+import { APP_ROUTES } from '@/config/constants/app-routes';
+import { SignInView } from '@/entities/auth/views/sign-in-view';
+import { useCurrentUser } from '@/entities/users/hooks';
+import { cn } from '@/lib/utils';
+import { useUserStore } from '@/store/client';
+import { useVideoStateStore } from '@/store/modal';
 
-import { HeaderNavigation } from './header-navigation'
+import { HeaderNavigation } from './header-navigation';
 interface DesktopHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
-  const { status } = useCurrentUser()
-  const { pause, restart } = useVideoStateStore()
+  const { status } = useCurrentUser();
+  const { pause } = useVideoStateStore();
   const { nickname, email, image } = useUserStore((state) => ({
     nickname: state.data.nickname,
     email: state.data.email,
     image: state.image,
-  }))
+  }));
 
   const renderLoginState = () => {
     if (status === 'authenticated')
@@ -102,7 +102,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
             <DropdownMenuItem
               className="gap-2 px-5 py-4 text-base font-medium"
               onClick={() => {
-                signOut()
+                signOut();
               }}
             >
               <Image
@@ -115,7 +115,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     if (status === 'unauthenticated')
       return (
         <AlertDialog>
@@ -132,25 +132,12 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           <AlertDialogContent className={cn('absolute left-0 top-0')}>
             <AlertDialogTitle />
             <AlertDialogDescription />
-            <SignInView callbackUrl="/">
-              <AlertDialogCancel
-                onClick={() => restart()}
-                className="absolute right-6 top-6 size-6 border-none"
-              >
-                <Image
-                  className="absolute fill-gray-400"
-                  width={24}
-                  height={24}
-                  src={'/images/icons/icon-close-L.svg'}
-                  alt="close"
-                />
-              </AlertDialogCancel>
-            </SignInView>
+            <SignInView callbackUrl="/" />
           </AlertDialogContent>
         </AlertDialog>
-      )
-    return <div aria-label="user status loading">...loading</div>
-  }
+      );
+    return <div aria-label="user status loading">...loading</div>;
+  };
 
   return (
     <header
@@ -165,5 +152,5 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
       </div>
       {renderLoginState()}
     </header>
-  )
-}
+  );
+};

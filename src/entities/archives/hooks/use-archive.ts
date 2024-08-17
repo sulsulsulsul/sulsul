@@ -1,20 +1,21 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query';
 
-import { getArchiveDetailAction } from '@/entities/archives/actions'
+import { getArchiveDetailAction } from '@/entities/archives/actions';
 export const useArchive = (id: number) => {
   const result = useQuery({
-    queryKey: ['archive', { id }],
+    queryKey: ['archive', id],
     queryFn: () => getArchiveDetailAction(id),
     refetchInterval: (query) => {
-      if (query.state.data?.status === 'READY') {
-        return 3000
+      if (query.state.data?.status !== 'FAIL') {
+        return 3000;
       }
-      return false
+      return false;
     },
-  })
-  const { data, ...rest } = result
+    enabled: !!id,
+  });
+  const { data, ...rest } = result;
   return {
     ...rest,
     archive: data,
-  }
-}
+  };
+};

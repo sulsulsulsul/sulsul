@@ -1,33 +1,37 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useState } from 'react'
+import { HTMLAttributes, useState } from 'react';
 
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/ui/accordion'
-import { ArchiveQuestionItem } from '@/entities/types'
-import { cn } from '@/lib/utils'
+} from '@/components/ui/accordion';
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { mockArchiveFeedback } from '../../fixtures'
-import { CardBody } from './card-body'
-import { CardHeader } from './card-header'
+import { CardBody } from './card-body';
+import { CardHeader } from './card-header';
 
 interface QuestionCardProps extends HTMLAttributes<HTMLDivElement> {
-  data: ArchiveQuestionItem
+  data: ArchiveQuestionItem;
+  archiveId?: number;
+  isClicked: boolean;
+  setClickedQuestions: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 export const QuestionCard = ({
   className,
   data,
+  archiveId,
+  isClicked,
+  setClickedQuestions,
   ...props
 }: QuestionCardProps) => {
-  const [isAccodionOpen, setIsAccodionOpen] = useState(false)
+  const [isAccodionOpen, setIsAccodionOpen] = useState(false);
 
-  const { content, keywords, isAnswered } = data
-  // TODO: useFeedback 구현
+  const { content, keywords, isAnswered, questionId } = data;
 
   return (
     <div className={cn(className)} {...props}>
@@ -35,10 +39,14 @@ export const QuestionCard = ({
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none">
             <AccordionTrigger
+              questionId={questionId}
+              isClicked={isClicked}
+              setClickedQuestions={setClickedQuestions}
               onClick={() => setIsAccodionOpen((prev) => !prev)}
             >
               <CardHeader
                 content={content}
+                questionId={questionId}
                 keywords={keywords}
                 isAnswered={isAnswered}
                 isAccodionOpen={isAccodionOpen}
@@ -46,15 +54,16 @@ export const QuestionCard = ({
             </AccordionTrigger>
             <AccordionContent className="pl-[20px] pt-2">
               <CardBody
-                // TODO: useFeedback 결과값 전달
-                feedback={mockArchiveFeedback()}
                 className="pb-5"
                 question={data}
+                questionId={questionId}
+                archiveId={archiveId!}
+                isAnswered={isAnswered}
               />
             </AccordionContent>
           </AccordionItem>
         </Accordion>
       </div>
     </div>
-  )
-}
+  );
+};

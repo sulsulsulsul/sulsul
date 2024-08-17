@@ -1,7 +1,8 @@
-'use client'
+'use client';
 
-import React, { forwardRef } from 'react'
-import Image from 'next/image'
+import React, { forwardRef } from 'react';
+import Image from 'next/image';
+import { useQueryClient } from '@tanstack/react-query';
 
 import {
   AlertDialog,
@@ -13,29 +14,36 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@/components/ui/alert-dialog'
-import { Button } from '@/components/ui/button'
-import { useDeleteArchive } from '@/entities/archives/hooks'
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { useDeleteArchive } from '@/entities/archives/hooks';
 
-import alert from '../../../../../public/images/icons/alert.svg'
+import alert from '/public/images/icons/alert.svg';
 
 interface ArchiveDeleteButtonProps {
-  archiveId: number
+  archiveId: number;
+  currentPage: number;
 }
 
 export const ArchiveDeleteButton = forwardRef<
   HTMLButtonElement,
   ArchiveDeleteButtonProps
->(({ archiveId }, ref) => {
-  const { mutate, isPending } = useDeleteArchive()
+>(({ archiveId, currentPage }, ref) => {
+  const { mutate: deleteArchiveMutation, isPending } = useDeleteArchive(
+    currentPage - 1,
+  );
+  const queryClient = useQueryClient();
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-    if (isPending) {
-      return
-    }
-    mutate(archiveId)
-  }
+    e.stopPropagation();
+    deleteArchiveMutation(archiveId, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({
+          queryKey: ['archives', 'list', currentPage - 1],
+        });
+      },
+    });
+  };
 
   return (
     <div>
@@ -70,7 +78,7 @@ export const ArchiveDeleteButton = forwardRef<
         </AlertDialogContent>
       </AlertDialog>
     </div>
-  )
-})
+  );
+});
 
-ArchiveDeleteButton.displayName = 'DeleteArchiveButton'
+ArchiveDeleteButton.displayName = 'DeleteArchiveButton';

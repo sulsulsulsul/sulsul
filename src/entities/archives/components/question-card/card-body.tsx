@@ -1,73 +1,96 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useEffect, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
-import { ArchiveFeedback, ArchiveQuestionItem } from '@/entities/types'
-import { cn } from '@/lib/utils'
+import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback';
+import { useUpdateAnswer } from '@/entities/questions/hooks/use-update-answer';
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { FeedbackSectionComplete } from '../feedback-section-complete'
-import { FeedbackSectionIdle } from '../feedback-section-idle'
-import { KeywordSection } from '../keyword-section'
-import { QuestionAnswer } from '../question-answer'
-import { QuestionAnswerForm } from '../question-answer-form'
+import { FeedbackSectionComplete } from '../feedback-section-complete';
+import { FeedbackSectionIdle } from '../feedback-section-idle';
+import { KeywordSection } from '../keyword-section';
+import { QuestionAnswer } from '../question-answer';
+import { QuestionAnswerForm } from '../question-answer-form';
 interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
-  question: ArchiveQuestionItem
-  feedback: ArchiveFeedback
+  question: ArchiveQuestionItem;
+  questionId: number;
+  isAnswered: boolean;
+  archiveId: number;
 }
 
 export const CardBody = ({
   className,
   question,
-  feedback,
+  questionId,
+  isAnswered,
+  archiveId,
   ...props
 }: CardBodyProps) => {
+  const { answer } = question;
+  const [isAnswerChanged, setIsAnswerChanged] = useState(false);
+
+  const { mutate: updateAnswerMutation } = useUpdateAnswer();
+
+  const { feedback, refetch } = useFeedback(questionId);
+  const queryClient = useQueryClient();
+
+  const onSubmit = (data: { answer: string }) => {
+    updateAnswerMutation(
+      { questionId: question.questionId, ...data },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ['archive', archiveId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['feedback', questionId],
+          });
+          setIsAnswerChanged(true);
+        },
+      },
+    );
+  };
+
+  const handleAnswerChanged = () => {
+    setIsAnswerChanged(false);
+  };
+
   return (
     <div className={cn('flex flex-col gap-2', className)} {...props}>
-      {!question.isAnswered && (
-        <QuestionAnswerForm
-          onSubmit={() => {
-            // setState('loaded')
-          }}
-        />
-      )}
+      {!question.isAnswered && <QuestionAnswerForm onSubmit={onSubmit} />}
       {question.isAnswered && (
         <QuestionAnswer
-          onCreateKeywordNote={() => {
-            // TODO: 구현
-          }}
-          answer={question.answer}
+          onSubmit={onSubmit}
+          answer={answer}
           keywords={question.keywords}
+          questionId={questionId}
         />
       )}
 
-      <KeywordSection
-        keywords={question.keywords}
-        onDeleteKeyword={() => {
-          {
-            /* TODO: 구현 */
-          }
-        }}
-        className="mt-6"
-      />
+      <KeywordSection questionId={questionId} className="mt-6" />
 
       <div className="mt-6">
         <h3 className="text-lg font-semibold">내 답변 피드백</h3>
         <div className="mt-2">
-          {feedback.status === 'READY' && (
+          {!feedback && (
             <FeedbackSectionIdle
-              handleCreateFeedback={() => {
-                // TODO: 구현
-              }}
+              questionId={questionId}
+              isAnswered={isAnswered}
+              refetch={refetch}
             />
           )}
 
-          {feedback.status === 'COMPLETE' && (
+          {feedback?.content && (
             <FeedbackSectionComplete
-              // TODO: 기획 /백엔드 - 데이터 형식 문의
-              goodFeedback={feedback.content}
-              badFeedback={feedback.content}
+              goodFeedback={feedback?.goodPoint}
+              badFeedback={feedback?.improvePoint}
+              isAnswerChanged={isAnswerChanged}
+              handleAnswerChanged={handleAnswerChanged}
+              questionId={questionId}
             />
           )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

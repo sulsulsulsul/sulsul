@@ -26,6 +26,13 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    updateUserJob: (userId: number, jobId: number) => {
+      return {
+        url: `/api/v1/users/${userId}/jobs/${jobId}`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
     updateUserNickname: (id: number) => {
       return {
         url: `${API_V1_BASE}/users/${id}/nickname`,
@@ -35,9 +42,9 @@ export const API_ENDPOINT = {
     },
   },
   archive: {
-    getArchives: () => {
+    getArchives: (page: number) => {
       return {
-        url: `${API_V1_BASE}/archives`,
+        url: `/api/v1/archives?page=${page}`,
         method: Method.GET,
         authorization: true,
       };
@@ -104,9 +111,59 @@ export const API_ENDPOINT = {
       };
     },
 
-    deleteKeyword: ({ questionId, id }: { questionId: number; id: number }) => {
+    deleteKeyword: ({
+      questionId,
+      keywordId,
+    }: {
+      questionId: number;
+      keywordId: number;
+    }) => {
       return {
-        url: `${API_V1_BASE}/questions/${questionId}/keywords/${id}`,
+        url: `/api/v1/questions/${questionId}/keywords/${keywordId}`,
+        method: Method.DELETE,
+        authorization: true,
+      };
+    },
+  },
+  question: {
+    getQuestions: (questionId: number) => {
+      return {
+        url: `/api/v1/questions/${questionId}`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+    createQuestions: (archiveId: number) => {
+      return {
+        url: `/api/v1/questions/${archiveId}/ai`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
+    createOwnQuestion: (archiveId: number) => {
+      return {
+        url: `/api/v1/questions/${archiveId}`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
+    updateAnswer: (questionId: number) => {
+      return {
+        url: `/api/v1/questions/${questionId}/answers`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    updateQuestion: (questionId: number) => {
+      return {
+        url: `/api/v1/questions/${questionId}`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    deleteQuestion: (questionId: number) => {
+      return {
+        url: `/api/v1/questions/${questionId}`,
         method: Method.DELETE,
         authorization: true,
       };
@@ -117,6 +174,34 @@ export const API_ENDPOINT = {
       return {
         url: `${API_V1_BASE}/practice/statistics/summary`,
         method: Method.GET,
+        authorization: true,
+      };
+    },
+    createPractice: () => {
+      return {
+        url: `/api/v1/practice`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
+    updatePractice: () => {
+      return {
+        url: `/api/v1/practice/question-status`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    updateTime: (practiceId: number) => {
+      return {
+        url: `/api/v1/practice/${practiceId}/time`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    updateHintUsage: () => {
+      return {
+        url: `/api/v1/practice/question-hint`,
+        method: Method.PATCH,
         authorization: true,
       };
     },

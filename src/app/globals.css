@@ -75,3 +75,26 @@
     @apply bg-background text-foreground;
   }
 }
+
+.size-full > .space-y-2 > :not([hidden]) ~ :not([hidden]) {
+  float: right;
+  margin-bottom: -10px;
+  margin-top: 10px;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 2s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
