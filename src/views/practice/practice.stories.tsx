@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import Dashboard from '.';
+import Practice from '.';
 
 const meta = {
-  component: Dashboard,
-} satisfies Meta<typeof Dashboard>;
+  component: Practice,
+} satisfies Meta<typeof Practice>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

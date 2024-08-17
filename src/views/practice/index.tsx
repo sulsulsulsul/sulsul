@@ -8,14 +8,14 @@ import { PracticeStartCard } from '@/entities/practice/components/practice-start
 import useStatisticsSummary from '@/entities/practice/hooks/use-statistics-summary';
 import PracticeSelection from '@/entities/practice-list-modal';
 import { cn } from '@/lib/utils';
-interface DashboardProps extends HTMLAttributes<HTMLDivElement> {
+interface PracticeProps extends HTMLAttributes<HTMLDivElement> {
   userId: number;
 }
 
 /**
  * https://www.figma.com/design/300FZcKnRKJSVsVLdTxQeN/%F0%9F%92%AC-Sulsul_team?m=dev&node-id=4308-9475&t=OZrGkP4ZgEF84mEl-1
  */
-const Dashboard = ({ className, userId }: DashboardProps) => {
+const Practice = ({ className, userId }: PracticeProps) => {
   const { data: statisticsSummary } = useStatisticsSummary({ userId });
   const [openModal, setOpenModal] = useState(false);
 
@@ -35,17 +35,14 @@ const Dashboard = ({ className, userId }: DashboardProps) => {
           nickname="수리수리"
         />
         {openModal && <PracticeSelection setModal={setOpenModal} />}
-        <PracticeResultCard
-          type="good"
-          value={statisticsSummary?.answerCount || 0}
-        />
+        <PracticeResultCard type="good" value={statisticsSummary.answerCount} />
         <PracticeResultCard
           type="time"
-          value={statisticsSummary?.notAnswerCount || 0}
+          value={statisticsSummary.notAnswerCount}
         />
         <PracticeResultCard
           type="bad"
-          value={statisticsSummary?.totalPracticeTime || 0}
+          value={statisticsSummary.totalPracticeTime}
         />
       </section>
       <section className="mt-[80px] grid grid-cols-2 gap-6">
@@ -56,4 +53,4 @@ const Dashboard = ({ className, userId }: DashboardProps) => {
   );
 };
 
-export default Dashboard;
+export default Practice;
