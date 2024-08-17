@@ -93,8 +93,8 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
         </div>
         <SelectDropdown onChangeSortType={onChangeSortType} />
       </div>
-      <div className="my-4 mb-14">
-        <div className="flex flex-wrap items-center gap-6">
+      <div className="my-4 mb-14 flex items-center justify-center">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
           {archives &&
             archives.archives?.map((archive: ArchiveListItemDTO) => (
               <Link
