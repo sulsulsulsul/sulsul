@@ -1,29 +1,29 @@
-import * as authActions from 'next-auth/react'
-import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
-import { createMock } from 'storybook-addon-module-mock'
+import * as authActions from 'next-auth/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
+import { createMock } from 'storybook-addon-module-mock';
 
-import * as userActions from '@/entities/users/actions'
+import * as userActions from '@/entities/users/actions';
 
-import { UserDTO } from '../../types'
-import { MyPageView } from './'
+import { UserDTO } from '../../types';
+import { MyPageView } from './';
 
 const meta = {
   component: MyPageView,
-} satisfies Meta<typeof MyPageView>
+} satisfies Meta<typeof MyPageView>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
   parameters: {
     moduleMock: {
       mock: () => {
-        const useSession = createMock(authActions, 'useSession')
+        const useSession = createMock(authActions, 'useSession');
         const updateUserNicknameAction = createMock(
           userActions,
           'updateUserNicknameAction',
-        )
+        );
         useSession.mockImplementation(() => {
           return {
             status: 'authenticated',
@@ -39,12 +39,12 @@ export const Default = {
               },
             } as any,
             update: fn(),
-          }
-        })
+          };
+        });
 
-        return [useSession, updateUserNicknameAction]
+        return [useSession, updateUserNicknameAction];
       },
     },
   },
   args: {},
-} satisfies Story
+} satisfies Story;

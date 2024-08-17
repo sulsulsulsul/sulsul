@@ -1,7 +1,7 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -9,20 +9,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { cn } from '@/lib/utils'
-import { useUserStore } from '@/store/client'
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { cn } from '@/lib/utils';
+import { useUserStore } from '@/store/client';
 
-import { useMyForm } from '../../hooks/use-my-form'
+import { useMyForm } from '../../hooks/use-my-form';
 interface MyFormProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const MyForm = ({ className, ...props }: MyFormProps) => {
   const { email } = useUserStore((state) => ({
     email: state.data.email,
-  }))
-  const { form, isEnableSubmit, handleSubmit } = useMyForm()
+  }));
+  const { form, isEnableSubmit, handleSubmit } = useMyForm();
   return (
     <div className={cn('flex flex-col items-center', className)} {...props}>
       <Form {...form}>
@@ -73,5 +73,5 @@ export const MyForm = ({ className, ...props }: MyFormProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

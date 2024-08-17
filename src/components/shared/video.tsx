@@ -1,22 +1,22 @@
-'use client'
+'use client';
 
-import { ForwardedRef, MediaHTMLAttributes, useEffect, useRef } from 'react'
+import { ForwardedRef, MediaHTMLAttributes, useEffect, useRef } from 'react';
 
-import { cn } from '@/lib/utils'
-import { useVideoStateStore } from '@/store/modal'
+import { cn } from '@/lib/utils';
+import { useVideoStateStore } from '@/store/modal';
 export interface VideoProps extends MediaHTMLAttributes<HTMLVideoElement> {
-  videoRef?: ForwardedRef<HTMLVideoElement>
-  hero?: boolean
+  videoRef?: ForwardedRef<HTMLVideoElement>;
+  hero?: boolean;
 }
 
 export const Video = ({ className, videoRef, hero, ...props }: VideoProps) => {
-  const { videoPlaying } = useVideoStateStore()
-  const ref = useRef<HTMLVideoElement>(null)
+  const { videoPlaying } = useVideoStateStore();
+  const ref = useRef<HTMLVideoElement>(null);
   useEffect(() => {
     if (ref.current) {
-      videoPlaying ? ref.current.play() : ref.current.pause()
+      videoPlaying ? ref.current.play() : ref.current.pause();
     }
-  }, [videoPlaying])
+  }, [videoPlaying]);
 
   return (
     <video
@@ -27,5 +27,5 @@ export const Video = ({ className, videoRef, hero, ...props }: VideoProps) => {
       className={cn(className)}
       {...props}
     />
-  )
-}
+  );
+};

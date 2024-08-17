@@ -1,23 +1,23 @@
-import { forwardRef, HTMLAttributes, useEffect, useRef } from 'react'
-import dynamic from 'next/dynamic'
+import { forwardRef, HTMLAttributes, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
 
-import { VideoProps } from '@/components/shared/video'
-import { cn } from '@/lib/utils'
+import { VideoProps } from '@/components/shared/video';
+import { cn } from '@/lib/utils';
 const Video = dynamic(
   () => import('@/components/shared/video').then((mod) => mod.Video),
   {
     ssr: false,
   },
-)
+);
 
 const stepVideos = [
   '/videos/step-1.mp4',
   '/videos/step-2.mp4',
   '/videos/step-3.mp4',
-]
+];
 interface StepVideosProps extends HTMLAttributes<HTMLDivElement> {
-  activeStep: number
-  videoState: 'paused' | 'play'
+  activeStep: number;
+  videoState: 'paused' | 'play';
 }
 
 export const StepVideos = ({
@@ -26,22 +26,22 @@ export const StepVideos = ({
   videoState,
   ...props
 }: StepVideosProps) => {
-  const refs = useRef<(HTMLVideoElement | null)[]>([null, null, null])
+  const refs = useRef<(HTMLVideoElement | null)[]>([null, null, null]);
   useEffect(() => {
     refs.current.forEach((video, index) => {
       if (videoState === 'paused' || activeStep !== index) {
-        video?.pause()
+        video?.pause();
       } else {
-        video?.play()
+        video?.play();
       }
-    })
-  }, [activeStep, videoState])
+    });
+  }, [activeStep, videoState]);
   return (
     <div className={cn(className)} {...props}>
       {stepVideos.map((video, index) => (
         <ForwardedRefVideo
           ref={(el) => {
-            refs.current[index] = el
+            refs.current[index] = el;
           }}
           autoPlay
           loop
@@ -54,11 +54,11 @@ export const StepVideos = ({
         />
       ))}
     </div>
-  )
-}
+  );
+};
 
 const ForwardedRefVideo = forwardRef<HTMLVideoElement, VideoProps>(
   (props, ref) => <Video videoRef={ref} {...props} />,
-)
+);
 
-ForwardedRefVideo.displayName = 'ForwardedRefVideo'
+ForwardedRefVideo.displayName = 'ForwardedRefVideo';

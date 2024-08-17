@@ -1,12 +1,12 @@
-'use client'
-import { HTMLAttributes } from 'react'
+'use client';
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
-import { Button } from '../ui/button'
+import { Button } from '../ui/button';
 interface UserAnswerProps extends HTMLAttributes<HTMLDivElement> {
-  data: string
-  onUpdate: () => void
+  data: string;
+  onUpdate: () => void;
 }
 
 export const UserAnswer = ({
@@ -28,5 +28,5 @@ export const UserAnswer = ({
         </Button>
       </div>
     </div>
-  )
-}
+  );
+};

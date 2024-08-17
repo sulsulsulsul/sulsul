@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { useEffect } from 'react'
-import { useSession } from 'next-auth/react'
+import { useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 
-import { useUserStore } from '@/store/client'
+import { useUserStore } from '@/store/client';
 
 export const useCurrentUser = () => {
-  const { data, status, update } = useSession()
-  const setUserInfo = useUserStore((state) => state.setUserInfo)
+  const { data, status, update } = useSession();
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
 
   useEffect(() => {
     if (data?.user) {
@@ -23,13 +23,13 @@ export const useCurrentUser = () => {
           userId: data.user.auth?.userId || 0,
         },
         image: data.user.image || '',
-      })
+      });
     }
-  }, [data])
+  }, [data]);
 
   return {
     user: useUserStore((state) => state),
     status,
     update,
-  }
-}
+  };
+};

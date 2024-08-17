@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import { HTMLAttributes } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { ChevronRight, MenuIcon } from 'lucide-react'
+import { HTMLAttributes } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { ChevronRight, MenuIcon } from 'lucide-react';
 
-import { AuthSignedOut } from '@/components/auth/auth-signed-out'
-import { Logo } from '@/components/shared/logo'
+import { AuthSignedOut } from '@/components/auth/auth-signed-out';
+import { Logo } from '@/components/shared/logo';
 import {
   Sheet,
   SheetClose,
@@ -14,13 +14,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet'
-import { MobileHeaderLinks } from '@/config/constants/navigation-links'
-import { cn } from '@/lib/utils'
+} from '@/components/ui/sheet';
+import { MobileHeaderLinks } from '@/config/constants/navigation-links';
+import { cn } from '@/lib/utils';
 interface MobileHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <header
@@ -54,8 +54,8 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
           </div>
           <div>
             {MobileHeaderLinks.map((link) => {
-              const isEqual = pathname === link.link
-              const isActive = isEqual
+              const isEqual = pathname === link.link;
+              const isActive = isEqual;
               return (
                 <SheetClose asChild key={'mobile' + link.link}>
                   <Link
@@ -73,11 +73,11 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                     {link.label}
                   </Link>
                 </SheetClose>
-              )
+              );
             })}
           </div>
         </SheetContent>
       </Sheet>
     </header>
-  )
-}
+  );
+};

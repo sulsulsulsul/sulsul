@@ -1,12 +1,12 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
-import { useSession } from 'next-auth/react'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface ProfileImageProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ProfileImage = ({ className, ...props }: ProfileImageProps) => {
-  const { data } = useSession()
+  const { data } = useSession();
   return (
     <div
       className={cn('flex items-center justify-center', className)}
@@ -22,5 +22,5 @@ export const ProfileImage = ({ className, ...props }: ProfileImageProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

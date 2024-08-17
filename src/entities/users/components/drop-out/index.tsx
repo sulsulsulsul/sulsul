@@ -1,6 +1,6 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface DropOutProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const DropOut = ({ className, ...props }: DropOutProps) => {
@@ -11,5 +11,5 @@ export const DropOut = ({ className, ...props }: DropOutProps) => {
         탈퇴하기
       </button>
     </div>
-  )
-}
+  );
+};
