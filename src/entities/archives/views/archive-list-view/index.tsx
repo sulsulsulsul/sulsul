@@ -2,6 +2,7 @@ import React, { HTMLAttributes, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/pagination';
 import SelectDropdown from '@/app/(routes)/archive/(list)/components/select-dropdown';
@@ -23,26 +24,14 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
     currentPage - 1,
   );
   const [sortType, setSortType] = useState<'recent' | 'old'>('recent');
-
   const router = useRouter();
-
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isError) {
-    return <div>Error</div>;
-  }
-
-  if (!isSuccess) {
-    return null;
-  }
+  const { status } = useSession();
 
   const onChangeSortType = (value: 'recent' | 'old') => {
     setSortType(value);
   };
 
-  if (archives?.totalCount === 0) {
+  if (status === 'unauthenticated' || archives?.totalCount === 0) {
     return (
       <main>
         <div className="flex justify-between">
@@ -74,6 +63,18 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
         </div>
       </main>
     );
+  }
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  if (!isSuccess) {
+    return null;
   }
 
   const archivesArray = archives?.archives;
