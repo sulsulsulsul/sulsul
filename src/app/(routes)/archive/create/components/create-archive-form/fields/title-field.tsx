@@ -1,4 +1,4 @@
-import { HTMLAttributes, useEffect, useRef, useState } from 'react';
+import { HTMLAttributes } from 'react';
 
 import {
   FormControl,
@@ -6,6 +6,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
+import { Textarea } from '@/components/ui/textarea';
 import { useCurrentUser } from '@/entities/users/hooks';
 import { cn } from '@/lib/utils';
 import { useSampleStore } from '@/store/sampleQuestions';
@@ -14,22 +15,15 @@ import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-f
 interface TitleFieldProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const TitleField = ({ className, ...props }: TitleFieldProps) => {
-  const [inputValue, setInputValue] = useState('');
   const { form } = useCreateArchiveFormContext();
   const { isSampleClicked } = useSampleStore();
   const { status } = useCurrentUser();
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setInputValue(e.target.value);
+  const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = event.target;
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
   };
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, [inputValue]);
 
   return (
     <div className={cn(className)} {...props}>
@@ -45,14 +39,14 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormControl>
-                <textarea
+                <Textarea
                   placeholder="자소서 제목을 입력해주세요"
-                  className="w-full resize-none px-0 text-xl font-semibold"
+                  className="h-fit w-full resize-none rounded-none border-0 px-0 text-xl font-semibold"
                   {...field}
                   rows={1}
-                  ref={textareaRef}
-                  value={inputValue}
-                  onChange={handleInputChange}
+                  onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                    handleInput(e);
+                  }}
                 />
               </FormControl>
               <FormMessage />

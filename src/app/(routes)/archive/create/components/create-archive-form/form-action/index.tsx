@@ -29,7 +29,7 @@ export const FormAction = ({
             height={24}
             alt="icon"
           />
-          초기화
+          <span className="ml-1">초기화</span>
         </Button>
         <SelectJobTypeModal />
       </div>

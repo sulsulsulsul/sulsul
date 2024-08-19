@@ -157,28 +157,28 @@ export const SelectJobTypeModal = () => {
       return (
         <>
           <ActivateTwinkleIcon />
-          <span>예상질문 예측 중</span>
+          <span className="ml-1">예상질문 예측 중</span>
         </>
       );
     else if (isSampleWritten || isQuestionCreated)
       return (
         <>
           <CompleteCheckIcon />
-          <span>예상질문 예측완료</span>
+          <span className="ml-1">예상질문 예측완료</span>
         </>
       );
     else if (isSampleClicked || isFormValid)
       return (
         <>
           <ActivateTwinkleIcon />
-          <span>예상질문 예측하기</span>
+          <span className="ml-1">예상질문 예측하기</span>
         </>
       );
     else
       return (
         <>
           <NonActivateTwinkleIcon />
-          <span>예상질문 예측하기</span>
+          <span className="ml-1">예상질문 예측하기</span>
         </>
       );
   }, [
