@@ -27,7 +27,7 @@ interface DataState {
   userId: number;
 }
 
-interface UserState {
+export interface UserState {
   auth: AuthState;
   data: DataState;
   image: string;
@@ -49,7 +49,7 @@ export const useUserStore = create<UserState>((set) => ({
     userId: 0,
   },
   image: '',
-  setUserInfo: (userInfo) =>
+  setUserInfo: (userInfo: Partial<UserState>) =>
     set((state) => ({
       auth: {
         ...state.auth,
