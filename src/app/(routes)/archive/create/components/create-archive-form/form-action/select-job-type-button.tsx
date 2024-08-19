@@ -29,7 +29,7 @@ import { useSampleStore } from '@/store/sampleQuestions';
 
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form';
 
-const JOB_TYPE: string[] = [
+export const JOB_TYPE: string[] = [
   '기획·전략',
   '마케팅·광고·MD',
   '디자인',
@@ -61,8 +61,9 @@ export const SelectJobTypeModal = () => {
   const { form } = useCreateArchiveFormContext();
   const { handleSubmit, getValues } = form;
 
-  const { auth } = useUserStore();
+  const { auth, data } = useUserStore();
   const userId = auth.userId;
+  const jobId = data.job.jobId;
 
   const { isPending, setIsPending } = usePendingStore();
   const { isSampleClicked, isSampleWritten, setIsSampleWritten } =
@@ -90,9 +91,11 @@ export const SelectJobTypeModal = () => {
     wait().then(() => setOpen(false));
 
     try {
-      //jobId update
-      const jobId = JOB_TYPE.indexOf(selectedJobType) + 1;
-      if (userId) updateJobMutation({ userId, jobId });
+      if (jobId === 1) {
+        //jobId update
+        const updatedJobId = JOB_TYPE.indexOf(selectedJobType) + 2;
+        if (userId) updateJobMutation({ userId, jobId: updatedJobId });
+      }
 
       //create archive
       const newArchiveId = await createArchiveMutate({
@@ -199,66 +202,83 @@ export const SelectJobTypeModal = () => {
           action="다시 시도"
         />
       </AlertDialog>
-
-      <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogTrigger asChild>
-          <Button
-            disabled={isButtonDisabled}
-            type="button"
-            className={cn(
-              'grow border-gray-200 bg-gray-200 text-gray-500',
-              buttonClassName,
-            )}
-            variant="outline"
-            onClick={() => {
-              isSampleClicked && setIsSampleWritten();
-              setFailAlertOpen((prev) => false);
-            }}
-          >
-            {buttonChildren}
-          </Button>
-        </AlertDialogTrigger>
-        {!isSampleClicked && !failAlertOpen && (
-          <AlertDialogContent className="h-auto max-w-xl">
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                <p className="text-sm text-blue-500">
-                  예상질문 정확도 3배 상승!
-                </p>
-                <h1 className="text-3xl font-bold">내 직무를 선택해주세요</h1>
-              </AlertDialogTitle>
-              <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 py-4">
-                {JOB_TYPE.map((type, idx) => (
-                  <Button
-                    key={idx}
-                    variant="outline"
-                    className={cn(
-                      'w-[120px] rounded-sm border-gray-300 bg-gray-50 font-normal',
-                      selectedJobType === type &&
-                        'border-blue-500 bg-white text-blue-500 hover:bg-white',
-                    )}
-                    onClick={() => handleSelectedType(type)}
-                  >
-                    {type}
-                  </Button>
-                ))}
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter className="mx-auto">
-              <AlertDialogCancel className="w-[180px]">
-                취소하기
-              </AlertDialogCancel>
-              <AlertDialogAction
-                disabled={selectedJobType === ''}
-                className="w-[180px] bg-blue-500 text-white"
-                onClick={handleSubmit(onSubmit)}
-              >
-                선택하기
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        )}
-      </AlertDialog>
+      {jobId === 1 ? (
+        <AlertDialog open={open} onOpenChange={setOpen}>
+          <AlertDialogTrigger asChild>
+            <Button
+              disabled={isButtonDisabled}
+              type="button"
+              className={cn(
+                'grow border-gray-200 bg-gray-200 text-gray-500',
+                buttonClassName,
+              )}
+              variant="outline"
+              onClick={() => {
+                isSampleClicked && setIsSampleWritten();
+                setFailAlertOpen((prev) => false);
+              }}
+            >
+              {buttonChildren}
+            </Button>
+          </AlertDialogTrigger>
+          {!isSampleClicked && !failAlertOpen && (
+            <AlertDialogContent className="h-auto min-w-fit">
+              <AlertDialogHeader>
+                <AlertDialogTitle className="mt-1">
+                  <p className="text-sm text-blue-500">
+                    예상질문 정확도 3배 상승!
+                  </p>
+                  <h1 className="text-3xl font-bold">내 직무를 선택해주세요</h1>
+                </AlertDialogTitle>
+                <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 py-4">
+                  {JOB_TYPE.map((type, idx) => (
+                    <Button
+                      key={idx}
+                      variant="outline"
+                      className={cn(
+                        'rounded-sm border-gray-300 bg-gray-50 font-normal px-6',
+                        selectedJobType === type &&
+                          'border-blue-500 bg-white text-blue-500 hover:bg-white',
+                      )}
+                      onClick={() => handleSelectedType(type)}
+                    >
+                      {type}
+                    </Button>
+                  ))}
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter className="mx-auto">
+                <AlertDialogCancel className="w-[180px]">
+                  취소하기
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  disabled={selectedJobType === ''}
+                  className="w-[180px] bg-blue-500 text-white"
+                  onClick={handleSubmit(onSubmit)}
+                >
+                  선택하기
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          )}
+        </AlertDialog>
+      ) : (
+        <Button
+          disabled={isButtonDisabled}
+          type="button"
+          className={cn(
+            'grow border-gray-200 bg-gray-200 text-gray-500',
+            buttonClassName,
+          )}
+          variant="outline"
+          onClick={() => {
+            isSampleClicked && setIsSampleWritten();
+            handleSubmit(onSubmit)();
+          }}
+        >
+          {buttonChildren}
+        </Button>
+      )}
     </>
   );
 };

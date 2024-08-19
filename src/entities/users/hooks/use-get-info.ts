@@ -4,7 +4,7 @@ import { getUserAction } from '../actions';
 
 export const useUserInfo = (userId: number) => {
   const result = useQuery({
-    queryKey: ['nickname', userId],
+    queryKey: ['nickname', 'job', userId],
     queryFn: () => getUserAction({ userId }),
   });
   const { data, ...rest } = result;
