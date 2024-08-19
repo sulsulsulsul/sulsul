@@ -1,35 +1,35 @@
-import NextAuth from 'next-auth'
-import Google from 'next-auth/providers/google'
-import Kakao from 'next-auth/providers/kakao'
+import NextAuth from 'next-auth';
+import Google from 'next-auth/providers/google';
+import Kakao from 'next-auth/providers/kakao';
 
-import { signInAction } from '@/entities/auth/actions/sign-in-action'
-import { AuthDTO } from '@/entities/auth/types'
-import { getUserAction } from '@/entities/users/actions/get-user-action'
-import { UserDTO } from '@/entities/users/types'
+import { signInAction } from '@/entities/auth/actions/sign-in-action';
+import { AuthDTO } from '@/entities/auth/types';
+import { getUserAction } from '@/entities/users/actions/get-user-action';
+import { UserDTO } from '@/entities/users/types';
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [Google, Kakao],
   callbacks: {
-    jwt: async ({ token, account }) => {
+    jwt: async ({ token, account, trigger, session }) => {
       if (account) {
         if (account.provider === 'google') {
           if (!account.id_token) {
-            throw new Error('Google id_token is undefined')
+            throw new Error('Google id_token is undefined');
           }
           const authDTO = await signInAction({
             oauthType: 'GOOGLE',
             token: account.id_token,
-          })
-          token.auth = authDTO
+          });
+          token.auth = authDTO;
         } else if (account.provider === 'kakao') {
           if (!account.access_token) {
-            throw new Error('Kakao access_token is undefined')
+            throw new Error('Kakao access_token is undefined');
           }
           const authDTO = await signInAction({
             oauthType: 'KAKAO',
             token: account.access_token,
-          })
-          token.auth = authDTO
+          });
+          token.auth = authDTO;
         }
       }
 
@@ -38,28 +38,38 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const userDTO = await getUserAction({
             userId: token.auth.userId,
             accessToken: token.auth.token,
-          })
-          token.data = userDTO
+          });
+          token.data = userDTO;
         } else if (account?.provider === 'kakao') {
           const userDTO = await getUserAction({
             userId: token.auth.userId,
             accessToken: token.auth.token,
-          })
-          token.data = userDTO
+          });
+          token.data = userDTO;
         }
       }
 
-      return token
+      if (trigger === 'update' && session) {
+        if (session.user && token.data) {
+          token.data = {
+            ...token.data,
+            ...session.user.data,
+          };
+        }
+        return token;
+      }
+
+      return token;
     },
     session: async ({ session, token }) => {
       if (token.auth) {
-        session.user.auth = token.auth as AuthDTO
+        session.user.auth = token.auth as AuthDTO;
       }
       if (token.data) {
-        session.user.data = token.data as UserDTO
+        session.user.data = token.data as UserDTO;
       }
 
-      return session
+      return session;
     },
   },
-})
+});

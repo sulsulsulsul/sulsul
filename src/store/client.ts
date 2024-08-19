@@ -29,7 +29,7 @@ interface DataState {
   firstPractice: boolean;
 }
 
-interface UserState {
+export interface UserState {
   auth: AuthState;
   data: DataState;
   image: string;
@@ -53,7 +53,7 @@ export const useUserStore = create<UserState>((set) => ({
     firstPractice: false,
   },
   image: '',
-  setUserInfo: (userInfo) =>
+  setUserInfo: (userInfo: Partial<UserState>) =>
     set((state) => ({
       auth: {
         ...state.auth,

@@ -63,11 +63,15 @@ export const OnboardModal = () => {
                 className: 'font-normal',
               },
               {
+                message: '면접준비를 돕는 ',
+                className: 'font-normal',
+              },
+              {
                 message: '인공지능 수리',
                 className: 'font-bold',
               },
               {
-                message: '라고 해요!',
+                message: '에요!',
                 className: 'font-normal',
               },
             ],
@@ -84,7 +88,7 @@ export const OnboardModal = () => {
           dialogContents: [
             [
               {
-                message: '을 통해서',
+                message: ' 을 통해서',
                 className: 'font-normal',
               },
             ],
@@ -118,7 +122,7 @@ export const OnboardModal = () => {
                 className: 'font-normal',
               },
               {
-                message: '말해보는 연습 ',
+                message: '답변을 말해보는 연습',
                 className: 'font-bold',
               },
               {
@@ -166,35 +170,43 @@ export const OnboardModal = () => {
   };
 
   return (
-    firstLogin && (
+    !firstLogin && (
       <div
         className={cn(
           'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80',
           visibility,
         )}
       >
-        <div className="left-[40rem] z-[60] flex h-[38rem] w-[32rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
-          <div className="flex flex-col gap-3 self-start">
-            <AvatarSuri></AvatarSuri>
-            {dialog &&
-              dialog[dialogNumber].messageListProp &&
-              dialog[dialogNumber].messageListProp.map(
-                (value: DialogListProp, index: number) => {
-                  return (
-                    <ListDialog
-                      firstDialog={value.firstDialog}
-                      key={index}
-                      dialogContents={value.dialogContents}
-                      id={value.id}
-                      iconMessage={value.iconMessage}
-                      hidden={index === 0 || index <= step ? false : true}
-                    />
-                  );
-                },
-              )}
+        <div className="left-[40rem] z-[60] flex h-[32.75rem] w-[27rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
+          <div className="mb-3 flex w-full flex-col self-start">
+            <div className="mb-3 flex size-full justify-between">
+              <AvatarSuri></AvatarSuri>
+              <div className="my-2.5 text-2xl">
+                <span className="text-gray-500">{`${dialogNumber + 1}`}</span>
+                <span className="text-gray-300">/2</span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2.5">
+              {dialog &&
+                dialog[dialogNumber].messageListProp &&
+                dialog[dialogNumber].messageListProp.map(
+                  (value: DialogListProp, index: number) => {
+                    return (
+                      <ListDialog
+                        firstDialog={value.firstDialog}
+                        key={index}
+                        dialogContents={value.dialogContents}
+                        id={value.id}
+                        iconMessage={value.iconMessage}
+                        hidden={index === 0 || index <= step ? false : true}
+                      />
+                    );
+                  },
+                )}
+            </div>
           </div>
           <div
-            className={`flex flex-col  gap-2  text-[14px]  ${descriptionText}`}
+            className={`flex flex-col  gap-2  text-[14px] ${descriptionText}`}
           >
             {dialogNumber === 1 &&
               '* 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.'}

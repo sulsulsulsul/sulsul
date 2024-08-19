@@ -27,7 +27,7 @@ export const useCurrentUser = () => {
         image: data.user.image || '',
       });
     }
-  }, [data]);
+  }, [data, update, setUserInfo]);
 
   return {
     user: useUserStore((state) => state),
