@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
+import Image from 'next/image';
 
 export default function ModalHeader() {
   return (
@@ -13,5 +13,5 @@ export default function ModalHeader() {
         height={32}
       />
     </div>
-  )
+  );
 }

@@ -1,22 +1,22 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useEffect } from 'react'
-import { Bar } from 'react-chartjs-2'
-import { Chart, ChartData, ChartOptions, Plugin } from 'chart.js'
+import { HTMLAttributes, useEffect } from 'react';
+import { Bar } from 'react-chartjs-2';
+import { Chart, ChartData, ChartOptions, Plugin } from 'chart.js';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
 interface MonthlyChartProps extends HTMLAttributes<HTMLDivElement> {
-  options: ChartOptions<'bar'>
-  data: ChartData<'bar'>
+  options: ChartOptions<'bar'>;
+  data: ChartData<'bar'>;
 }
-const month = new Date().getMonth()
+const month = new Date().getMonth();
 
 const monthlyPlugin: Plugin = {
   id: 'customMonthlyTooltip',
   afterTooltipDraw: (chart) => {
-    const tooltip = chart.tooltip
-    const activeElements = tooltip!.getActiveElements()
+    const tooltip = chart.tooltip;
+    const activeElements = tooltip!.getActiveElements();
     if (!activeElements.length) {
       chart.tooltip!.setActiveElements(
         [
@@ -26,13 +26,13 @@ const monthlyPlugin: Plugin = {
           },
         ],
         chart.tooltip!.options.callbacks!.label as any,
-      )
-      chart.update()
+      );
+      chart.update();
     }
   },
   afterDraw: (chart) => {
-    const tooltip = chart.tooltip
-    const activeElements = tooltip!.getActiveElements()
+    const tooltip = chart.tooltip;
+    const activeElements = tooltip!.getActiveElements();
     if (!activeElements.length) {
       chart.tooltip!.setActiveElements(
         [
@@ -42,11 +42,11 @@ const monthlyPlugin: Plugin = {
           },
         ],
         chart.tooltip!.options.callbacks!.label as any,
-      )
-      chart.update()
+      );
+      chart.update();
     }
   },
-}
+};
 
 export const MonthlyChart = ({
   className,
@@ -54,22 +54,22 @@ export const MonthlyChart = ({
   options,
   ...props
 }: MonthlyChartProps) => {
-  data.labels = Array.from({ length: 12 }).map((_, i) => `${i + 1}월`)
+  data.labels = Array.from({ length: 12 }).map((_, i) => `${i + 1}월`);
   options.plugins!.tooltip!.callbacks = {
     ...options.plugins!.tooltip!.callbacks,
     label: (context) => {
-      const currentIndex = context.dataIndex
-      const title = currentIndex === month ? '이번달' : `${context.label}`
-      return `${title}: ${context.raw}`
+      const currentIndex = context.dataIndex;
+      const title = currentIndex === month ? '이번달' : `${context.label}`;
+      return `${title}: ${context.raw}`;
     },
-  }
+  };
 
   useEffect(() => {
-    Chart.register(monthlyPlugin)
+    Chart.register(monthlyPlugin);
     return () => {
-      Chart.unregister(monthlyPlugin)
-    }
-  }, [])
+      Chart.unregister(monthlyPlugin);
+    };
+  }, []);
 
   return (
     <div
@@ -81,5 +81,5 @@ export const MonthlyChart = ({
     >
       <Bar options={options} data={data} />
     </div>
-  )
-}
+  );
+};

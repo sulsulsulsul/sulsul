@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { ListDialog } from '.'
+import { ListDialog } from '.';
 
 const meta: Meta<typeof ListDialog> = {
   component: ListDialog,
-} satisfies Meta<typeof ListDialog>
+} satisfies Meta<typeof ListDialog>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
@@ -28,7 +28,7 @@ export const Default = {
     iconMessage: '/images/hand-wave.svg',
     firstDialog: true,
   },
-} satisfies Story
+} satisfies Story;
 
 export const List = {
   args: {
@@ -76,4 +76,4 @@ export const List = {
     ],
     id: 'list',
   },
-} satisfies Story
+} satisfies Story;

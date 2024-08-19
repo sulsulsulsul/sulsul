@@ -1,25 +1,25 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useRef } from 'react'
-import Image from 'next/image'
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/all'
+import { HTMLAttributes, useRef } from 'react';
+import Image from 'next/image';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 interface ReasonProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Action = ({ className, ...props }: ReasonProps) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const imageRef = useRef<HTMLImageElement>(null)
-  const textContainerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const textContainerRef = useRef<HTMLDivElement>(null);
   useGSAP(
     () => {
-      const tl = gsap.timeline({ paused: true })
+      const tl = gsap.timeline({ paused: true });
       tl.from(textContainerRef.current, {
         opacity: 0,
-      })
+      });
 
       tl.from(
         imageRef.current,
@@ -28,17 +28,17 @@ export const Action = ({ className, ...props }: ReasonProps) => {
           y: 200,
         },
         '<',
-      )
+      );
 
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: '0px 60%',
         end: 'bottom 60%',
         animation: tl,
-      })
+      });
     },
     { scope: containerRef },
-  )
+  );
 
   return (
     <div ref={containerRef} className={cn('bg-white', className)} {...props}>
@@ -79,5 +79,5 @@ export const Action = ({ className, ...props }: ReasonProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

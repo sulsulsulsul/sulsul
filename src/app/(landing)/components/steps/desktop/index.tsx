@@ -1,25 +1,25 @@
-'use client'
+'use client';
 
 // import { Video } from '@/components/shared/video'
-import { HTMLAttributes, useRef, useState } from 'react'
-import { useGSAP } from '@gsap/react'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { HTMLAttributes, useRef, useState } from 'react';
+import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
-import { StepList } from './step-list'
-import { StepVideos } from './step-videos'
+import { StepList } from './step-list';
+import { StepVideos } from './step-videos';
 
 interface StepSectionProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const DesktopSteps = ({ className, ...props }: StepSectionProps) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [step, setStep] = useState(0)
-  const [videoState, setVideoState] = useState<'paused' | 'play'>('paused')
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [step, setStep] = useState(0);
+  const [videoState, setVideoState] = useState<'paused' | 'play'>('paused');
 
   useGSAP(
     () => {
-      if (!containerRef.current) return
+      if (!containerRef.current) return;
       ScrollTrigger.create({
         trigger: containerRef.current,
         start: '0px 10px',
@@ -27,33 +27,33 @@ export const DesktopSteps = ({ className, ...props }: StepSectionProps) => {
         pin: true,
         pinSpacing: true,
         onEnter: () => {
-          setVideoState('play')
+          setVideoState('play');
         },
         onUpdate: (self) => {
-          const progress = self.progress
+          const progress = self.progress;
           if (progress < 0.3) {
-            setStep(0)
+            setStep(0);
           }
           if (progress >= 0.3 && progress < 0.7) {
-            setStep(1)
+            setStep(1);
           }
           if (progress >= 0.7) {
-            setStep(2)
+            setStep(2);
           }
         },
         onLeave: () => {
-          setVideoState('paused')
+          setVideoState('paused');
         },
         onLeaveBack: () => {
-          setVideoState('paused')
+          setVideoState('paused');
         },
         onEnterBack: () => {
-          setVideoState('play')
+          setVideoState('play');
         },
-      })
+      });
     },
     { scope: containerRef, dependencies: [] },
-  )
+  );
 
   return (
     <div className={cn('relative bg-white', className)} {...props}>
@@ -75,5 +75,5 @@ export const DesktopSteps = ({ className, ...props }: StepSectionProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
