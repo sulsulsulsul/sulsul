@@ -14,7 +14,7 @@ import { ScrollUpButton } from './components/scroll-up-button';
 import { Steps } from './components/steps';
 
 gsap.registerPlugin(ScrollTrigger);
-const Page = () => {
+const Page = async () => {
   return (
     <main>
       <AuthSignedIn>

@@ -15,7 +15,7 @@ export const updateUserNicknameAction = async ({
   userId,
 }: UpdateUserNicknameActionParams) => {
   return backendApi<Pick<UserDTO, 'userId' | 'nickname'>>({
-    endpoint: API_ENDPOINT.user.getUser(userId),
+    endpoint: API_ENDPOINT.user.updateUserNickname(userId),
     data: {
       nickname,
     },

@@ -6,4 +6,6 @@ export interface UserDTO {
     jobId: number;
     name: string;
   };
+  firstLogin: boolean;
+  firstPractice: boolean;
 }

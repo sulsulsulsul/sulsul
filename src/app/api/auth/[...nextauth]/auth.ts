@@ -10,7 +10,7 @@ import { UserDTO } from '@/entities/users/types';
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [Google, Kakao],
   callbacks: {
-    jwt: async ({ token, account }) => {
+    jwt: async ({ token, account, trigger, session }) => {
       if (account) {
         if (account.provider === 'google') {
           if (!account.id_token) {
@@ -47,6 +47,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           });
           token.data = userDTO;
         }
+      }
+
+      if (trigger === 'update' && session) {
+        if (session.user && token.data) {
+          token.data = {
+            ...token.data,
+            ...session.user.data,
+          };
+        }
+        return token;
       }
 
       return token;
