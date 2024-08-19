@@ -2,9 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
 import { deleteArchiveAction } from '@/entities/archives/actions';
-import { ArchiveListItemDTO, ArchiveListsDTO } from '@/entities/types';
-
-import { ArchiveListQueryOptions } from './use-archives';
+import { ArchiveListsDTO } from '@/entities/types';
 
 export const useDeleteArchive = (page: number) => {
   const queryClient = useQueryClient();

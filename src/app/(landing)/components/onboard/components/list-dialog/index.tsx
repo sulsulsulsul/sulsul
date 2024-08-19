@@ -1,10 +1,10 @@
-'use client'
+'use client';
 
-import Image from 'next/image'
+import Image from 'next/image';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
-import { DialogListProp, MessageProp } from '../../types/onboard'
+import { DialogListProp, MessageProp } from '../../types/onboard';
 
 export const ListDialog = ({
   dialogContents,
@@ -30,8 +30,8 @@ export const ListDialog = ({
         )}
       >
         {dialogContents.map((dialogContent: MessageProp[], index: number) => {
-          const listNumber = index >= 1 ? index : index + 1
-          const visibility = index == 1 ? 'invisible' : 'visible'
+          const listNumber = index >= 1 ? index : index + 1;
+          const visibility = index == 1 ? 'invisible' : 'visible';
           return (
             <div
               key={index}
@@ -61,13 +61,13 @@ export const ListDialog = ({
                     <div
                       key={contentIndex}
                       className={cn(
-                        'whitespace-pre text-[1rem] leading-[26px] h-[26px]',
+                        'whitespace-pre  text-lg  h-[26px]',
                         content.className,
                       )}
                     >
                       {content.message}
                     </div>
-                  )
+                  );
                 },
               )}
               {id === 'greeting' && (
@@ -79,9 +79,9 @@ export const ListDialog = ({
                 />
               )}
             </div>
-          )
+          );
         })}
       </div>
     </div>
-  )
-}
+  );
+};
