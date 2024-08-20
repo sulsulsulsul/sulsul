@@ -11,12 +11,10 @@ import { ArchiveDetailDTO } from '@/entities/types';
 import { cn } from '@/lib/utils';
 import { useDeleteQuestionStore } from '@/store/deleteQuestions';
 import { useEditQuestionStore } from '@/store/editingQuestions';
-import { useSaveCompleteStore } from '@/store/saveComplete';
 import { useSaveUpdatedQuestionStore } from '@/store/savingUpdatedQuestion';
 
 import { AddQuestion } from '../question-card/add-question';
 import { LoadedStatus } from './status/loaded';
-import { SaveCompletedStatus } from './status/saveCompleted';
 import { SavingStatus } from './status/saving';
 
 interface InterviewQuestionsProps extends HTMLAttributes<HTMLDivElement> {
@@ -32,7 +30,6 @@ export const InterviewQuestions = ({
 
   const { isSaving } = useSaveUpdatedQuestionStore();
   const { isEditing, setIsEditing } = useEditQuestionStore();
-  const { saveComplete } = useSaveCompleteStore();
   const { deleteQuestions, setDeleteQuestions } = useDeleteQuestionStore();
 
   const { mutateAsync: deleteQuestionMutation } = useDeleteQuestion(archiveId);
@@ -69,7 +66,6 @@ export const InterviewQuestions = ({
               <span>면접 예상질문</span>
               <span className="text-blue-500">{data.questions.length}</span>
               {isSaving && <SavingStatus />}
-              {saveComplete && <SaveCompletedStatus />}
               {!isEditing && (
                 <span
                   className="absolute right-3 cursor-pointer text-sm font-normal text-gray-500"
