@@ -1,23 +1,23 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useRef } from 'react'
-import Image from 'next/image'
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/all'
+import { HTMLAttributes, useRef } from 'react';
+import Image from 'next/image';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface ReasonProps extends HTMLAttributes<HTMLDivElement> {}
 
 const images = [
   '/images/comment-1.svg',
   '/images/comment-2.svg',
   '/images/comment-3.svg',
-]
+];
 
 export const Reason = ({ className, ...props }: ReasonProps) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const imageRefs = useRef<HTMLDivElement[]>([])
+  const containerRef = useRef<HTMLDivElement>(null);
+  const imageRefs = useRef<HTMLDivElement[]>([]);
   useGSAP(
     () => {
       ScrollTrigger.create({
@@ -29,10 +29,10 @@ export const Reason = ({ className, ...props }: ReasonProps) => {
           y: -50,
           stagger: 0.2,
         }),
-      })
+      });
     },
     { scope: containerRef },
-  )
+  );
 
   return (
     <div
@@ -62,5 +62,5 @@ export const Reason = ({ className, ...props }: ReasonProps) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 
 import {
   Select,
@@ -7,10 +7,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from '@/components/ui/select';
 
 interface SelectDropdownProps {
-  onChangeSortType: (value: 'recent' | 'old') => void
+  onChangeSortType: (value: 'recent' | 'old') => void;
 }
 export default function SelectDropdown({
   onChangeSortType,
@@ -27,5 +27,5 @@ export default function SelectDropdown({
         </SelectGroup>
       </SelectContent>
     </Select>
-  )
+  );
 }

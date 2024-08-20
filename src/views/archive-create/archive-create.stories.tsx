@@ -1,14 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { ArchiveCreate } from './'
+import { ArchiveCreate } from './';
 
 const meta = {
   component: ArchiveCreate,
-} satisfies Meta<typeof ArchiveCreate>
+} satisfies Meta<typeof ArchiveCreate>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {},
-} satisfies Story
+} satisfies Story;

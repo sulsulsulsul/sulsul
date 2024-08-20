@@ -1,13 +1,13 @@
-import { HTMLAttributes } from 'react'
-import { ChevronRightIcon } from 'lucide-react'
+import { HTMLAttributes } from 'react';
+import { ChevronRightIcon } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Separator } from '@/components/ui/separator'
-import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from '@/components/ui/separator';
+import { cn } from '@/lib/utils';
 interface PracticeArchiveSelectProps extends HTMLAttributes<HTMLDivElement> {
-  data: PracticeArchiveSelectItemProps[]
-  handleSelect?: (id: string) => void
+  data: PracticeArchiveSelectItemProps[];
+  handleSelect?: (id: string) => void;
 }
 
 export const PracticeArchiveSelect = ({
@@ -28,15 +28,15 @@ export const PracticeArchiveSelect = ({
         </>
       ))}
     </div>
-  )
-}
+  );
+};
 
 export interface PracticeArchiveSelectItemProps {
-  isSelect?: boolean
-  id: string
-  title: string
-  company?: string
-  onClick?: (id: string) => void
+  isSelect?: boolean;
+  id: string;
+  title: string;
+  company?: string;
+  onClick?: (id: string) => void;
 }
 
 const PracticeArchiveSelectItem = ({
@@ -49,7 +49,7 @@ const PracticeArchiveSelectItem = ({
   return (
     <div
       onClick={() => {
-        !isSelect && onClick?.(id)
+        !isSelect && onClick?.(id);
       }}
       className={cn(
         'group flex items-center transition pl-6 pr-7 py-3 justify-between gap-2',
@@ -89,5 +89,5 @@ const PracticeArchiveSelectItem = ({
         )}
       />
     </div>
-  )
-}
+  );
+};

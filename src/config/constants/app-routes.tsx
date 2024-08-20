@@ -5,10 +5,10 @@ export const APP_ROUTES = {
   createArchive: () => '/archive/create',
   practice: () => '/practice',
   my: () => '/my',
-} as const
+} as const;
 
-export const ROOT = APP_ROUTES.home()
-export const PUBLIC_ROUTES = [ROOT] as string[]
-export const DEFAULT_REDIRECT = ROOT
+export const ROOT = APP_ROUTES.home();
+export const PUBLIC_ROUTES = [ROOT] as string[];
+export const DEFAULT_REDIRECT = ROOT;
 
-export const API_AUTH_PREFIX = '/api/auth'
+export const API_AUTH_PREFIX = '/api/auth';

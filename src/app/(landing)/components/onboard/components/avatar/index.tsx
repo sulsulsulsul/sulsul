@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export const AvatarSuri = () => {
   return (
@@ -11,5 +11,5 @@ export const AvatarSuri = () => {
       </Avatar>
       <div>수리</div>
     </div>
-  )
-}
+  );
+};

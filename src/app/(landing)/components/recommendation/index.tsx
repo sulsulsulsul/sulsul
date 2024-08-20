@@ -1,19 +1,19 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useRef } from 'react'
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/all'
+import { HTMLAttributes, useRef } from 'react';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface RecommendationProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Recommendation = ({
   className,
   ...props
 }: RecommendationProps) => {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const textRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
     ScrollTrigger.create({
@@ -24,8 +24,8 @@ export const Recommendation = ({
         opacity: 1,
       }),
       toggleActions: 'play none none reverse',
-    })
-  })
+    });
+  });
   return (
     <div
       ref={containerRef}
@@ -51,5 +51,5 @@ export const Recommendation = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

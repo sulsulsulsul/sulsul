@@ -38,6 +38,13 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    withdrawUser: (id: number) => {
+      return {
+        url: `/api/v1/users/${id}/withdraw`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
   },
   archive: {
     getArchives: (page: number) => {
@@ -138,10 +145,31 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    createOwnQuestion: (archiveId: number) => {
+      return {
+        url: `/api/v1/questions/${archiveId}`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
     updateAnswer: (questionId: number) => {
       return {
         url: `/api/v1/questions/${questionId}/answers`,
         method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    updateQuestion: (questionId: number) => {
+      return {
+        url: `/api/v1/questions/${questionId}`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    deleteQuestion: (questionId: number) => {
+      return {
+        url: `/api/v1/questions/${questionId}`,
+        method: Method.DELETE,
         authorization: true,
       };
     },

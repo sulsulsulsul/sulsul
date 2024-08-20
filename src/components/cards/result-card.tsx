@@ -1,9 +1,9 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface ResultCardProps extends HTMLAttributes<HTMLDivElement> {
-  icon?: React.ReactNode
-  result: React.ReactNode
+  icon?: React.ReactNode;
+  result: React.ReactNode;
 }
 
 export const ResultCard = ({
@@ -31,5 +31,5 @@ export const ResultCard = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

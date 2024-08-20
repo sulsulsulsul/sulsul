@@ -1,6 +1,6 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface PracticeHistoryProps extends HTMLAttributes<HTMLDivElement> {}
 
 /**
@@ -17,5 +17,5 @@ export const PracticeHistory = ({
       {/* Practice History Table */}
       {/* Pagination */}
     </div>
-  )
-}
+  );
+};

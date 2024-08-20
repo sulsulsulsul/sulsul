@@ -1,3 +1,3 @@
-export * from './archive'
-export * from './feedback'
-export * from './keyword'
+export * from './archive';
+export * from './feedback';
+export * from './keyword';

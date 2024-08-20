@@ -1,4 +1,4 @@
 export interface KeywordDTO {
-  keywordId: number
-  content: string
+  keywordId: number;
+  content: string;
 }

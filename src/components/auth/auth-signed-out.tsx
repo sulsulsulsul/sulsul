@@ -1,13 +1,13 @@
-'use client'
+'use client';
 
-import { PropsWithChildren } from 'react'
-import { useSession } from 'next-auth/react'
+import { PropsWithChildren } from 'react';
+import { useSession } from 'next-auth/react';
 interface AuthSignedOutProps extends PropsWithChildren {}
 
 export const AuthSignedOut = ({ children }: AuthSignedOutProps) => {
-  const { status } = useSession()
+  const { status } = useSession();
   if (status !== 'unauthenticated') {
-    return null
+    return null;
   }
-  return <>{children}</>
-}
+  return <>{children}</>;
+};
