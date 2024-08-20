@@ -3,6 +3,7 @@ import { HTMLAttributes, useEffect, useRef, useState } from 'react';
 import { useUpdateQuestion } from '@/entities/questions/hooks/use-update-question';
 import { ArchiveKeyword } from '@/entities/types';
 import { cn } from '@/lib/utils';
+import { useSaveCompleteStore } from '@/store/saveComplete';
 import { useSaveUpdatedQuestionStore } from '@/store/savingUpdatedQuestion';
 
 import { KeywordSet } from '../keyword-section/keyword';
@@ -24,6 +25,7 @@ export const CardHeader = ({
   ...props
 }: CardHeaderProps) => {
   const [inputValue, setInputValue] = useState(content);
+  const { setSaveComplete } = useSaveCompleteStore();
   const answeredIconClass = isAnswered ? 'bg-blue-500' : 'bg-gray-200';
   const { mutate: updateQuestionMutation, isPending } = useUpdateQuestion();
   const { isSaving, setIsSaving } = useSaveUpdatedQuestionStore();
@@ -47,11 +49,18 @@ export const CardHeader = ({
     if (isSaving) {
       const timer = setTimeout(() => {
         setIsSaving(false);
+        setSaveComplete(true);
+
+        const completeTimer = setTimeout(() => {
+          setSaveComplete(false);
+        }, 1000);
+
+        return () => clearTimeout(completeTimer);
       }, 2000);
 
       return () => clearTimeout(timer);
     }
-  }, [isPending, setIsSaving, isSaving]);
+  }, [isPending, setIsSaving, isSaving, setSaveComplete]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -73,7 +82,7 @@ export const CardHeader = ({
 
   return (
     <div className={cn(className)} {...props}>
-      <div className="flex w-full items-center justify-start gap-2 border-none p-0 py-2">
+      <div className="flex w-full items-center justify-start gap-2 border-none">
         <div
           className={`size-[9.6px] min-w-[9.6px] rounded-full ${answeredIconClass}`}
         />

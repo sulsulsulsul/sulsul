@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { useQueryClient } from '@tanstack/react-query';
 
+import { CheckAnimation } from '@/components/lotties/check-animation';
 import { TwinkleAnimation } from '@/components/lotties/twinkle-animation';
 import { AlertModal } from '@/components/shared/modal';
 import {
@@ -26,6 +27,7 @@ import { cn } from '@/lib/utils';
 import { usePendingStore, useUserStore } from '@/store/client';
 import { useCreateQuestionStore } from '@/store/createQuestions';
 import { useCurrentArchiveIdStore } from '@/store/currentArchiveId';
+import { useResetAvailableStore } from '@/store/resetAvailable';
 import { useSampleStore } from '@/store/sampleQuestions';
 
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form';
@@ -71,6 +73,7 @@ export const SelectJobTypeModal = () => {
     useSampleStore();
   const { isQuestionCreated, setIsQuestionCreated } = useCreateQuestionStore();
   const { setCurrentId } = useCurrentArchiveIdStore();
+  const { setIsResetAvailable } = useResetAvailableStore();
 
   const queryClient = useQueryClient();
   const { mutate: updateJobMutation } = useUpdateJob();
@@ -140,18 +143,23 @@ export const SelectJobTypeModal = () => {
   };
 
   const isButtonDisabled = (() => {
-    if (isSampleWritten) return true;
-    if (isSampleClicked || isPending) return false;
-    if (isSubmitting || !isFormValid) return true;
+    if (
+      isPending ||
+      isSampleWritten ||
+      isQuestionCreated ||
+      isSubmitting ||
+      !isFormValid
+    )
+      return true;
     return false;
   })();
 
   const buttonClassName = (() => {
-    if (isPending) return 'bg-animated';
+    if (isPending) return 'bg-animated disabled:opacity-100';
     if (isSampleWritten || isQuestionCreated)
-      return 'bg-blue-100 text-blue-500';
+      return 'bg-blue-100 text-blue-500 disabled:opacity-100 disabled:opacity-100';
     if (isSampleClicked || isFormValid)
-      return 'bg-blue-500 text-white hover:bg-blue-600';
+      return 'bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-100';
     return '';
   })();
 
@@ -166,7 +174,7 @@ export const SelectJobTypeModal = () => {
     else if (isSampleWritten || isQuestionCreated)
       return (
         <>
-          <CompleteCheckIcon />
+          <CheckAnimation className="size-6" loop={false} />
           <span className="ml-1">예상질문 예측완료</span>
         </>
       );
@@ -215,7 +223,8 @@ export const SelectJobTypeModal = () => {
               variant="outline"
               onClick={() => {
                 isSampleClicked && setIsSampleWritten();
-                setFailAlertOpen((prev) => false);
+                setFailAlertOpen(false);
+                setIsResetAvailable(false);
               }}
             >
               {buttonChildren}
@@ -274,6 +283,7 @@ export const SelectJobTypeModal = () => {
           onClick={() => {
             isSampleClicked && setIsSampleWritten();
             handleSubmit(onSubmit)();
+            setIsResetAvailable(false);
           }}
         >
           {buttonChildren}

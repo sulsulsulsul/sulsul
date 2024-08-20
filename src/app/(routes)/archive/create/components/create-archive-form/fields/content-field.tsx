@@ -60,7 +60,7 @@ export const ContentField = ({ className, ...props }: ContentFieldProps) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage type="error" />
             </FormItem>
           )}
         />
