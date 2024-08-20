@@ -8,7 +8,10 @@ import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/paginat
 import { Button } from '@/components/ui/button';
 import { useArchives } from '@/entities/archives/hooks';
 import { PracticedQuestionTabType } from '@/entities/dashboard/types';
-import { usePracticeStore } from '@/store/practiceStore';
+import {
+  usePracticeResultStore,
+  usePracticeStore,
+} from '@/store/practiceStore';
 
 import { PracticedQuestionTab } from '../../dashboard/components/practice-question-tab';
 import PracticeSectionHeader from '../../dashboard/components/practice-section-header';
@@ -16,10 +19,12 @@ import { QuestionDetailType } from '../../types/question';
 import { useCreatePractice } from '../practice-modal/hooks';
 import { FilterType, HintType, QuestionState } from '../types';
 import PracticeListItem from './components/practice-list-item';
+import { PracticeListTab } from './components/practice-list-tab';
 import PracticeListHeader from './components/pratice-list-header';
 import { usePracticeList } from './hook/use-get-practice-list';
 
-export default function PracticeList() {
+export default function PracticeList({ qstate }: { qstate: QuestionState }) {
+  //TODO: Change the qstate to something good name
   //TODO  GET API FOR DATE AND COUNT FOR QUESTIONS
   const [filter, setFilter] = useState<FilterType>('recent');
   const [hint, setHint] = useState<HintType>('default');
@@ -29,19 +34,143 @@ export default function PracticeList() {
   >([]);
 
   const MAX_QEUSTION_COUNT = 6;
+  const [tabChange, setTabChange] = useState<QuestionState>('all');
 
-  // const modifiedByQuestionState = questions?.filter((value)=>{
-  //   if(qstate === 'not_answer'){
-  //     return value.practiceStatus === 'NOT_ANSWER'
-  //   }else if(qstate === 'answer'){
-  //     return  value.practiceStatus === 'ANSWER'
-  //   }else return true
-  // })
   // const {archives} = useArchives(0)
-  const { questions } = usePracticeList();
-  console.log(questions);
+  // const { questions } = usePracticeList();
 
-  const modifiedByHint = questions?.filter((value) => {
+  //TODO: remove mock
+  const questions: QuestionDetailType[] = [
+    {
+      archiveId: 0,
+      title: 'asdsads',
+      companyName: 'asdadad',
+      questionId: 0,
+      content: 'sadadsad',
+      answer: 'asdadsa',
+      isAnswered: true,
+      isStar: true,
+      isHint: true,
+      practiceCount: 40,
+      practiceTime: 10,
+      lastPracticeAt: '2024-08-16T13:49:45.921Z',
+      // 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+      practiceStatus: 'ANSWER',
+      feedback: {
+        feedbackId: 0,
+        goodPoint: 'dsada',
+        improvePoint: 'sadasd',
+        content: 'sadas',
+        status: 'READY', //Ask
+      },
+      keywords: [
+        {
+          keywordId: 0,
+          content: 'keyword',
+        },
+      ],
+    },
+    {
+      archiveId: 1,
+      title: '1',
+      companyName: '1',
+      questionId: 1,
+      content: '1',
+      answer: '1',
+      isAnswered: false,
+      isStar: false,
+      isHint: false,
+      practiceCount: 30,
+      practiceTime: 20,
+      lastPracticeAt: '2024-06-16T13:49:45.921Z',
+      // 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+      practiceStatus: 'ANSWER',
+      feedback: {
+        feedbackId: 0,
+        goodPoint: 'dsada',
+        improvePoint: 'sadasd',
+        content: 'sadas',
+        status: 'READY', //Ask
+      },
+      keywords: [
+        {
+          keywordId: 0,
+          content: 'keyword',
+        },
+      ],
+    },
+    {
+      archiveId: 2,
+      title: '2',
+      companyName: '2',
+      questionId: 2,
+      content: '2',
+      answer: '2',
+      isAnswered: false,
+      isStar: false,
+      isHint: true,
+      practiceCount: 20,
+      practiceTime: 30,
+      lastPracticeAt: '2024-04-16T13:49:45.921Z',
+      // 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+      practiceStatus: 'NOT_ANSWER',
+      feedback: {
+        feedbackId: 0,
+        goodPoint: 'dsada',
+        improvePoint: 'sadasd',
+        content: 'sadas',
+        status: 'READY', //Ask
+      },
+      keywords: [
+        {
+          keywordId: 0,
+          content: 'keyword',
+        },
+      ],
+    },
+    {
+      archiveId: 3,
+      title: '3',
+      companyName: '3',
+      questionId: 3,
+      content: '3',
+      answer: '3',
+      isAnswered: true,
+      isStar: false,
+      isHint: false,
+      practiceCount: 10,
+      practiceTime: 40,
+      lastPracticeAt: '2024-01-16T13:49:45.921Z',
+      // 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+      practiceStatus: 'NOT_ANSWER',
+      feedback: {
+        feedbackId: 0,
+        goodPoint: 'dsada',
+        improvePoint: 'sadasd',
+        content: 'sadas',
+        status: 'READY', //Ask
+      },
+      keywords: [
+        {
+          keywordId: 0,
+          content: 'keyword',
+        },
+      ],
+    },
+  ];
+
+  const modifiedByQuestionState = questions?.filter((value) => {
+    console.log(tabChange === 'not_answer', tabChange, typeof tabChange);
+    if (tabChange === 'not_answer') {
+      console.log('a');
+      return value.practiceStatus === 'NOT_ANSWER';
+    } else if (tabChange == 'answer') {
+      console.log('b');
+      return value.practiceStatus === 'ANSWER';
+    } else return true;
+  });
+
+  const modifiedByHint = modifiedByQuestionState?.filter((value) => {
     return (
       (hint === 'on' && value.isHint) ||
       (hint === 'off' && !value.isHint) ||
@@ -49,15 +178,52 @@ export default function PracticeList() {
     );
   });
 
+  const handleSortByFilter = (value: QuestionDetailType[]) => {
+    if (filter === 'recent') {
+      return value.sort((a: QuestionDetailType, b: QuestionDetailType) => {
+        return (
+          new Date(b.lastPracticeAt).valueOf() -
+          new Date(a.lastPracticeAt).valueOf()
+        );
+      });
+    } else if (filter === 'old') {
+      return value.sort((a: QuestionDetailType, b: QuestionDetailType) => {
+        return (
+          new Date(a.lastPracticeAt).valueOf() -
+          new Date(b.lastPracticeAt).valueOf()
+        );
+      });
+    } else if (filter === 'leastCount') {
+      return value.sort((a: QuestionDetailType, b: QuestionDetailType) => {
+        return a.practiceCount - b.practiceCount;
+      });
+    } else if (filter === 'mostCount') {
+      return value.sort((a: QuestionDetailType, b: QuestionDetailType) => {
+        return b.practiceCount - a.practiceCount;
+      });
+    }
+  };
+
+  const modifiedByFilter = handleSortByFilter(modifiedByHint);
+  // console.log(modifiedByFilter , tabChange)
   useEffect(() => {
     setCurrentPage(1);
-  }, [hint]);
+  }, [hint, tabChange]);
+
+  //mock correct , incorrect
+  // const {  correct, incorrect}=usePracticeResultStore()
+  const correct = ['', ''];
+  const incorrect = ['', ''];
 
   const { setStore } = usePracticeStore();
+
   const mutation = useCreatePractice();
+
   const router = useRouter();
+
   const pageIndex =
     questions && Math.ceil(modifiedByHint!.length / MAX_QEUSTION_COUNT);
+
   const handlePractice = async () => {
     await mutation.mutate(
       selectedQuestionList.flatMap((value) => value.questionId),
@@ -82,11 +248,11 @@ export default function PracticeList() {
             title="연습한 면접질문"
             iconSrc="/images/icons/etc-speech.svg"
           />
-          <PracticedQuestionTab
-            // onTabChange={}
-            unansweredCount={20}
-            hintUsedCount={10}
-            favoriteCount={1}
+          <PracticeListTab
+            onTabChange={setTabChange}
+            allCount={correct.length + incorrect.length}
+            unansweredCount={incorrect.length}
+            answeredCount={correct.length}
           />
         </div>
         <Button
@@ -105,8 +271,8 @@ export default function PracticeList() {
       </div>
       <PracticeListHeader setFilter={setFilter} setHint={setHint} />
       <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
-        {modifiedByHint &&
-          modifiedByHint.map((value, index) => {
+        {modifiedByFilter &&
+          modifiedByFilter.map((value, index) => {
             return (
               index + 1 <= MAX_QEUSTION_COUNT * currentPage &&
               index + 1 > MAX_QEUSTION_COUNT * (currentPage - 1) && (

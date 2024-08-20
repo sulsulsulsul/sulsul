@@ -18,7 +18,8 @@ export interface QuestionDetailType {
   isHint: boolean;
   practiceCount: number;
   practiceTime: number;
-  practiceStatus: 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+  lastPracticeAt: string; //"2024-08-16T13:49:45.921Z",
+  practiceStatus?: 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
   feedback: {
     feedbackId: number;
     goodPoint: string;

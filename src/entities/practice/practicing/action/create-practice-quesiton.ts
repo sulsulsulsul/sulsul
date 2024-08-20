@@ -5,17 +5,17 @@ import { backendApi } from '@/lib/backend-api/client';
 
 export interface PracticeQuestionProp {
   questionId: number;
-  questionIds: number[];
+  practiceTimeSec: number;
 }
 
 export const createPracticeQuestion = async ({
   questionId,
-  questionIds,
+  practiceTimeSec,
 }: PracticeQuestionProp) => {
   return backendApi({
     endpoint: API_ENDPOINT.practice.createPracticeQuestion(questionId),
     data: {
-      questionIds: questionIds,
+      practiceTimeSec: practiceTimeSec,
     },
   });
 };

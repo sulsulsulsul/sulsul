@@ -27,7 +27,81 @@ export default function MyResumeSelection({
   archiveId,
 }: ResumeSelection) {
   const [checked, setChecked] = useState(false);
-  const { archive } = useArchive(archiveId);
+  // const { archive } = useArchive(archiveId);
+  const archive: ArchiveDetailDTO = {
+    archiveId: 0,
+    companyName: 'string',
+    title: 'string',
+    resume: 'string',
+    status: 'READY',
+    questions: [
+      {
+        questionId: 0,
+        content: 'string',
+        answer: 'string',
+        isAnswered: true,
+        isHint: true,
+        keywords: [
+          {
+            keywordId: 0,
+            content: 'string',
+          },
+        ],
+      },
+      {
+        questionId: 1,
+        content: 'string',
+        answer: 'string',
+        isAnswered: true,
+        isHint: true,
+        keywords: [
+          {
+            keywordId: 0,
+            content: 'string',
+          },
+        ],
+      },
+      {
+        questionId: 2,
+        content: '2',
+        answer: 'string',
+        isAnswered: false,
+        isHint: true,
+        keywords: [
+          {
+            keywordId: 0,
+            content: 'string',
+          },
+        ],
+      },
+      {
+        questionId: 3,
+        content: '3',
+        answer: 'string',
+        isAnswered: true,
+        isHint: false,
+        keywords: [
+          {
+            keywordId: 0,
+            content: 'string',
+          },
+        ],
+      },
+      {
+        questionId: 4,
+        content: '4',
+        answer: 'string',
+        isAnswered: false,
+        isHint: false,
+        keywords: [
+          {
+            keywordId: 0,
+            content: 'string',
+          },
+        ],
+      },
+    ],
+  };
 
   // export interface ArchiveDetailDTO {
   //   archiveId: number;
@@ -47,14 +121,8 @@ export default function MyResumeSelection({
           ? prev
           : [...prev, archive];
       });
-      // 아카이브 아이디만 저장
-      // setArchiveIds((prev) => {
-      //   return prev.some((item) => item  === archiveId)
-      //     ? prev
-      //     : [...prev, archiveId];
-      // })
     }
-  }, [resetChecked, selectAll, setSelectArchives, archiveId, archive]);
+  }, [resetChecked, selectAll, setSelectArchives, archiveId]);
 
   const handleCheck = () => {
     !checked && archive

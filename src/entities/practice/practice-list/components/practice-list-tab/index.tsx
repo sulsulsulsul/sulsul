@@ -25,16 +25,16 @@ export const PracticeListTab = ({
         onValueChange={(value) => {
           onTabChange(value as QuestionState);
         }}
-        defaultValue="unanswered"
+        defaultValue="all"
       >
         <TabsList>
           <TabsTrigger value="all">
-            전체{allCount > 0 && <>{allCount}</>}
+            전체 {allCount > 0 && <>{allCount}</>}
           </TabsTrigger>
-          <TabsTrigger value="">
-            답변한{answeredCount > 0 && <>{answeredCount}</>}
+          <TabsTrigger value="answer">
+            답변한 {answeredCount > 0 && <>{answeredCount}</>}
           </TabsTrigger>
-          <TabsTrigger value="favorites">
+          <TabsTrigger value="not_answer">
             답변못한 {unansweredCount > 0 && <>{unansweredCount}</>}
           </TabsTrigger>
         </TabsList>

@@ -8,10 +8,10 @@ import {
 
 export const useCreatePracticeQuestion = () => {
   return useMutation({
-    mutationFn: ({ questionId, questionIds }: PracticeQuestionProp) =>
+    mutationFn: ({ questionId, practiceTimeSec }: PracticeQuestionProp) =>
       createPracticeQuestion({
         questionId: questionId,
-        questionIds: questionIds,
+        practiceTimeSec: practiceTimeSec,
       }),
   });
 };

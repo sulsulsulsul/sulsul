@@ -10,7 +10,6 @@ import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LottieRefCurrentProps } from 'lottie-react';
 import { ChevronDown } from 'lucide-react';
-import { set } from 'zod';
 
 import { SmileAnimation } from '@/components/lotties/smile-animation';
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
@@ -19,6 +18,7 @@ import {
   useUpdatePractice,
   useUpdateTime,
 } from '@/entities/practice/practice-modal/hooks';
+import { useCreatePracticeQuestion } from '@/entities/practice/practicing/hooks/use-create-practice-question';
 import { QuestionDetailType } from '@/entities/types/question';
 import {
   usePracticeResultStore,
@@ -55,6 +55,8 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const [q, setQ] = useState(practiceList[0]);
 
   const [time, setTime] = useState(0);
+  // const [totalTime, setTotalTime]= useState(0)
+  const [startTime, setStartTime] = useState(0);
   const [pauseTimer, setPauseTimer] = useState(false);
 
   const router = useRouter();
@@ -63,14 +65,19 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const mutationTime = useUpdateTime();
   const questionToMarkCorrect = questions[0];
 
+  const { mutate } = useCreatePracticeQuestion();
+
   const handleCorrect = () => {
     if (questions.length === 0) return;
     mutationPractice.mutate({
       questionId: q.questionId,
       practiceStatus: 'ANSWER',
     });
+
+    mutate({ questionId: q.questionId, practiceTimeSec: time - startTime });
     setCorrectQuestions((prev) => [...prev, questionToMarkCorrect]);
     setQuestions((prev) => prev.filter((_, i) => i !== 0));
+    setStartTime(time);
     smileRef.current?.stop();
     smileRef.current?.play();
   };
@@ -81,8 +88,10 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
       questionId: q.questionId,
       practiceStatus: 'NOT_ANSWER',
     });
+    mutate({ questionId: q.questionId, practiceTimeSec: time - startTime });
     setInCorrectQuestions((prev) => [...prev, questions[0]]);
     setQuestions((prev) => prev.filter((_, i) => i !== 0));
+    setStartTime(time);
     thinkingRef.current?.stop();
     thinkingRef.current?.play();
   };

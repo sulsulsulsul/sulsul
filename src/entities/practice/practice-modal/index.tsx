@@ -39,8 +39,61 @@ export default function PracticeSelection({
 }: PracticeSelectionProp) {
   const router = useRouter();
 
-  const { archives } = useArchives(0);
-  const archiveList = archives?.archives;
+  //FIX: pages per archive get all archives
+  //const { archives } = useArchives(0);
+  //const archiveList = archives?.archives;
+  const archiveList: ArchiveListItemDTO[] = [
+    {
+      archiveId: 0,
+      companyName: 'string',
+      title: 'string',
+      status: 'COMPLETE',
+      questionCount: 0,
+      answerCount: 0,
+      createdAt: '',
+      modifiedAt: '',
+    },
+    {
+      archiveId: 1,
+      companyName: 'string',
+      title: 'string',
+      status: 'COMPLETE',
+      questionCount: 0,
+      answerCount: 0,
+      createdAt: '',
+      modifiedAt: '',
+    },
+    {
+      archiveId: 2,
+      companyName: 'string',
+      title: 'string',
+      status: 'COMPLETE',
+      questionCount: 0,
+      answerCount: 0,
+      createdAt: '',
+      modifiedAt: '',
+    },
+    {
+      archiveId: 3,
+      companyName: 'string',
+      title: 'string',
+      status: 'COMPLETE',
+      questionCount: 0,
+      answerCount: 0,
+      createdAt: '',
+      modifiedAt: '',
+    },
+    {
+      archiveId: 4,
+      companyName: 'string',
+      title: 'string',
+      status: 'COMPLETE',
+      questionCount: 0,
+      answerCount: 0,
+      createdAt: '',
+      modifiedAt: '',
+    },
+  ];
 
   const { setStore } = usePracticeStore();
 
@@ -69,7 +122,7 @@ export default function PracticeSelection({
 
   // const [archiveIds , setArchiveIds]= useState<number[]>([])
 
-  const mutation = useCreatePractice();
+  // const mutation = useCreatePractice();
 
   const shuffledList = useMemo(() => {
     const newList = [...finalList];
@@ -80,15 +133,28 @@ export default function PracticeSelection({
     return newList;
   }, [finalList]);
 
+  // <<<<<<< Updated upstream:src/entities/practice/practice-modal/index.tsx
+  //   useEffect(() => {
+  //     const rawQuestionCollection = async () => {
+  //       const x = await getPracticeQuestion(selectedArchiveList);
+  //       const flatted: QuestionDetailType[] = x.flat();
+  //       setQuestionSelection(flatted);
+  //     };
+  //     rawQuestionCollection();
+  //   }, [selectedArchiveList]);
+  //   console.log(questionSelection);
+
+  const rawQuestionCollection = selectedArchiveList.flatMap((value) => {
+    return value.questions;
+  });
   useEffect(() => {
-    const rawQuestionCollection = async () => {
-      const x = await getPracticeQuestion(selectedArchiveList);
-      const flatted: QuestionDetailType[] = x.flat();
-      setQuestionSelection(flatted);
-    };
-    rawQuestionCollection();
+    // async () => {
+    //   const x = await getPracticeQuestion(selectedArchiveList);
+    //   const flatted: QuestionDetailType[] = x.flat();
+    //   setQuestionSelection(flatted);
+    // };
   }, [selectedArchiveList]);
-  console.log(questionSelection);
+
   const handleFilter = useCallback(
     (list: QuestionDetailType[]) => {
       return list?.filter((item) => {
@@ -111,6 +177,7 @@ export default function PracticeSelection({
     setAllResumes(false);
     setSelectedArchiveList([]);
   }, []);
+
   const resetQuestionList = useCallback(() => {
     setResetQuestion(true);
     setAllQuestions(false);
@@ -137,27 +204,27 @@ export default function PracticeSelection({
       setAllQuestions(true);
   }, [
     archiveList?.length,
-    selectedArchiveList,
+    selectedArchiveList.length,
     modifiedQuestionCollection.length,
     answerFilter,
     hintFilter,
     finalList,
   ]);
-
+  console.log(allResumes, selectedArchiveList, archiveList?.length);
   const handleSubmit = async () => {
-    await mutation.mutate(
-      finalList.flatMap((value) => value.questionId),
-      {
-        onSuccess: (data) => {
-          setStore({
-            timer: !!timer,
-            practiceList: random ? shuffledList : finalList,
-            practiceId: data,
-          }),
-            router.push('/practice/ing');
-        },
-      },
-    );
+    // await mutation.mutate(
+    //   finalList.flatMap((value) => value.questionId),
+    //   {
+    //     onSuccess: (data) => {
+    //       setStore({
+    //         timer: !!timer,
+    //         practiceList: random ? shuffledList : finalList,
+    //         practiceId: data,
+    //       }),
+    //         router.push('/practice/ing');
+    //     },
+    //   },
+    // );
   };
 
   return (

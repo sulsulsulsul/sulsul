@@ -19,6 +19,7 @@ interface TimerProp extends HTMLAttributes<HTMLDivElement> {
 
 export default function Timer({
   setTime,
+  //setTotalTime,
   pauseTimer,
   className,
   ...props
@@ -57,12 +58,13 @@ export default function Timer({
 
     return { minutes, seconds };
   };
+
   const { minutes, seconds } = formatTime(timer);
 
   useEffect(() => {
     pauseTimer && handlePause;
     setTime(timer);
-  }, [handlePause, minutes, pauseTimer, seconds, setTime]);
+  }, [handlePause, pauseTimer, setTime, timer]);
 
   return (
     <div
