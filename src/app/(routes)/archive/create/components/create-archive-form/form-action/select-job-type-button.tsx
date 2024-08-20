@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { useQueryClient } from '@tanstack/react-query';
 
+import { TwinkleAnimation } from '@/components/lotties/twinkle-animation';
 import { AlertModal } from '@/components/shared/modal';
 import {
   AlertDialog,
@@ -159,7 +160,7 @@ export const SelectJobTypeModal = () => {
     if (isPending)
       return (
         <>
-          <ActivateTwinkleIcon />
+          <TwinkleAnimation className="size-6" />
           <span className="ml-1">예상질문 예측 중</span>
         </>
       );
