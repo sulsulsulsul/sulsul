@@ -35,7 +35,7 @@ export const KeywordSet = ({
   return keywords.map((keyword) => (
     <div
       key={keyword.keywordId}
-      className="flex items-center rounded-sm border border-green-500 bg-green-100 px-4 py-2 text-green-500"
+      className="flex items-center rounded-sm border border-green-500 bg-green-100 px-4 py-2 text-green-900"
     >
       <span className="text-base font-medium">{keyword.content}</span>
       {!isHeader && (

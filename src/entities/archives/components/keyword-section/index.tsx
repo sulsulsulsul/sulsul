@@ -5,8 +5,8 @@ import {
   useRef,
   useState,
 } from 'react';
+import Image from 'next/image';
 import { useQueryClient } from '@tanstack/react-query';
-import { HelpCircle } from 'lucide-react';
 
 import { Input } from '@/components/ui/input';
 import {
@@ -20,6 +20,8 @@ import { useKeywords } from '@/entities/keywords/hooks/use-get-keyword';
 import { cn } from '@/lib/utils';
 
 import { KeywordSet } from './keyword';
+
+import helpCircle from '/public/images/icons/help-circle.svg';
 interface KeywordSectionProps extends HTMLAttributes<HTMLDivElement> {
   questionId: number;
 }
@@ -65,13 +67,16 @@ export const KeywordSection = ({
   return (
     <div className={cn(className)} {...props}>
       <h3 className="flex items-center">
-        <span>키워드 노트</span>
+        <span className="font-semibold">키워드 노트</span>
         <TooltipProvider>
           <Tooltip delayDuration={200}>
             <TooltipTrigger>
-              <HelpCircle
-                strokeWidth={1}
-                className="ml-2 -translate-y-px text-gray-400"
+              <Image
+                src={helpCircle}
+                alt="도움말 아이콘"
+                className="ml-1"
+                width={20}
+                height={20}
               />
             </TooltipTrigger>
             <TooltipContent className="p-3 text-xs" side="right">
@@ -84,7 +89,7 @@ export const KeywordSection = ({
       <div className="mt-2 flex flex-wrap items-center gap-1">
         <KeywordSet keywords={keywords} questionId={questionId} />
         <Input
-          className="w-fit gap-1 rounded-sm border border-gray-300 text-base font-medium text-black"
+          className="w-fit gap-1 rounded-sm border border-gray-300 bg-white text-base font-medium text-black"
           placeholder="+ 직접 쓰기"
           value={inputValue}
           onChange={handleInputChange}
