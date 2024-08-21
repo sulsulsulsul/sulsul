@@ -4,7 +4,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 
 import { ArchiveDetailDTO } from '@/entities/types';
 
-import { getPracticeQuestion } from '../actions/get-practice';
+import { getPracticeQuestion } from '../actions/get-questions';
 import { getPracticeResume } from '../actions/get-resume';
 
 export const QuestionListQueryOptions = (resumes: ArchiveDetailDTO[]) =>

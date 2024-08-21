@@ -16,7 +16,6 @@ import { usePracticeStore } from '@/store/practiceStore';
 
 import { ArchiveDetailDTO, ArchiveListItemDTO } from '../../types/archive';
 import { QuestionDetailType } from '../../types/question';
-import { getPracticeQuestion } from './actions/get-practice';
 import ModalHeader from './components/modal-header';
 import MyResumeSelection from './components/my-resume-selection';
 import PracticeModalButton from './components/practice-modal-button';
@@ -33,7 +32,7 @@ interface PracticeSelectionProp {
   //TODO: Get ResumeId on dashboard 다시하기 클릭
   //resumeId?: number;
 }
-//TODO: 느낌표 다 없애기
+//TODO: 느낌표 없애기
 export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
   const router = useRouter();
 
@@ -78,7 +77,6 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
   // }
 
   useEffect(() => {
-    console.log(!!questions);
     questions && setQuestionSelection(questions.flat());
   }, [isSuccess]);
 
@@ -99,12 +97,7 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
     finalList.length !== 0 &&
       modifiedQuestionByFilter!.length === finalList.length &&
       setAllQuestions(true);
-  }, [
-    selectedArchiveList.length,
-    answerFilter,
-    hintFilter,
-    // finalList,
-  ]);
+  }, [selectedArchiveList.length, answerFilter, hintFilter]);
 
   //handle Filter
   const handleFilter = useCallback(
@@ -122,8 +115,6 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
     (questions && answerFilter) || hintFilter
       ? handleFilter(questions!.flat())
       : questions;
-
-  //console.log(modifiedQuestionByFilter , questionSelection)
 
   const reset = useCallback(() => {
     setResetResume(true);

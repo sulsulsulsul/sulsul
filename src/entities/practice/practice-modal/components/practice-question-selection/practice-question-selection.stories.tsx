@@ -17,6 +17,7 @@ export const Default = {
     selectAll: false,
     questionProp: {
       archiveId: 0,
+      lastPracticeAt: '',
       title: '',
       companyName: '',
       isStar: true,
