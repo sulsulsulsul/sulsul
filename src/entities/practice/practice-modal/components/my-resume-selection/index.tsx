@@ -28,16 +28,16 @@ export default function MyResumeSelection({
 }: ResumeSelection) {
   const [checked, setChecked] = useState(false);
   const { archive } = useArchive(archiveId);
-
   useEffect(() => {
     resetChecked && setChecked(false);
-    if (archive && selectAll) {
+    if (selectAll) {
       setChecked(true);
-      setSelectArchives((prev) => {
-        return prev.some((item) => item.archiveId === archiveId)
-          ? prev
-          : [...prev, archive];
-      });
+      archive &&
+        setSelectArchives((prev) => {
+          return prev.some((item) => item.archiveId === archiveId)
+            ? prev
+            : [...prev, archive];
+        });
     }
   }, [resetChecked, selectAll, setSelectArchives, archiveId]);
 
