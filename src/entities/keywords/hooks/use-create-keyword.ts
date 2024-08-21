@@ -5,7 +5,7 @@ import { createKeywordAction, CreateKeywordActionParams } from '../actions';
 
 export const useCreateKeyword = () => {
   return useMutation({
-    mutationFn: async (params: CreateKeywordActionParams) => {
+    mutationFn: (params: CreateKeywordActionParams) => {
       return createKeywordAction(params);
     },
     onError: (error) => {

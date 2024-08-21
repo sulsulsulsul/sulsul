@@ -10,7 +10,7 @@ export interface UpdateUserNicknameActionParams {
   nickname: string;
 }
 
-export const updateUserNicknameAction = async ({
+export const updateUserNicknameAction = ({
   nickname,
   userId,
 }: UpdateUserNicknameActionParams) => {

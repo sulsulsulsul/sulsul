@@ -8,7 +8,7 @@ export interface CreateQuestionParams {
   accessToken?: string;
 }
 
-export const createQuestionAction = async ({
+export const createQuestionAction = ({
   archiveId,
   accessToken,
 }: CreateQuestionParams) => {

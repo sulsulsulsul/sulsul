@@ -8,8 +8,7 @@ export interface CreateFeedbackParams {
   accessToken?: string;
 }
 
-// http://15.165.12.248:8080/swagger-ui/index.html#/Feedback%20API/createFeedback
-export const createFeedbackAction = async ({
+export const createFeedbackAction = ({
   questionId,
   accessToken,
 }: CreateFeedbackParams) => {

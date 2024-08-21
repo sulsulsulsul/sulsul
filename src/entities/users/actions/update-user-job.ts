@@ -9,7 +9,7 @@ export interface UpdateUserJobParams {
   accessToken?: string;
 }
 
-export const updateUserJob = async ({
+export const updateUserJob = ({
   userId,
   jobId,
   accessToken,
