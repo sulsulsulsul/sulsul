@@ -15,7 +15,7 @@ export const ArchiveListQueryOptions = (
     },
   });
 
-export const useArchives = (page: number, sortType: 'asc' | 'desc') => {
+export const useArchives = (page: number, sortType: 'asc' | 'desc' = 'asc') => {
   const result = useQuery(ArchiveListQueryOptions(page, sortType));
   const { data, ...rest } = result;
   return {
