@@ -1,16 +1,16 @@
-'use client'
-import { PropsWithChildren } from 'react'
-import { Session } from 'next-auth'
-import { SessionProvider } from 'next-auth/react'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+'use client';
+import { PropsWithChildren } from 'react';
+import { Session } from 'next-auth';
+import { SessionProvider } from 'next-auth/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import { Toaster } from '@/components/ui/sonner'
-import { getQueryClient } from '@/lib/tanstack-query/client'
+import { Toaster } from '@/components/ui/sonner';
+import { getQueryClient } from '@/lib/tanstack-query/client';
 
 interface ProvidersProps extends PropsWithChildren {
-  session?: Session
-  queryClient?: QueryClient
+  session?: Session;
+  queryClient?: QueryClient;
 }
 
 export const Providers = ({
@@ -27,5 +27,5 @@ export const Providers = ({
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </SessionProvider>
-  )
-}
+  );
+};

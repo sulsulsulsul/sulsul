@@ -1,13 +1,13 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { PracticeResultCard } from '.'
+import { PracticeResultCard } from '.';
 
 const meta = {
   component: PracticeResultCard,
-} satisfies Meta<typeof PracticeResultCard>
+} satisfies Meta<typeof PracticeResultCard>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
@@ -15,4 +15,4 @@ export const Default = {
     value: 32,
     className: 'w-[273px]',
   },
-} satisfies Story
+} satisfies Story;

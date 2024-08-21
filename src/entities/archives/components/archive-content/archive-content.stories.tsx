@@ -1,19 +1,19 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { mockArchiveDetailDTO } from '../../fixtures'
-import { ArchiveContent } from './'
+import { mockArchiveDetailDTO } from '../../fixtures';
+import { ArchiveContent } from './';
 
 const meta = {
   parameters: {
     tags: [!'autodocs'],
   },
   component: ArchiveContent,
-} satisfies Meta<typeof ArchiveContent>
+} satisfies Meta<typeof ArchiveContent>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-const mockData = mockArchiveDetailDTO()
+const mockData = mockArchiveDetailDTO();
 
 export const Default = {
   args: {
@@ -23,4 +23,4 @@ export const Default = {
     status: mockData.status,
   },
   render: (props) => <ArchiveContent className="max-w-[500px]" {...props} />,
-} satisfies Story
+} satisfies Story;

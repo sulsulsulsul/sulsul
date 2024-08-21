@@ -1,6 +1,6 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface ArchiveCreateProps extends HTMLAttributes<HTMLDivElement> {}
 
 /**
@@ -13,5 +13,5 @@ export const ArchiveCreate = ({ className, ...props }: ArchiveCreateProps) => {
       {/* 작성 폼 */}
       {/* 폼 상태 */}
     </div>
-  )
-}
+  );
+};

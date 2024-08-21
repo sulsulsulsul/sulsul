@@ -1,4 +1,4 @@
-import { APP_ROUTES } from './app-routes'
+import { APP_ROUTES } from './app-routes';
 
 export const DesktopHeaderLinks = [
   {
@@ -7,7 +7,7 @@ export const DesktopHeaderLinks = [
   },
   { label: '아카이브', link: APP_ROUTES.archive() },
   { label: '실전연습', link: APP_ROUTES.practice() },
-] as const
+] as const;
 
 export const MobileHeaderLinks = [
   {
@@ -20,7 +20,7 @@ export const MobileHeaderLinks = [
   },
   { label: '아카이브', link: APP_ROUTES.archive() },
   { label: '실전연습', link: APP_ROUTES.practice() },
-] as const
+] as const;
 
 export const LandingFooterLinks = [
   {
@@ -33,4 +33,4 @@ export const LandingFooterLinks = [
   },
   { label: '아카이브', link: APP_ROUTES.archive() },
   { label: '실전연습', link: APP_ROUTES.practice() },
-] as const
+] as const;

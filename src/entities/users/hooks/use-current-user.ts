@@ -21,6 +21,8 @@ export const useCurrentUser = () => {
           job: data.user.data?.job || { jobId: 0, name: '' },
           nickname: data.user.data?.nickname || '',
           userId: data.user.auth?.userId || 0,
+          firstLogin: data.user.data?.firstLogin || false,
+          firstPractice: data.user.data?.firstPractice || false,
         },
         image: data.user.image || '',
       });

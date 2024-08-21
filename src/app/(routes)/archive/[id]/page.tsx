@@ -1,18 +1,18 @@
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
 
-import { ArchiveDetailView } from '@/entities/archives/views/archive-detail-view'
+import { ArchiveDetailView } from '@/entities/archives/views/archive-detail-view';
 
 interface ArchiveDetail {
   params: {
-    id: string
-  }
+    id: string;
+  };
 }
 
 const ArchiveDetailPage = ({ params: { id } }: ArchiveDetail) => {
   if (!id) {
-    redirect('/')
+    redirect('/');
   }
-  return <ArchiveDetailView id={id} />
-}
+  return <ArchiveDetailView id={id} />;
+};
 
-export default ArchiveDetailPage
+export default ArchiveDetailPage;

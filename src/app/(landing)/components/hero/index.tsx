@@ -1,47 +1,47 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useRef, useState } from 'react'
-import dynamic from 'next/dynamic'
-import Image from 'next/image'
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
+import { HTMLAttributes, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
-import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 const Video = dynamic(
   () => import('@/components/shared/video').then((mod) => mod.Video),
   {
     ssr: false,
   },
-)
+);
 
 interface HeroProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Hero = ({ className, ...props }: HeroProps) => {
-  const container = useRef<HTMLDivElement>(null)
-  const videoContainer = useRef<HTMLDivElement>(null)
-  const [videoLoaded, setVideoLoaded] = useState(false)
-  const [completedTextAnimation, setCompletedTextAnimation] = useState(false)
+  const container = useRef<HTMLDivElement>(null);
+  const videoContainer = useRef<HTMLDivElement>(null);
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const [completedTextAnimation, setCompletedTextAnimation] = useState(false);
   useGSAP(() => {
     gsap.from(container.current, {
       opacity: 0,
       y: -100,
       autoAlpha: 0,
       onComplete: () => {
-        setCompletedTextAnimation(true)
+        setCompletedTextAnimation(true);
       },
-    })
+    });
     // get current state
-  })
+  });
 
   useGSAP(() => {
-    if (!videoLoaded || !completedTextAnimation) return
+    if (!videoLoaded || !completedTextAnimation) return;
     gsap.from(videoContainer.current, {
       opacity: 0,
       autoAlpha: 0,
-    })
-  }, [videoLoaded, completedTextAnimation])
+    });
+  }, [videoLoaded, completedTextAnimation]);
 
   return (
     <div
@@ -95,5 +95,5 @@ export const Hero = ({ className, ...props }: HeroProps) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};

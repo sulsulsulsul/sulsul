@@ -1,6 +1,6 @@
-import localFont from 'next/font/local'
+import localFont from 'next/font/local';
 
 export const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
   variable: '--font-pretendard',
-})
+});
