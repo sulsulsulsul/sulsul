@@ -14,7 +14,6 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 import { cn } from '@/lib/utils';
 import { usePracticeStore } from '@/store/practiceStore';
 
-import { useArchives } from '../../archives/hooks';
 import { ArchiveDetailDTO, ArchiveListItemDTO } from '../../types/archive';
 import { QuestionDetailType } from '../../types/question';
 import { getPracticeQuestion } from './actions/get-practice';
@@ -26,75 +25,19 @@ import PracticeModalOption from './components/practice-modal-option';
 import PracticeModalSelectAll from './components/practice-modal-selectAll';
 import QuestionSelection from './components/practice-question-selection';
 import { useCreatePractice } from './hooks/use-create-practice';
+import { useQuestions } from './hooks/use-get-questions';
+import { useResumes } from './hooks/use-get-resumes';
 
 interface PracticeSelectionProp {
   setModal: Dispatch<SetStateAction<boolean>>;
   //TODO: Get ResumeId on dashboard 다시하기 클릭
-  resumeId?: number;
+  //resumeId?: number;
 }
-
-export default function PracticeSelection({
-  setModal,
-  resumeId,
-}: PracticeSelectionProp) {
+//TODO: 느낌표 다 없애기
+export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
   const router = useRouter();
 
-  //FIX: pages per archive get all archives
-  //const { archives } = useArchives(0);
-  //const archiveList = archives?.archives;
-  const archiveList: ArchiveListItemDTO[] = [
-    {
-      archiveId: 0,
-      companyName: 'string',
-      title: 'string',
-      status: 'COMPLETE',
-      questionCount: 0,
-      answerCount: 0,
-      createdAt: '',
-      modifiedAt: '',
-    },
-    {
-      archiveId: 1,
-      companyName: 'string',
-      title: 'string',
-      status: 'COMPLETE',
-      questionCount: 0,
-      answerCount: 0,
-      createdAt: '',
-      modifiedAt: '',
-    },
-    {
-      archiveId: 2,
-      companyName: 'string',
-      title: 'string',
-      status: 'COMPLETE',
-      questionCount: 0,
-      answerCount: 0,
-      createdAt: '',
-      modifiedAt: '',
-    },
-    {
-      archiveId: 3,
-      companyName: 'string',
-      title: 'string',
-      status: 'COMPLETE',
-      questionCount: 0,
-      answerCount: 0,
-      createdAt: '',
-      modifiedAt: '',
-    },
-    {
-      archiveId: 4,
-      companyName: 'string',
-      title: 'string',
-      status: 'COMPLETE',
-      questionCount: 0,
-      answerCount: 0,
-      createdAt: '',
-      modifiedAt: '',
-    },
-  ];
-
+  const { resume, isFetching } = useResumes();
   const { setStore } = usePracticeStore();
 
   const [resetResume, setResetResume] = useState(false);
@@ -119,42 +62,51 @@ export default function PracticeSelection({
 
   const [timer, setTimer] = useState<CheckedState>(false);
   const [random, setRandom] = useState<boolean>(false);
+  const mutation = useCreatePractice();
+  const { questions, refetch, isSuccess } = useQuestions(selectedArchiveList);
 
-  // const [archiveIds , setArchiveIds]= useState<number[]>([])
+  // const rawQuestionCollection = selectedArchiveList.flatMap((value) => {
+  //   return value.questions;
+  // });
 
-  // const mutation = useCreatePractice();
+  // const x = async () => {
+  //   if(selectedArchiveList.length !== 0){
+  //     const x = await getPracticeQuestion(selectedArchiveList);
+  //     const flatted: QuestionDetailType[] = x.flat();
+  //     setQuestionSelection(flatted);
+  //   }
+  // }
 
-  const shuffledList = useMemo(() => {
-    const newList = [...finalList];
-    for (let i = finalList.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newList[i], newList[j]] = [newList[j], newList[i]];
-    }
-    return newList;
-  }, [finalList]);
-
-  // <<<<<<< Updated upstream:src/entities/practice/practice-modal/index.tsx
-  //   useEffect(() => {
-  //     const rawQuestionCollection = async () => {
-  //       const x = await getPracticeQuestion(selectedArchiveList);
-  //       const flatted: QuestionDetailType[] = x.flat();
-  //       setQuestionSelection(flatted);
-  //     };
-  //     rawQuestionCollection();
-  //   }, [selectedArchiveList]);
-  //   console.log(questionSelection);
-
-  const rawQuestionCollection = selectedArchiveList.flatMap((value) => {
-    return value.questions;
-  });
   useEffect(() => {
-    // async () => {
-    //   const x = await getPracticeQuestion(selectedArchiveList);
-    //   const flatted: QuestionDetailType[] = x.flat();
-    //   setQuestionSelection(flatted);
-    // };
-  }, [selectedArchiveList]);
+    console.log(!!questions);
+    questions && setQuestionSelection(questions.flat());
+  }, [isSuccess]);
 
+  useEffect(() => {
+    refetch();
+    setResetResume(false);
+    !allResumes &&
+      selectedArchiveList.length === resume?.length &&
+      setAllResumes(true);
+
+    allResumes &&
+      selectedArchiveList.length !== resume?.length &&
+      setAllResumes(false);
+
+    if ((hintFilter || answerFilter) && allQuestions) {
+      setFinalList(modifiedQuestionByFilter!);
+    }
+    finalList.length !== 0 &&
+      modifiedQuestionByFilter!.length === finalList.length &&
+      setAllQuestions(true);
+  }, [
+    selectedArchiveList.length,
+    answerFilter,
+    hintFilter,
+    // finalList,
+  ]);
+
+  //handle Filter
   const handleFilter = useCallback(
     (list: QuestionDetailType[]) => {
       return list?.filter((item) => {
@@ -166,10 +118,12 @@ export default function PracticeSelection({
     [answerFilter, hintFilter],
   );
 
-  const modifiedQuestionCollection =
-    answerFilter || hintFilter
-      ? handleFilter(questionSelection)
-      : questionSelection;
+  const modifiedQuestionByFilter =
+    (questions && answerFilter) || hintFilter
+      ? handleFilter(questions!.flat())
+      : questions;
+
+  //console.log(modifiedQuestionByFilter , questionSelection)
 
   const reset = useCallback(() => {
     setResetResume(true);
@@ -186,45 +140,29 @@ export default function PracticeSelection({
     setFinalList([]);
   }, []);
 
-  useEffect(() => {
-    setResetResume(false);
-    !allResumes &&
-      selectedArchiveList.length === archiveList?.length &&
-      setAllResumes(true);
-
-    allResumes &&
-      selectedArchiveList.length !== archiveList?.length &&
-      setAllResumes(false);
-
-    if ((hintFilter || answerFilter) && allQuestions) {
-      setFinalList(modifiedQuestionCollection);
+  const shuffledList = useMemo(() => {
+    const newList = [...finalList];
+    for (let i = finalList.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newList[i], newList[j]] = [newList[j], newList[i]];
     }
-    finalList.length !== 0 &&
-      modifiedQuestionCollection.length === finalList.length &&
-      setAllQuestions(true);
-  }, [
-    archiveList?.length,
-    selectedArchiveList.length,
-    modifiedQuestionCollection.length,
-    answerFilter,
-    hintFilter,
-    finalList,
-  ]);
-  console.log(allResumes, selectedArchiveList, archiveList?.length);
+    return newList;
+  }, [finalList]);
+
   const handleSubmit = async () => {
-    // await mutation.mutate(
-    //   finalList.flatMap((value) => value.questionId),
-    //   {
-    //     onSuccess: (data) => {
-    //       setStore({
-    //         timer: !!timer,
-    //         practiceList: random ? shuffledList : finalList,
-    //         practiceId: data,
-    //       }),
-    //         router.push('/practice/ing');
-    //     },
-    //   },
-    // );
+    await mutation.mutate(
+      finalList.flatMap((value) => value.questionId),
+      {
+        onSuccess: (data) => {
+          setStore({
+            timer: !!timer,
+            practiceList: random ? shuffledList : finalList,
+            practiceId: data,
+          }),
+            router.push('/practice/ing');
+        },
+      },
+    );
   };
 
   return (
@@ -261,8 +199,11 @@ export default function PracticeSelection({
         </section>
         <section className="flex flex-row">
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
-            {archiveList &&
-              archiveList.map((value: ArchiveListItemDTO) => {
+            {isFetching ? (
+              <div className="">loading</div>
+            ) : (
+              resume &&
+              resume.map((value: ArchiveListItemDTO) => {
                 return (
                   <MyResumeSelection
                     key={value.archiveId}
@@ -274,21 +215,27 @@ export default function PracticeSelection({
                     companyName={value.companyName}
                   />
                 );
-              })}
+              })
+            )}
           </div>
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
-            {modifiedQuestionCollection.map((value: QuestionDetailType) => {
-              return (
-                <QuestionSelection
-                  key={value.questionId}
-                  questionProp={value}
-                  questionId={value.questionId}
-                  resetQuestion={resetQuestion}
-                  setFinalQuestions={setFinalList}
-                  selectAll={allQuestions}
-                />
-              );
-            })}
+            {isSuccess ? (
+              modifiedQuestionByFilter &&
+              modifiedQuestionByFilter.map((value: QuestionDetailType) => {
+                return (
+                  <QuestionSelection
+                    key={value.questionId}
+                    questionProp={value}
+                    questionId={value.questionId}
+                    resetQuestion={resetQuestion}
+                    setFinalQuestions={setFinalList}
+                    selectAll={allQuestions}
+                  />
+                );
+              })
+            ) : (
+              <>loading</>
+            )}
           </div>
         </section>
         <section>

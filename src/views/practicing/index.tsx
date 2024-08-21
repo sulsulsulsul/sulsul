@@ -61,7 +61,6 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const [q, setQ] = useState(practiceList[0]);
 
   const [time, setTime] = useState(0);
-  // const [totalTime, setTotalTime]= useState(0)
   const [startTime, setStartTime] = useState(0);
   const [pauseTimer, setPauseTimer] = useState(false);
 
@@ -249,7 +248,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
             </div>
           </div>
           <div className="sticky z-20 mt-[68px] rounded-md bg-white p-4">
-            <div className="m- absolute -top-[100px] left-6 z-30 flex size-fit flex-row gap-2">
+            <div className="absolute left-6 top-[-100px] z-30 flex size-fit flex-row gap-2">
               <Image
                 className="mt-1"
                 src="/images/icons/arrow-hint.svg"

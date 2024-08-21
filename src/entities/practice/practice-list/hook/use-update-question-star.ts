@@ -7,7 +7,7 @@ export const useUpdateQuestionStar = () => {
     mutationFn: ({ questionId, star }: QuestionStarState) =>
       updateQuestionStar({
         questionId: questionId,
-        star: !star,
+        star: star,
       }),
   });
 };

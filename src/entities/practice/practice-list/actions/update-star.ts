@@ -16,6 +16,7 @@ export const updateQuestionStar = async ({
     endpoint: API_ENDPOINT.practice.updateStar(),
     data: {
       questionId: questionId,
+      star: star,
     },
   });
 };

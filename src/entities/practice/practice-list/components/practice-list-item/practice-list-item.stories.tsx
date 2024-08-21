@@ -18,6 +18,7 @@ export const Default = {
       content:
         'SK SUNNY 사회변화 챌린지 프로젝트에 참여하신 동기는 무엇이었나요?',
       companyName: '술술',
+      lastPracticeAt: '',
       isStar: true,
       isHint: true,
       questionId: 198,
@@ -42,6 +43,7 @@ export const Active = {
   args: {
     question: {
       archiveId: 137,
+      lastPracticeAt: '',
       title: '팀으로 함께 성과를 만들어낸 경험을 작성해주세요.',
       content:
         'SK SUNNY 사회변화 챌린지 프로젝트에 참여하신 동기는 무엇이었나요?',

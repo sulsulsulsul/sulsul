@@ -25,10 +25,9 @@ export default function PracticeListItem({
   const { mutate } = useUpdateQuestionStar();
   const [starClicked, setStarClicked] = useState(question.isStar);
   const handleStarClick = () => {
-    mutate({ questionId: question.questionId, star: !starClicked });
     setStarClicked((prev) => !prev);
+    mutate({ questionId: question.questionId, star: !question.isStar });
   };
-
   return (
     <div className="flex h-[118px] w-full flex-row items-center justify-between rounded-md border border-gray-100 bg-white py-[26px] pl-[24px]">
       <div className="flex items-center justify-between gap-1">
@@ -47,7 +46,7 @@ export default function PracticeListItem({
           }
         />
         <button onClick={handleStarClick}>
-          {question.isStar ? (
+          {starClicked ? (
             <Image
               src="/images/icons/star-active.svg"
               width={24}

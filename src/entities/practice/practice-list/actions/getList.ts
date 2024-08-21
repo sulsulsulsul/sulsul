@@ -1,5 +1,5 @@
 'use server';
-import { useArchives } from '@/entities/archives/hooks';
+
 import { ArchiveDetailDTO, ArchiveListsDTO } from '@/entities/types';
 import {
   PracticeQuestionListType,
@@ -9,68 +9,50 @@ import { API_ENDPOINT } from '@/lib/backend-api/api-end-point';
 import { backendApi } from '@/lib/backend-api/client';
 
 export const getArchiveDetailedAction = async () => {
-  const { totalPages } = await backendApi<ArchiveListsDTO>({
+  // 첫 페이지의 데이터를 가져와 전체 페이지 수 확인
+  const firstPageData = await backendApi<ArchiveListsDTO>({
     endpoint: API_ENDPOINT.archive.getArchives(0),
   });
 
-  //전체 아카이브 가져오기
-  const archivesPromises = [];
-  for (let i = 0; i >= totalPages; i++) {
-    archivesPromises.push(
+  // 모든 페이지의 아카이브 데이터를 병렬로 가져오기
+  const archivesPromises = Array.from(
+    { length: firstPageData.totalPages },
+    (_, index) =>
       backendApi<ArchiveListsDTO>({
-        endpoint: API_ENDPOINT.archive.getArchives(i),
+        endpoint: API_ENDPOINT.archive.getArchives(index),
       }),
-    );
-  }
+  );
 
   const rawArchives = await Promise.all(archivesPromises);
-  const archives = rawArchives.flatMap((value: ArchiveListsDTO) => {
-    return value.archives;
-  });
 
-  //전체 아카이브에서 상세 가져오기
-  const questionPromises = [];
-  for (let i of archives) {
-    questionPromises.push(
-      backendApi<ArchiveDetailDTO>({
-        endpoint: API_ENDPOINT.archive.getArchive(i.archiveId),
-      }),
-    );
-  }
+  // 모든 아카이브를 하나의 배열로 결합
+  const archives = rawArchives.flatMap((archiveData) => archiveData.archives);
 
-  //전체 아카이브 상세 결과 값
-  const allQuestions = await Promise.all(questionPromises);
-  let questionDetailPromises = [];
-  const modifiedList: PracticeQuestionListType[] = [];
-  for (let i of allQuestions) {
-    for (let j of i.questions) {
-      questionDetailPromises.push(
-        backendApi<QuestionDetailType>({
-          endpoint: API_ENDPOINT.question.getQuestions(j.questionId),
-        }),
-      );
-    }
-    const allQuestionsDetail = await Promise.all(questionDetailPromises);
+  // 모든 아카이브의 상세 정보를 병렬로 가져오기
+  const archiveDetailPromises = archives.map((archive) =>
+    backendApi<ArchiveDetailDTO>({
+      endpoint: API_ENDPOINT.archive.getArchive(archive.archiveId),
+    }),
+  );
 
-    //필요한 정보 추가해서 저장 (archieId, questionId, company, title)
-    const newAlllQuestionDetail = allQuestionsDetail.map((value, index) => {
-      return {
-        ...value,
-        questionId: i.questions[index].questionId,
-        archiveId: i.archiveId,
-        companyName: i.companyName,
-        title: i.title,
-      };
-    });
-    const collect = { ...i, allQuestionsDetail: newAlllQuestionDetail };
-    modifiedList.push(collect);
-    questionDetailPromises = [];
-  }
+  const allArchiveDetails = await Promise.all(archiveDetailPromises);
 
-  //하나의 배열로 변환
-  const questionsCollection = modifiedList.flatMap((value) => {
-    return value.allQuestionsDetail;
-  });
+  // 각 아카이브의 모든 질문의 상세 정보를 병렬로 가져오기
+  const questionDetailPromises = allArchiveDetails.flatMap((archiveDetail) =>
+    archiveDetail.questions.map((question) =>
+      backendApi<QuestionDetailType>({
+        endpoint: API_ENDPOINT.question.getQuestions(question.questionId),
+      }).then((questionDetail) => ({
+        ...questionDetail,
+        questionId: question.questionId,
+        archiveId: archiveDetail.archiveId,
+        companyName: archiveDetail.companyName,
+        title: archiveDetail.title,
+      })),
+    ),
+  );
 
-  return { questionsCollection: questionsCollection };
+  const questionsCollection = await Promise.all(questionDetailPromises);
+
+  return { questionsCollection };
 };

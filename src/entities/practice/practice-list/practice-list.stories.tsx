@@ -10,8 +10,4 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default = {
-  args: {
-    qstate: 'all',
-  },
-} satisfies Story;
+export const Default = {} satisfies Story;
