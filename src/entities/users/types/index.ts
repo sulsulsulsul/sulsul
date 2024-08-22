@@ -1,9 +1,11 @@
 export interface UserDTO {
-  userId: number
-  email: string
-  nickname: string
+  userId: number;
+  email: string;
+  nickname: string;
   job?: {
-    jobId: number
-    name: string
-  }
+    jobId: number;
+    name: string;
+  };
+  firstLogin: boolean;
+  firstPractice: boolean;
 }

@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { Button } from '.'
+import { Button } from '.';
 
 const meta: Meta<typeof Button> = {
   component: Button,
@@ -28,10 +28,10 @@ const meta: Meta<typeof Button> = {
       control: 'text',
     },
   },
-}
+};
 
-export default meta
-type Story = StoryObj<typeof Button>
+export default meta;
+type Story = StoryObj<typeof Button>;
 
 export const Default: Story = {
   args: {
@@ -40,7 +40,7 @@ export const Default: Story = {
     disabled: false,
     children: 'Default Button',
   },
-}
+};
 
 export const Ghost: Story = {
   args: {
@@ -49,7 +49,7 @@ export const Ghost: Story = {
     disabled: false,
     children: 'Ghost Button',
   },
-}
+};
 
 export const Green: Story = {
   args: {
@@ -58,7 +58,7 @@ export const Green: Story = {
     disabled: false,
     children: 'Green Button',
   },
-}
+};
 
 export const Black: Story = {
   args: {
@@ -67,7 +67,7 @@ export const Black: Story = {
     disabled: false,
     children: 'Black Button',
   },
-}
+};
 
 export const Outline: Story = {
   args: {
@@ -76,7 +76,7 @@ export const Outline: Story = {
     disabled: false,
     children: 'Outline Button',
   },
-}
+};
 
 export const Kakao: Story = {
   args: {
@@ -85,7 +85,7 @@ export const Kakao: Story = {
     disabled: false,
     children: 'Kakao Button',
   },
-}
+};
 
 export const Google: Story = {
   args: {
@@ -94,4 +94,4 @@ export const Google: Story = {
     disabled: false,
     children: 'Google Button',
   },
-}
+};

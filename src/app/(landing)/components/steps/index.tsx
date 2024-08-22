@@ -1,9 +1,9 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
-import { DesktopSteps } from './desktop'
-import { MobileSteps } from './mobile'
+import { DesktopSteps } from './desktop';
+import { MobileSteps } from './mobile';
 interface StepsProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Steps = ({ className, ...props }: StepsProps) => {
@@ -14,5 +14,5 @@ export const Steps = ({ className, ...props }: StepsProps) => {
         <MobileSteps className="block lg:hidden" />
       </div>
     </div>
-  )
-}
+  );
+};

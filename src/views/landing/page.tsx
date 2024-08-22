@@ -1,6 +1,6 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface LandingProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Landing = ({ className, ...props }: LandingProps) => {
@@ -8,5 +8,5 @@ export const Landing = ({ className, ...props }: LandingProps) => {
     <div className={cn(className)} {...props}>
       Landing
     </div>
-  )
-}
+  );
+};

@@ -1,4 +1,4 @@
 export interface AuthDTO {
-  userId: number
-  token: string
+  userId: number;
+  token: string;
 }

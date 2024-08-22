@@ -13,7 +13,10 @@ export interface DialogListProp {
 export interface OnBoardProp {
   messageListProp: DialogListProp[];
   buttonText: string;
+  messageListProp: DialogListProp[];
+  buttonText: string;
 }
 export interface MessageProp extends HTMLAttributes<HTMLDivElement> {
+  message: string;
   message: string;
 }

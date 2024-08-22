@@ -1,9 +1,9 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
-import Link from 'next/link'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
 
-import { LandingFooterLinks } from '@/config/constants/navigation-links'
-import { cn } from '@/lib/utils'
+import { LandingFooterLinks } from '@/config/constants/navigation-links';
+import { cn } from '@/lib/utils';
 interface FooterProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Footer = ({ className, ...props }: FooterProps) => {
@@ -29,7 +29,7 @@ export const Footer = ({ className, ...props }: FooterProps) => {
             >
               {link.label}
             </Link>
-          )
+          );
         })}
       </div>
       <div className="flex items-center justify-between py-6">
@@ -44,5 +44,5 @@ export const Footer = ({ className, ...props }: FooterProps) => {
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
