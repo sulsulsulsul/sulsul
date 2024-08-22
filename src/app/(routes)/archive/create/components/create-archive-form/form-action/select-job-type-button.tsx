@@ -157,7 +157,7 @@ export const SelectJobTypeModal = () => {
   const buttonClassName = (() => {
     if (isPending) return 'bg-animated disabled:opacity-100';
     if (isSampleWritten || isQuestionCreated)
-      return 'bg-blue-100 text-blue-500 disabled:opacity-100 disabled:opacity-100';
+      return 'bg-blue-100 text-blue-500 disabled:opacity-100';
     if (isSampleClicked || isFormValid)
       return 'bg-blue-500 text-white hover:bg-blue-600 disabled:opacity-100';
     return '';
