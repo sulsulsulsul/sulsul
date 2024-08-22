@@ -7,7 +7,7 @@ export interface WithdrawUserActionParams {
   userId: number;
 }
 
-export const withdrawUser = async ({ userId }: WithdrawUserActionParams) => {
+export const withdrawUser = ({ userId }: WithdrawUserActionParams) => {
   return backendApi({
     endpoint: API_ENDPOINT.user.withdrawUser(userId),
   });

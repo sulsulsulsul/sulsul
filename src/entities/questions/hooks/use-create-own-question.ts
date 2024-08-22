@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 import {
   createOwnQuestionAction,
@@ -6,9 +6,8 @@ import {
 } from '../actions/create-own-question-action';
 
 export const useCreateOwnQuestion = () => {
-  const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (params: CreateOwnQuestionParams) => {
+    mutationFn: (params: CreateOwnQuestionParams) => {
       return createOwnQuestionAction(params);
     },
   });

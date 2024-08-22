@@ -8,7 +8,7 @@ import {
 export const useDeleteQuestion = (archiveId: number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (params: DeleteAnswerParams) => {
+    mutationFn: (params: DeleteAnswerParams) => {
       return deleteAnswerAction(params);
     },
     onSuccess: () => {

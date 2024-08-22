@@ -8,10 +8,7 @@ export interface GetUserActionParams {
   accessToken?: string;
 }
 
-export const getUserAction = async ({
-  userId,
-  accessToken,
-}: GetUserActionParams) => {
+export const getUserAction = ({ userId, accessToken }: GetUserActionParams) => {
   return backendApi<UserDTO>({
     endpoint: API_ENDPOINT.user.getUser(userId),
     accessToken,

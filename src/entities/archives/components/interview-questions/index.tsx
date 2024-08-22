@@ -32,7 +32,7 @@ export const InterviewQuestions = ({
   const { isEditing, setIsEditing } = useEditQuestionStore();
   const { deleteQuestions, setDeleteQuestions } = useDeleteQuestionStore();
 
-  const { mutate: deleteQuestionMutation } = useDeleteQuestion(archiveId);
+  const { mutateAsync: deleteQuestionMutation } = useDeleteQuestion(archiveId);
 
   const [clickedQuestions, setClickedQuestions] = useState<number[]>([]);
 
@@ -85,7 +85,7 @@ export const InterviewQuestions = ({
                             deleteQuestionMutation({ questionId }),
                           ),
                         );
-                        toast.success('삭제가 완료되었습니다.');
+                        toast.success('예상질문을 삭제하였습니다.');
                         handleReset();
                       } catch (error) {
                         toast.error(

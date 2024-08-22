@@ -16,7 +16,7 @@ export const ContentLength = ({ className, ...props }: ContentLengthProps) => {
 
   return (
     <div className={cn(className)} {...props}>
-      <div className="text-2xl font-semibold">
+      <div className="text-sm font-semibold">
         <span className="text-gray-600">
           {isSampleClicked ? SAMPLE_CONTENT_LENGTH : contentLength}
         </span>
