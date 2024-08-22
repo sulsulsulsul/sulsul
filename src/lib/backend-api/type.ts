@@ -1,10 +1,10 @@
 export interface Response<T> {
-  code: number
-  message: string
-  data: T
+  code: number;
+  message: string;
+  data: T;
 }
 
-export type OAuthType = 'GOOGLE' | 'KAKAO'
+export type OAuthType = 'GOOGLE' | 'KAKAO';
 
 export enum Method {
   GET = 'GET',

@@ -4,7 +4,7 @@ interface LayoutProps extends PropsWithChildren {}
 
 const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   return (
-    <div className="container  px-0 pt-[32px] sm:px-3 md:px-5">{children}</div>
+    <div className="container px-0 pt-[32px] sm:px-3 md:px-5">{children}</div>
   );
 };
 

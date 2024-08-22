@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
 const StepItems = [
   {
@@ -19,9 +19,9 @@ const StepItems = [
     description:
       '잘 답변할 수 있는 면접질문과 그렇지 못한 질문을 구분하고 스스로 질문에 대한 답변을 해보며 실전에 대비하세요.',
   },
-]
+];
 interface StepListProps {
-  activeStep: number
+  activeStep: number;
 }
 
 export const StepList = ({ activeStep }: StepListProps) => {
@@ -42,13 +42,13 @@ export const StepList = ({ activeStep }: StepListProps) => {
         </div>
       ))}
     </>
-  )
-}
+  );
+};
 
 interface StepItemProps {
-  step: string
-  title: string
-  description: string
+  step: string;
+  title: string;
+  description: string;
 }
 
 const StepItem = ({ step, title, description }: StepItemProps) => {
@@ -58,5 +58,5 @@ const StepItem = ({ step, title, description }: StepItemProps) => {
       <h3 className="text-4xl font-bold text-gray-800">{title}</h3>
       <p className="mt-[12px] text-lg text-gray-600">{description}</p>
     </div>
-  )
-}
+  );
+};

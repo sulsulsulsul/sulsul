@@ -6,7 +6,7 @@ import { createArchiveAction } from '@/entities/archives/actions';
 
 export const useCreateArchive = () => {
   return useMutation({
-    mutationFn: async (params: CreateArchiveFormData) => {
+    mutationFn: (params: CreateArchiveFormData) => {
       return createArchiveAction(params);
     },
     onError: () => {

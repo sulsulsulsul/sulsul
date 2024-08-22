@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { AvatarSuri } from '.'
+import { AvatarSuri } from '.';
 
 const meta: Meta<typeof AvatarSuri> = {
   component: AvatarSuri,
-} satisfies Meta<typeof AvatarSuri>
+} satisfies Meta<typeof AvatarSuri>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const Default = {} satisfies Story
+export const Default = {} satisfies Story;

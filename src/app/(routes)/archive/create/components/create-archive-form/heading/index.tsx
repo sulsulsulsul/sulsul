@@ -1,7 +1,7 @@
-import { HTMLAttributes } from 'react'
-import Image from 'next/image'
+import { HTMLAttributes } from 'react';
+import Image from 'next/image';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface HeadingProps extends HTMLAttributes<HeadingProps> {}
 
 export const Heading = ({ className, ...props }: HeadingProps) => {
@@ -13,7 +13,7 @@ export const Heading = ({ className, ...props }: HeadingProps) => {
         height={32}
         alt="icon"
       />
-      <span>내 자기 소개서</span>
+      <span>내 자기소개서</span>
     </h2>
-  )
-}
+  );
+};

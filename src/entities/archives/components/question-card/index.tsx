@@ -45,6 +45,7 @@ export const QuestionCard = ({
               onClick={() => setIsAccodionOpen((prev) => !prev)}
             >
               <CardHeader
+                className="flex items-center justify-center py-2"
                 content={content}
                 questionId={questionId}
                 keywords={keywords}

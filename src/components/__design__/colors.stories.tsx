@@ -1,15 +1,15 @@
-import type { StoryObj } from '@storybook/react'
+import type { StoryObj } from '@storybook/react';
 
-import { tailwindTheme } from '@/lib/utils'
+import { tailwindTheme } from '@/lib/utils';
 
-const colors = tailwindTheme.colors
+const colors = tailwindTheme.colors;
 
 const ChangedColors = {
   red: [100, 500, 700],
   blue: [100, 300, 500, 900],
   green: [100, 300, 500, 900],
   gray: [50, 100, 200, 300, 400, 500, 600, 700, 800, 900],
-}
+};
 
 export const Colors: StoryObj = {
   name: 'App Colors',
@@ -75,6 +75,6 @@ export const Colors: StoryObj = {
       </div>
     </div>
   ),
-}
+};
 
-export default { title: 'Design System' }
+export default { title: 'Design System' };

@@ -1,7 +1,7 @@
-import { HTMLAttributes } from 'react'
-import { Loader2 } from 'lucide-react'
+import { HTMLAttributes } from 'react';
+import { Loader2 } from 'lucide-react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface FeedbackSectionPendingProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const FeedbackSectionPending = ({
@@ -16,5 +16,5 @@ export const FeedbackSectionPending = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

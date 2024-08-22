@@ -8,12 +8,14 @@ import { useSampleStore } from '@/store/sampleQuestions';
 interface InitialInterviewQuestionProps extends HTMLAttributes<HTMLDivElement> {
   firstLine: string;
   secondLine: string;
+  isCreate?: boolean;
 }
 
 export const IdleStatus = ({
   className,
   firstLine,
   secondLine,
+  isCreate = false,
   ...props
 }: InitialInterviewQuestionProps) => {
   const { setIsSampleClicked } = useSampleStore();
@@ -33,17 +35,19 @@ export const IdleStatus = ({
           height={140}
           alt="궁금해하는 술술이"
         />
-        <AuthSignedOut>
-          <div className="mt-3 font-semibold text-gray-500">
-            미리 체험해보고 싶다면?{' '}
-            <span
-              className="cursor-pointer font-normal underline"
-              onClick={setIsSampleClicked}
-            >
-              샘플 자소서로 해보기
-            </span>
-          </div>
-        </AuthSignedOut>
+        {isCreate && (
+          <AuthSignedOut>
+            <div className="mt-3 font-semibold text-gray-500">
+              미리 체험해보고 싶다면?{' '}
+              <span
+                className="cursor-pointer font-normal underline"
+                onClick={setIsSampleClicked}
+              >
+                샘플 자소서로 해보기
+              </span>
+            </div>
+          </AuthSignedOut>
+        )}
       </div>
     </div>
   );

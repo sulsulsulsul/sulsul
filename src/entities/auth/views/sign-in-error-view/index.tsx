@@ -1,20 +1,20 @@
-'use client'
+'use client';
 
-import { HTMLAttributes } from 'react'
-import { redirect } from 'next/navigation'
+import { HTMLAttributes } from 'react';
+import { redirect } from 'next/navigation';
 
-import { APP_ROUTES } from '@/config/constants/app-routes'
-import { useCurrentUser } from '@/entities/users/hooks'
-import { cn } from '@/lib/utils'
+import { APP_ROUTES } from '@/config/constants/app-routes';
+import { useCurrentUser } from '@/entities/users/hooks';
+import { cn } from '@/lib/utils';
 interface SignInErrorViewProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const SignInErrorView = ({
   className,
   ...props
 }: SignInErrorViewProps) => {
-  const { status } = useCurrentUser()
+  const { status } = useCurrentUser();
   if (status === 'authenticated') {
-    redirect(APP_ROUTES.home())
+    redirect(APP_ROUTES.home());
   }
   return (
     <div className={cn(className)} {...props}>
@@ -25,5 +25,5 @@ export const SignInErrorView = ({
         </p>
       </main>
     </div>
-  )
-}
+  );
+};

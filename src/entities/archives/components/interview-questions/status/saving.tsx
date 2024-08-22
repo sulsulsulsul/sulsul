@@ -12,7 +12,9 @@ export const SavingStatus = () => {
         alt="저장중"
         className="animate-spin"
       />
-      <span className="text-sm text-gray-500">저장중...</span>
+      <span className="text-sm font-semibold text-gray-500">
+        아카이브에 저장중...
+      </span>
     </>
   );
 };

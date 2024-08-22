@@ -1,7 +1,7 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { Video } from '@/components/shared/video'
-import { cn } from '@/lib/utils'
+import { Video } from '@/components/shared/video';
+import { cn } from '@/lib/utils';
 
 export const MobileSteps = ({
   className,
@@ -66,5 +66,5 @@ export const MobileSteps = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};

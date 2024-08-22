@@ -8,7 +8,7 @@ export interface DeleteAnswerParams {
   accessToken?: string;
 }
 
-export const deleteAnswerAction = async ({
+export const deleteAnswerAction = ({
   questionId,
   accessToken,
 }: DeleteAnswerParams) => {

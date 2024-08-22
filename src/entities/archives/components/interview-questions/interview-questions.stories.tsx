@@ -1,16 +1,16 @@
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react';
 
-import { mockArchiveDetailDTO } from '../../fixtures'
-import { InterviewQuestions } from './'
+import { mockArchiveDetailDTO } from '../../fixtures';
+import { InterviewQuestions } from './';
 
 const meta = {
   component: InterviewQuestions,
-} satisfies Meta<typeof InterviewQuestions>
+} satisfies Meta<typeof InterviewQuestions>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-const mockData = mockArchiveDetailDTO()
+const mockData = mockArchiveDetailDTO();
 
 export const Default = {
   args: {
@@ -19,4 +19,4 @@ export const Default = {
   render: (props) => (
     <InterviewQuestions className="max-w-[600px]" {...props} />
   ),
-} satisfies Story
+} satisfies Story;

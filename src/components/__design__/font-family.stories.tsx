@@ -1,4 +1,4 @@
-import type { StoryObj } from '@storybook/react'
+import type { StoryObj } from '@storybook/react';
 
 export const FontFamily: StoryObj = {
   render: () => (
@@ -71,6 +71,6 @@ export const FontFamily: StoryObj = {
       </div>
     </div>
   ),
-}
+};
 
-export default { title: 'Design System' }
+export default { title: 'Design System' };

@@ -1,31 +1,31 @@
-'use client'
+'use client';
 
-import { redirect } from 'next/navigation'
+import { redirect } from 'next/navigation';
 
-import { Loader } from '@/components/shared/loader'
-import { InterviewQuestions } from '@/entities/archives/components/interview-questions'
-import { useArchive } from '@/entities/archives/hooks'
+import { Loader } from '@/components/shared/loader';
+import { InterviewQuestions } from '@/entities/archives/components/interview-questions';
+import { useArchive } from '@/entities/archives/hooks';
 
-import { ArchiveContent } from '../../components/archive-content'
+import { ArchiveContent } from '../../components/archive-content';
 
 interface ArchiveDetailViewProps {
-  id: string
+  id: string;
 }
 
 export const ArchiveDetailView = ({ id }: ArchiveDetailViewProps) => {
   if (!id) {
-    redirect('/')
+    redirect('/');
   }
-  const { archive, isLoading, isError, isSuccess } = useArchive(parseInt(id))
+  const { archive, isLoading, isError, isSuccess } = useArchive(parseInt(id));
 
   if (isLoading) {
-    return <Loader />
+    return <Loader />;
   }
   if (isError) {
-    throw new Error('Error')
+    throw new Error('Error');
   }
   if (!isSuccess) {
-    return null
+    return null;
   }
 
   return (
@@ -39,5 +39,5 @@ export const ArchiveDetailView = ({ id }: ArchiveDetailViewProps) => {
       />
       <InterviewQuestions data={archive!} className="h-full w-[690px]" />
     </main>
-  )
-}
+  );
+};

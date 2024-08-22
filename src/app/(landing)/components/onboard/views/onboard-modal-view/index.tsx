@@ -12,8 +12,9 @@ import { ListDialog } from '../../components/list-dialog';
 import { DialogListProp, OnBoardProp } from '../../types/onboard';
 
 export const OnboardModal = () => {
-  const { nickname } = useUserStore((state) => ({
+  const { nickname, firstLogin } = useUserStore((state) => ({
     nickname: state.data.nickname,
+    firstLogin: state.data.firstLogin,
   }));
   const [buttonDisable, setButtonDisable] = useState<boolean>(true);
   const [step, setStep] = useState<number>(0);
@@ -169,53 +170,57 @@ export const OnboardModal = () => {
   };
 
   return (
-    <div
-      className={cn(
-        'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80',
-        visibility,
-      )}
-    >
-      <div className="left-[40rem] z-[60] flex h-[32.75rem] w-[27rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
-        <div className="mb-3 flex w-full flex-col self-start">
-          <div className="mb-3 flex size-full justify-between">
-            <AvatarSuri></AvatarSuri>
-            <div className="my-2.5 text-2xl">
-              <span className="text-gray-500">{`${dialogNumber + 1}`}</span>{' '}
-              <span className="text-gray-300">/2</span>
+    !firstLogin && (
+      <div
+        className={cn(
+          'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80',
+          visibility,
+        )}
+      >
+        <div className="left-[40rem] z-[60] flex h-[32.75rem] w-[27rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
+          <div className="mb-3 flex w-full flex-col self-start">
+            <div className="mb-3 flex size-full justify-between">
+              <AvatarSuri></AvatarSuri>
+              <div className="my-2.5 text-2xl">
+                <span className="text-gray-500">{`${dialogNumber + 1}`}</span>
+                <span className="text-gray-300">/2</span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2.5">
+              {dialog &&
+                dialog[dialogNumber].messageListProp &&
+                dialog[dialogNumber].messageListProp.map(
+                  (value: DialogListProp, index: number) => {
+                    return (
+                      <ListDialog
+                        firstDialog={value.firstDialog}
+                        key={index}
+                        dialogContents={value.dialogContents}
+                        id={value.id}
+                        iconMessage={value.iconMessage}
+                        hidden={index === 0 || index <= step ? false : true}
+                      />
+                    );
+                  },
+                )}
             </div>
           </div>
-          <div className="flex flex-col gap-2.5">
-            {dialog &&
-              dialog[dialogNumber].messageListProp &&
-              dialog[dialogNumber].messageListProp.map(
-                (value: DialogListProp, index: number) => {
-                  return (
-                    <ListDialog
-                      firstDialog={value.firstDialog}
-                      key={index}
-                      dialogContents={value.dialogContents}
-                      id={value.id}
-                      iconMessage={value.iconMessage}
-                      hidden={index === 0 || index <= step ? false : true}
-                    />
-                  );
-                },
-              )}
+          <div
+            className={`flex flex-col  gap-2  text-[14px] ${descriptionText}`}
+          >
+            {dialogNumber === 1 &&
+              '* 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.'}
+            <Button
+              className="w-[340px]"
+              variant="default"
+              disabled={buttonDisable}
+              onClick={dialogNumber === 0 ? initialize : handleClose}
+            >
+              {dialog[dialogNumber].buttonText}
+            </Button>
           </div>
         </div>
-        <div className={`flex flex-col  gap-2  text-[14px] ${descriptionText}`}>
-          {dialogNumber === 1 &&
-            '* 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.'}
-          <Button
-            className="w-[340px]"
-            variant="default"
-            disabled={buttonDisable}
-            onClick={dialogNumber === 0 ? initialize : handleClose}
-          >
-            {dialog[dialogNumber].buttonText}
-          </Button>
-        </div>
       </div>
-    </div>
+    )
   );
 };

@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useRef } from 'react'
-import { usePathname } from 'next/navigation'
-import { useGSAP } from '@gsap/react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/all'
+import { HTMLAttributes, useRef } from 'react';
+import { usePathname } from 'next/navigation';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/all';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface HeaderAnimationProps extends HTMLAttributes<HTMLDivElement> {}
 
-gsap.registerPlugin(ScrollTrigger)
+gsap.registerPlugin(ScrollTrigger);
 
 // 랜딩페이지에서만 헤더 애니메이션을 적용합니다.
 export const HeaderAnimation = ({
@@ -17,11 +17,11 @@ export const HeaderAnimation = ({
   children,
   ...props
 }: HeaderAnimationProps) => {
-  const pathname = usePathname()
-  const containerRef = useRef<HTMLDivElement>(null)
+  const pathname = usePathname();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (containerRef.current === null) return
+    if (containerRef.current === null) return;
     ScrollTrigger.create({
       trigger: containerRef.current,
       start: '0px start',
@@ -31,16 +31,16 @@ export const HeaderAnimation = ({
         borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
       }),
       toggleActions: 'play none none reverse',
-    })
-  }, [pathname])
+    });
+  }, [pathname]);
 
   if (pathname !== '/') {
-    return <div className="border-b">{children}</div>
+    return <div className="border-b">{children}</div>;
   }
 
   return (
     <div ref={containerRef} className={cn(className)} {...props}>
       {children}
     </div>
-  )
-}
+  );
+};

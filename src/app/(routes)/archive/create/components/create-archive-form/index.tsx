@@ -1,10 +1,11 @@
 'use client';
 
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useState } from 'react';
 
 import { Form } from '@/components/ui/form';
 import { useCreateArchive } from '@/entities/archives/hooks';
 import { cn } from '@/lib/utils';
+import { useResetAvailableStore } from '@/store/resetAvailable';
 
 import { useCreateArchiveFormContext } from '../../hooks/use-create-archive-form';
 import { ContentLength } from './content-length';
@@ -20,6 +21,8 @@ export const CreateArchiveForm = ({
   className,
   ...props
 }: CreateArchiveFormProps) => {
+  const { setIsResetAvailable } = useResetAvailableStore();
+
   const { form } = useCreateArchiveFormContext();
   const { mutate, isPending } = useCreateArchive();
 
@@ -38,6 +41,7 @@ export const CreateArchiveForm = ({
     setTimeout(() => {
       form.clearErrors(['title', 'companyName', 'resume']);
     }, 0);
+    setIsResetAvailable(true);
   };
 
   return (

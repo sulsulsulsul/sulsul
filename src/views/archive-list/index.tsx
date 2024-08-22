@@ -1,6 +1,6 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes } from 'react';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ArchiveListView = ({
@@ -17,5 +17,5 @@ export const ArchiveListView = ({
       Empty view
        */}
     </div>
-  )
-}
+  );
+};

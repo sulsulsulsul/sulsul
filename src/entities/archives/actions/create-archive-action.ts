@@ -9,9 +9,7 @@ export interface CreateArchiveActionRequest {
   companyName: string;
 }
 
-export const createArchiveAction = async (
-  props: CreateArchiveActionRequest,
-) => {
+export const createArchiveAction = (props: CreateArchiveActionRequest) => {
   return backendApi<number>({
     endpoint: API_ENDPOINT.archive.createArchive(),
     data: {

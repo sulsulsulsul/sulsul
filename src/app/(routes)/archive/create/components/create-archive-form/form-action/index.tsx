@@ -1,8 +1,9 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useState } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useResetAvailableStore } from '@/store/resetAvailable';
 
 import { SelectJobTypeModal } from './select-job-type-button';
 
@@ -15,13 +16,16 @@ export const FormAction = ({
   onClickResetContents,
   ...props
 }: FormActionProps) => {
+  const { isResetAvailable } = useResetAvailableStore();
+
   return (
     <div className={cn(className)} {...props}>
       <div className="flex gap-2">
         <Button
-          className="basis-[117px] text-gray-600"
+          className="basis-[117px] text-gray-600 disabled:opacity-100"
           variant="outline"
           onClick={onClickResetContents}
+          disabled={!isResetAvailable}
         >
           <Image
             src="/images/icons/icon-redo.svg"
@@ -29,7 +33,7 @@ export const FormAction = ({
             height={24}
             alt="icon"
           />
-          초기화
+          <span className="ml-1">초기화</span>
         </Button>
         <SelectJobTypeModal />
       </div>

@@ -1,14 +1,14 @@
-import type { Meta, StoryObj } from '@storybook/react'
-import { fn } from '@storybook/test'
+import type { Meta, StoryObj } from '@storybook/react';
+import { fn } from '@storybook/test';
 
-import QuestionSelection from '.'
+import QuestionSelection from '.';
 
 const meta = {
   component: QuestionSelection,
-} satisfies Meta<typeof QuestionSelection>
+} satisfies Meta<typeof QuestionSelection>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
@@ -26,4 +26,4 @@ export const Default = {
     },
     setFinalQuestions: () => {},
   },
-} satisfies Story
+} satisfies Story;

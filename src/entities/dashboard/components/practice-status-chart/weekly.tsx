@@ -1,21 +1,21 @@
-'use client'
+'use client';
 
-import { HTMLAttributes, useEffect } from 'react'
-import { Bar } from 'react-chartjs-2'
-import { Chart, ChartData, ChartOptions, Plugin } from 'chart.js'
+import { HTMLAttributes, useEffect } from 'react';
+import { Bar } from 'react-chartjs-2';
+import { Chart, ChartData, ChartOptions, Plugin } from 'chart.js';
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/utils';
 
-const week = new Date().getDay()
+const week = new Date().getDay();
 
 // 0 -> 월요일, 1 -> 화요일, ... 6 -> 일요일
-const weekIndex = (week + 6) % 7
+const weekIndex = (week + 6) % 7;
 
 const weeklyPlugin: Plugin = {
   id: 'customWeeklyTooltip',
   afterTooltipDraw: (chart) => {
-    const tooltip = chart.tooltip
-    const activeElements = tooltip!.getActiveElements()
+    const tooltip = chart.tooltip;
+    const activeElements = tooltip!.getActiveElements();
     if (!activeElements.length) {
       chart.tooltip!.setActiveElements(
         [
@@ -25,13 +25,13 @@ const weeklyPlugin: Plugin = {
           },
         ],
         chart.tooltip!.options.callbacks!.label as any,
-      )
-      chart.update()
+      );
+      chart.update();
     }
   },
   afterDraw: (chart) => {
-    const tooltip = chart.tooltip
-    const activeElements = tooltip!.getActiveElements()
+    const tooltip = chart.tooltip;
+    const activeElements = tooltip!.getActiveElements();
     if (!activeElements.length) {
       chart.tooltip!.setActiveElements(
         [
@@ -41,15 +41,15 @@ const weeklyPlugin: Plugin = {
           },
         ],
         chart.tooltip!.options.callbacks!.label as any,
-      )
-      chart.update()
+      );
+      chart.update();
     }
   },
-}
+};
 
 interface WeeklyChartProps extends HTMLAttributes<HTMLDivElement> {
-  options: ChartOptions<'bar'>
-  data: ChartData<'bar'>
+  options: ChartOptions<'bar'>;
+  data: ChartData<'bar'>;
 }
 
 export const WeeklyChart = ({
@@ -58,21 +58,21 @@ export const WeeklyChart = ({
   options,
   ...props
 }: WeeklyChartProps) => {
-  data.labels = ['월', '화', '수', '목', '금', '토', '일']
+  data.labels = ['월', '화', '수', '목', '금', '토', '일'];
   options.plugins!.tooltip!.callbacks = {
     ...options.plugins!.tooltip!.callbacks,
     label: (context) => {
-      const currentIndex = context.dataIndex
-      const title = currentIndex === week - 1 ? '오늘' : `${context.label}`
-      return `${title}: ${context.raw}`
+      const currentIndex = context.dataIndex;
+      const title = currentIndex === week - 1 ? '오늘' : `${context.label}`;
+      return `${title}: ${context.raw}`;
     },
-  }
+  };
   useEffect(() => {
-    Chart.register(weeklyPlugin)
+    Chart.register(weeklyPlugin);
     return () => {
-      Chart.unregister(weeklyPlugin)
-    }
-  }, [])
+      Chart.unregister(weeklyPlugin);
+    };
+  }, []);
 
   return (
     <div
@@ -84,5 +84,5 @@ export const WeeklyChart = ({
     >
       <Bar options={options} data={data} />
     </div>
-  )
-}
+  );
+};
