@@ -11,11 +11,12 @@ import {
 import { useRouter } from 'next/navigation';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
+import { Loader } from '@/components/shared/loader';
 import { cn } from '@/lib/utils';
 import { usePracticeStore } from '@/store/practiceStore';
 
 import { ArchiveDetailDTO, ArchiveListItemDTO } from '../../types/archive';
-import { QuestionDetailType } from '../../types/question';
+import { ModalQuestionType, QuestionDetailType } from '../../types/question';
 import ModalHeader from './components/modal-header';
 import MyResumeSelection from './components/my-resume-selection';
 import PracticeModalButton from './components/practice-modal-button';
@@ -32,11 +33,11 @@ interface PracticeSelectionProp {
   //TODO: Get ResumeId on dashboard 다시하기 클릭
   //resumeId?: number;
 }
-//TODO: 느낌표 없애기
 export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
   const router = useRouter();
 
-  const { resume, isFetching } = useResumes();
+  const { resume, isSuccess } = useResumes();
+
   const { setStore } = usePracticeStore();
 
   const [resetResume, setResetResume] = useState(false);
@@ -47,11 +48,11 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
     ArchiveDetailDTO[]
   >([]);
 
-  const [questionSelection, setQuestionSelection] = useState<
-    QuestionDetailType[]
-  >([]);
+  // const [questionSelection, setQuestionSelection] = useState<
+  //   ModalQuestionType[]
+  // >([]);
 
-  const [finalList, setFinalList] = useState<QuestionDetailType[]>([]);
+  const [finalList, setFinalList] = useState<ModalQuestionType[]>([]);
 
   const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
   const [hintFilter, setHintFilter] = useState<CheckedState>(false);
@@ -61,9 +62,14 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
 
   const [timer, setTimer] = useState<CheckedState>(false);
   const [random, setRandom] = useState<boolean>(false);
-  const mutation = useCreatePractice();
-  const { questions, refetch, isSuccess } = useQuestions(selectedArchiveList);
 
+  const mutation = useCreatePractice();
+
+  // const { questions, refetch, isSuccess } = useQuestions(selectedArchiveList);
+  const questions = selectedArchiveList.flatMap((value) => {
+    return value.questions;
+  });
+  //console.log(questions , selectedArchiveList)
   // const rawQuestionCollection = selectedArchiveList.flatMap((value) => {
   //   return value.questions;
   // });
@@ -75,13 +81,11 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
   //     setQuestionSelection(flatted);
   //   }
   // }
+  // useEffect(() => {
+  //   questions && setQuestionSelection(questions.flat());
+  // }, [isSuccess]);
 
   useEffect(() => {
-    questions && setQuestionSelection(questions.flat());
-  }, [isSuccess]);
-
-  useEffect(() => {
-    refetch();
     setResetResume(false);
     !allResumes &&
       selectedArchiveList.length === resume?.length &&
@@ -101,7 +105,7 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
 
   //handle Filter
   const handleFilter = useCallback(
-    (list: QuestionDetailType[]) => {
+    (list: ModalQuestionType[]) => {
       return list?.filter((item) => {
         const answerCondition = !answerFilter || !item.isAnswered;
         const hintCondition = !hintFilter || item.isHint;
@@ -145,12 +149,12 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
       finalList.flatMap((value) => value.questionId),
       {
         onSuccess: (data) => {
-          setStore({
-            timer: !!timer,
-            practiceList: random ? shuffledList : finalList,
-            practiceId: data,
-          }),
-            router.push('/practice/ing');
+          router.push('/practice/ing'),
+            setStore({
+              timer: !!timer,
+              practiceList: random ? shuffledList : finalList,
+              practiceId: data,
+            });
         },
       },
     );
@@ -190,9 +194,7 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
         </section>
         <section className="flex flex-row">
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
-            {isFetching ? (
-              <div className="">loading</div>
-            ) : (
+            {isSuccess ? (
               resume &&
               resume.map((value: ArchiveListItemDTO) => {
                 return (
@@ -207,12 +209,13 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
                   />
                 );
               })
+            ) : (
+              <Loader />
             )}
           </div>
           <div className="flex h-[300px] w-1/2 flex-col overflow-scroll">
-            {isSuccess ? (
-              modifiedQuestionByFilter &&
-              modifiedQuestionByFilter.map((value: QuestionDetailType) => {
+            {modifiedQuestionByFilter &&
+              modifiedQuestionByFilter.map((value: ModalQuestionType) => {
                 return (
                   <QuestionSelection
                     key={value.questionId}
@@ -223,10 +226,7 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
                     selectAll={allQuestions}
                   />
                 );
-              })
-            ) : (
-              <>loading</>
-            )}
+              })}
           </div>
         </section>
         <section>

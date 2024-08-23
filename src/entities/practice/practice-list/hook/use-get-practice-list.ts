@@ -1,17 +1,20 @@
 'use client';
 
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
-import { getArchiveDetailedAction } from '../actions/getList';
+import { SearchParam } from '@/entities/types/question';
 
-export const usePracticeList = () => {
+import { getSearchQuestions } from '../actions/getList';
+
+export const usePracticeList = (props: SearchParam) => {
   const result = useQuery({
-    queryKey: ['practiceList'],
-    queryFn: () => getArchiveDetailedAction(),
+    queryKey: ['practiceList', props],
+    queryFn: () => getSearchQuestions(props),
+    staleTime: Infinity,
   });
   const { data, ...rest } = result;
   return {
-    questions: data?.questionsCollection,
+    questionsList: data,
     ...rest,
   };
 };

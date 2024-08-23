@@ -19,7 +19,10 @@ import {
   useUpdateTime,
 } from '@/entities/practice/practice-modal/hooks';
 import { useCreatePracticeQuestion } from '@/entities/practice/practicing/hooks/use-create-practice-question';
-import { QuestionDetailType } from '@/entities/types/question';
+import {
+  ModalQuestionType,
+  QuestionDetailType,
+} from '@/entities/types/question';
 import { useUserStore } from '@/store/client';
 import {
   usePracticeResultStore,
@@ -46,14 +49,13 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const smileRef = useRef<LottieRefCurrentProps>(null);
   const thinkingRef = useRef<LottieRefCurrentProps>(null);
 
-  const [questions, setQuestions] =
-    useState<QuestionDetailType[]>(practiceList);
+  const [questions, setQuestions] = useState<ModalQuestionType[]>(practiceList);
 
-  const [correctQuestions, setCorrectQuestions] = useState<
-    QuestionDetailType[]
-  >([]);
+  const [correctQuestions, setCorrectQuestions] = useState<ModalQuestionType[]>(
+    [],
+  );
   const [inCorrectQuestions, setInCorrectQuestions] = useState<
-    QuestionDetailType[]
+    ModalQuestionType[]
   >([]);
 
   const [showHint, setShowHint] = useState(false);

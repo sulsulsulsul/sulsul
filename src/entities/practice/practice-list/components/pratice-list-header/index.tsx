@@ -10,15 +10,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-import { FilterType, HintType } from '../..';
+import { FilterType, HintType } from '@/entities/practice/types';
 
 interface HeaderProp {
   setFilter: Dispatch<SetStateAction<FilterType>>;
   setHint: Dispatch<SetStateAction<HintType>>;
+  setPage: Dispatch<SetStateAction<number>>;
 }
 
-export default function PracticeListHeader({ setFilter, setHint }: HeaderProp) {
+export default function PracticeListHeader({
+  setFilter,
+  setHint,
+  setPage,
+}: HeaderProp) {
   return (
     <div className="flex h-[44px] w-full flex-row items-center justify-between pl-[24px] pr-[44px] text-sm text-gray-500">
       <div className="flex h-full items-center">
@@ -31,6 +35,7 @@ export default function PracticeListHeader({ setFilter, setHint }: HeaderProp) {
         <Select
           onValueChange={(value: HintType) => {
             setHint(value);
+            setPage(1);
           }}
         >
           <SelectTrigger className="mr-[30px] flex h-full w-fit flex-row justify-start border-none outline-none ring-0 focus:ring-0 focus:ring-offset-0">
@@ -60,6 +65,7 @@ export default function PracticeListHeader({ setFilter, setHint }: HeaderProp) {
         <Select
           onValueChange={(value: FilterType) => {
             setFilter(value);
+            setPage(1);
           }}
         >
           <SelectTrigger className=" flex h-full w-[75px] flex-none flex-row justify-center ring-0 focus:ring-0 focus:ring-offset-0">

@@ -1,40 +1,42 @@
-import {
-  ArchiveDetailDTO,
-  ArchiveListItemDTO,
-  ArchiveQuestionItem,
-} from './archive';
+import { KeywordDTO } from './keyword';
 
-export interface QuestionDetailType {
-  archiveId: number;
-  title: string;
-  companyName: string;
+export interface ModalQuestionType {
   questionId: number;
   content: string;
-  baseStartIndex?: number;
-  baseEndIndex?: number;
   answer: string;
   isAnswered: boolean;
-  isStar: boolean;
   isHint: boolean;
-  practiceCount: number;
-  practiceTime: number;
-  lastPracticeAt: string; //"2024-08-16T13:49:45.921Z",
-  practiceStatus?: 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
-  feedback: {
-    feedbackId: number;
-    goodPoint: string;
-    improvePoint: string;
-    content: string;
-    status: 'READY'; //Ask
-  };
-  keywords: [
-    {
-      keywordId: number;
-      content: string;
-    },
-  ];
+  keywords: KeywordDTO[];
 }
 
-export interface PracticeQuestionListType extends ArchiveDetailDTO {
-  allQuestionsDetail: QuestionDetailType[];
+export interface QuestionDetailType {
+  questionId: number;
+  content: string;
+  practiceStatus: 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+  practiceCount: number;
+  practiceTime: number;
+  hint: boolean;
+  star: boolean;
+  lastPracticeAt: string;
+  archive: {
+    archiveId: number;
+    companyName: string;
+    title: string;
+  };
+}
+
+export interface PracticeQuestionListType {
+  page: number;
+  size: number;
+  totalPage: number;
+  totalCount: number;
+  contents: QuestionDetailType[];
+}
+
+export interface SearchParam {
+  practiceStatus: 'ALL' | 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+  hint?: string;
+  star?: boolean;
+  page?: number;
+  size?: number;
 }

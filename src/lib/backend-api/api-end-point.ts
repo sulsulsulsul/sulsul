@@ -138,6 +138,20 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    getSearchQuestions: (query: string) => {
+      return {
+        url: `/api/v1/questions/search?${query}`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+    getAllSearchQuestions: () => {
+      return {
+        url: `/api/v1/questions/search`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
     createQuestions: (archiveId: number) => {
       return {
         url: `/api/v1/questions/${archiveId}/ai`,

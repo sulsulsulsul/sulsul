@@ -4,7 +4,6 @@ import {
   createPracticeQuestion,
   PracticeQuestionProp,
 } from '../action/create-practice-quesiton';
-// import { QuestionStarState, updateQuestionStar } from '../actions/update-star';
 
 export const useCreatePracticeQuestion = () => {
   return useMutation({

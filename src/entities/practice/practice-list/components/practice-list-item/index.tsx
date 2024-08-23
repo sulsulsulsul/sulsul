@@ -23,10 +23,10 @@ export default function PracticeListItem({
   question,
 }: PracticeListItemProps) {
   const { mutate } = useUpdateQuestionStar();
-  const [starClicked, setStarClicked] = useState(question.isStar);
+  const [starClicked, setStarClicked] = useState(question.star);
   const handleStarClick = () => {
     setStarClicked((prev) => !prev);
-    mutate({ questionId: question.questionId, star: !question.isStar });
+    mutate({ questionId: question.questionId, star: !question.star });
   };
   return (
     <div className="flex h-[118px] w-full flex-row items-center justify-between rounded-md border border-gray-100 bg-white py-[26px] pl-[24px]">
@@ -66,10 +66,10 @@ export default function PracticeListItem({
         </button>
 
         <div className="ml-4 flex w-[588px] flex-col gap-2">
-          <div className="truncate">{question.title}</div>
+          <div className="truncate">{question.archive.title}</div>
           <div className="flex w-full flex-row items-center gap-[6px] text-gray-500">
             <div className="w-fit flex-none rounded-sm bg-gray-100 px-2.5  py-[7px]">
-              {question.companyName}
+              {question.archive.companyName}
             </div>
             <div className="max-w-full grow truncate ">{question.content}</div>
           </div>
@@ -82,7 +82,7 @@ export default function PracticeListItem({
         <span className="w-[38px]">
           {question.practiceCount.toString() + ' 회'}
         </span>
-        {question.isHint ? (
+        {question.hint ? (
           <Image
             src="/images/icons/icon-eye-on.svg"
             width={24}
@@ -111,7 +111,7 @@ export default function PracticeListItem({
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem>
-              <Link href={`/archive/${question.archiveId}`}>blah</Link>
+              <Link href={`/archive/${question.archive.archiveId}`}>blah</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

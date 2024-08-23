@@ -2,11 +2,14 @@ import { set } from 'zod';
 import { create } from 'zustand';
 
 import { ArchiveQuestionItem } from '@/entities/types';
-import { QuestionDetailType } from '@/entities/types/question';
+import {
+  ModalQuestionType,
+  QuestionDetailType,
+} from '@/entities/types/question';
 
 interface PracticeSelectionList {
   timer: boolean;
-  practiceList: QuestionDetailType[];
+  practiceList: ModalQuestionType[];
   practiceId: number;
 }
 interface PracticeSetStore extends PracticeSelectionList {
@@ -31,8 +34,8 @@ export const usePracticeStore = create<PracticeSetStore>((set) => ({
 
 interface PracticeResult {
   time: number;
-  correct: QuestionDetailType[];
-  incorrect: QuestionDetailType[];
+  correct: ModalQuestionType[];
+  incorrect: ModalQuestionType[];
   setResult?: ({ time, correct, incorrect }: PracticeResult) => void;
 }
 

@@ -8,6 +8,7 @@ interface PracticedListTabType extends HTMLAttributes<HTMLDivElement> {
   allCount: number;
   unansweredCount: number;
   answeredCount: number;
+  isLoading: boolean;
   onTabChange: (value: QuestionState) => void;
 }
 
@@ -16,6 +17,7 @@ export const PracticeListTab = ({
   allCount,
   unansweredCount,
   answeredCount,
+  isLoading,
   onTabChange,
   ...props
 }: PracticedListTabType) => {
@@ -28,13 +30,13 @@ export const PracticeListTab = ({
         defaultValue="all"
       >
         <TabsList>
-          <TabsTrigger value="all">
+          <TabsTrigger value="all" disabled={isLoading}>
             전체 {allCount > 0 && <>{allCount}</>}
           </TabsTrigger>
-          <TabsTrigger value="answer">
+          <TabsTrigger value="answer" disabled={isLoading}>
             답변한 {answeredCount > 0 && <>{answeredCount}</>}
           </TabsTrigger>
-          <TabsTrigger value="not_answer">
+          <TabsTrigger value="not_answer" disabled={isLoading}>
             답변못한 {unansweredCount > 0 && <>{unansweredCount}</>}
           </TabsTrigger>
         </TabsList>
