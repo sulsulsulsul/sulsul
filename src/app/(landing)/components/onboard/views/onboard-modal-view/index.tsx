@@ -18,15 +18,14 @@ export const OnboardModal = () => {
   }));
   const [buttonDisable, setButtonDisable] = useState<boolean>(true);
 
-  //메시지 순서
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(0);
 
-  //대화창
   const [dialogNumber, setDialogNumber] = useState<number>(0);
+
+  const [hidden, setHidden] = useState(false);
 
   const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible');
 
-  const [hidden, setHidden] = useState(false);
   const descriptionText = buttonDisable ? 'text-gray-500' : 'text-blue-500';
 
   //랜딩 페이지 비디오 멈추기
@@ -155,26 +154,24 @@ export const OnboardModal = () => {
   ];
 
   useEffect(() => {
-    pause();
-
-    setStep(0);
-    let x = 0;
+    setHidden(false);
+    visibility === 'visible' && pause();
     const timerId = setInterval(() => {
-      setHidden(false);
-      setStep((prev) => (prev += 1));
+      if (step <= dialog[dialogNumber].messageListProp.length) {
+        setStep((prev) => (prev += 1));
+      }
     }, 800);
-
     setTimeout(() => {
-      clearInterval(timerId);
       setButtonDisable(false);
-    }, 1000 * dialog[dialogNumber].messageListProp.length);
+      clearInterval(timerId);
+    }, 800 * dialog[dialogNumber].messageListProp.length);
   }, [dialogNumber]);
 
   const initialize = () => {
     setHidden(true);
+    setStep(0);
     setButtonDisable(true);
     setDialogNumber(1);
-    setStep(0);
   };
 
   const handleClose = () => {
@@ -191,7 +188,7 @@ export const OnboardModal = () => {
         )}
       >
         <div className="left-[40rem] z-[60] flex h-[32.75rem] w-[27rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
-          <div className="mb-3 flex w-full flex-col self-start">
+          <div className=" flex w-full flex-col self-start">
             <div className="mb-3 flex size-full justify-between">
               <AvatarSuri></AvatarSuri>
               <div className="my-2.5 text-2xl">
@@ -211,7 +208,8 @@ export const OnboardModal = () => {
                         dialogContents={value.dialogContents}
                         id={value.id}
                         iconMessage={value.iconMessage}
-                        hidden={index === 0 || index <= step ? false : true}
+                        visible={step >= index}
+                        hidden={hidden}
                       />
                     );
                   },
@@ -219,12 +217,15 @@ export const OnboardModal = () => {
             </div>
           </div>
           <div
-            className={`flex flex-col  gap-2  text-[14px] ${descriptionText}`}
+            className={`mt-[37px] flex w-[340px] flex-col gap-2 ${descriptionText}`}
           >
-            {dialogNumber === 1 &&
-              '* 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.'}
+            {dialogNumber === 1 && (
+              <div className="mx-[11px] text-sm font-semibold tracking-tight">
+                * 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.
+              </div>
+            )}
             <Button
-              className="w-[340px]"
+              className="w-full text-lg font-bold"
               variant="default"
               disabled={buttonDisable}
               onClick={dialogNumber === 0 ? initialize : handleClose}

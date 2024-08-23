@@ -13,20 +13,16 @@ export const ListDialog = ({
   iconMessage,
   firstDialog,
   hidden,
-  messageNumber,
 }: DialogListProp) => {
-  // .transition-opacity {
-  //   transition-property: opacity;
-  //   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  //   transition-duration: 150ms;
-  // }
   return (
     <div
       className={cn(
         'flex flex-row',
-        !firstDialog && 'opacity-0 transition-opacity ease-in-out duration-75',
+        firstDialog
+          ? 'opacity-100'
+          : 'opacity-0 transition-opacity ease-in-out duration-1000',
         !firstDialog && 'pl-[14px]',
-        visible && messageNumber !== 0 && 'opacity-100',
+        visible && 'opacity-100',
         hidden && 'hidden',
       )}
     >
