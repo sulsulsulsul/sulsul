@@ -16,17 +16,27 @@ interface HeaderProp {
   setFilter: Dispatch<SetStateAction<FilterType>>;
   setHint: Dispatch<SetStateAction<HintType>>;
   setPage: Dispatch<SetStateAction<number>>;
+  setSelectAll: Dispatch<SetStateAction<boolean>>;
+  selectAll: boolean;
 }
 
 export default function PracticeListHeader({
   setFilter,
   setHint,
   setPage,
+  setSelectAll,
+  selectAll,
 }: HeaderProp) {
   return (
     <div className="flex h-[44px] w-full flex-row items-center justify-between pl-[24px] pr-[44px] text-sm text-gray-500">
       <div className="flex h-full items-center">
-        <Checkbox className="m-[10px] size-6" />
+        <Checkbox
+          className="m-[10px] size-6"
+          checked={selectAll}
+          onCheckedChange={(check) => {
+            setSelectAll(!!check);
+          }}
+        />
         <span className="ml-[66px]">면접질문</span>
       </div>
       <div className="flex flex-row items-center justify-around ">

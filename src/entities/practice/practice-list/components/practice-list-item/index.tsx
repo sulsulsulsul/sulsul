@@ -15,25 +15,40 @@ import { QuestionDetailType } from '@/entities/types/question';
 import { useUpdateQuestionStar } from '../../hook/use-update-question-star';
 interface PracticeListItemProps {
   question: QuestionDetailType;
+  selectAll: boolean;
   setSelectQuestion: Dispatch<SetStateAction<QuestionDetailType[]>>;
 }
 
 export default function PracticeListItem({
   setSelectQuestion,
+  selectAll,
   question,
 }: PracticeListItemProps) {
   const { mutate } = useUpdateQuestionStar();
   const [starClicked, setStarClicked] = useState(question.star);
+  const [checked, setChecked] = useState(false);
   const handleStarClick = () => {
     setStarClicked((prev) => !prev);
     mutate({ questionId: question.questionId, star: !question.star });
   };
+
+  useEffect(() => {
+    selectAll
+      ? (setChecked(true),
+        setSelectQuestion((prev) => {
+          return prev.some((item) => item.questionId === question.questionId)
+            ? prev
+            : [...prev, question];
+        }))
+      : (setChecked(false), setSelectQuestion([]));
+  }, [selectAll]);
   return (
     <div className="flex h-[118px] w-full flex-row items-center justify-between rounded-md border border-gray-100 bg-white py-[26px] pl-[24px]">
       <div className="flex items-center justify-between gap-1">
         <Checkbox
           className="m-[10px] size-6"
-          onCheckedChange={(check) =>
+          checked={checked}
+          onCheckedChange={(check) => {
             check
               ? setSelectQuestion((prev) => {
                   return [...prev, question];
@@ -42,8 +57,9 @@ export default function PracticeListItem({
                   return prev.filter((value) => {
                     return value.questionId !== question.questionId;
                   });
-                })
-          }
+                });
+            setChecked(!!check);
+          }}
         />
         <button onClick={handleStarClick}>
           {starClicked ? (

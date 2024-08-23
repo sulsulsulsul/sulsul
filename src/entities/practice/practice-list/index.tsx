@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/pagination';
+import { Loader } from '@/components/shared/loader';
 import { Button } from '@/components/ui/button';
 import { usePracticeStore } from '@/store/practiceStore';
 
@@ -25,7 +26,7 @@ export default function PracticeList() {
     QuestionDetailType[]
   >([]);
   const [tabChange, setTabChange] = useState<QuestionState>('ALL');
-
+  const [selectAll, setSelectAll] = useState(false);
   //TODO: COUNT
   const { questionsList, isSuccess, refetch, isFetching } = usePracticeList({
     practiceStatus: tabChange,
@@ -34,6 +35,8 @@ export default function PracticeList() {
     hint: hint,
     //star
   });
+
+  console.log(selectedQuestionList);
 
   // const answeredQuestions =
   //   questionsList &&
@@ -98,6 +101,8 @@ export default function PracticeList() {
 
   useEffect(() => {
     refetch();
+    setSelectAll(false);
+    setSelectedQuestionList([]);
   }, [currentPage, tabChange, hint]);
 
   const { setStore } = usePracticeStore();
@@ -136,66 +141,67 @@ export default function PracticeList() {
   //TODO COUNT ALL where to get
   return (
     <section className="flex w-[1200px] flex-col">
-      <>
-        <div className="mb-8 flex w-full flex-row justify-between">
-          <div className="flex flex-col gap-3">
-            <PracticeSectionHeader
-              title="연습한 면접질문"
-              iconSrc="/images/icons/etc-speech.svg"
-            />
-            <PracticeListTab
-              onTabChange={setTabChange}
-              allCount={questionsList?.totalCount!}
-              isLoading={isFetching}
-              // unansweredCount={notAnsweredQuestions?.length!}
-              // answeredCount={answeredQuestions?.length!}
-              unansweredCount={0}
-              answeredCount={0}
-            />
-          </div>
-          <Button
-            className="mt-8 flex w-44 flex-row gap-1"
-            variant="default"
-            onClick={handlePractice}
-          >
-            다시 연습하기
-            <Image
-              src="/images/icons/icon-arrow_up_right.svg"
-              width={24}
-              height={24}
-              alt="icon"
-            />
-          </Button>
-        </div>
-        <PracticeListHeader
-          setPage={setCurrentPage}
-          setFilter={setFilter}
-          setHint={setHint}
-        />
-        {isSuccess && !isFetching ? (
-          <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
-            {modifiedByFilter &&
-              modifiedByFilter.map((value) => {
-                return (
-                  <PracticeListItem
-                    key={value.questionId}
-                    question={value}
-                    setSelectQuestion={setSelectedQuestionList}
-                  />
-                );
-              })}
-          </div>
-        ) : (
-          <div>로딩중</div>
-        )}
-        <div className="fixed bottom-0 left-0 h-[60px] w-screen justify-center bg-gray-50 pt-3.5">
-          <PaginationDemo
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-            totalPage={questionsList?.totalPage!}
+      <div className="mb-8 flex w-full flex-row justify-between">
+        <div className="flex flex-col gap-3">
+          <PracticeSectionHeader
+            title="연습한 면접질문"
+            iconSrc="/images/icons/etc-speech.svg"
+          />
+          <PracticeListTab
+            onTabChange={setTabChange}
+            allCount={questionsList?.totalCount!}
+            isLoading={isFetching}
+            // unansweredCount={notAnsweredQuestions?.length!}
+            // answeredCount={answeredQuestions?.length!}
+            unansweredCount={0}
+            answeredCount={0}
           />
         </div>
-      </>
+        <Button
+          className="mt-8 flex w-44 flex-row gap-1"
+          variant="default"
+          onClick={handlePractice}
+        >
+          다시 연습하기
+          <Image
+            src="/images/icons/icon-arrow_up_right.svg"
+            width={24}
+            height={24}
+            alt="icon"
+          />
+        </Button>
+      </div>
+      <PracticeListHeader
+        setPage={setCurrentPage}
+        setSelectAll={setSelectAll}
+        setFilter={setFilter}
+        setHint={setHint}
+        selectAll={selectAll}
+      />
+      {isSuccess && !isFetching ? (
+        <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
+          {modifiedByFilter &&
+            modifiedByFilter.map((value) => {
+              return (
+                <PracticeListItem
+                  key={value.questionId}
+                  selectAll={selectAll}
+                  question={value}
+                  setSelectQuestion={setSelectedQuestionList}
+                />
+              );
+            })}
+        </div>
+      ) : (
+        <Loader />
+      )}
+      <div className="fixed bottom-0 left-0 h-[60px] w-screen justify-center bg-gray-50 pt-3.5">
+        <PaginationDemo
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          totalPage={questionsList?.totalPage!}
+        />
+      </div>
     </section>
   );
 }

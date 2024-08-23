@@ -2,22 +2,19 @@
 
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { ArchiveDetailDTO } from '@/entities/types';
-
 import { getPracticeQuestion } from '../actions/get-questions';
-import { getPracticeResume } from '../actions/get-resume';
 
-export const QuestionListQueryOptions = (resumes: ArchiveDetailDTO[]) =>
+export const QuestionListQueryOptions = (id: number) =>
   queryOptions({
-    queryKey: ['questions', resumes],
+    queryKey: ['questions', id],
     queryFn: () => {
-      return getPracticeQuestion(resumes);
+      return getPracticeQuestion(id);
     },
-    enabled: false,
+    staleTime: Infinity,
   });
 
-export const useQuestions = (resumes: ArchiveDetailDTO[]) => {
-  const result = useQuery(QuestionListQueryOptions(resumes));
+export const usePracticeQuestions = (id: number) => {
+  const result = useQuery(QuestionListQueryOptions(id));
   const { data, ...rest } = result;
   return {
     ...rest,

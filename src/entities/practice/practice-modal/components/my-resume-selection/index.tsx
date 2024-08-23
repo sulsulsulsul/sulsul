@@ -5,10 +5,10 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 import { ChevronRight } from 'lucide-react';
 
 import { Checkbox } from '@/components/ui/checkbox';
-import { useArchive } from '@/entities/archives/hooks';
-import { ArchiveDetailDTO } from '@/entities/types/archive';
-import { ModalQuestionType } from '@/entities/types/question';
+import { ArchiveDetailDTO } from '@/entities/types';
 import { cn } from '@/lib/utils';
+
+import { usePracticeQuestions } from '../../hooks/use-get-questions';
 
 interface ResumeSelection {
   title: string;
@@ -28,27 +28,27 @@ export default function MyResumeSelection({
   archiveId,
 }: ResumeSelection) {
   const [checked, setChecked] = useState(false);
-  const { archive, isSuccess } = useArchive(archiveId);
+  const { questions, isSuccess } = usePracticeQuestions(archiveId);
 
   useEffect(() => {
     resetChecked && setChecked(false);
     if (selectAll) {
       setChecked(true);
-      archive &&
+      questions &&
         setSelectArchives((prev) => {
           return prev.some((item) => item.archiveId === archiveId)
             ? prev
-            : [...prev, archive];
+            : [...prev, questions];
         });
     }
   }, [resetChecked, selectAll, setSelectArchives, archiveId, isSuccess]);
 
   const handleCheck = () => {
-    !checked && archive
-      ? setSelectArchives((prev) => [...prev, archive])
+    !checked && questions
+      ? setSelectArchives((prev) => [...prev, questions])
       : setSelectArchives((prev) => {
-          return prev.filter((archive) => {
-            if (archive.archiveId === archiveId) {
+          return prev.filter((questions) => {
+            if (questions.archiveId === archiveId) {
               return false;
             } else return true;
           });

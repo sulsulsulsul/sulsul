@@ -68,24 +68,30 @@ export default function PracticeModalControl({
             </PopoverTrigger>
             <PopoverContent className="z-[60] mr-[134px] flex w-[180px] flex-col rounded-sm border border-gray-100 px-0 py-2">
               <div className="flex h-[46px] w-full flex-row items-center">
-                <Checkbox
-                  className="ml-[14px] mr-[6px] size-5 p-[2px]"
-                  onCheckedChange={(check: CheckedState) =>
-                    setAnswerFilter(check)
-                  }
-                  checked={answerFilter}
-                />
-                답변못한 질문만
+                <label htmlFor="notAnswered">
+                  <Checkbox
+                    id="notAnswered"
+                    className="ml-[14px] mr-[6px] size-5 p-[2px]"
+                    onCheckedChange={(check: CheckedState) =>
+                      setAnswerFilter(check)
+                    }
+                    checked={answerFilter}
+                  />
+                  답변못한 질문만
+                </label>
               </div>
               <div className="flex h-[46px] w-full flex-row items-center">
-                <Checkbox
-                  className="ml-[14px] mr-[6px] size-5 p-[2px]"
-                  onCheckedChange={(check: CheckedState) =>
-                    setHintFilter(check)
-                  }
-                  checked={hintFilter}
-                />
-                힌트 본 질문만
+                <label htmlFor="usedHint">
+                  <Checkbox
+                    id="usedHint"
+                    className="ml-[14px] mr-[6px] size-5 p-[2px]"
+                    onCheckedChange={(check: CheckedState) =>
+                      setHintFilter(check)
+                    }
+                    checked={hintFilter}
+                  />
+                  힌트 본 질문만
+                </label>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>

@@ -16,7 +16,7 @@ import { cn } from '@/lib/utils';
 import { usePracticeStore } from '@/store/practiceStore';
 
 import { ArchiveDetailDTO, ArchiveListItemDTO } from '../../types/archive';
-import { ModalQuestionType, QuestionDetailType } from '../../types/question';
+import { ModalQuestionType } from '../../types/question';
 import ModalHeader from './components/modal-header';
 import MyResumeSelection from './components/my-resume-selection';
 import PracticeModalButton from './components/practice-modal-button';
@@ -25,7 +25,7 @@ import PracticeModalOption from './components/practice-modal-option';
 import PracticeModalSelectAll from './components/practice-modal-selectAll';
 import QuestionSelection from './components/practice-question-selection';
 import { useCreatePractice } from './hooks/use-create-practice';
-import { useQuestions } from './hooks/use-get-questions';
+//import { useQuestions } from './hooks/use-get-questions';
 import { useResumes } from './hooks/use-get-resumes';
 
 interface PracticeSelectionProp {
@@ -65,15 +65,16 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
 
   const mutation = useCreatePractice();
 
-  // const { questions, refetch, isSuccess } = useQuestions(selectedArchiveList);
+  //선택된 아카이브 질문만 flat
   const questions = selectedArchiveList.flatMap((value) => {
     return value.questions;
   });
+
+  // const { questions, refetch, isSuccess } = useQuestions(selectedArchiveList);
   //console.log(questions , selectedArchiveList)
   // const rawQuestionCollection = selectedArchiveList.flatMap((value) => {
   //   return value.questions;
   // });
-
   // const x = async () => {
   //   if(selectedArchiveList.length !== 0){
   //     const x = await getPracticeQuestion(selectedArchiveList);

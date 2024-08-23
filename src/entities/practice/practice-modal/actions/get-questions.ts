@@ -1,11 +1,10 @@
 'use server';
 
 import { ArchiveDetailDTO } from '@/entities/types';
-import { QuestionDetailType } from '@/entities/types/question';
 import { API_ENDPOINT } from '@/lib/backend-api/api-end-point';
 import { backendApi } from '@/lib/backend-api/client';
 
-export const getPracticeQuestion = async (resumes: ArchiveDetailDTO[]) => {
+export const getPracticeQuestion = async (id: number) => {
   // const questionDetailPromises = resumes.flatMap((resume) => {
   //   const { archiveId, title, companyName, questions } = resume;
   //   return questions.map((question) =>
@@ -26,4 +25,7 @@ export const getPracticeQuestion = async (resumes: ArchiveDetailDTO[]) => {
   // return backendApi<QuestionDetailType>({
   //         endpoint: API_ENDPOINT.question.getQuestions(question.questionId),
   // })
+  return backendApi<ArchiveDetailDTO>({
+    endpoint: API_ENDPOINT.archive.getArchive(id),
+  });
 };
