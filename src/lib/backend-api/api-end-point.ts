@@ -1,6 +1,8 @@
-import { Method, OAuthType } from './type';
+import type { Period } from '@/entities/practice/types';
 
-const API_V1_BASE = '${API_V1_BASE}';
+import { Method, type OAuthType } from './type';
+
+const API_V1_BASE = '/api/v1';
 
 export type ApiEndpoint = {
   url: string;
@@ -133,6 +135,13 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    getSearchQuestions: () => {
+      return {
+        url: `${API_V1_BASE}/questions/search`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
     createQuestions: (archiveId: number) => {
       return {
         url: `${API_V1_BASE}/questions/${archiveId}/ai`,
@@ -173,6 +182,13 @@ export const API_ENDPOINT = {
     getStatisticsSummary: () => {
       return {
         url: `${API_V1_BASE}/practice/statistics/summary`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+    getStatisticsDetail: (period: Period) => {
+      return {
+        url: `${API_V1_BASE}/practice/statistics/detail/${period}`,
         method: Method.GET,
         authorization: true,
       };

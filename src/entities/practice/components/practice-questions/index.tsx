@@ -1,9 +1,10 @@
 'use client';
-import { HTMLAttributes } from 'react';
-import Image from 'next/image';
+import { HTMLAttributes, useState } from 'react';
 
+import { SearchQuestion } from '@/entities/questions/types';
 import { cn } from '@/lib/utils';
 
+import type { PracticedQuestionTabType } from '../../types';
 import { PracticedQuestionCard } from '../practice-question-card';
 import { PracticedQuestionTab } from '../practice-question-tab';
 import PracticeSectionHeader from '../practice-section-header';
@@ -29,13 +30,30 @@ const QuestionsMock = [
 ];
 
 export interface PracticeQuestionsProps extends HTMLAttributes<HTMLDivElement> {
-  practiceList?: unknown; // TODO: API
+  hintUsedQuestions: SearchQuestion;
+  favoriteQuestions: SearchQuestion;
+  unansweredQuestions: SearchQuestion;
 }
 
 const PracticeQuestions = ({
-  practiceList,
   className,
+  hintUsedQuestions,
+  unansweredQuestions,
+  favoriteQuestions,
 }: PracticeQuestionsProps) => {
+  const questions = {
+    hintUsed: hintUsedQuestions,
+    unanswered: unansweredQuestions,
+    favorite: favoriteQuestions,
+  };
+
+  const [selectedTab, setSelectedTab] =
+    useState<PracticedQuestionTabType>('unanswered');
+
+  const onChangeTab = (tab: PracticedQuestionTabType) => {
+    setSelectedTab(tab);
+  };
+
   return (
     <div className={cn(className)}>
       <div className="flex items-center">
@@ -46,20 +64,26 @@ const PracticeQuestions = ({
       </div>
       <PracticedQuestionTab
         className="mt-3 flex items-center gap-1"
-        favoriteCount={10}
-        hintUsedCount={10}
-        unansweredCount={10}
+        selectedTab={selectedTab}
+        favoriteCount={favoriteQuestions.totalCount}
+        hintUsedCount={hintUsedQuestions.totalCount}
+        unansweredCount={unansweredQuestions.totalCount}
+        onChangeTab={onChangeTab}
       />
-      {QuestionsMock?.length && (
-        <div className="mt-6 flex h-[318px] flex-col gap-3 overflow-y-scroll scrollbar-hide">
-          {QuestionsMock.map((question, index) => (
+      <div className="mt-6 flex h-[318px] flex-col gap-3 overflow-y-scroll scrollbar-hide">
+        {questions[selectedTab].contents.length > 0 ? (
+          questions[selectedTab].contents.map((question) => (
             <PracticedQuestionCard
-              key={`${question.company}-${index}`}
-              {...question}
+              key={question.questionId}
+              content={question.content}
+              title={question.archive.title}
+              company={question.archive.companyName}
             />
-          ))}
-        </div>
-      )}
+          ))
+        ) : (
+          <div>없는 데이터 표시 화면 물어보기</div>
+        )}
+      </div>
     </div>
   );
 };

@@ -5,7 +5,7 @@ import { PracticedQuestionTab } from '.';
 
 const meta = {
   args: {
-    onTabChange: fn(),
+    onChangeTab: fn(),
   },
   component: PracticedQuestionTab,
 } satisfies Meta<typeof PracticedQuestionTab>;

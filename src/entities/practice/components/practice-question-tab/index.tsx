@@ -6,37 +6,37 @@ import { cn } from '@/lib/utils';
 import { PracticedQuestionTabType } from '../../types';
 
 interface PracticedQuestionTabProps extends HTMLAttributes<HTMLDivElement> {
+  selectedTab: PracticedQuestionTabType;
   unansweredCount: number;
   hintUsedCount: number;
   favoriteCount: number;
-  onTabChange?: (value: PracticedQuestionTabType) => void;
+  onChangeTab: (value: PracticedQuestionTabType) => void;
 }
 
 export const PracticedQuestionTab = ({
   className,
+  selectedTab,
   unansweredCount,
   hintUsedCount,
   favoriteCount,
-  onTabChange,
+  onChangeTab,
   ...props
 }: PracticedQuestionTabProps) => {
   return (
     <div className={cn(className)} {...props}>
       <Tabs
+        value={selectedTab}
         onValueChange={(value) => {
-          onTabChange?.(value as PracticedQuestionTabType);
+          onChangeTab(value as PracticedQuestionTabType);
         }}
-        defaultValue="unanswered"
       >
         <TabsList>
           <TabsTrigger value="unanswered">
-            답하지 못했던 {unansweredCount > 0 && <>{unansweredCount}</>}
+            답하지 못했던 {unansweredCount}
           </TabsTrigger>
-          <TabsTrigger value="hint-used">
-            힌트를 본 {hintUsedCount > 0 && <>{hintUsedCount}</>}
-          </TabsTrigger>
-          <TabsTrigger value="favorites">
-            즐겨 찾기한 {favoriteCount > 0 && <>{favoriteCount}</>}
+          <TabsTrigger value="hintUsed">힌트를 본 {hintUsedCount}</TabsTrigger>
+          <TabsTrigger value="favorite">
+            즐겨 찾기한 {favoriteCount}
           </TabsTrigger>
         </TabsList>
       </Tabs>
