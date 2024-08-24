@@ -65,6 +65,7 @@ export const FormStatus = ({
                   className="rounded-md bg-white shadow-base"
                   firstLine="내 자소서에선 어떤 질문이 나올까요?"
                   secondLine="왼쪽에서 내용을 입력해보세요!"
+                  isCreate
                 />
               )}
             </div>

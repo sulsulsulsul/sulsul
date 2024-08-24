@@ -24,7 +24,7 @@ export const LoadedStatus = ({
       <div className="flex size-full flex-col gap-3">
         {data.map((question, i) => (
           <QuestionCard
-            key={i}
+            key={question.questionId}
             data={question}
             archiveId={archiveId}
             isClicked={clickedQuestions.includes(question.questionId)}

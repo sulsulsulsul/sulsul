@@ -5,7 +5,7 @@ import { createFeedbackAction, CreateFeedbackParams } from '../actions';
 export const useCreateFeedback = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (params: CreateFeedbackParams) => {
+    mutationFn: (params: CreateFeedbackParams) => {
       return createFeedbackAction(params);
     },
     onSuccess: (_, variables) => {

@@ -63,14 +63,14 @@ export const QuestionAnswerForm = ({
                           <p className="mb-1 flex items-center gap-2">
                             <span className="relative flex size-[18px] items-center justify-center rounded-full bg-gray-300 text-[10px] text-white">
                               1
-                              <div className="absolute left-1/2 top-full h-[7px] -translate-x-1/2 border border-gray-200" />
+                              <div className="absolute left-1/2 top-full h-[12px] -translate-x-1/2 border border-gray-200" />
                             </span>
                             구체적으로 언제, 어떤 상황이었나요?
                           </p>
                           <p className="mb-1 flex items-center gap-2">
-                            <span className="relative flex size-[18px] items-center justify-center rounded-full bg-gray-300 text-[10px] text-white">
+                            <span className="relative -z-10 flex size-[18px] items-center justify-center rounded-full bg-gray-300 text-[10px] text-white">
                               2
-                              <div className="absolute left-1/2 top-full h-[7px] -translate-x-1/2 border border-gray-200" />
+                              <div className="absolute left-1/2 top-full -z-10 h-[12px] -translate-x-1/2 border border-gray-200" />
                             </span>
                             어떻게 행동했나요?
                           </p>

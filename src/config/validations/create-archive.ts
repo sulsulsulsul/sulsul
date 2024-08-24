@@ -6,10 +6,10 @@ export const createArchiveSchema = z.object({
   resume: z
     .string()
     .min(300, {
-      message: '300자 이상 2000자 이내의 내용을 입력해주세요.',
+      message: '300자 이상 2000자 이내로 입력해주세요.',
     })
     .max(2000, {
-      message: '300자 이상 2000자 이내의 내용을 입력해주세요.',
+      message: '300자 이상 2000자 이내로 입력해주세요.',
     }),
 });
 
