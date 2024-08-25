@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/all';
 import { AuthSignedIn } from '@/components/auth/auth-signed-in';
 
 import { Action } from './components/action';
+import Challenge from './components/challenge';
 import { Feedback } from './components/feedback';
 import { Footer } from './components/footer';
 import { Hero } from './components/hero';
@@ -14,6 +15,7 @@ import { ScrollUpButton } from './components/scroll-up-button';
 import { Steps } from './components/steps';
 
 gsap.registerPlugin(ScrollTrigger);
+
 const Page = async () => {
   return (
     <main>
@@ -24,6 +26,7 @@ const Page = async () => {
       <Recommendation />
       <Steps />
       <Reason />
+      <Challenge />
       <Action />
       <Feedback />
       <Footer />
