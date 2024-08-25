@@ -7,4 +7,5 @@ export const myFormValidation = z.object({
     .string()
     .min(2, { message: '2~9자 사이로 입력해주세요.' })
     .max(9, { message: '2~9자 사이로 입력해주세요.' }),
+  job: z.string(),
 });

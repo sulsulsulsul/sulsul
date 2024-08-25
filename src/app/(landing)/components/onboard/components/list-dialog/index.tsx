@@ -8,16 +8,27 @@ import { DialogListProp, MessageProp } from '../../types/onboard';
 
 export const ListDialog = ({
   dialogContents,
-  hidden,
+  visible,
   id,
   iconMessage,
   firstDialog,
+  hidden,
 }: DialogListProp) => {
   return (
-    <div className={cn('flex flex-row', !firstDialog && 'pl-[14px]')}>
+    <div
+      className={cn(
+        'flex flex-row',
+        firstDialog
+          ? 'opacity-100'
+          : 'opacity-0 transition-opacity ease-in-out duration-1000',
+        !firstDialog && 'pl-[14px]',
+        visible && 'opacity-100',
+        hidden && 'hidden',
+      )}
+    >
       {firstDialog && (
         <Image
-          alt=""
+          alt="icon"
           src={'/images/speech-bubble.svg'}
           width={14}
           height={16}
@@ -25,13 +36,11 @@ export const ListDialog = ({
       )}
       <div
         className={cn(
-          'flex w-fit flex-col rounded-md bg-gray-100 px-[22px] py-[17.5px] text-black',
-          hidden ? 'invisible' : 'visible',
+          'flex w-fit flex-col rounded-md bg-gray-100 px-[22px] py-[14px] text-black ',
         )}
       >
         {dialogContents.map((dialogContent: MessageProp[], index: number) => {
           const listNumber = index >= 1 ? index : index + 1;
-          const visibility = index == 1 ? 'invisible' : 'visible';
           return (
             <div
               key={index}
@@ -40,9 +49,12 @@ export const ListDialog = ({
                 listNumber >= 2 && 'mt-[4px]',
               )}
             >
-              {id === 'list' && !hidden && (
+              {id === 'list' && (
                 <div
-                  className={`my-[4px] mr-[4px] flex size-[18px] place-content-center items-center rounded-full bg-blue-500 text-center text-[12px] text-white ${visibility}`}
+                  className={cn(
+                    `my-[4px] mr-[4px] flex size-[18px] place-content-center items-center rounded-full bg-blue-500 text-center text-[12px] text-white`,
+                    index === 1 ? 'invisible' : 'visible',
+                  )}
                 >
                   {listNumber}
                 </div>

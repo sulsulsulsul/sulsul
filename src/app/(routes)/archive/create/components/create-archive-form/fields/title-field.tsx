@@ -6,7 +6,7 @@ import {
   FormItem,
   FormMessage,
 } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { useCurrentUser } from '@/entities/users/hooks';
 import { cn } from '@/lib/utils';
 import { useSampleStore } from '@/store/sampleQuestions';
@@ -18,6 +18,12 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
   const { form } = useCreateArchiveFormContext();
   const { isSampleClicked } = useSampleStore();
   const { status } = useCurrentUser();
+
+  const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const textarea = event.target;
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+  };
 
   return (
     <div className={cn(className)} {...props}>
@@ -33,10 +39,14 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormControl>
-                <Input
+                <Textarea
                   placeholder="자소서 제목을 입력해주세요"
-                  className="px-0 text-xl font-semibold"
+                  className="h-fit w-full resize-none rounded-none border-0 px-0 text-xl font-semibold"
                   {...field}
+                  rows={1}
+                  onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
+                    handleInput(e);
+                  }}
                 />
               </FormControl>
               <FormMessage />

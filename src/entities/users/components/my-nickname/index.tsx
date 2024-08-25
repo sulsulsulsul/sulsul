@@ -1,5 +1,4 @@
 import { HTMLAttributes } from 'react';
-import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -10,25 +9,26 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Label } from '@/components/ui/label';
 import { cn } from '@/lib/utils';
 import { useUserStore } from '@/store/client';
 
 import { useMyForm } from '../../hooks/use-my-form';
 interface MyFormProps extends HTMLAttributes<HTMLDivElement> {}
 
-export const MyForm = ({ className, ...props }: MyFormProps) => {
-  const { email, nickname } = useUserStore((state) => ({
-    email: state.data.email,
+export const MyNickname = ({ className, ...props }: MyFormProps) => {
+  const { nickname } = useUserStore((state) => ({
     nickname: state.data.nickname,
   }));
-  const { form, isEnableSubmit, handleSubmit, errors } = useMyForm();
+  const { form, isEnableSubmit, handleNicknameSubmit, errors } = useMyForm();
   const isError = !!errors.nickname;
 
   return (
     <div className={cn('flex flex-col items-center', className)} {...props}>
       <Form {...form}>
-        <form onSubmit={handleSubmit} className="flex items-center gap-4">
+        <form
+          onSubmit={handleNicknameSubmit}
+          className="flex items-center gap-12"
+        >
           <FormField
             control={form.control}
             name="nickname"
@@ -75,25 +75,6 @@ export const MyForm = ({ className, ...props }: MyFormProps) => {
           />
         </form>
       </Form>
-      <div className="ml-[112px] mt-[60px] flex w-full items-center justify-start gap-1">
-        <Label className="w-[122px] text-nowrap text-lg font-medium text-gray-500">
-          로그인 계정
-        </Label>
-        <div className="relative">
-          <input
-            className="h-[58px] w-[449px] rounded-xl border border-gray-200 bg-transparent px-5 py-[10px] text-gray-500"
-            readOnly
-            value={email as string}
-          />
-          <Image
-            className="absolute right-5 top-1/2 -translate-y-1/2"
-            alt=""
-            height={24}
-            src="/images/icons/icon-check-circle.svg"
-            width={24}
-          />
-        </div>
-      </div>
     </div>
   );
 };

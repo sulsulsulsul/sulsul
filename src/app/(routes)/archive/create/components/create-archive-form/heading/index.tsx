@@ -13,7 +13,7 @@ export const Heading = ({ className, ...props }: HeadingProps) => {
         height={32}
         alt="icon"
       />
-      <span>내 자기 소개서</span>
+      <span>내 자기소개서</span>
     </h2>
   );
 };

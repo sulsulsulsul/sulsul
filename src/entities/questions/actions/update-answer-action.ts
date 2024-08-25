@@ -9,7 +9,7 @@ export interface UpdateAnswerParams {
   answer: string;
 }
 
-export const updateAnswerAction = async ({
+export const updateAnswerAction = ({
   questionId,
   accessToken,
   answer,

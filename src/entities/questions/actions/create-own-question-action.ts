@@ -9,7 +9,7 @@ export interface CreateOwnQuestionParams {
   question: string;
 }
 
-export const createOwnQuestionAction = async ({
+export const createOwnQuestionAction = ({
   archiveId,
   question,
   accessToken,
