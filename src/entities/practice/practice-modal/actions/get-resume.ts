@@ -22,7 +22,7 @@ export const getPracticeResume = async () => {
 
   //제한 풀고
   const firstPageData = await backendApi<ArchiveListsDTO>({
-    endpoint: API_ENDPOINT.archive.getArchives(0),
+    endpoint: API_ENDPOINT.archive.getArchives(0, 'desc'),
   });
   return firstPageData.archives;
 };

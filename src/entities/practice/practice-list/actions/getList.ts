@@ -10,6 +10,9 @@ import { backendApi } from '@/lib/backend-api/client';
 
 export const getSearchQuestions = (props: SearchParam) => {
   let query: string[] = [];
+  if (props.userId) {
+    query.push(`userId=${props.userId}`);
+  }
   if (props.practiceStatus && props.practiceStatus.toUpperCase() !== 'ALL') {
     query.push(`practiceStatus=${props.practiceStatus.toUpperCase()}`);
   }
@@ -25,7 +28,6 @@ export const getSearchQuestions = (props: SearchParam) => {
   if (props.size) {
     query.push(`size=${props.size}`);
   }
-  console.log(query);
   return backendApi<PracticeQuestionListType>({
     endpoint: API_ENDPOINT.question.getSearchQuestions(query.join('&')),
   });

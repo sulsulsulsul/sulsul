@@ -17,6 +17,6 @@ export const Default = {
     resetChecked: false,
     archiveId: 137,
     selectAll: false,
-    setSelectArchives: () => {},
+    setSelectArchiveIds: () => {},
   },
 } satisfies Story;

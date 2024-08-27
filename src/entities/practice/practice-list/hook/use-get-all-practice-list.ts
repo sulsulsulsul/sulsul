@@ -4,16 +4,16 @@ import { useQuery } from '@tanstack/react-query';
 
 import { SearchParam } from '@/entities/types/question';
 
-import { getSearchQuestions } from '../actions/getList';
+import { getPrefecthList } from '../actions/getPrefetch';
 
-export const usePracticeList = (props: SearchParam) => {
+export const useAllPracticeList = () => {
   const result = useQuery({
-    queryKey: ['practiceList', props],
-    queryFn: () => getSearchQuestions(props),
+    queryKey: ['practiceCount'],
+    queryFn: () => getPrefecthList(),
   });
   const { data, ...rest } = result;
   return {
-    questionsList: data,
+    list: data,
     ...rest,
   };
 };

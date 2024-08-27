@@ -5,18 +5,19 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/pagination';
-import { Loader } from '@/components/shared/loader';
 import { Button } from '@/components/ui/button';
+import PracticeSectionHeader from '@/entities/dashboard/components/practice-section-header';
+import { QuestionDetailType } from '@/entities/types/question';
+import { useUserStore } from '@/store/client';
 import { usePracticeStore } from '@/store/practiceStore';
 
-import PracticeSectionHeader from '../../dashboard/components/practice-section-header';
-import { QuestionDetailType } from '../../types/question';
-import { useCreatePractice } from '../practice-modal/hooks';
-import { FilterType, HintType, QuestionState } from '../types';
-import PracticeListItem from './components/practice-list-item';
-import { PracticeListTab } from './components/practice-list-tab';
-import PracticeListHeader from './components/pratice-list-header';
-import { usePracticeList } from './hook/use-get-practice-list';
+import { useCreatePractice } from '../../practice-modal/hooks';
+import { FilterType, HintType, QuestionState } from '../../types';
+import PracticeListItem from '../components/practice-list-item';
+import { PracticeListTab } from '../components/practice-list-tab';
+import PracticeListHeader from '../components/pratice-list-header';
+import { useAllPracticeList } from '../hook/use-get-all-practice-list';
+import { usePracticeList } from '../hook/use-get-practice-list';
 
 export default function PracticeList() {
   const [filter, setFilter] = useState<FilterType>('recent');
@@ -27,48 +28,35 @@ export default function PracticeList() {
   >([]);
   const [tabChange, setTabChange] = useState<QuestionState>('ALL');
   const [selectAll, setSelectAll] = useState(false);
-  //TODO: COUNT
-  const { questionsList, isSuccess, refetch, isFetching } = usePracticeList({
+
+  const { auth } = useUserStore();
+
+  const { questionsList } = usePracticeList({
     practiceStatus: tabChange,
     page: currentPage - 1,
     size: 6,
+    userId: auth.userId,
     hint: hint,
-    //star
   });
+  // const {data} = useQuery({
+  //   queryKey: ['practiceCount'],
+  //   queryFn: () => getPrefecthList(),
+  // })
+  // console.log("a",data?.countAll)
 
-  console.log(selectedQuestionList);
+  const { list, isSuccess } = useAllPracticeList();
 
-  // const answeredQuestions =
-  //   questionsList &&
-  //   questionsList.contents.filter((value) => {
-  //     return value.practiceStatus === 'ANSWER';
-  //   });
-
-  // const notAnsweredQuestions =
-  //   questionsList &&
-  //   questionsList.contents.filter((value) => {
-  //     return (
-  //       value.practiceStatus === 'NOT_ANSWER' ||
-  //       value.practiceStatus === 'NOT_PRACTICE'
-  //     );
-  //   });
-
-  // const modifiedByQuestionState =
-  //   tabChange === 'ALL'
-  //     ? questionsList?.contents
-  //     : tabChange === 'ANSWER'
-  //       ? answeredQuestions
-  //       : notAnsweredQuestions;
-
-  // const modifiedByHint =
-  //   modifiedByQuestionState &&
-  //   modifiedByQuestionState?.filter((value) => {
-  //     return (
-  //       (hint === 'on' && value.hint) ||
-  //       (hint === 'off' && !value.hint) ||
-  //       hint === 'default'
-  //     );
-  //   });
+  const { countAnswer, countNotAnswer } = isSuccess
+    ? list!.contents.reduce(
+        (counts, item) => {
+          item.practiceStatus === 'ANSWER'
+            ? counts.countAnswer++
+            : counts.countNotAnswer++;
+          return counts;
+        },
+        { countAnswer: 0, countNotAnswer: 0 },
+      )
+    : { countAnswer: 0, countNotAnswer: 0 };
 
   const handleSortByFilter = (value: QuestionDetailType[]) => {
     if (filter === 'recent') {
@@ -95,14 +83,11 @@ export default function PracticeList() {
       });
     }
   };
-
   const modifiedByFilter =
     questionsList && handleSortByFilter(questionsList.contents);
 
   useEffect(() => {
-    refetch();
     setSelectAll(false);
-    setSelectedQuestionList([]);
   }, [currentPage, tabChange, hint]);
 
   const { setStore } = usePracticeStore();
@@ -112,22 +97,14 @@ export default function PracticeList() {
   const router = useRouter();
 
   const handlePractice = async () => {
-    // const x = selectedQuestionList.map((value)=>{
-    //   return {
-    //     questionId: value.questionId,
-    //     content: value.content,
-    //     answer: ,
-    //     isAnswered: value.,
-    //     isHint: value.hint,
-    //     keywords:[],
-    //   }
-    // })
+    selectedQuestionList;
     await mutation.mutate(
       selectedQuestionList.flatMap((value) => value.questionId),
       {
         onSuccess: (data) => {
           setStore({
             timer: true,
+            //TODO: FIX THIS PRACTICELIST
             // practiceList: selectedQuestionList,
             practiceList: [],
             practiceId: data,
@@ -149,12 +126,10 @@ export default function PracticeList() {
           />
           <PracticeListTab
             onTabChange={setTabChange}
-            allCount={questionsList?.totalCount!}
-            isLoading={isFetching}
-            // unansweredCount={notAnsweredQuestions?.length!}
-            // answeredCount={answeredQuestions?.length!}
-            unansweredCount={0}
-            answeredCount={0}
+            allCount={isSuccess ? list!.totalCount : 0}
+            isLoading={!isSuccess}
+            unansweredCount={countNotAnswer}
+            answeredCount={countAnswer}
           />
         </div>
         <Button
@@ -178,23 +153,19 @@ export default function PracticeList() {
         setHint={setHint}
         selectAll={selectAll}
       />
-      {isSuccess && !isFetching ? (
-        <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
-          {modifiedByFilter &&
-            modifiedByFilter.map((value) => {
-              return (
-                <PracticeListItem
-                  key={value.questionId}
-                  selectAll={selectAll}
-                  question={value}
-                  setSelectQuestion={setSelectedQuestionList}
-                />
-              );
-            })}
-        </div>
-      ) : (
-        <Loader />
-      )}
+      <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
+        {modifiedByFilter &&
+          modifiedByFilter.map((value) => {
+            return (
+              <PracticeListItem
+                key={value.questionId}
+                selectAll={selectAll}
+                question={value}
+                setSelectQuestion={setSelectedQuestionList}
+              />
+            );
+          })}
+      </div>
       <div className="fixed bottom-0 left-0 h-[60px] w-screen justify-center bg-gray-50 pt-3.5">
         <PaginationDemo
           currentPage={currentPage}

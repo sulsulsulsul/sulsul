@@ -117,7 +117,6 @@ export default function PracticeListItem({
         {/* {TODO:FIX THE LINK POSSIBLE USE ROUTER PUSH WITH QUERY BEHIND  } */}
         <DropdownMenu>
           <DropdownMenuTrigger>
-            {' '}
             <Image
               src="/images/icons/icn-more-gray.svg"
               width={24}

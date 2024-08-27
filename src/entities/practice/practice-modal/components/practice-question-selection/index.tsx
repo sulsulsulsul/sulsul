@@ -1,20 +1,25 @@
 'use client';
 
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { ArchiveQuestionItem } from '@/entities/types';
-import {
-  ModalQuestionType,
-  QuestionDetailType,
-} from '@/entities/types/question';
+import { ModalQuestionType } from '@/entities/types/question';
+
+import { usePracticeQuestions } from '../../hooks/use-get-questions';
+import PracticeModalQuestionItems from './question-modal-items';
 
 interface QuestionDetail {
   resetQuestion: boolean;
-  questionId: number;
   selectAll: CheckedState;
-  questionProp: ModalQuestionType;
+  archiveId: number;
+  answerFilter: CheckedState;
+  hintFilter: CheckedState;
   setFinalQuestions: Dispatch<SetStateAction<ModalQuestionType[]>>;
 }
 
@@ -22,39 +27,51 @@ export default function QuestionSelection({
   resetQuestion,
   setFinalQuestions,
   selectAll,
-  questionId,
-  questionProp,
+  archiveId,
+  answerFilter,
+  hintFilter,
 }: QuestionDetail) {
-  const [checked, setChecked] = useState<CheckedState>(false);
+  const { questions, isSuccess } = usePracticeQuestions(archiveId);
+
+  const handleFilter = useCallback(
+    (list: ModalQuestionType[]) => {
+      return list?.filter((item) => {
+        const answerCondition = !answerFilter || !item.isAnswered;
+        const hintCondition = !hintFilter || item.isHint;
+        return answerCondition && hintCondition;
+      });
+    },
+    [answerFilter, hintFilter],
+  );
+
+  const modifiedQuestionByFilter =
+    (questions && answerFilter) || hintFilter
+      ? handleFilter(questions!.questions.flat())
+      : questions?.questions;
 
   useEffect(() => {
-    resetQuestion && setChecked(false);
-    selectAll &&
-      (setChecked(true),
+    if ((questions && answerFilter) || hintFilter) {
       setFinalQuestions((prev) => {
-        return prev.some((item) => item.questionId === questionId)
-          ? prev
-          : [...prev, questionProp];
-      }));
-  }, [resetQuestion, selectAll]);
+        return handleFilter(prev);
+      });
+    }
+  }, [answerFilter, hintFilter]);
 
   return (
-    <div className="flex h-[68px] w-full flex-row items-center gap-[12px] border border-gray-100 bg-white py-[24px] pl-[24px] pr-[48px]">
-      <Checkbox
-        className="m-[10px] size-5 p-[2px]"
-        checked={checked}
-        onCheckedChange={(check) => {
-          check
-            ? setFinalQuestions((prev) => [...prev, questionProp])
-            : setFinalQuestions((prev) => {
-                return prev.filter((item) => {
-                  return item.questionId !== questionId;
-                });
-              });
-          setChecked(check);
-        }}
-      />
-      <div className="truncate">{questionProp.content}</div>
+    <div className="">
+      {modifiedQuestionByFilter &&
+        modifiedQuestionByFilter.map((value) => {
+          return (
+            <PracticeModalQuestionItems
+              key={value.questionId}
+              setFinalQuestions={setFinalQuestions}
+              questionProp={value}
+              resetQuestion={resetQuestion}
+              questionId={value.questionId}
+              selectAll={selectAll}
+            />
+          );
+        })}
     </div>
   );
 }

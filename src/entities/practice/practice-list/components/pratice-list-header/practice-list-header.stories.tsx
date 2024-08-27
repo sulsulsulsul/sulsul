@@ -14,5 +14,14 @@ export const Default = {
   args: {
     setFilter: () => {},
     setHint: () => {},
+    setPage: () => {},
+    setSelectAll: () => {},
+    selectAll: false,
   },
 } satisfies Story;
+
+// setFilter: Dispatch<SetStateAction<FilterType>>;
+// setHint: Dispatch<SetStateAction<HintType>>;
+// setPage: Dispatch<SetStateAction<number>>;
+// setSelectAll: Dispatch<SetStateAction<boolean>>;
+// selectAll: boolean;

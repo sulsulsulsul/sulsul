@@ -1,11 +1,9 @@
 'use server';
 
-import { useParams } from 'next/navigation';
-
-import PracticeList from '@/entities/practice/practice-list';
+import { PracticeHistory } from '@/views/practice-history';
 
 const Page = async () => {
-  return <PracticeList />;
+  return <PracticeHistory />;
 };
 
 export default Page;

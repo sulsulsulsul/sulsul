@@ -34,7 +34,8 @@ export interface PracticeQuestionListType {
 }
 
 export interface SearchParam {
-  practiceStatus: 'ALL' | 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+  practiceStatus?: 'ALL' | 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+  userId?: number;
   hint?: string;
   star?: boolean;
   page?: number;
