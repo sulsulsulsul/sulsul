@@ -1,3 +1,4 @@
+import { FeedbackDTO } from './feedback';
 import { KeywordDTO } from './keyword';
 
 export interface ModalQuestionType {
@@ -9,7 +10,7 @@ export interface ModalQuestionType {
   keywords: KeywordDTO[];
 }
 
-export interface QuestionDetailType {
+export interface QuestionSearchType {
   questionId: number;
   content: string;
   practiceStatus: 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
@@ -30,7 +31,7 @@ export interface PracticeQuestionListType {
   size: number;
   totalPage: number;
   totalCount: number;
-  contents: QuestionDetailType[];
+  contents: QuestionSearchType[];
 }
 
 export interface SearchParam {
@@ -40,4 +41,22 @@ export interface SearchParam {
   star?: boolean;
   page?: number;
   size?: number;
+}
+
+export interface ModalQuestionDetail {
+  content: string;
+  baseStartIndex: number;
+  baseEndIndex: number;
+  answer: string;
+  isAnswered: boolean;
+  isStar: boolean;
+  isHint: boolean;
+  practiceCount: number;
+  practiceTime: number;
+  hint: boolean;
+  star: boolean;
+  practiceStatus: 'NOT_PRACTICE' | 'ANSWER' | 'NOT_ANSWER';
+  lastPracticeAt: string;
+  feedback: FeedbackDTO[];
+  keywords: KeywordDTO[];
 }

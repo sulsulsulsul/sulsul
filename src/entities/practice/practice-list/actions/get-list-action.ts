@@ -2,7 +2,7 @@
 
 import {
   PracticeQuestionListType,
-  QuestionDetailType,
+  QuestionSearchType,
   SearchParam,
 } from '@/entities/types/question';
 import { API_ENDPOINT } from '@/lib/backend-api/api-end-point';

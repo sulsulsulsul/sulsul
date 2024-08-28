@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ArchiveDetailDTO } from '@/entities/types';
 import { cn } from '@/lib/utils';
 
-import { usePracticeQuestions } from '../../hooks/use-get-questions';
+import { usePracticeQuestions } from '../../hooks/use-get-modal-questions';
 
 interface ResumeSelection {
   title: string;
@@ -28,6 +28,7 @@ export default function MyResumeSelection({
   archiveId,
 }: ResumeSelection) {
   const [checked, setChecked] = useState(false);
+
   useEffect(() => {
     resetChecked && setChecked(false);
     if (selectAll) {

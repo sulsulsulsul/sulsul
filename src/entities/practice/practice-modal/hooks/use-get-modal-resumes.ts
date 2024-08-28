@@ -2,7 +2,7 @@
 
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { getPracticeResume } from '../actions/get-resume';
+import { getPracticeResume } from '../actions/get-modal-resume';
 
 export const ResumeListQueryOptions = () =>
   queryOptions({

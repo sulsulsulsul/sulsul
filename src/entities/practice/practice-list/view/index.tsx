@@ -4,10 +4,9 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/pagination';
 import { Button } from '@/components/ui/button';
 import PracticeSectionHeader from '@/entities/dashboard/components/practice-section-header';
-import { QuestionDetailType } from '@/entities/types/question';
+import { QuestionSearchType } from '@/entities/types/question';
 import { useUserStore } from '@/store/client';
 import { usePracticeStore } from '@/store/practiceStore';
 
@@ -15,16 +14,25 @@ import { useCreatePractice } from '../../practice-modal/hooks';
 import { FilterType, HintType, QuestionState } from '../../types';
 import PracticeListItem from '../components/practice-list-item';
 import { PracticeListTab } from '../components/practice-list-tab';
+import { Practicepagination } from '../components/practice-pagination';
 import PracticeListHeader from '../components/pratice-list-header';
 import { useAllPracticeList } from '../hook/use-get-all-practice-list';
 import { usePracticeList } from '../hook/use-get-practice-list';
+
+export interface QuestionCollection {
+  select: boolean;
+  page: number;
+  list: QuestionSearchType[];
+}
+
+let collect: QuestionCollection[] = [];
 
 export default function PracticeList() {
   const [filter, setFilter] = useState<FilterType>('recent');
   const [hint, setHint] = useState<HintType>('default');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedQuestionList, setSelectedQuestionList] = useState<
-    QuestionDetailType[]
+    QuestionSearchType[]
   >([]);
   const [tabChange, setTabChange] = useState<QuestionState>('ALL');
   const [selectAll, setSelectAll] = useState(false);
@@ -34,15 +42,15 @@ export default function PracticeList() {
   const { questionsList } = usePracticeList({
     practiceStatus: tabChange,
     page: currentPage - 1,
-    size: 6,
+    size: 20,
     userId: auth.userId,
     hint: hint,
   });
-  // const {data} = useQuery({
-  //   queryKey: ['practiceCount'],
-  //   queryFn: () => getPrefecthList(),
-  // })
-  // console.log("a",data?.countAll)
+
+  useEffect(() => {
+    !collect[currentPage - 1] && setSelectAll(false);
+    setSelectedQuestionList([]);
+  }, [currentPage, tabChange]);
 
   const { list, isSuccess } = useAllPracticeList();
 
@@ -58,37 +66,34 @@ export default function PracticeList() {
       )
     : { countAnswer: 0, countNotAnswer: 0 };
 
-  const handleSortByFilter = (value: QuestionDetailType[]) => {
+  const handleSortByFilter = (value: QuestionSearchType[]) => {
     if (filter === 'recent') {
-      return value.sort((a: QuestionDetailType, b: QuestionDetailType) => {
+      return value.sort((a: QuestionSearchType, b: QuestionSearchType) => {
         return (
           new Date(b.lastPracticeAt).valueOf() -
           new Date(a.lastPracticeAt).valueOf()
         );
       });
     } else if (filter === 'old') {
-      return value.sort((a: QuestionDetailType, b: QuestionDetailType) => {
+      return value.sort((a: QuestionSearchType, b: QuestionSearchType) => {
         return (
           new Date(a.lastPracticeAt).valueOf() -
           new Date(b.lastPracticeAt).valueOf()
         );
       });
     } else if (filter === 'leastCount') {
-      return value.sort((a: QuestionDetailType, b: QuestionDetailType) => {
+      return value.sort((a: QuestionSearchType, b: QuestionSearchType) => {
         return a.practiceCount - b.practiceCount;
       });
     } else if (filter === 'mostCount') {
-      return value.sort((a: QuestionDetailType, b: QuestionDetailType) => {
+      return value.sort((a: QuestionSearchType, b: QuestionSearchType) => {
         return b.practiceCount - a.practiceCount;
       });
     }
   };
+
   const modifiedByFilter =
     questionsList && handleSortByFilter(questionsList.contents);
-
-  useEffect(() => {
-    setSelectAll(false);
-  }, [currentPage, tabChange, hint]);
 
   const { setStore } = usePracticeStore();
 
@@ -97,7 +102,14 @@ export default function PracticeList() {
   const router = useRouter();
 
   const handlePractice = async () => {
-    selectedQuestionList;
+    collect[currentPage - 1] = {
+      list: selectedQuestionList,
+      page: currentPage - 1,
+      select: selectAll,
+    };
+    const finalList = collect.flatMap((item) => item.list);
+    const ids = finalList.map((value) => value.questionId);
+    // await usePracticeDetail(ids)
     await mutation.mutate(
       selectedQuestionList.flatMap((value) => value.questionId),
       {
@@ -110,12 +122,12 @@ export default function PracticeList() {
             practiceId: data,
           }),
             router.push('/practice/ing');
+          collect = [];
         },
       },
     );
   };
 
-  //TODO COUNT ALL where to get
   return (
     <section className="flex w-[1200px] flex-col">
       <div className="mb-8 flex w-full flex-row justify-between">
@@ -147,7 +159,10 @@ export default function PracticeList() {
         </Button>
       </div>
       <PracticeListHeader
+        setSelectQuestionList={setSelectedQuestionList}
         setPage={setCurrentPage}
+        collect={collect}
+        page={currentPage}
         setSelectAll={setSelectAll}
         setFilter={setFilter}
         setHint={setHint}
@@ -158,6 +173,8 @@ export default function PracticeList() {
           modifiedByFilter.map((value) => {
             return (
               <PracticeListItem
+                collect={collect}
+                page={currentPage}
                 key={value.questionId}
                 selectAll={selectAll}
                 question={value}
@@ -167,10 +184,14 @@ export default function PracticeList() {
           })}
       </div>
       <div className="fixed bottom-0 left-0 h-[60px] w-screen justify-center bg-gray-50 pt-3.5">
-        <PaginationDemo
+        <Practicepagination
           currentPage={currentPage}
+          selectAll={selectAll}
           setCurrentPage={setCurrentPage}
           totalPage={questionsList?.totalPage!}
+          setSelectQuestion={setSelectedQuestionList}
+          collect={collect}
+          list={selectedQuestionList}
         />
       </div>
     </section>

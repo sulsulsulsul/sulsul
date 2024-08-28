@@ -15,11 +15,11 @@ export const Default = {
     question: {
       archive: {
         archiveId: 0,
-        companyName: '',
-        title: '',
+        companyName: '술술',
+        title: '술술제목',
       },
       questionId: 0,
-      content: '',
+      content: '이력서 컨텐츠',
       practiceStatus: 'NOT_PRACTICE',
       practiceCount: 0,
       practiceTime: 0,
@@ -29,6 +29,8 @@ export const Default = {
     },
     selectAll: false,
     setSelectQuestion: () => {},
+    collect: [],
+    page: 0,
   },
 } satisfies Story;
 export const Active = {
@@ -36,19 +38,21 @@ export const Active = {
     question: {
       archive: {
         archiveId: 0,
-        companyName: '',
-        title: '',
+        companyName: '술술',
+        title: '술술제목',
       },
       questionId: 0,
-      content: '',
+      content: '이력서 컨텐츠',
       practiceStatus: 'NOT_PRACTICE',
       practiceCount: 0,
       practiceTime: 0,
-      hint: false,
-      star: false,
+      hint: true,
+      star: true,
       lastPracticeAt: '',
     },
-    selectAll: false,
+    selectAll: true,
     setSelectQuestion: () => {},
+    collect: [],
+    page: 0,
   },
 } satisfies Story;

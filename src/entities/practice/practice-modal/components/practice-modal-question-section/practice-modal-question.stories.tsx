@@ -11,7 +11,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
-    selectedArchiveIds: [],
+    selectedArchiveIds: [1, 2, 3],
     resetQuestion: false,
     setFinalList: () => {},
     resetQuestionList: () => {},

@@ -11,7 +11,7 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { ModalQuestionType } from '@/entities/types/question';
 
-import { usePracticeQuestions } from '../../hooks/use-get-questions';
+import { usePracticeQuestions } from '../../hooks/use-get-modal-questions';
 import PracticeModalQuestionItems from './question-modal-items';
 
 interface QuestionDetail {
@@ -31,7 +31,7 @@ export default function QuestionSelection({
   answerFilter,
   hintFilter,
 }: QuestionDetail) {
-  const { questions, isSuccess } = usePracticeQuestions(archiveId);
+  const { questions } = usePracticeQuestions(archiveId);
 
   const handleFilter = useCallback(
     (list: ModalQuestionType[]) => {
@@ -45,12 +45,12 @@ export default function QuestionSelection({
   );
 
   const modifiedQuestionByFilter =
-    (questions && answerFilter) || hintFilter
+    questions && (answerFilter || hintFilter)
       ? handleFilter(questions!.questions.flat())
       : questions?.questions;
 
   useEffect(() => {
-    if ((questions && answerFilter) || hintFilter) {
+    if (questions && (answerFilter || hintFilter)) {
       setFinalQuestions((prev) => {
         return handleFilter(prev);
       });
@@ -58,7 +58,7 @@ export default function QuestionSelection({
   }, [answerFilter, hintFilter]);
 
   return (
-    <div className="">
+    <>
       {modifiedQuestionByFilter &&
         modifiedQuestionByFilter.map((value) => {
           return (
@@ -72,6 +72,6 @@ export default function QuestionSelection({
             />
           );
         })}
-    </div>
+    </>
   );
 }

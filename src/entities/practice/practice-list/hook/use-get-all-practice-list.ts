@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { SearchParam } from '@/entities/types/question';
 
-import { getPrefecthList } from '../actions/getPrefetch';
+import { getPrefecthList } from '../actions/get-prefetch-action';
 
 export const useAllPracticeList = () => {
   const result = useQuery({

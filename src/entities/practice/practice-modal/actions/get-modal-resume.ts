@@ -19,7 +19,7 @@ export const getPracticeResume = async () => {
 
   // 각 페이지의 아카이브를 합쳐서 반환
   //const allResume = allArchives.flatMap((archive) => archive.archives);
-
+  //FIX ROBIN
   //제한 풀고
   const firstPageData = await backendApi<ArchiveListsDTO>({
     endpoint: API_ENDPOINT.archive.getArchives(0, 'desc'),

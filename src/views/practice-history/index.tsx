@@ -5,7 +5,7 @@ import {
   QueryClient,
 } from '@tanstack/react-query';
 
-import { getPrefecthList } from '@/entities/practice/practice-list/actions/getPrefetch';
+import { getPrefecthList } from '@/entities/practice/practice-list/actions/get-prefetch-action';
 import PracticeList from '@/entities/practice/practice-list/view';
 import { cn } from '@/lib/utils';
 interface PracticeHistoryProps extends HTMLAttributes<HTMLDivElement> {}

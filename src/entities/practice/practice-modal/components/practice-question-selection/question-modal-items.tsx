@@ -4,13 +4,12 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { Checkbox } from '@/components/ui/checkbox';
-import { ArchiveQuestionItem } from '@/entities/types';
 import {
   ModalQuestionType,
-  QuestionDetailType,
+  QuestionSearchType,
 } from '@/entities/types/question';
 
-interface QuestionDetail {
+interface QuestionDetailProp {
   resetQuestion: boolean;
   questionId: number;
   selectAll: CheckedState;
@@ -24,7 +23,7 @@ export default function PracticeModalQuestionItems({
   selectAll,
   questionId,
   questionProp,
-}: QuestionDetail) {
+}: QuestionDetailProp) {
   const [checked, setChecked] = useState<CheckedState>(false);
   useEffect(() => {
     resetQuestion && setChecked(false);
@@ -38,7 +37,7 @@ export default function PracticeModalQuestionItems({
   }, [resetQuestion, selectAll]);
 
   return (
-    <div className="flex h-[68px] w-full flex-row items-center gap-[12px] border border-gray-100 bg-white py-[24px] pl-[24px] pr-[48px]">
+    <div className="flex h-[68px] w-full flex-row items-center  gap-[12px] border border-gray-100 bg-white  pl-[24px] pr-[48px]">
       <Checkbox
         className="m-[10px] size-5 p-[2px]"
         checked={checked}
@@ -53,7 +52,7 @@ export default function PracticeModalQuestionItems({
           setChecked(check);
         }}
       />
-      <div className="truncate">{questionProp.content}</div>
+      <div className="h-fit w-full">{questionProp.content}</div>
     </div>
   );
 }

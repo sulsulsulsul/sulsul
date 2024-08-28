@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { SearchParam } from '@/entities/types/question';
 
-import { getSearchQuestions } from '../actions/getList';
+import { getSearchQuestions } from '../actions/get-list-action';
 
 export const usePracticeList = (props: SearchParam) => {
   const result = useQuery({

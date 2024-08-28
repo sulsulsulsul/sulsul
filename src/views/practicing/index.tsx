@@ -21,7 +21,7 @@ import {
 import { useCreatePracticeQuestion } from '@/entities/practice/practicing/hooks/use-create-practice-question';
 import {
   ModalQuestionType,
-  QuestionDetailType,
+  QuestionSearchType,
 } from '@/entities/types/question';
 import { useUserStore } from '@/store/client';
 import {

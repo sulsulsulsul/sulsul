@@ -17,11 +17,8 @@ export const Default = {
     setPage: () => {},
     setSelectAll: () => {},
     selectAll: false,
+    collect: [],
+    setSelectQuestionList: () => {},
+    page: 0,
   },
 } satisfies Story;
-
-// setFilter: Dispatch<SetStateAction<FilterType>>;
-// setHint: Dispatch<SetStateAction<HintType>>;
-// setPage: Dispatch<SetStateAction<number>>;
-// setSelectAll: Dispatch<SetStateAction<boolean>>;
-// selectAll: boolean;

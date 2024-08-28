@@ -74,7 +74,7 @@ export default function PracticeModalQuestionSection({
                       }
                       checked={answerFilter}
                     />
-                    답변못한 질문만
+                    답변 못한 질문만
                   </label>
                 </div>
                 <div className="flex h-[46px] w-full flex-row items-center">
@@ -138,7 +138,7 @@ export default function PracticeModalQuestionSection({
         </div>
       </section>
       <section>
-        <div className="flex h-[68px] w-1/2 items-center border border-gray-100 pl-[24px] text-base">
+        <div className="flex h-[68px] w-full items-center border border-gray-100 pl-[24px] text-base">
           <label htmlFor={'questions'}>
             <Checkbox
               id="questions"
