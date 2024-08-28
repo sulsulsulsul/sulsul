@@ -34,7 +34,7 @@ export const ArchiveContent = ({
         />
         <span>내 자기 소개서</span>
       </h2>
-      <div className="mt-[18px] size-full rounded-md border border-gray-200 bg-white p-[28px] shadow-base">
+      <div className="mt-[18px] flex size-full flex-col gap-2 rounded-md border border-gray-200 bg-white p-[28px] shadow-base">
         <div className="flex size-full flex-col justify-between gap-3">
           <div className="w-fit rounded-sm bg-gray-100 px-3 py-2 text-sm font-medium text-gray-600">
             {companyName}
@@ -48,11 +48,11 @@ export const ArchiveContent = ({
             </div>
           </div>
         </div>
-        <div className="text-2xs font-semibold">
+        <div className="text-sm font-semibold">
           <span className="text-gray-600">{resume.length}</span>
           <span className="text-gray-400">/2000자</span>
         </div>
-        <ActionButtons status={status} className="mt-4" />
+        <ActionButtons status={status} />
       </div>
     </div>
   );
