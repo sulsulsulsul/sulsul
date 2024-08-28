@@ -132,7 +132,6 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           </AlertDialogContent>
         </AlertDialog>
       );
-    return <div aria-label="user status loading">...loading</div>;
   };
 
   return (

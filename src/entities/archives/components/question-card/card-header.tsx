@@ -73,7 +73,7 @@ export const CardHeader = ({
 
   return (
     <div className={cn(className)} {...props}>
-      <div className="flex w-full items-center justify-start gap-2 border-none">
+      <div className="my-1 flex w-full items-center justify-start gap-2 border-none">
         <div
           className={`size-[9.6px] min-w-[9.6px] rounded-full ${answeredIconClass}`}
         />
@@ -89,7 +89,7 @@ export const CardHeader = ({
         />
       </div>
       {!isAccodionOpen && (
-        <div className="mt-2 flex flex-wrap items-center gap-1">
+        <div className="ml-3 flex flex-wrap items-center gap-1">
           <KeywordSet keywords={keywords} isHeader />
         </div>
       )}
