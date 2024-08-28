@@ -42,11 +42,18 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    withdrawUser: (id: number) => {
+      return {
+        url: `/api/v1/users/${id}/withdraw`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
   },
   archive: {
-    getArchives: (page: number) => {
+    getArchives: (page: number, sortType: 'asc' | 'desc') => {
       return {
-        url: `${API_V1_BASE}/archives?page=${page}`,
+        url: `${API_V1_BASE}/archives?page=${page}&direction=${sortType}`,
         method: Method.GET,
         authorization: true,
       };

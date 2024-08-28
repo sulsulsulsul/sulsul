@@ -21,14 +21,15 @@ export const LoadedStatus = ({
 }: LoadedInterviewQuestionProps) => {
   return (
     <div className={cn('h-full', className)} {...props}>
-      <div className="flex size-full flex-col gap-3">
-        {data.map((question, i) => (
+      <div className="flex size-full flex-col gap-3 p-[10px]">
+        {data.map((question) => (
           <QuestionCard
-            key={i}
+            key={question.questionId}
             data={question}
             archiveId={archiveId}
             isClicked={clickedQuestions.includes(question.questionId)}
             setClickedQuestions={setClickedQuestions}
+            className="rounded-md border border-gray-200 shadow-base"
           />
         ))}
       </div>

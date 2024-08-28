@@ -1,9 +1,9 @@
-'use client'
+'use client';
 
-import { ArchiveListView } from '@/entities/archives/views/archive-list-view'
+import { ArchiveListView } from '@/entities/archives/views/archive-list-view';
 
 const Page = () => {
-  return <ArchiveListView />
-}
+  return <ArchiveListView />;
+};
 
-export default Page
+export default Page;

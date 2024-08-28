@@ -1,22 +1,22 @@
-import { HTMLAttributes } from 'react'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { HTMLAttributes } from 'react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-import { DesktopHeaderLinks } from '@/config/constants/navigation-links'
-import { cn } from '@/lib/utils'
+import { DesktopHeaderLinks } from '@/config/constants/navigation-links';
+import { cn } from '@/lib/utils';
 interface HeaderNavigationProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const HeaderNavigation = ({
   className,
   ...props
 }: HeaderNavigationProps) => {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <div className={cn('flex items-center', className)} {...props}>
       {DesktopHeaderLinks.map((link) => {
-        const isEqual = pathname === link.link
-        const isActive = isEqual
+        const isEqual = pathname === link.link;
+        const isActive = isEqual;
         return (
           <Link
             aria-label={isActive ? `active ${link.label}` : link.label}
@@ -33,8 +33,8 @@ export const HeaderNavigation = ({
           >
             {link.label}
           </Link>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};

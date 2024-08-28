@@ -2,10 +2,8 @@
 
 import { HTMLAttributes } from 'react';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { APP_ROUTES } from '@/config/constants/app-routes';
 import { ArchiveFeedbackStatus } from '@/entities/types';
 import { cn } from '@/lib/utils';
 interface ActionButtonsProps extends HTMLAttributes<HTMLDivElement> {
@@ -17,16 +15,11 @@ export const ActionButtons = ({
   status,
   ...props
 }: ActionButtonsProps) => {
-  const router = useRouter();
-  const handleNew = () => {
-    router.push(APP_ROUTES.createArchive());
-  };
-
   return (
     <div className={cn('flex items-center gap-2', className)} {...props}>
       <Button
-        onClick={handleNew}
-        className="gap-2 px-8 text-gray-600"
+        disabled={true}
+        className="gap-2 px-8 text-gray-600 disabled:opacity-100"
         variant="outline"
       >
         <Image

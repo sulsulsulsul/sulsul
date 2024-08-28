@@ -1,9 +1,9 @@
-'use client'
-import { HTMLAttributes } from 'react'
+'use client';
+import { HTMLAttributes } from 'react';
 
-import { DesktopHeader } from './desktop-header'
-import { HeaderAnimation } from './desktop-header/header-animation'
-import { MobileHeader } from './mobile-header'
+import { DesktopHeader } from './desktop-header';
+import { HeaderAnimation } from './desktop-header/header-animation';
+import { MobileHeader } from './mobile-header';
 interface HeaderProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Header = ({ className, ...props }: HeaderProps) => {
@@ -14,5 +14,5 @@ export const Header = ({ className, ...props }: HeaderProps) => {
         <MobileHeader className="flex sm:hidden" />
       </div>
     </HeaderAnimation>
-  )
-}
+  );
+};

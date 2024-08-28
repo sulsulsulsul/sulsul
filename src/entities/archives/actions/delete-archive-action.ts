@@ -7,7 +7,7 @@ export interface DeleteArchiveActionRequest {
   id: number;
 }
 
-export const deleteArchiveAction = async (id: number) => {
+export const deleteArchiveAction = (id: number) => {
   return backendApi<void>({
     endpoint: API_ENDPOINT.archive.deleteArchive(id),
   });

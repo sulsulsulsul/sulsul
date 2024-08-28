@@ -1,4 +1,4 @@
-import { HTMLAttributes, useState } from 'react';
+import { HTMLAttributes } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -38,11 +38,7 @@ interface DesktopHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
   const { status } = useCurrentUser();
   const { pause } = useVideoStateStore();
-  const { nickname, email, image } = useUserStore((state) => ({
-    nickname: state.data.nickname,
-    email: state.data.email,
-    image: state.image,
-  }));
+  const { data, image } = useUserStore();
 
   const renderLoginState = () => {
     if (status === 'authenticated')
@@ -57,7 +53,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
                   src={image ? image : '/images/suri-profile.svg'}
                 />
               </div>
-              <span>{nickname}</span>
+              <span>{data.nickname}</span>
               <ChevronDown className="ml-2 text-gray-500" width={16} />
             </div>
           </DropdownMenuTrigger>
@@ -73,36 +69,36 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
                 </div>
                 <div className="flex flex-col">
                   <span className="text-lg font-semibold text-gray-900">
-                    {nickname ?? 'no name'}
+                    {data.nickname ?? 'no name'}
                   </span>
                   <span className="text-sm font-normal text-gray-600">
-                    {email ?? 'no email'}
+                    {data.email ?? 'no email'}
                   </span>
                 </div>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="px-5 py-4 text-base font-medium">
-              <div className="flex w-full justify-between">
-                <Link
-                  href={APP_ROUTES.my()}
-                  className="flex items-center gap-2"
-                >
-                  <Image
-                    width={24}
-                    height={24}
-                    src={'/images/icons/user.svg'}
-                    alt=""
-                  />
-                  <span>마이페이지</span>
-                </Link>
-                <ChevronRight className="text-gray-400" />
-              </div>
-            </DropdownMenuItem>
+            <Link href={APP_ROUTES.my()}>
+              <DropdownMenuItem className="flex cursor-pointer px-5 py-4 text-base font-medium">
+                <div className="flex w-full justify-between">
+                  <div className="flex items-center gap-2">
+                    <Image
+                      width={24}
+                      height={24}
+                      src={'/images/icons/user.svg'}
+                      alt=""
+                    />
+                    <span>마이페이지</span>
+                  </div>
+
+                  <ChevronRight className="text-gray-400" />
+                </div>
+              </DropdownMenuItem>
+            </Link>
             <DropdownMenuItem
-              className="gap-2 px-5 py-4 text-base font-medium"
+              className="cursor-pointer gap-2 px-5 py-4 text-base font-medium"
               onClick={() => {
-                signOut();
+                signOut({ callbackUrl: '/' });
               }}
             >
               <Image
@@ -136,7 +132,6 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           </AlertDialogContent>
         </AlertDialog>
       );
-    return <div aria-label="user status loading">...loading</div>;
   };
 
   return (

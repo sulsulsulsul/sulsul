@@ -1,2 +1,2 @@
-export * from './create-feedback-action'
-export * from './get-feedback-detail-action'
+export * from './create-feedback-action';
+export * from './get-feedback-detail-action';

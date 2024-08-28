@@ -9,7 +9,7 @@ export interface UpdateQuestionParams {
   content: string;
 }
 
-export const updateQuestionAction = async ({
+export const updateQuestionAction = ({
   questionId,
   accessToken,
   content,

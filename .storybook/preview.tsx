@@ -1,16 +1,16 @@
-import React from 'react'
-import localFont from 'next/font/local'
-import { Session } from 'next-auth'
-import type { Preview } from '@storybook/react'
-import { QueryClient } from '@tanstack/react-query'
+import React from 'react';
+import localFont from 'next/font/local';
+import { Session } from 'next-auth';
+import type { Preview } from '@storybook/react';
+import { QueryClient } from '@tanstack/react-query';
 
-import { Providers } from '../src/app/providers'
+import { Providers } from '../src/app/providers';
 
-import '../src/app/globals.css'
+import '../src/app/globals.css';
 export const pretendard = localFont({
   src: '../fonts/PretendardVariable.woff2',
   variable: '--font-pretendard',
-})
+});
 
 const preview: Preview = {
   tags: ['autodocs'],
@@ -26,19 +26,19 @@ const preview: Preview = {
             retry: false,
           },
         },
-      })
+      });
       const mockSession: Session = {
         user: {
           name: 'John Doe',
           email: 'sangmin4208@gmail.com',
         },
         expires: '2029-01-01T00:00:00Z',
-      }
+      };
       return (
         <Providers session={mockSession} queryClient={queryClient}>
           <Story />
         </Providers>
-      )
+      );
     },
   ],
   parameters: {
@@ -52,6 +52,6 @@ const preview: Preview = {
       },
     },
   },
-}
+};
 
-export default preview
+export default preview;

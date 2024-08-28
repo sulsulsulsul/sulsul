@@ -79,7 +79,7 @@
 .size-full > .space-y-2 > :not([hidden]) ~ :not([hidden]) {
   float: right;
   margin-bottom: -10px;
-  margin-top: 10px;
+  margin-top: 8px;
 }
 
 @keyframes spin {
@@ -97,4 +97,22 @@
 
 .animate-pulse {
   animation: pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes backgroundFlow {
+  0% {
+    background-position: 100% 0;
+  }
+  50% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% 0;
+  }
+}
+
+.bg-animated {
+  @apply bg-gradient-to-r from-blue-500 to-[#4BF5CC] text-white;
+  background-size: 200% 100%;
+  animation: backgroundFlow 3s linear infinite;
 }

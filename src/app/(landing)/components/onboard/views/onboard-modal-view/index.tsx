@@ -12,26 +12,24 @@ import { ListDialog } from '../../components/list-dialog';
 import { DialogListProp, OnBoardProp } from '../../types/onboard';
 
 export const OnboardModal = () => {
-  const { nickname } = useUserStore((state) => ({
+  const { nickname, firstLogin } = useUserStore((state) => ({
     nickname: state.data.nickname,
+    firstLogin: state.data.firstLogin,
   }));
   const [buttonDisable, setButtonDisable] = useState<boolean>(true);
-  const [step, setStep] = useState<number>(0);
-  const [dialogNumber, setDialogNumber] = useState<number>(0);
-  const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible');
-  const descriptionText = buttonDisable ? 'text-gray-500' : 'text-blue-500';
-  const { pause, restart } = useVideoStateStore();
 
-  useEffect(() => {
-    pause();
-    const timerId = setInterval(() => {
-      setStep((prev) => (prev += 1));
-    }, 1000);
-    setTimeout(() => {
-      clearInterval(timerId);
-      setButtonDisable(false);
-    }, 1000 * dialog[dialogNumber].messageListProp.length);
-  }, [dialogNumber]);
+  const [step, setStep] = useState<number>(0);
+
+  const [dialogNumber, setDialogNumber] = useState<number>(0);
+
+  const [hidden, setHidden] = useState(false);
+
+  const [visibility, setVisibility] = useState<'hidden' | 'visible'>('visible');
+
+  const descriptionText = buttonDisable ? 'text-gray-500' : 'text-blue-500';
+
+  //랜딩 페이지 비디오 멈추기
+  const { pause, restart } = useVideoStateStore();
 
   const dialog: OnBoardProp[] = [
     {
@@ -50,7 +48,6 @@ export const OnboardModal = () => {
             ],
           ],
           id: 'greeting',
-          hidden: false,
           iconMessage: '/images/hand-wave.svg',
           firstDialog: true,
         },
@@ -76,7 +73,6 @@ export const OnboardModal = () => {
             ],
           ],
           id: 'gretting',
-          hidden: false,
         },
       ],
       buttonText: '그렇구나, 만나서 반가워!',
@@ -94,7 +90,6 @@ export const OnboardModal = () => {
           ],
           id: 'explaination',
           iconMessage: '/images/sul-logo.png',
-          hidden: false,
           firstDialog: true,
         },
         {
@@ -125,7 +120,7 @@ export const OnboardModal = () => {
                 className: 'font-bold',
               },
               {
-                message: '해요',
+                message: '해요.',
                 className: 'font-normal',
               },
             ],
@@ -135,7 +130,7 @@ export const OnboardModal = () => {
                 className: 'font-normal',
               },
               {
-                message: '면접 기출문제를 풀어요',
+                message: '면접 기출문제를 풀어요.',
                 className: 'font-bold',
               },
             ],
@@ -158,64 +153,88 @@ export const OnboardModal = () => {
     },
   ];
 
+  useEffect(() => {
+    setHidden(false);
+    visibility === 'visible' && pause();
+    const timerId = setInterval(() => {
+      if (step <= dialog[dialogNumber].messageListProp.length) {
+        setStep((prev) => (prev += 1));
+      }
+    }, 800);
+    setTimeout(() => {
+      setButtonDisable(false);
+      clearInterval(timerId);
+    }, 800 * dialog[dialogNumber].messageListProp.length);
+  }, [dialogNumber]);
+
   const initialize = () => {
+    setHidden(true);
+    setStep(0);
     setButtonDisable(true);
     setDialogNumber(1);
-    setStep(0);
   };
+
   const handleClose = () => {
     restart();
     setVisibility('hidden');
   };
 
   return (
-    <div
-      className={cn(
-        'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80',
-        visibility,
-      )}
-    >
-      <div className="left-[40rem] z-[60] flex h-[32.75rem] w-[27rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
-        <div className="mb-3 flex w-full flex-col self-start">
-          <div className="mb-3 flex size-full justify-between">
-            <AvatarSuri></AvatarSuri>
-            <div className="my-2.5 text-2xl">
-              <span className="text-gray-500">{`${dialogNumber + 1}`}</span>{' '}
-              <span className="text-gray-300">/2</span>
+    firstLogin && (
+      <div
+        className={cn(
+          'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80',
+          visibility,
+        )}
+      >
+        <div className="left-[40rem] z-[60] flex h-[32.75rem] w-[27rem] flex-col items-center justify-between rounded-md bg-white  px-[46px] py-[42px]">
+          <div className=" flex w-full flex-col self-start">
+            <div className="mb-3 flex size-full justify-between">
+              <AvatarSuri></AvatarSuri>
+              <div className="my-2.5 text-2xl">
+                <span className="text-gray-500">{`${dialogNumber + 1}`}</span>
+                <span className="text-gray-300">/2</span>
+              </div>
+            </div>
+            <div className="flex flex-col gap-2.5">
+              {dialog &&
+                dialog[dialogNumber].messageListProp &&
+                dialog[dialogNumber].messageListProp.map(
+                  (value: DialogListProp, index: number) => {
+                    return (
+                      <ListDialog
+                        firstDialog={value.firstDialog}
+                        key={index}
+                        dialogContents={value.dialogContents}
+                        id={value.id}
+                        iconMessage={value.iconMessage}
+                        visible={step >= index}
+                        hidden={hidden}
+                      />
+                    );
+                  },
+                )}
             </div>
           </div>
-          <div className="flex flex-col gap-2.5">
-            {dialog &&
-              dialog[dialogNumber].messageListProp &&
-              dialog[dialogNumber].messageListProp.map(
-                (value: DialogListProp, index: number) => {
-                  return (
-                    <ListDialog
-                      firstDialog={value.firstDialog}
-                      key={index}
-                      dialogContents={value.dialogContents}
-                      id={value.id}
-                      iconMessage={value.iconMessage}
-                      hidden={index === 0 || index <= step ? false : true}
-                    />
-                  );
-                },
-              )}
+          <div
+            className={`mt-[37px] flex w-[340px] flex-col gap-2 ${descriptionText}`}
+          >
+            {dialogNumber === 1 && (
+              <div className="mx-[11px] text-sm font-semibold tracking-tight">
+                * 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.
+              </div>
+            )}
+            <Button
+              className="w-full text-lg font-bold"
+              variant="default"
+              disabled={buttonDisable}
+              onClick={dialogNumber === 0 ? initialize : handleClose}
+            >
+              {dialog[dialogNumber].buttonText}
+            </Button>
           </div>
         </div>
-        <div className={`flex flex-col  gap-2  text-[14px] ${descriptionText}`}>
-          {dialogNumber === 1 &&
-            '* 작성내용과 데이터는 외부에 공유되지 않으니 안심하세요.'}
-          <Button
-            className="w-[340px]"
-            variant="default"
-            disabled={buttonDisable}
-            onClick={dialogNumber === 0 ? initialize : handleClose}
-          >
-            {dialog[dialogNumber].buttonText}
-          </Button>
-        </div>
       </div>
-    </div>
+    )
   );
 };

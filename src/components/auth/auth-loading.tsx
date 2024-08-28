@@ -1,12 +1,12 @@
-'use client'
-import { PropsWithChildren } from 'react'
-import { useSession } from 'next-auth/react'
+'use client';
+import { PropsWithChildren } from 'react';
+import { useSession } from 'next-auth/react';
 interface AuthLoadingProps extends PropsWithChildren {}
 
 export const AuthLoading = ({ children }: AuthLoadingProps) => {
-  const { status } = useSession()
+  const { status } = useSession();
   if (status !== 'loading') {
-    return null
+    return null;
   }
-  return <>{children}</>
-}
+  return <>{children}</>;
+};

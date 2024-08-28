@@ -5,7 +5,7 @@ import { deleteKeywordAction, DeleteKeywordActionParams } from '../actions';
 
 export const useDeleteKeyword = () => {
   return useMutation({
-    mutationFn: async (params: DeleteKeywordActionParams) => {
+    mutationFn: (params: DeleteKeywordActionParams) => {
       return deleteKeywordAction(params);
     },
     onError: () => {

@@ -2,6 +2,7 @@ import React, { HTMLAttributes, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/pagination';
 import SelectDropdown from '@/app/(routes)/archive/(list)/components/select-dropdown';
@@ -19,30 +20,19 @@ interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortType, setSortType] = useState<'asc' | 'desc'>('desc');
   const { archives, isError, isLoading, isSuccess } = useArchives(
     currentPage - 1,
+    sortType,
   );
-  const [sortType, setSortType] = useState<'recent' | 'old'>('recent');
-
   const router = useRouter();
+  const { status } = useSession();
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isError) {
-    return <div>Error</div>;
-  }
-
-  if (!isSuccess) {
-    return null;
-  }
-
-  const onChangeSortType = (value: 'recent' | 'old') => {
+  const onChangeSortType = (value: 'asc' | 'desc') => {
     setSortType(value);
   };
 
-  if (archives?.totalCount === 0) {
+  if (status === 'unauthenticated' || archives?.totalCount === 0) {
     return (
       <main>
         <div className="flex justify-between">
@@ -76,11 +66,17 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
     );
   }
 
-  const archivesArray = archives?.archives;
-  const copyArchives =
-    archivesArray && JSON.parse(JSON.stringify(archivesArray));
-  const archiveLists =
-    sortType === 'old' ? archivesArray : copyArchives?.reverse();
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  if (!isSuccess) {
+    return null;
+  }
 
   return (
     <main className="relative px-0 pt-[-60px] sm:px-[-12px] md:px-[-20px]">
@@ -97,10 +93,10 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
         </div>
         <SelectDropdown onChangeSortType={onChangeSortType} />
       </div>
-      <div className="my-4 mb-14">
-        <div className="flex flex-wrap items-center gap-6">
-          {archiveLists &&
-            archiveLists?.map((archive: ArchiveListItemDTO) => (
+      <div className="my-4 mb-14 flex items-center justify-center">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
+          {archives &&
+            archives.archives?.map((archive: ArchiveListItemDTO) => (
               <Link
                 key={archive.archiveId}
                 href={APP_ROUTES.archiveDetail(archive.archiveId)}
