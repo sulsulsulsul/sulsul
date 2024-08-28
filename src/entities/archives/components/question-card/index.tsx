@@ -35,7 +35,7 @@ export const QuestionCard = ({
 
   return (
     <div className={cn(className)} {...props}>
-      <div className="rounded-md bg-white pl-4 pr-7">
+      <div className="rounded-md bg-white pl-7 pr-4">
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1" className="border-none">
             <AccordionTrigger
@@ -45,7 +45,7 @@ export const QuestionCard = ({
               onClick={() => setIsAccodionOpen((prev) => !prev)}
             >
               <CardHeader
-                className="flex items-center justify-center py-2"
+                className="flex flex-col justify-center py-2"
                 content={content}
                 questionId={questionId}
                 keywords={keywords}
@@ -53,7 +53,7 @@ export const QuestionCard = ({
                 isAccodionOpen={isAccodionOpen}
               />
             </AccordionTrigger>
-            <AccordionContent className="pl-[20px] pt-2">
+            <AccordionContent className="pt-2">
               <CardBody
                 className="pb-5"
                 question={data}
