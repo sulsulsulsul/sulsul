@@ -1,4 +1,8 @@
-import { useQuery, UseQueryOptions } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useQuery,
+  UseQueryOptions,
+} from '@tanstack/react-query';
 
 import getStatisticsDetailAction from '../actions/get-statistics-detail-action';
 import type { Period, StatisticsDetail } from '../types';
@@ -23,6 +27,7 @@ const useStatisticsDetail = ({ params, options }: QueryParams) => {
   return useQuery({
     queryKey: getQueryKey(params),
     queryFn: () => getStatisticsDetailAction(params),
+    placeholderData: keepPreviousData,
     ...options,
   });
 };

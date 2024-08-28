@@ -3,11 +3,11 @@ import { HTMLAttributes } from 'react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 
-import { PracticeStatusChartTabType } from '../../types';
+import { Period } from '../../types';
 
 interface PracticedQuestionTabProps extends HTMLAttributes<HTMLDivElement> {
-  chartType: PracticeStatusChartTabType;
-  onChangeChartType: (value: PracticeStatusChartTabType) => void;
+  chartType: Period;
+  onChangeChartType: (value: Period) => void;
 }
 
 export const PracticedStatusChartTab = ({
@@ -21,12 +21,12 @@ export const PracticedStatusChartTab = ({
       <Tabs
         value={chartType}
         onValueChange={(value) => {
-          onChangeChartType(value as PracticeStatusChartTabType);
+          onChangeChartType(value as Period);
         }}
       >
         <TabsList>
-          <TabsTrigger value="weekly">주간</TabsTrigger>
-          <TabsTrigger value="monthly">월간</TabsTrigger>
+          <TabsTrigger value="WEEKLY">주간</TabsTrigger>
+          <TabsTrigger value="MONTHLY">월간</TabsTrigger>
         </TabsList>
       </Tabs>
     </div>

@@ -1,5 +1,4 @@
 export type PracticedQuestionTabType = 'unanswered' | 'hintUsed' | 'favorite';
-export type PracticeStatusChartTabType = 'weekly' | 'monthly';
 
 export interface StatisticsSummary {
   answerCount: number;
@@ -12,4 +11,4 @@ export interface StatisticsDetail {
   count: number;
 }
 
-export type Period = 'WEEKLY' | 'MONTH';
+export type Period = 'WEEKLY' | 'MONTHLY';

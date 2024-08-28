@@ -17,15 +17,15 @@ const monthlyPlugin: Plugin = {
   afterTooltipDraw: (chart) => {
     const tooltip = chart.tooltip;
     const activeElements = tooltip!.getActiveElements();
-    if (!activeElements.length) {
-      chart.tooltip!.setActiveElements(
+    if (activeElements.length > 0 && tooltip) {
+      tooltip.setActiveElements(
         [
           {
             datasetIndex: 0,
             index: month,
           },
         ],
-        chart.tooltip!.options.callbacks!.label as any,
+        tooltip.options.callbacks!.label as any,
       );
       chart.update();
     }
@@ -33,15 +33,15 @@ const monthlyPlugin: Plugin = {
   afterDraw: (chart) => {
     const tooltip = chart.tooltip;
     const activeElements = tooltip!.getActiveElements();
-    if (!activeElements.length) {
-      chart.tooltip!.setActiveElements(
+    if (activeElements.length > 0 && tooltip) {
+      tooltip.setActiveElements(
         [
           {
             datasetIndex: 0,
             index: month,
           },
         ],
-        chart.tooltip!.options.callbacks!.label as any,
+        tooltip.options.callbacks!.label as any,
       );
       chart.update();
     }

@@ -68,7 +68,7 @@ function makeAxiosInstance() {
 export interface BackendApiParams {
   endpoint: ApiEndpoint;
   data?: Record<string, unknown>;
-  // params?: any;
+  params?: any;
   accessToken?: string;
 }
 

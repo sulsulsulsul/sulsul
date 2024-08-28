@@ -5,6 +5,7 @@ import MyPracticeStatus from '@/entities/practice/components/my-practice-status'
 import PracticeQuestions from '@/entities/practice/components/practice-questions';
 import { PracticeResultCard } from '@/entities/practice/components/practice-result-card';
 import { PracticeStartCard } from '@/entities/practice/components/practice-start-card';
+import useStatisticsDetail from '@/entities/practice/hooks/use-statistics-detail';
 import useStatisticsSummary from '@/entities/practice/hooks/use-statistics-summary';
 import PracticeSelection from '@/entities/practice-list-modal';
 import useSearchQuestions from '@/entities/questions/hooks/use-search-questions';
@@ -42,7 +43,6 @@ const Practice = ({ className, userId }: PracticeProps) => {
     !isSuccessFavoriteQuestions ||
     !isSuccessNotAnswerQuestions
   ) {
-    // TODO: loading 처리
     return null;
   }
 
@@ -59,11 +59,11 @@ const Practice = ({ className, userId }: PracticeProps) => {
         {openModal && <PracticeSelection setModal={setOpenModal} />}
         <PracticeResultCard type="good" value={statisticsSummary.answerCount} />
         <PracticeResultCard
-          type="time"
+          type="bad"
           value={statisticsSummary.notAnswerCount}
         />
         <PracticeResultCard
-          type="bad"
+          type="time"
           value={statisticsSummary.totalPracticeTime}
         />
       </section>
@@ -73,7 +73,7 @@ const Practice = ({ className, userId }: PracticeProps) => {
           hintUsedQuestions={hintUsedQuestions}
           unansweredQuestions={unansweredQuestions}
         />
-        <MyPracticeStatus />
+        <MyPracticeStatus userId={userId} />
       </section>
     </main>
   );

@@ -7,18 +7,12 @@ import { PracticedQuestionTabType } from '../../types';
 
 interface PracticedQuestionTabProps extends HTMLAttributes<HTMLDivElement> {
   selectedTab: PracticedQuestionTabType;
-  unansweredCount: number;
-  hintUsedCount: number;
-  favoriteCount: number;
   onChangeTab: (value: PracticedQuestionTabType) => void;
 }
 
 export const PracticedQuestionTab = ({
   className,
   selectedTab,
-  unansweredCount,
-  hintUsedCount,
-  favoriteCount,
   onChangeTab,
   ...props
 }: PracticedQuestionTabProps) => {
@@ -31,13 +25,9 @@ export const PracticedQuestionTab = ({
         }}
       >
         <TabsList>
-          <TabsTrigger value="unanswered">
-            답하지 못했던 {unansweredCount}
-          </TabsTrigger>
-          <TabsTrigger value="hintUsed">힌트를 본 {hintUsedCount}</TabsTrigger>
-          <TabsTrigger value="favorite">
-            즐겨 찾기한 {favoriteCount}
-          </TabsTrigger>
+          <TabsTrigger value="unanswered">답하지 못했던</TabsTrigger>
+          <TabsTrigger value="hintUsed">힌트를 본</TabsTrigger>
+          <TabsTrigger value="favorite">즐겨 찾기한</TabsTrigger>
         </TabsList>
       </Tabs>
     </div>
