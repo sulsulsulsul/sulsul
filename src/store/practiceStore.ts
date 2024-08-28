@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import { ArchiveQuestionItem } from '@/entities/types';
 import {
   ModalQuestionType,
-  QuestionDetailType,
+  QuestionSearchType,
 } from '@/entities/types/question';
 
 interface PracticeSelectionList {
@@ -48,5 +48,18 @@ export const usePracticeResultStore = create<PracticeResult>((set) => ({
       time: time,
       correct: correct,
       incorrect: incorrect,
+    })),
+}));
+
+interface FocusedQuestion {
+  focused: number;
+  setQuestionId: (questionId: number) => void;
+}
+
+export const useFocusedQuestionCard = create<FocusedQuestion>((set) => ({
+  focused: 0,
+  setQuestionId: (questionId: number) =>
+    set(() => ({
+      focused: questionId,
     })),
 }));

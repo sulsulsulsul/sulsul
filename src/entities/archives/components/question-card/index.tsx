@@ -1,6 +1,6 @@
 'use client';
 
-import { HTMLAttributes, useState } from 'react';
+import { HTMLAttributes, useEffect, useState } from 'react';
 
 import {
   Accordion,
@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/accordion';
 import { ArchiveQuestionItem } from '@/entities/types';
 import { cn } from '@/lib/utils';
+import { useFocusedQuestionCard } from '@/store/practiceStore';
 
 import { CardBody } from './card-body';
 import { CardHeader } from './card-header';
@@ -29,14 +30,21 @@ export const QuestionCard = ({
   setClickedQuestions,
   ...props
 }: QuestionCardProps) => {
-  const [isAccodionOpen, setIsAccodionOpen] = useState(false);
-
+  const { focused } = useFocusedQuestionCard();
   const { content, keywords, isAnswered, questionId } = data;
+  const [isAccodionOpen, setIsAccodionOpen] = useState(false);
+  const defaultFocused = focused === questionId ? 'item-1' : '';
+  console.log('a', isAccodionOpen);
 
   return (
     <div className={cn(className)} {...props}>
       <div className="rounded-md bg-white pl-4 pr-7">
-        <Accordion type="single" collapsible className="w-full">
+        <Accordion
+          type="single"
+          defaultValue={defaultFocused}
+          collapsible
+          className="w-full"
+        >
           <AccordionItem value="item-1" className="border-none">
             <AccordionTrigger
               questionId={questionId}

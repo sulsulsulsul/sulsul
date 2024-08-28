@@ -10,19 +10,26 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { QuestionDetailType } from '@/entities/types/question';
+import { QuestionSearchType } from '@/entities/types/question';
+import { useFocusedQuestionCard } from '@/store/practiceStore';
 
 import { useUpdateQuestionStar } from '../../hook/use-update-question-star';
+import { QuestionCollection } from '../../view';
+
 interface PracticeListItemProps {
-  question: QuestionDetailType;
+  question: QuestionSearchType;
   selectAll: boolean;
-  setSelectQuestion: Dispatch<SetStateAction<QuestionDetailType[]>>;
+  setSelectQuestion: Dispatch<SetStateAction<QuestionSearchType[]>>;
+  collect: QuestionCollection[];
+  page: number;
 }
 
 export default function PracticeListItem({
   setSelectQuestion,
   selectAll,
   question,
+  collect,
+  page,
 }: PracticeListItemProps) {
   const { mutate } = useUpdateQuestionStar();
   const [starClicked, setStarClicked] = useState(question.star);
@@ -33,15 +40,26 @@ export default function PracticeListItem({
   };
 
   useEffect(() => {
-    selectAll
-      ? (setChecked(true),
-        setSelectQuestion((prev) => {
-          return prev.some((item) => item.questionId === question.questionId)
-            ? prev
-            : [...prev, question];
-        }))
-      : (setChecked(false), setSelectQuestion([]));
+    if (collect[page - 1] && collect[page - 1].select) {
+      collect[page - 1].list.some(
+        (item) => item.questionId === question.questionId,
+      ) && (setChecked(true), setSelectQuestion((prev) => [...prev, question]));
+    } else {
+      selectAll
+        ? (setChecked(true),
+          setSelectQuestion((prev) => {
+            return prev.some((item) => item.questionId === question.questionId)
+              ? prev
+              : [...prev, question];
+          }))
+        : (setChecked(false), setSelectQuestion([]));
+    }
   }, [selectAll]);
+
+  const { setQuestionId } = useFocusedQuestionCard();
+  const handleLinkClick = async () => {
+    await setQuestionId(question.questionId);
+  };
   return (
     <div className="flex h-[118px] w-full flex-row items-center justify-between rounded-md border border-gray-100 bg-white py-[26px] pl-[24px]">
       <div className="flex items-center justify-between gap-1">
@@ -80,7 +98,6 @@ export default function PracticeListItem({
             />
           )}
         </button>
-
         <div className="ml-4 flex w-[588px] flex-col gap-2">
           <div className="truncate">{question.archive.title}</div>
           <div className="flex w-full flex-row items-center gap-[6px] text-gray-500">
@@ -113,7 +130,6 @@ export default function PracticeListItem({
             alt="icon"
           />
         )}
-
         {/* {TODO:FIX THE LINK POSSIBLE USE ROUTER PUSH WITH QUERY BEHIND  } */}
         <DropdownMenu>
           <DropdownMenuTrigger>
@@ -124,9 +140,15 @@ export default function PracticeListItem({
               alt="icon"
             />
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>
-              <Link href={`/archive/${question.archive.archiveId}`}>blah</Link>
+          <DropdownMenuContent className="absolute h-[62px] w-[180px] rounded-sm">
+            <DropdownMenuItem className="justify-item-center flex size-full items-center bg-white pl-1.5 pr-[76px] focus:bg-white">
+              <Link
+                onClick={handleLinkClick}
+                className="w-fit text-lg"
+                href={`/archive/${question.archive.archiveId}`}
+              >
+                답변 수정하기
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
