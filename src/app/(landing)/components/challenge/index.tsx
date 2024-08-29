@@ -41,7 +41,6 @@ export default function Challenge() {
       return () => clearInterval(intervalRef);
     }
   }, [isInView]);
-  console.log(isInView);
 
   return (
     <div

@@ -1,12 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import PracticeSectionHeader from '@/entities/dashboard/components/practice-section-header';
-import { QuestionSearchType } from '@/entities/types/question';
+import {
+  PracticingListType,
+  QuestionSearchType,
+} from '@/entities/types/question';
 import { useUserStore } from '@/store/client';
 import { usePracticeStore } from '@/store/practiceStore';
 
@@ -20,23 +23,13 @@ import PracticeListHeader from '../components/pratice-list-header';
 import { useAllPracticeList } from '../hook/use-get-all-practice-list';
 import { usePracticeList } from '../hook/use-get-practice-list';
 
-export interface QuestionCollection {
-  select: boolean;
-  page: number;
-  list: QuestionSearchType[];
-}
-
-let collect: QuestionCollection[] = [];
-
 export default function PracticeList() {
   const [filter, setFilter] = useState<FilterType>('recent');
   const [hint, setHint] = useState<HintType>('default');
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [selectedQuestionList, setSelectedQuestionList] = useState<
-    QuestionSearchType[]
-  >([]);
+  const [selectedQuestions, setSelectedQuestions] = useState<number[]>([]);
+
   const [tabChange, setTabChange] = useState<QuestionState>('ALL');
-  const [selectAll, setSelectAll] = useState(false);
 
   const { auth } = useUserStore();
 
@@ -47,12 +40,6 @@ export default function PracticeList() {
     userId: auth.userId,
     hint: hint,
   });
-
-  useEffect(() => {
-    !collect[currentPage - 1] && setSelectAll(false);
-    setSelectedQuestionList([]);
-  }, [currentPage, tabChange]);
-
   const { list, isSuccess } = useAllPracticeList();
 
   const { countAnswer, countNotAnswer } = isSuccess
@@ -102,38 +89,21 @@ export default function PracticeList() {
 
   const router = useRouter();
 
-  // const finalList = collect.flatMap((item) => item.list);
-  // const ids = finalList.map((value) => value.questionId);
-  let ids: number[] = [];
-  const { data, refetchAll } = usePracticeDetail(ids);
+  const { data, refetch } = usePracticeDetail(selectedQuestions);
 
   const handlePractice = async () => {
-    collect[currentPage - 1] = {
-      list: selectedQuestionList,
-      page: currentPage - 1,
-      select: selectAll,
-    };
-    const finalList = collect.flatMap((item) => item.list);
-    ids = finalList.map((value) => value.questionId);
-
-    // await mutation.mutate(
-    //   selectedQuestionList.flatMap((value) => value.questionId),
-    //   {
-    //     onSuccess: (data) => {
-    //       setStore({
-    //         timer: true,
-    //         //TODO: FIX THIS PRACTICELIST
-    //         // practiceList: selectedQuestionList,
-    //         practiceList: [],
-    //         practiceId: data,
-    //       }),
-    //         router.push('/practice/ing');
-    //       collect = [];
-    //     },
-    //   },
-    //);
+    await refetch();
+    await mutation.mutate(selectedQuestions, {
+      onSuccess: (value) => {
+        setStore({
+          timer: true,
+          practiceList: data as PracticingListType[],
+          practiceId: value,
+        }),
+          router.push('/practice/ing');
+      },
+    });
   };
-
   return (
     <section className="flex w-[1200px] flex-col">
       <div className="mb-8 flex w-full flex-row justify-between">
@@ -165,26 +135,22 @@ export default function PracticeList() {
         </Button>
       </div>
       <PracticeListHeader
-        setSelectQuestionList={setSelectedQuestionList}
         setPage={setCurrentPage}
-        collect={collect}
-        page={currentPage}
-        setSelectAll={setSelectAll}
         setFilter={setFilter}
         setHint={setHint}
-        selectAll={selectAll}
+        questionList={questionsList?.contents!}
+        selectedQuestions={selectedQuestions}
+        setSelectedQuestions={setSelectedQuestions}
       />
       <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
         {modifiedByFilter &&
           modifiedByFilter.map((value) => {
             return (
               <PracticeListItem
-                collect={collect}
-                page={currentPage}
+                selectedQuestions={selectedQuestions}
+                setSelectedQuestions={setSelectedQuestions}
                 key={value.questionId}
-                selectAll={selectAll}
                 question={value}
-                setSelectQuestion={setSelectedQuestionList}
               />
             );
           })}
@@ -192,12 +158,8 @@ export default function PracticeList() {
       <div className="fixed bottom-0 left-0 h-[60px] w-screen justify-center bg-gray-50 pt-3.5">
         <Practicepagination
           currentPage={currentPage}
-          selectAll={selectAll}
           setCurrentPage={setCurrentPage}
           totalPage={questionsList?.totalPage!}
-          setSelectQuestion={setSelectedQuestionList}
-          collect={collect}
-          list={selectedQuestionList}
         />
       </div>
     </section>

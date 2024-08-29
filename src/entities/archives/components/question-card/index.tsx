@@ -34,8 +34,6 @@ export const QuestionCard = ({
   const { content, keywords, isAnswered, questionId } = data;
   const [isAccodionOpen, setIsAccodionOpen] = useState(false);
   const defaultFocused = focused === questionId ? 'item-1' : '';
-  console.log('a', isAccodionOpen);
-
   return (
     <div className={cn(className)} {...props}>
       <div className="rounded-md bg-white pl-4 pr-7">

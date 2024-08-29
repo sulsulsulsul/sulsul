@@ -14,15 +14,10 @@ import { ChevronDown } from 'lucide-react';
 import { SmileAnimation } from '@/components/lotties/smile-animation';
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
 import Timer from '@/entities/practice/practice-modal/components/timer/timer';
-import {
-  useUpdatePractice,
-  useUpdateTime,
-} from '@/entities/practice/practice-modal/hooks';
+import { useUpdatePractice } from '@/entities/practice/practice-modal/hooks';
+import { useUpdateTime } from '@/entities/practice/practicing/hooks';
 import { useCreatePracticeQuestion } from '@/entities/practice/practicing/hooks/use-create-practice-question';
-import {
-  ModalQuestionType,
-  QuestionSearchType,
-} from '@/entities/types/question';
+import { PracticingListType } from '@/entities/types/question';
 import { useUserStore } from '@/store/client';
 import {
   usePracticeResultStore,
@@ -43,19 +38,19 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const { firstPractice } = useUserStore((state) => ({
     firstPractice: state.data.firstPractice,
   }));
-
   const [coachModal, setCoachModal] = useState(firstPractice);
 
   const smileRef = useRef<LottieRefCurrentProps>(null);
   const thinkingRef = useRef<LottieRefCurrentProps>(null);
 
-  const [questions, setQuestions] = useState<ModalQuestionType[]>(practiceList);
+  const [questions, setQuestions] =
+    useState<PracticingListType[]>(practiceList);
 
-  const [correctQuestions, setCorrectQuestions] = useState<ModalQuestionType[]>(
-    [],
-  );
+  const [correctQuestions, setCorrectQuestions] = useState<
+    PracticingListType[]
+  >([]);
   const [inCorrectQuestions, setInCorrectQuestions] = useState<
-    ModalQuestionType[]
+    PracticingListType[]
   >([]);
 
   const [showHint, setShowHint] = useState(false);
@@ -80,7 +75,6 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
       questionId: q.questionId,
       practiceStatus: 'ANSWER',
     });
-
     mutate({ questionId: q.questionId, practiceTimeSec: time - startTime });
     setCorrectQuestions((prev) => [...prev, questionToMarkCorrect]);
     setQuestions((prev) => prev.filter((_, i) => i !== 0));
@@ -214,14 +208,14 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
                   'h-[253px]': showHint,
                 },
               )}
-              question={q}
+              question={q.data}
               remainingQuestions={questions.length}
             />
             <div className="absolute left-1/2 top-[210px] h-[308px] w-[90%] -translate-x-1/2 rounded-md bg-white">
               <HintCard
-                keywords={q.keywords}
-                answerHint={q.answer}
-                hintShown={q.isHint}
+                keywords={q.data.keywords}
+                answerHint={q.data.answer}
+                hintShown={q.data.isHint}
                 questionId={q.questionId}
                 showHint={showHint}
                 setShowHint={setShowHint}

@@ -60,3 +60,8 @@ export interface ModalQuestionDetail {
   feedback: FeedbackDTO[];
   keywords: KeywordDTO[];
 }
+
+export interface PracticingListType {
+  questionId: number;
+  data: ModalQuestionDetail;
+}

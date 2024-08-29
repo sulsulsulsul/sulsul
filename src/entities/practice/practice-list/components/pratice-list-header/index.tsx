@@ -1,5 +1,6 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
+import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -13,44 +14,46 @@ import {
 import { FilterType, HintType } from '@/entities/practice/types';
 import { QuestionSearchType } from '@/entities/types/question';
 
-import { QuestionCollection } from '../../view';
-
 interface HeaderProp {
   setFilter: Dispatch<SetStateAction<FilterType>>;
   setHint: Dispatch<SetStateAction<HintType>>;
+  questionList: QuestionSearchType[];
   setPage: Dispatch<SetStateAction<number>>;
-  setSelectAll: Dispatch<SetStateAction<boolean>>;
-  setSelectQuestionList: Dispatch<SetStateAction<QuestionSearchType[]>>;
-  selectAll: boolean;
-  collect: QuestionCollection[];
-  page: number;
+  selectedQuestions: number[];
+  setSelectedQuestions: Dispatch<SetStateAction<number[]>>;
 }
 
 export default function PracticeListHeader({
   setFilter,
   setHint,
   setPage,
-  setSelectAll,
-  selectAll,
-  collect,
-  page,
-  setSelectQuestionList,
+  questionList,
+  selectedQuestions,
+  setSelectedQuestions,
 }: HeaderProp) {
-  useEffect(() => {
-    collect[page - 1] && collect[page - 1].select && setSelectAll(true);
-  }, [page]);
+  const questionIds =
+    questionList && questionList.map((item) => item.questionId);
+  const isAllSelected =
+    questionIds &&
+    questionIds.every((questionId) => selectedQuestions.includes(questionId));
+
   return (
     <div className="flex h-[44px] w-full flex-row items-center justify-between pl-[24px] pr-[44px] text-sm text-gray-500">
       <div className="flex h-full items-center">
         <Checkbox
           className="m-[10px] size-6"
-          checked={selectAll}
-          onCheckedChange={(check) => {
-            !check && setSelectQuestionList([]);
-            if (collect[page - 1]) {
-              collect[page - 1].select = false;
-            }
-            setSelectAll(!!check);
+          checked={isAllSelected}
+          onCheckedChange={(check: CheckedState) => {
+            check
+              ? setSelectedQuestions([
+                  ...selectedQuestions,
+                  ...questionIds.filter(
+                    (id) => !selectedQuestions.includes(id),
+                  ),
+                ])
+              : setSelectedQuestions(
+                  selectedQuestions.filter((id) => !questionIds.includes(id)),
+                );
           }}
         />
         <span className="ml-[66px]">면접질문</span>

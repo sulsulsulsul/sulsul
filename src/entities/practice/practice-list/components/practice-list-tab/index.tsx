@@ -2,6 +2,7 @@ import { HTMLAttributes } from 'react';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { QuestionState } from '@/entities/practice/types';
+import { QuestionSearchType } from '@/entities/types/question';
 import { cn } from '@/lib/utils';
 
 interface PracticedListTabType extends HTMLAttributes<HTMLDivElement> {

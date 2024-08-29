@@ -1,5 +1,5 @@
 'use client';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -14,70 +14,47 @@ import { QuestionSearchType } from '@/entities/types/question';
 import { useFocusedQuestionCard } from '@/store/practiceStore';
 
 import { useUpdateQuestionStar } from '../../hook/use-update-question-star';
-import { QuestionCollection } from '../../view';
 
 interface PracticeListItemProps {
   question: QuestionSearchType;
-  selectAll: boolean;
-  setSelectQuestion: Dispatch<SetStateAction<QuestionSearchType[]>>;
-  collect: QuestionCollection[];
-  page: number;
+  selectedQuestions: number[];
+  setSelectedQuestions: Dispatch<SetStateAction<number[]>>;
 }
 
 export default function PracticeListItem({
-  setSelectQuestion,
-  selectAll,
   question,
-  collect,
-  page,
+  selectedQuestions,
+  setSelectedQuestions,
 }: PracticeListItemProps) {
   const { mutate } = useUpdateQuestionStar();
   const [starClicked, setStarClicked] = useState(question.star);
-  const [checked, setChecked] = useState(false);
+
   const handleStarClick = () => {
     setStarClicked((prev) => !prev);
     mutate({ questionId: question.questionId, star: !question.star });
   };
 
-  useEffect(() => {
-    if (collect[page - 1] && collect[page - 1].select) {
-      collect[page - 1].list.some(
-        (item) => item.questionId === question.questionId,
-      ) && (setChecked(true), setSelectQuestion((prev) => [...prev, question]));
-    } else {
-      selectAll
-        ? (setChecked(true),
-          setSelectQuestion((prev) => {
-            return prev.some((item) => item.questionId === question.questionId)
-              ? prev
-              : [...prev, question];
-          }))
-        : (setChecked(false), setSelectQuestion([]));
-    }
-  }, [selectAll]);
-
   const { setQuestionId } = useFocusedQuestionCard();
+
   const handleLinkClick = async () => {
     await setQuestionId(question.questionId);
   };
+
+  const handleCheckBox = () => {
+    selectedQuestions.includes(question.questionId)
+      ? setSelectedQuestions(
+          selectedQuestions.filter((id) => id !== question.questionId),
+        )
+      : setSelectedQuestions([...selectedQuestions, question.questionId]);
+  };
+
   return (
     <div className="flex h-[118px] w-full flex-row items-center justify-between rounded-md border border-gray-100 bg-white py-[26px] pl-[24px]">
       <div className="flex items-center justify-between gap-1">
         <Checkbox
           className="m-[10px] size-6"
-          checked={checked}
-          onCheckedChange={(check) => {
-            check
-              ? setSelectQuestion((prev) => {
-                  return [...prev, question];
-                })
-              : setSelectQuestion((prev) => {
-                  return prev.filter((value) => {
-                    return value.questionId !== question.questionId;
-                  });
-                });
-            setChecked(!!check);
-          }}
+          checked={selectedQuestions.includes(question.questionId)}
+          onCheckedChange={handleCheckBox}
         />
         <button onClick={handleStarClick}>
           {starClicked ? (
@@ -130,7 +107,6 @@ export default function PracticeListItem({
             alt="icon"
           />
         )}
-        {/* {TODO:FIX THE LINK POSSIBLE USE ROUTER PUSH WITH QUERY BEHIND  } */}
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Image

@@ -14,7 +14,8 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 import { cn } from '@/lib/utils';
 import { usePracticeStore } from '@/store/practiceStore';
 
-import { ModalQuestionType } from '../../types/question';
+import { ModalQuestionType, PracticingListType } from '../../types/question';
+import { usePracticeDetail } from '../hooks/use-get-practice-detail';
 import ModalHeader from './components/modal-header';
 import PracticeModalButton from './components/practice-modal-button';
 import PracticeModalOption from './components/practice-modal-option';
@@ -79,16 +80,27 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
     return newList;
   }, [finalList]);
 
+  const detailedQuestionsIds = random
+    ? shuffledList.flatMap((value) => {
+        return value.questionId;
+      })
+    : finalList.flatMap((value) => {
+        return value.questionId;
+      });
+
+  const { data, refetch } = usePracticeDetail(detailedQuestionsIds);
+
   const handleSubmit = async () => {
+    await refetch();
     await mutation.mutate(
       finalList.flatMap((value) => value.questionId),
       {
-        onSuccess: (data) => {
+        onSuccess: (value) => {
           router.push('/practice/ing'),
             setStore({
               timer: !!timer,
-              practiceList: random ? shuffledList : finalList,
-              practiceId: data,
+              practiceList: data as PracticingListType[],
+              practiceId: value,
             });
         },
       },
