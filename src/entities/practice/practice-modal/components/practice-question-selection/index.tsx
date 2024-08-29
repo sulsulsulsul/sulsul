@@ -1,12 +1,6 @@
 'use client';
 
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { ModalQuestionType } from '@/entities/types/question';

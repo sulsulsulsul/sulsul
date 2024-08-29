@@ -15,8 +15,6 @@ export const QuestionListQueryOptions = (id: number) =>
 
 export const usePracticeQuestions = (id: number) => {
   const result = useQuery(QuestionListQueryOptions(id));
-  // const
-
   const { data, ...rest } = result;
   return {
     ...rest,

@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 
-import { updateHintAction } from '../actions';
+import { updateHintAction } from '../action/use-hint';
 
 export const useUpdateHint = () => {
   return useMutation({

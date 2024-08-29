@@ -18,6 +18,11 @@ const config = {
       },
     },
     extend: {
+      screens: {
+        mobile: { min: '375px', max: '767px' }, // 모바일은 최대 767px까지
+        tablet: { min: '768px', max: '1023px' }, // 태블릿은 768px 이상 1023px 이하
+        desktop: { min: '1024px' }, // 데스크탑은 1024px 이상
+      },
       fontFamily: {
         sans: ['var(--font-pretendard)', 'Inter', 'sans-serif'],
       },

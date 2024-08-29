@@ -10,6 +10,7 @@ import { QuestionSearchType } from '@/entities/types/question';
 import { useUserStore } from '@/store/client';
 import { usePracticeStore } from '@/store/practiceStore';
 
+import { usePracticeDetail } from '../../hooks/use-get-practice-detail';
 import { useCreatePractice } from '../../practice-modal/hooks';
 import { FilterType, HintType, QuestionState } from '../../types';
 import PracticeListItem from '../components/practice-list-item';
@@ -101,6 +102,11 @@ export default function PracticeList() {
 
   const router = useRouter();
 
+  // const finalList = collect.flatMap((item) => item.list);
+  // const ids = finalList.map((value) => value.questionId);
+  let ids: number[] = [];
+  const { data, refetchAll } = usePracticeDetail(ids);
+
   const handlePractice = async () => {
     collect[currentPage - 1] = {
       list: selectedQuestionList,
@@ -108,24 +114,24 @@ export default function PracticeList() {
       select: selectAll,
     };
     const finalList = collect.flatMap((item) => item.list);
-    const ids = finalList.map((value) => value.questionId);
-    // await usePracticeDetail(ids)
-    await mutation.mutate(
-      selectedQuestionList.flatMap((value) => value.questionId),
-      {
-        onSuccess: (data) => {
-          setStore({
-            timer: true,
-            //TODO: FIX THIS PRACTICELIST
-            // practiceList: selectedQuestionList,
-            practiceList: [],
-            practiceId: data,
-          }),
-            router.push('/practice/ing');
-          collect = [];
-        },
-      },
-    );
+    ids = finalList.map((value) => value.questionId);
+
+    // await mutation.mutate(
+    //   selectedQuestionList.flatMap((value) => value.questionId),
+    //   {
+    //     onSuccess: (data) => {
+    //       setStore({
+    //         timer: true,
+    //         //TODO: FIX THIS PRACTICELIST
+    //         // practiceList: selectedQuestionList,
+    //         practiceList: [],
+    //         practiceId: data,
+    //       }),
+    //         router.push('/practice/ing');
+    //       collect = [];
+    //     },
+    //   },
+    //);
   };
 
   return (

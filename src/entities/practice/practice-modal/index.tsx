@@ -53,20 +53,6 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
 
   useEffect(() => {
     setResetResume(false);
-    // !allResumes &&
-    //   selectedArchiveList.length === resume?.length &&
-    //   setAllResumes(true);
-
-    // allResumes &&
-    //   selectedArchiveList.length !== resume?.length &&
-    //   setAllResumes(false);
-
-    // if ((hintFilter || answerFilter) && allQuestions) {
-    //   setFinalList(modifiedQuestionByFilter!);
-    // }
-    // finalList.length !== 0 &&
-    //   modifiedQuestionByFilter!.length === finalList.length &&
-    //   setAllQuestions(true);
   }, [selectedArchiveIds, answerFilter, hintFilter]);
 
   const reset = useCallback(() => {
