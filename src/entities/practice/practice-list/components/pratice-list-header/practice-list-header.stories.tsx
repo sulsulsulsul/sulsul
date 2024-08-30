@@ -15,10 +15,8 @@ export const Default = {
     setFilter: () => {},
     setHint: () => {},
     setPage: () => {},
-    setSelectAll: () => {},
-    selectAll: false,
-    collect: [],
-    setSelectQuestionList: () => {},
-    page: 0,
+    selectedQuestions: [],
+    setSelectedQuestions: () => {},
+    questionList: [],
   },
 } satisfies Story;

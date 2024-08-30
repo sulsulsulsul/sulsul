@@ -27,10 +27,8 @@ export const Default = {
       star: false,
       lastPracticeAt: '',
     },
-    selectAll: false,
-    setSelectQuestion: () => {},
-    collect: [],
-    page: 0,
+    selectedQuestions: [],
+    setSelectedQuestions: () => {},
   },
 } satisfies Story;
 export const Active = {
@@ -50,9 +48,11 @@ export const Active = {
       star: true,
       lastPracticeAt: '',
     },
-    selectAll: true,
-    setSelectQuestion: () => {},
-    collect: [],
-    page: 0,
+    selectedQuestions: [],
+    setSelectedQuestions: () => {},
   },
 } satisfies Story;
+
+// question,
+// selectedQuestions,
+// setSelectedQuestions,
