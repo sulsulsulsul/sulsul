@@ -6,12 +6,12 @@ const meta = {} satisfies Meta;
 
 export default meta;
 type Story = StoryObj<{
-  type: 'weekly' | 'monthly';
+  type: 'WEEKLY' | 'MONTHLY';
 }>;
 
 export const Default = {
   args: {
-    type: 'weekly',
+    type: 'WEEKLY',
   },
 
   argTypes: {
@@ -19,12 +19,12 @@ export const Default = {
       control: {
         type: 'radio',
       },
-      options: ['weekly', 'monthly'],
+      options: ['WEEKLY', 'MONTHLY'],
     },
   },
   render: ({ type }) => {
     const data =
-      type === 'weekly' ? generateRandomData(7) : generateRandomData(30);
+      type === 'WEEKLY' ? generateRandomData(7) : generateRandomData(30);
     return <PracticeStatusChart type={type} data={data} />;
   },
 } satisfies Story;

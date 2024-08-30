@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { PracticeResultCard } from '@/entities/practice/components/practice-result-card';
+import { PracticeResultCard } from '.';
 
 const meta = {
   component: PracticeResultCard,

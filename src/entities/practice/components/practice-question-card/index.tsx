@@ -3,7 +3,7 @@ import { HTMLAttributes } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 interface PracticedQuestionCardProps extends HTMLAttributes<HTMLDivElement> {
-  question: string;
+  content: string;
   title: string;
   company: string;
   onClickRetry?: () => void; // TODO: 다시연습 체크
@@ -11,7 +11,7 @@ interface PracticedQuestionCardProps extends HTMLAttributes<HTMLDivElement> {
 
 export const PracticedQuestionCard = ({
   className,
-  question,
+  content,
   title,
   company,
   onClickRetry,
@@ -24,7 +24,7 @@ export const PracticedQuestionCard = ({
       )}
     >
       <div className="flex flex-col gap-2 overflow-hidden">
-        <h4 className="truncate text-lg font-semibold">{question}</h4>
+        <h4 className="truncate text-lg font-semibold">{content}</h4>
         <div className="flex items-center gap-[6px] text-gray-500">
           <span className="w-fit rounded-sm bg-gray-100 px-[7px] py-[10px] text-2xs font-medium">
             {company}

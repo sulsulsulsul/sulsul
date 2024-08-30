@@ -16,15 +16,15 @@ const weeklyPlugin: Plugin = {
   afterTooltipDraw: (chart) => {
     const tooltip = chart.tooltip;
     const activeElements = tooltip!.getActiveElements();
-    if (!activeElements.length) {
-      chart.tooltip!.setActiveElements(
+    if (!activeElements.length && tooltip) {
+      tooltip!.setActiveElements(
         [
           {
             datasetIndex: 0,
             index: weekIndex,
           },
         ],
-        chart.tooltip!.options.callbacks!.label as any,
+        tooltip.options.callbacks!.label as any,
       );
       chart.update();
     }
@@ -32,15 +32,15 @@ const weeklyPlugin: Plugin = {
   afterDraw: (chart) => {
     const tooltip = chart.tooltip;
     const activeElements = tooltip!.getActiveElements();
-    if (!activeElements.length) {
-      chart.tooltip!.setActiveElements(
+    if (!activeElements.length && tooltip) {
+      tooltip.setActiveElements(
         [
           {
             datasetIndex: 0,
             index: weekIndex,
           },
         ],
-        chart.tooltip!.options.callbacks!.label as any,
+        tooltip.options.callbacks!.label as any,
       );
       chart.update();
     }

@@ -5,6 +5,8 @@ export const useArchive = (id: number) => {
   const result = useQuery({
     queryKey: ['archive', id],
     queryFn: () => getArchiveDetailAction(id),
+
+    // TODO:
     refetchInterval: (query) => {
       if (query.state.data?.status !== 'FAIL') {
         return 3000;

@@ -15,6 +15,7 @@ import {
 
 import { cn, tailwindTheme } from '@/lib/utils';
 
+import type { Period } from '../../types';
 import { MonthlyChart } from './monthly';
 import { WeeklyChart } from './weekly';
 
@@ -92,7 +93,7 @@ export const options: ChartOptions<'bar'> = {
 };
 
 interface PracticeStatusChartProps extends HTMLAttributes<HTMLDivElement> {
-  type: 'weekly' | 'monthly';
+  type: Period;
   data: number[];
 }
 export const PracticeStatusChart = ({
@@ -119,7 +120,7 @@ export const PracticeStatusChart = ({
       )}
       {...props}
     >
-      {type === 'weekly' ? (
+      {type === 'WEEKLY' ? (
         <WeeklyChart options={options} data={chartData} className="size-full" />
       ) : (
         <MonthlyChart options={options} data={chartData} />

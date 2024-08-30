@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import PracticeSectionHeader from '@/entities/dashboard/components/practice-section-header';
 import {
   PracticingListType,
   QuestionSearchType,
@@ -13,6 +12,7 @@ import {
 import { useUserStore } from '@/store/client';
 import { usePracticeStore } from '@/store/practiceStore';
 
+import PracticeSectionHeader from '../../components/practice-section-header';
 import { usePracticeDetail } from '../../hooks/use-get-practice-detail';
 import { useCreatePractice } from '../../practice-modal/hooks';
 import { FilterType, HintType, QuestionState } from '../../types';

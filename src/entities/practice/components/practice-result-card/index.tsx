@@ -1,3 +1,5 @@
+'use client';
+
 import { HTMLAttributes } from 'react';
 import Image from 'next/image';
 
@@ -33,7 +35,13 @@ export const PracticeResultCard = ({
     >
       <div className="flex h-full flex-col justify-between">
         <div>
-          <h4 className="text-4xl font-bold">{value}</h4>
+          <h4
+            className={cn('text-4xl font-bold', {
+              'text-gray-200': value === 0,
+            })}
+          >
+            {value}
+          </h4>
           <p className="text-base font-semibold text-gray-500">
             {DISPLAY_PRACTICE_TYPE[type]}
           </p>

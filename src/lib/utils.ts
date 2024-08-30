@@ -1,3 +1,5 @@
+// TODO: lib 폴더를 shared로 옮기는게 어떨지??
+
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import resolveConfig from 'tailwindcss/resolveConfig';
