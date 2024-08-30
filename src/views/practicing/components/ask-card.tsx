@@ -2,9 +2,10 @@ import { HTMLAttributes } from 'react';
 import Image from 'next/image';
 
 import { ArchiveQuestionItem } from '@/entities/types';
+import { ModalQuestionDetail } from '@/entities/types/question';
 import { cn } from '@/lib/utils';
 interface AskCardProps extends HTMLAttributes<HTMLDivElement> {
-  question: ArchiveQuestionItem;
+  question: ModalQuestionDetail;
   remainingQuestions: number;
 }
 

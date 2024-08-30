@@ -64,7 +64,7 @@ export const Action = ({ className, ...props }: ReasonProps) => {
                 내 면접질문 예측하기
               </Button>
             </div>
-            <div className="absolute bottom-0 right-0 max-md:translate-x-5">
+            <div className="max-md:translate-x-5 absolute bottom-0 right-0">
               <Image
                 className="w-[300px] md:w-fit"
                 priority

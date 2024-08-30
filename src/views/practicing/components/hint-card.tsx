@@ -2,9 +2,10 @@ import { HTMLAttributes } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
-import { useUpdateHint } from '@/entities/practice-list-modal/hooks';
+import { useUpdateHint } from '@/entities/practice/practicing/hooks';
 import { ArchiveKeyword } from '@/entities/types';
 import { cn } from '@/lib/utils';
+
 interface HintCardProps extends HTMLAttributes<HTMLDivElement> {
   showHint: boolean;
   questionId: number;
@@ -39,15 +40,17 @@ export const HintCard = ({
       {...props}
     >
       <div className="flex h-[53px] w-full items-center gap-1 overflow-scroll">
-        {keywords.map((value: ArchiveKeyword) => (
-          <Badge
-            key={value.keywordId}
-            variant={'keyword'}
-            className="min-w-fit"
-          >
-            {value.content}
-          </Badge>
-        ))}
+        {keywords &&
+          keywords.length !== 0 &&
+          keywords.map((value: ArchiveKeyword) => (
+            <Badge
+              key={value.keywordId}
+              variant={'keyword'}
+              className="min-w-fit"
+            >
+              {value.content}
+            </Badge>
+          ))}
       </div>
       <div className="mt-3 grow overflow-scroll text-lg font-medium">
         {answerHint}

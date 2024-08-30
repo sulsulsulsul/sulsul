@@ -2,11 +2,11 @@ import { HTMLAttributes } from 'react';
 import { motion } from 'framer-motion';
 
 import { Button } from '@/components/ui/button';
-import { ArchiveQuestionItem } from '@/entities/types';
+import { PracticingListType } from '@/entities/types/question';
 import { cn } from '@/lib/utils';
 
 interface AnswerButtonProps extends HTMLAttributes<HTMLDivElement> {
-  questions: ArchiveQuestionItem[];
+  questions: PracticingListType[];
   handleCorrect: () => void;
 }
 

@@ -1,11 +1,11 @@
 import { set } from 'zod';
 import { create } from 'zustand';
 
-import { ArchiveQuestionItem } from '@/entities/types';
+import { PracticingListType } from '@/entities/types/question';
 
 interface PracticeSelectionList {
   timer: boolean;
-  practiceList: ArchiveQuestionItem[];
+  practiceList: PracticingListType[];
   practiceId: number;
 }
 interface PracticeSetStore extends PracticeSelectionList {
@@ -30,8 +30,8 @@ export const usePracticeStore = create<PracticeSetStore>((set) => ({
 
 interface PracticeResult {
   time: number;
-  correct: ArchiveQuestionItem[];
-  incorrect: ArchiveQuestionItem[];
+  correct: PracticingListType[];
+  incorrect: PracticingListType[];
   setResult?: ({ time, correct, incorrect }: PracticeResult) => void;
 }
 
@@ -44,5 +44,18 @@ export const usePracticeResultStore = create<PracticeResult>((set) => ({
       time: time,
       correct: correct,
       incorrect: incorrect,
+    })),
+}));
+
+interface FocusedQuestion {
+  focused: number;
+  setQuestionId: (questionId: number) => void;
+}
+
+export const useFocusedQuestionCard = create<FocusedQuestion>((set) => ({
+  focused: 0,
+  setQuestionId: (questionId: number) =>
+    set(() => ({
+      focused: questionId,
     })),
 }));
