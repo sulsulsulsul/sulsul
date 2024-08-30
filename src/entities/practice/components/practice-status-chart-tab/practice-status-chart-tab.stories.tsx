@@ -5,7 +5,7 @@ import { PracticedStatusChartTab } from '.';
 
 const meta = {
   args: {
-    chartType: 'weekly',
+    chartType: 'WEEKLY',
     onChangeChartType: fn(),
   },
   component: PracticedStatusChartTab,
