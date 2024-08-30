@@ -21,9 +21,3 @@ export const Default = {
     onTabChange: (value: QuestionState) => {},
   },
 } satisfies Story;
-
-// allCount: number;
-// unansweredCount: number;
-// answeredCount: number;
-// isLoading: boolean;
-// onTabChange: (value: QuestionState) => void;

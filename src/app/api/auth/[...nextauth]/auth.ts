@@ -37,13 +37,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (account?.provider === 'google') {
           const userDTO = await getUserAction({
             userId: token.auth.userId,
-            accessToken: token.auth.token,
+            accessToken: token.auth.accessToken,
           });
           token.data = userDTO;
         } else if (account?.provider === 'kakao') {
           const userDTO = await getUserAction({
             userId: token.auth.userId,
-            accessToken: token.auth.token,
+            accessToken: token.auth.accessToken,
           });
           token.data = userDTO;
         }
