@@ -2,7 +2,6 @@
 
 import { HTMLAttributes } from 'react';
 import Image from 'next/image';
-import { twJoin } from 'tailwind-merge';
 
 import { SmileAnimation } from '@/components/lotties/smile-animation';
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
@@ -37,10 +36,9 @@ export const PracticeResultCard = ({
       <div className="flex h-full flex-col justify-between">
         <div>
           <h4
-            className={twJoin(
-              'text-4xl font-bold',
-              value === 0 && 'text-gray-200',
-            )}
+            className={cn('text-4xl font-bold', {
+              'text-gray-200': value === 0,
+            })}
           >
             {value}
           </h4>
