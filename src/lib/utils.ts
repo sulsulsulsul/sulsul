@@ -22,7 +22,7 @@ export const assertValue = <T>(value: T | undefined, message: string): T => {
 
 export const getAccessToken = async () => {
   const session = await auth();
-  return session?.user.auth.token;
+  return session?.user.auth.accessToken;
 };
 
 export const assertAccessToken = async () => {

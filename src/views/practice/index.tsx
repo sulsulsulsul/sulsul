@@ -5,9 +5,8 @@ import MyPracticeStatus from '@/entities/practice/components/my-practice-status'
 import PracticeQuestions from '@/entities/practice/components/practice-questions';
 import { PracticeResultCard } from '@/entities/practice/components/practice-result-card';
 import { PracticeStartCard } from '@/entities/practice/components/practice-start-card';
-import useStatisticsDetail from '@/entities/practice/hooks/use-statistics-detail';
 import useStatisticsSummary from '@/entities/practice/hooks/use-statistics-summary';
-import PracticeSelection from '@/entities/practice-list-modal';
+import PracticeSelection from '@/entities/practice/practice-modal';
 import useSearchQuestions from '@/entities/questions/hooks/use-search-questions';
 import { cn } from '@/lib/utils';
 interface PracticeProps extends HTMLAttributes<HTMLDivElement> {

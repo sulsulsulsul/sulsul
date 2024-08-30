@@ -8,7 +8,7 @@ import type { SearchQuestion } from '../types';
 
 const getSearchQuestionsAction = (params: SearchQuestionsParams) => {
   return backendApi<SearchQuestion>({
-    endpoint: API_ENDPOINT.question.getSearchQuestions(),
+    endpoint: API_ENDPOINT.question.getPracticeSearchQuestions(),
     params,
   });
 };

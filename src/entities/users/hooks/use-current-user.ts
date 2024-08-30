@@ -14,7 +14,7 @@ export const useCurrentUser = () => {
       setUserInfo({
         auth: {
           userId: data.user.auth?.userId || 0,
-          token: data.user.auth?.token || '',
+          token: data.user.auth?.accessToken || '',
         },
         data: {
           email: data.user.email || '',

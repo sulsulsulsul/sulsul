@@ -10,16 +10,14 @@ import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LottieRefCurrentProps } from 'lottie-react';
 import { ChevronDown } from 'lucide-react';
-import { set } from 'zod';
 
 import { SmileAnimation } from '@/components/lotties/smile-animation';
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
-import Timer from '@/entities/practice-list-modal/components/timer/timer';
-import {
-  useUpdatePractice,
-  useUpdateTime,
-} from '@/entities/practice-list-modal/hooks';
-import { ArchiveQuestionItem } from '@/entities/types';
+import Timer from '@/entities/practice/practice-modal/components/timer/timer';
+import { useUpdatePractice } from '@/entities/practice/practice-modal/hooks';
+import { useUpdateTime } from '@/entities/practice/practicing/hooks';
+import { useCreatePracticeQuestion } from '@/entities/practice/practicing/hooks/use-create-practice-question';
+import { PracticingListType } from '@/entities/types/question';
 import { useUserStore } from '@/store/client';
 import {
   usePracticeResultStore,
@@ -40,20 +38,19 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const { firstPractice } = useUserStore((state) => ({
     firstPractice: state.data.firstPractice,
   }));
-
   const [coachModal, setCoachModal] = useState(firstPractice);
 
   const smileRef = useRef<LottieRefCurrentProps>(null);
   const thinkingRef = useRef<LottieRefCurrentProps>(null);
 
   const [questions, setQuestions] =
-    useState<ArchiveQuestionItem[]>(practiceList);
+    useState<PracticingListType[]>(practiceList);
 
   const [correctQuestions, setCorrectQuestions] = useState<
-    ArchiveQuestionItem[]
+    PracticingListType[]
   >([]);
   const [inCorrectQuestions, setInCorrectQuestions] = useState<
-    ArchiveQuestionItem[]
+    PracticingListType[]
   >([]);
 
   const [showHint, setShowHint] = useState(false);
@@ -61,6 +58,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const [q, setQ] = useState(practiceList[0]);
 
   const [time, setTime] = useState(0);
+  const [startTime, setStartTime] = useState(0);
   const [pauseTimer, setPauseTimer] = useState(false);
 
   const router = useRouter();
@@ -69,14 +67,18 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const mutationTime = useUpdateTime();
   const questionToMarkCorrect = questions[0];
 
+  const { mutate } = useCreatePracticeQuestion();
+
   const handleCorrect = () => {
     if (questions.length === 0) return;
     mutationPractice.mutate({
       questionId: q.questionId,
       practiceStatus: 'ANSWER',
     });
+    mutate({ questionId: q.questionId, practiceTimeSec: time - startTime });
     setCorrectQuestions((prev) => [...prev, questionToMarkCorrect]);
     setQuestions((prev) => prev.filter((_, i) => i !== 0));
+    setStartTime(time);
     smileRef.current?.stop();
     smileRef.current?.play();
   };
@@ -87,8 +89,10 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
       questionId: q.questionId,
       practiceStatus: 'NOT_ANSWER',
     });
+    mutate({ questionId: q.questionId, practiceTimeSec: time - startTime });
     setInCorrectQuestions((prev) => [...prev, questions[0]]);
     setQuestions((prev) => prev.filter((_, i) => i !== 0));
+    setStartTime(time);
     thinkingRef.current?.stop();
     thinkingRef.current?.play();
   };
@@ -204,14 +208,14 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
                   'h-[253px]': showHint,
                 },
               )}
-              question={q}
+              question={q.data}
               remainingQuestions={questions.length}
             />
             <div className="absolute left-1/2 top-[210px] h-[308px] w-[90%] -translate-x-1/2 rounded-md bg-white">
               <HintCard
-                keywords={q.keywords}
-                answerHint={q.answer}
-                hintShown={q.isHint}
+                keywords={q.data.keywords}
+                answerHint={q.data.answer}
+                hintShown={q.data.isHint}
                 questionId={q.questionId}
                 showHint={showHint}
                 setShowHint={setShowHint}
@@ -240,7 +244,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
             </div>
           </div>
           <div className="sticky z-20 mt-[68px] rounded-md bg-white p-4">
-            <div className="m- absolute -top-[100px] left-6 z-30 flex size-fit flex-row gap-2">
+            <div className="absolute left-6 top-[-100px] z-30 flex size-fit flex-row gap-2">
               <Image
                 className="mt-1"
                 src="/images/icons/arrow-hint.svg"
