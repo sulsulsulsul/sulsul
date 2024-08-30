@@ -25,8 +25,8 @@ const Page = async () => {
       <Hero />
       <Recommendation />
       <Steps />
-      <Reason />
       <Challenge />
+      <Reason />
       <Action />
       <Feedback />
       <Footer />

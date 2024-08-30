@@ -138,6 +138,20 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    getSearchQuestions: (query: string) => {
+      return {
+        url: `/api/v1/questions/search?${query}`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+    getAllSearchQuestions: () => {
+      return {
+        url: `/api/v1/questions/search`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
     createQuestions: (archiveId: number) => {
       return {
         url: `/api/v1/questions/${archiveId}/ai`,
@@ -182,6 +196,13 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    createPracticeQuestion: (questionId: number) => {
+      return {
+        url: `/api/v1/practice/question/${questionId}`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
     updatePractice: () => {
       return {
         url: `/api/v1/practice/question-status`,
@@ -199,6 +220,13 @@ export const API_ENDPOINT = {
     updateHintUsage: () => {
       return {
         url: `/api/v1/practice/question-hint`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    updateStar: () => {
+      return {
+        url: `/api/v1/practice/question-star`,
         method: Method.PATCH,
         authorization: true,
       };

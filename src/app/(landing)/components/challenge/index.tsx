@@ -41,19 +41,18 @@ export default function Challenge() {
       return () => clearInterval(intervalRef);
     }
   }, [isInView]);
-  console.log(isInView);
 
   return (
     <div
-      className="relative flex w-full flex-col items-center bg-blue-100 text-6xl font-bold text-blue-500"
+      className="relative flex w-full flex-col items-center bg-blue-100 text-4xl font-bold text-blue-500 lg:text-6xl"
       ref={ref}
     >
-      <div className="mt-[100px]">백문백답 챌린지로</div>
+      <div className="mt-[50px] lg:mt-[100px] ">백문백답 챌린지로</div>
       <div>단골 기출문제 완벽 대비</div>
-      <Button size="default" className="mt-8">
+      <Button className="mt-8 px-4 text-base font-semibold lg:px-12 lg:text-lg">
         면접 기출문제 풀기
       </Button>
-      <div className="absolute bottom-[120px] flex flex-row gap-[524px]">
+      <div className="invisible absolute bottom-[120px] flex flex-row gap-[524px] lg:visible ">
         <div className="flex flex-row gap-[18px]">
           <Image
             src={
@@ -100,7 +99,7 @@ export default function Challenge() {
         </div>
       </div>
       <Image
-        className="z-20  mt-[60px]"
+        className="z-20  mt-[36px] lg:mt-[60px]"
         src="/images/challenge-section.svg"
         width={582}
         height={522}
