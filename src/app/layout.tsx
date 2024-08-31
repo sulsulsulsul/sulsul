@@ -9,7 +9,18 @@ import { Providers } from './providers';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'SulSul',
+  title: '술술ㅣAI 면접 질문 예측부터 면접 기출 100선까지',
+  description:
+    '인공지능 수리와 함께하는 취업 면접 올킬 작전! 체계적인 면접준비, 지금 무료로 시작해보세요.',
+  icons: {
+    icon: '/public/images/favicon.ico',
+  },
+  openGraph: {
+    images: 'https://suulsuul.vercel.app/public/images/favicon.ico',
+    title: '술술ㅣAI 면접 질문 예측부터 면접 기출 100선까지',
+    description:
+      '인공지능 수리와 함께하는 취업 면접 올킬 작전! 체계적인 면접준비, 지금 무료로 시작해보세요.',
+  },
 };
 
 export default function RootLayout({
