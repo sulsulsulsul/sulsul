@@ -24,7 +24,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
 
   return (
     <header
-      className={cn('flex h-full items-center justify-between', className)}
+      className={cn('flex h-full items-center justify-between py-4', className)}
       {...props}
     >
       <Logo />

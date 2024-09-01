@@ -183,7 +183,7 @@ export const OnboardModal = () => {
     firstLogin && (
       <div
         className={cn(
-          'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80',
+          'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80 mobile:hidden',
           visibility,
         )}
       >
