@@ -105,18 +105,6 @@ export const MobileReason = ({ className, ...props }: ReasonProps) => {
               />
             ))}
           </div>
-          {/* {images.map((src, index) => (
-            // @ts-ignore
-            <div key={index} ref={(el) => (imageRefs.current[index] = el)}>
-              <Image
-                alt={`comment-${index}`}
-                src={src}
-                width={384}
-                height={369}
-                priority
-              />
-            </div>
-          ))} */}
         </div>
       </div>
     </div>
