@@ -11,7 +11,7 @@ export const Footer = ({ className, ...props }: FooterProps) => {
     <div className={cn('container', className)} {...props}>
       <div
         className={cn(
-          'flex flex-col sm:flex-row p-8 border-b gap-10 justify-center items-center',
+          'flex sm:flex-row p-8 border-b gap-10 justify-center items-center',
           className,
         )}
         {...props}
