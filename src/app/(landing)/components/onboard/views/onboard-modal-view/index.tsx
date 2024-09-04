@@ -155,7 +155,7 @@ export const OnboardModal = () => {
 
   useEffect(() => {
     setHidden(false);
-    visibility === 'visible' && pause();
+    visibility === 'visible' && firstLogin && pause();
     const timerId = setInterval(() => {
       if (step <= dialog[dialogNumber].messageListProp.length) {
         setStep((prev) => (prev += 1));

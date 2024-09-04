@@ -37,15 +37,14 @@ export const DesktopReason = ({ className, ...props }: ReasonProps) => {
   return (
     <div
       ref={containerRef}
-      className={cn('bg-gray-[#F6F7FB] py-[100px] ', className)}
+      className={cn('bg-gray-[#F6F7FB] py-[100px] w-full', className)}
       {...props}
     >
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex w-full flex-col items-center justify-center">
         <div className="text-center text-4xl font-bold text-gray-800 sm:text-6xl">
           <h2>취뽀생들이</h2>
           <h2>술술을 선택한 이유</h2>
         </div>
-
         <div className="mt-10 flex flex-col gap-5 sm:mt-20 sm:flex-row">
           {images.map((src, index) => (
             // @ts-ignore

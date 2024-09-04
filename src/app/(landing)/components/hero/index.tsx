@@ -4,8 +4,8 @@ import { MobileHero } from './mobile';
 export default function Hero() {
   return (
     <div>
-      <DesktopHero className="mobile:hidden desktop:block" />
-      <MobileHero className="mobile:block desktop:hidden" />
+      <DesktopHero className="block mobile:hidden" />
+      <MobileHero className="hidden mobile:block" />
     </div>
   );
 }

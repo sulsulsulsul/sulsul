@@ -51,13 +51,14 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
       <div ref={container} className="invisible">
         <div className="flex w-full flex-col items-center justify-center pt-[88px] text-center">
           <h2 className="text-4xl font-bold text-white  sm:text-6xl">
-            답변이 술술 면접이 술술 <br /> 취업면접 올킬 작전
+            자소서는 다 썼는데,
+            <br />
+            면접 준비가 막막하다면?
           </h2>
           <div className="mt-2 text-white ">
             <div className="text-sm font-medium">
-              자소서 기반 면접질문
-              <br />
-              예상부터 면접 단골 기출문제까지!
+              자소서 기반 면접질문 <br />
+              예측부터 면접 단골 기출문제까지!
             </div>
           </div>
           <Button
@@ -70,12 +71,12 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
       </div>
       <div
         ref={videoContainer}
-        className="invisible relative z-10 mx-6 mt-[36px] h-[184px] w-[327px]"
+        className="invisible relative z-10 mx-6 mt-[36px] drop-shadow-hero"
       >
         <Video
           hero={true}
           onLoadedMetadata={() => setVideoLoaded(true)}
-          className="z-50 rounded-[30px]"
+          className="rounded-base"
           src="/videos/hero.mp4"
           autoPlay
           loop

@@ -23,7 +23,6 @@ const Page = async () => {
         <OnboardModal />
       </AuthSignedIn>
       <Hero />
-      <Recommendation />
       <Steps />
       <Challenge />
       <Reason />

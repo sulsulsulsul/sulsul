@@ -46,30 +46,24 @@ export const DesktopHero = ({ className, ...props }: HeroProps) => {
   return (
     <div
       className={cn(
-        'relative sm:min-h-screen pb-[30px] sm:pb-[100px]',
+        'relative bg-white sm:min-h-screen pb-[30px] sm:pb-[100px]',
         className,
       )}
       {...props}
     >
-      <div className="absolute top-0 z-0 size-full">
+      <div className="absolute top-0 z-0 h-[935px] w-full">
         <Image src="/images/hero.png" fill priority alt="hero-bg" />
       </div>
       <div ref={container} className="invisible">
-        <div className="flex w-full flex-col items-center justify-center pt-[130px] text-center">
+        <div className="flex w-full flex-col items-center justify-center pt-[120px] text-center">
           <h2 className="text-4xl font-bold text-white sm:text-6xl">
-            내 자기소개서를 기반으로
+            자소서는 다 썼는데,
           </h2>
           <h2 className="text-4xl font-bold text-white sm:text-6xl">
-            시작하는 면접 준비
+            면접 준비가 막막하다면?
           </h2>
-          <div className="mt-2 text-white ">
-            <p className="hidden sm:block">
-              인공지능 수리가 내 자소서를 토대로 면접질문을 예측해드려요.
-            </p>
-            <div className="text-sm font-medium sm:hidden">
-              <p>인공지능 수리가 내 자소서를</p>
-              <p>토대로 면접질문을 예측해드려요.</p>
-            </div>
+          <div className="mt-2 text-xl font-medium text-white ">
+            <p>자소서 기반 면접질문 예측부터 면접 단골 기출문제까지!</p>
           </div>
           <Button
             variant={'black'}
@@ -81,7 +75,7 @@ export const DesktopHero = ({ className, ...props }: HeroProps) => {
       </div>
       <div
         ref={videoContainer}
-        className="container invisible relative z-10 mt-[60px] h-fit"
+        className="container invisible relative z-10 mt-[60px] h-[678px] w-[1200px] drop-shadow-hero"
       >
         <Video
           hero={true}
