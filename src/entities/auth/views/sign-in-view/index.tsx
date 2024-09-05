@@ -25,7 +25,7 @@ export const SignInView = ({
     <AuthSignedOut>
       <div className={cn(className)} {...props}>
         <main className="fixed inset-0 z-10 flex items-center justify-center bg-gray-800/80">
-          <div className="relative z-50 h-[524px] w-[432px] rounded-md bg-white mobile:h-[464px] mobile:w-[370px]">
+          <div className="relative z-50 h-[524px] w-[432px] rounded-md bg-white mobile:h-[464px] mobile:w-[360px]">
             <AlertDialogCancel
               onClick={() => restart()}
               className="absolute right-6 top-6 size-6 border-none mobile:size-4"
@@ -39,7 +39,7 @@ export const SignInView = ({
               />
             </AlertDialogCancel>
             <div className="flex size-full flex-col items-center gap-[28px] px-[46px] pb-[40px] pt-[56px] mobile:gap-[18px]">
-              <div className="text-center text-4xl font-bold mobile:text-2xl">
+              <div className="text-center text-4xl font-bold mobile:text-3xl">
                 <h2>간편하게 로그인하고</h2>
                 <h2>체계적인 면접준비를 시작하세요!</h2>
               </div>
@@ -54,7 +54,7 @@ export const SignInView = ({
               </div>
               <div className="flex w-full flex-col gap-2">
                 <Button
-                  className="bg-[#FEE500] flex justify-center items-center"
+                  className="flex items-center justify-center bg-[#FEE500]"
                   onClick={() => signIn('kakao', { callbackUrl })}
                   variant={'kakao'}
                 >
@@ -69,7 +69,7 @@ export const SignInView = ({
                   </span>
                 </Button>
                 <Button
-                  className=" flex justify-center items-center"
+                  className=" flex items-center justify-center"
                   onClick={() => signIn('google', { callbackUrl })}
                   variant={'google'}
                 >
