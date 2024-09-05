@@ -19,6 +19,13 @@ export const API_ENDPOINT = {
         authorization: false,
       };
     },
+    refreshAuth: () => {
+      return {
+        url: `/public${API_V1_BASE}/auth/token-refresh`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
   },
   user: {
     getUser: (id: number) => {
