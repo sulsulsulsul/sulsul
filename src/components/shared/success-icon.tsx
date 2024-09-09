@@ -1,4 +1,5 @@
 import Image from 'next/image';
+
 import success from '/public/images/icons/toast-success.svg';
 
 export const SuccessIcon = () => {
