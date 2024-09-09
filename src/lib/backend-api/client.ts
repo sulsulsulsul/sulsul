@@ -21,10 +21,8 @@ function makeAxiosInstance() {
   instance.interceptors.request.use(
     (config) => {
       // Do something before request is sent
-      console.log('📤 Request:', {
-        method: config.method,
-        url: config.url,
-        data: config.data,
+      console.log('🔺 Request:', {
+        ...config,
         headers: { ...config.headers },
       });
       return config;
@@ -39,6 +37,10 @@ function makeAxiosInstance() {
   // Add a response interceptor
   instance.interceptors.response.use(
     (response) => {
+      console.log('🔻 Response', {
+        config: response.config,
+        data: response.data,
+      });
       // Any status code that lie within the range of 2xx cause this function to trigger
       // Do something with response data
       return response;
@@ -66,12 +68,14 @@ function makeAxiosInstance() {
 export interface BackendApiParams {
   endpoint: ApiEndpoint;
   data?: Record<string, unknown>;
+  params?: any;
   accessToken?: string;
 }
 
 export const backendApi = async <T>({
   endpoint,
   data,
+  params,
   accessToken,
 }: BackendApiParams) => {
   const axios = makeAxiosInstance();
@@ -85,6 +89,7 @@ export const backendApi = async <T>({
     url,
     method,
     data,
+    params,
   })) as { data: Response<T> };
 
   return res.data.data;

@@ -8,7 +8,7 @@ export const Feedback = ({ className, ...props }: FeedbackProps) => {
   return (
     <div
       className={cn(
-        'relative flex items-center justify-center h-[296px]',
+        'relative flex items-center justify-center h-[296px] mobile:h-[185px]',
         className,
       )}
       {...props}

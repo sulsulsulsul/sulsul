@@ -99,7 +99,7 @@ export default function Challenge() {
         </div>
       </div>
       <Image
-        className="z-20  mt-[36px] lg:mt-[60px]"
+        className="z-10  mt-[36px] lg:mt-[60px] mobile:px-6"
         src="/images/challenge-section.svg"
         width={582}
         height={522}
