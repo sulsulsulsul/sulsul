@@ -16,29 +16,32 @@ import { useResumes } from '../../hooks';
 import MyResumeSelection from '../practice-resume-selection';
 
 interface ResumeSectionType {
+  resume: ArchiveListItemDTO[];
+  allResume: boolean;
+  setAllResume: Dispatch<SetStateAction<boolean>>;
   reset: () => void;
-  resetResume: boolean;
-  setResetResume: Dispatch<SetStateAction<boolean>>;
   selectArchiveIds: number[];
   setSelectedArchiveIds: Dispatch<SetStateAction<number[]>>;
-  allResumes: CheckedState;
-  setAllResumes: Dispatch<SetStateAction<CheckedState>>;
+  focusedResume: number;
+  setFocusedResume: Dispatch<SetStateAction<number>>;
 }
 
 export default function PracticeModalResumeSection({
+  resume,
+  allResume,
+  setAllResume,
   reset,
   selectArchiveIds,
   setSelectedArchiveIds,
-  allResumes,
-  setAllResumes,
-  resetResume,
-  setResetResume,
+  focusedResume,
+  setFocusedResume,
 }: ResumeSectionType) {
-  const { resume } = useResumes();
   useEffect(() => {
-    resume?.length !== selectArchiveIds.length && setAllResumes(false);
-  }, [selectArchiveIds]);
-
+    if (resume) {
+      setFocusedResume(resume[0].archiveId);
+      setSelectedArchiveIds([resume[0].archiveId]);
+    }
+  }, [resume]);
   return (
     <div className="flex  w-1/2 flex-col">
       <section className="flex h-12 w-full flex-row text-xs leading-5 text-gray-500">
@@ -66,10 +69,17 @@ export default function PracticeModalResumeSection({
             <Checkbox
               id="resumes"
               className="m-[10px] size-5 p-[2px] "
-              checked={allResumes}
+              checked={resume?.length === selectArchiveIds.length}
               onCheckedChange={(check: CheckedState) => {
-                setAllResumes(check);
-                !check && reset();
+                if (resume) {
+                  check
+                    ? (setAllResume(true),
+                      setSelectedArchiveIds(
+                        resume?.map((value) => value.archiveId),
+                      ),
+                      setFocusedResume(resume[resume.length - 1].archiveId))
+                    : reset();
+                }
               }}
             />
             내 자기소개서 전체
@@ -82,12 +92,13 @@ export default function PracticeModalResumeSection({
             return (
               <MyResumeSelection
                 key={value.archiveId}
-                resetChecked={resetResume}
+                selectedArchiveIds={selectArchiveIds}
                 setSelectArchiveIds={setSelectedArchiveIds}
-                selectAll={allResumes}
                 archiveId={value.archiveId}
                 title={value.title}
                 companyName={value.companyName}
+                focusedResume={focusedResume}
+                setFocusedResume={setFocusedResume}
               />
             );
           })}

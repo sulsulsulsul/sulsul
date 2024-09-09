@@ -1,6 +1,12 @@
 'use client';
 
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import Image from 'next/image';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
@@ -18,33 +24,97 @@ import {
 } from '@/components/ui/tooltip';
 import { ModalQuestionType } from '@/entities/types/question';
 
-import QuestionSelection from '../practice-question-selection';
+import { usePracticeQuestions } from '../../hooks';
+import PracticeModalQuestionItems from '../practice-question-selection/question-modal-items';
 
 interface QuestionSelectionType {
   selectedArchiveIds: number[];
-  resetQuestion: boolean;
+  setSelectArchiveIds: Dispatch<SetStateAction<number[]>>;
+
+  allResume: boolean;
+  setAllResume: Dispatch<SetStateAction<boolean>>;
+
+  finalList: ModalQuestionType[];
   setFinalList: Dispatch<SetStateAction<ModalQuestionType[]>>;
+
   resetQuestionList: () => void;
+
   answerFilter: CheckedState;
   setAnswerFilter: Dispatch<SetStateAction<CheckedState>>;
+
   hintFilter: CheckedState;
   setHintFilter: Dispatch<SetStateAction<CheckedState>>;
-  allQuestions: CheckedState;
-  setAllQuestions: Dispatch<SetStateAction<CheckedState>>;
+
+  focusedResume: number;
+  setFocusedResume: Dispatch<SetStateAction<number>>;
+
+  selectedQuestionIds: number[];
+  setSelectedQuestionIds: Dispatch<SetStateAction<number[]>>;
 }
 
 export default function PracticeModalQuestionSection({
   selectedArchiveIds,
+  setSelectArchiveIds,
+
+  allResume,
+  setAllResume,
+
+  finalList,
   setFinalList,
-  resetQuestion,
+
   resetQuestionList,
-  allQuestions,
+
   answerFilter,
-  hintFilter,
-  setAllQuestions,
-  setHintFilter,
   setAnswerFilter,
+  hintFilter,
+  setHintFilter,
+
+  focusedResume,
+  setFocusedResume,
+
+  selectedQuestionIds,
+  setSelectedQuestionIds,
 }: QuestionSelectionType) {
+  const { questions } = usePracticeQuestions(focusedResume);
+
+  const handleFilter = useCallback(
+    (list: ModalQuestionType[]) => {
+      return list?.filter((item) => {
+        const answerCondition = !answerFilter || !item.isAnswered;
+        const hintCondition = !hintFilter || item.isHint;
+        return answerCondition && hintCondition;
+      });
+    },
+    [answerFilter, hintFilter],
+  );
+
+  const modifiedQuestionByFilter =
+    questions && (answerFilter || hintFilter)
+      ? handleFilter(questions!.questions.flat())
+      : questions?.questions;
+
+  useEffect(() => {
+    if (questions && (answerFilter || hintFilter)) {
+      setFinalList((prev) => {
+        return handleFilter(prev);
+      });
+    }
+  }, [answerFilter, hintFilter]);
+
+  useEffect(() => {
+    if (questions) {
+      setSelectedQuestionIds(
+        questions.questions.map((value) => value.questionId),
+      );
+      setFinalList((prev) =>
+        [...prev, ...questions.questions].filter(
+          (item, index, self) =>
+            index === self.findIndex((t) => t.questionId === item.questionId),
+        ),
+      );
+    }
+  }, [focusedResume, questions]);
+
   return (
     <div className="flex w-1/2 flex-col">
       <section className="flex h-12 w-full flex-row text-xs leading-5 text-gray-500">
@@ -143,10 +213,27 @@ export default function PracticeModalQuestionSection({
             <Checkbox
               id="questions"
               className="m-[10px] size-5 p-[2px] "
-              checked={allQuestions}
+              checked={
+                questions &&
+                questions?.questions.length === selectedQuestionIds.length
+              }
               onCheckedChange={(check: CheckedState) => {
-                setAllQuestions(check);
-                !check && resetQuestionList();
+                if (questions) {
+                  check
+                    ? (setFinalList((prev) => [
+                        ...prev,
+                        ...questions.questions,
+                      ]),
+                      setSelectedQuestionIds(
+                        questions.questions.map((value) => value.questionId),
+                      ))
+                    : (setSelectedQuestionIds([]),
+                      setFinalList((prev) =>
+                        prev.filter(
+                          (item) => !questions.questions.includes(item),
+                        ),
+                      ));
+                }
               }}
             />
             예상 문제 전체
@@ -154,19 +241,20 @@ export default function PracticeModalQuestionSection({
         </div>
       </section>
       <section className="h-[300px] overflow-scroll">
-        {selectedArchiveIds.map((value) => {
-          return (
-            <QuestionSelection
-              key={value}
-              archiveId={value}
-              resetQuestion={resetQuestion}
-              setFinalQuestions={setFinalList}
-              selectAll={allQuestions}
-              answerFilter={answerFilter}
-              hintFilter={hintFilter}
-            />
-          );
-        })}
+        {modifiedQuestionByFilter &&
+          modifiedQuestionByFilter.map((value) => {
+            return (
+              <PracticeModalQuestionItems
+                key={value.questionId}
+                selectedQuestionIds={selectedQuestionIds}
+                setSelectedQuestionIds={setSelectedQuestionIds}
+                finalList={finalList}
+                setFinalList={setFinalList}
+                questionProp={value}
+                questionId={value.questionId}
+              />
+            );
+          })}
       </section>
     </div>
   );

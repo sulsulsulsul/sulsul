@@ -10,31 +10,29 @@ import {
 } from '@/entities/types/question';
 
 interface QuestionDetailProp {
-  resetQuestion: boolean;
   questionId: number;
-  selectAll: CheckedState;
   questionProp: ModalQuestionType;
-  setFinalQuestions: Dispatch<SetStateAction<ModalQuestionType[]>>;
+  finalList: ModalQuestionType[];
+  setFinalList: Dispatch<SetStateAction<ModalQuestionType[]>>;
+  selectedQuestionIds: number[];
+  setSelectedQuestionIds: Dispatch<SetStateAction<number[]>>;
 }
 
 export default function PracticeModalQuestionItems({
-  resetQuestion,
-  setFinalQuestions,
-  selectAll,
   questionId,
   questionProp,
+  finalList,
+  setFinalList,
+  selectedQuestionIds,
+  setSelectedQuestionIds,
 }: QuestionDetailProp) {
   const [checked, setChecked] = useState<CheckedState>(false);
+
   useEffect(() => {
-    resetQuestion && setChecked(false);
-    selectAll &&
-      (setChecked(true),
-      setFinalQuestions((prev) => {
-        return prev.some((item) => item.questionId === questionId)
-          ? prev
-          : [...prev, questionProp];
-      }));
-  }, [resetQuestion, selectAll]);
+    finalList.some((item) => item.questionId === questionId)
+      ? setChecked(true)
+      : setChecked(false);
+  }, [finalList]);
 
   return (
     <div className="flex h-[68px] w-full flex-row items-center  gap-[12px] border border-gray-100 bg-white  pl-[24px] pr-[48px]">
@@ -43,12 +41,18 @@ export default function PracticeModalQuestionItems({
         checked={checked}
         onCheckedChange={(check) => {
           check
-            ? setFinalQuestions((prev) => [...prev, questionProp])
-            : setFinalQuestions((prev) => {
+            ? (setSelectedQuestionIds((prev) => [...prev, questionId]),
+              setFinalList((prev) => [...prev, questionProp]))
+            : (setSelectedQuestionIds((prev) => {
+                return prev.filter((item) => {
+                  return item !== questionId;
+                });
+              }),
+              setFinalList((prev) => {
                 return prev.filter((item) => {
                   return item.questionId !== questionId;
                 });
-              });
+              }));
           setChecked(check);
         }}
       />
