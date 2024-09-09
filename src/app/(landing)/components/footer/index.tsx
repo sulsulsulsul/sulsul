@@ -11,7 +11,7 @@ export const Footer = ({ className, ...props }: FooterProps) => {
     <div className={cn('container', className)} {...props}>
       <div
         className={cn(
-          'flex sm:flex-row p-8 border-b gap-10 justify-center items-center',
+          'flex flex-row p-8 mobile:p-0 mobile:text-sm mobile:py-5 border-b mobile:gap-[36px] gap-10 justify-center items-center',
           className,
         )}
         {...props}
@@ -32,14 +32,15 @@ export const Footer = ({ className, ...props }: FooterProps) => {
           );
         })}
       </div>
-      <div className="flex items-center justify-between py-6">
+      <div className="flex items-center justify-between py-6 mobile:justify-center mobile:py-5">
         <Image
           alt="logo"
+          className="mobile:hidden"
           src="/images/footer-logo.svg"
           width={92}
           height={22}
         />
-        <p className="text-lg font-medium text-[#3E404B] opacity-50">
+        <p className="text-lg font-medium text-[#3E404B] opacity-50 mobile:text-2xs">
           © 2024 Sulsul. All rights reserved.
         </p>
       </div>
