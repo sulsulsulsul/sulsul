@@ -32,6 +32,9 @@ const config = {
         lg: '0px 4px 24px rgba(48, 57, 102, 0.64)',
         xl: '0px 4px 24px rgba(26, 33, 81, 0.16)',
       },
+      dropShadow: {
+        hero: '0px 4px 24px rgba(26, 33, 81, 0.16)',
+      },
 
       fontSize: {
         '6xl': [
