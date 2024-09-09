@@ -46,6 +46,8 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
   const [timer, setTimer] = useState<CheckedState>(false);
   const [random, setRandom] = useState<boolean>(false);
 
+  const [currentFocus, setCurrentFocus] = useState(0);
+
   const mutation = useCreatePractice();
 
   const { resume } = useResumes();

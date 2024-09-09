@@ -49,12 +49,11 @@ export default function MyResumeSelection({
         });
     setChecked(true);
   };
-
   return (
     <div
       className={cn(
-        'flex flex-row pt-1.5 pl-6 pb-3 border border-solid-gray-100 group',
-        checked ? 'bg-blue-100' : 'bg-white',
+        'flex flex-row pt-1.5 pl-6 pb-3 border-b border-t-0 border-solid-gray-100',
+        checked ? 'bg-blue-100 border-b-white' : 'bg-white',
       )}
       onClick={handleCheck}
     >
@@ -72,11 +71,18 @@ export default function MyResumeSelection({
               height={24}
             />
           </div>
-          <div className="truncate text-base text-blue-800">{title}</div>
+          <div
+            className={cn(
+              ' text-base',
+              checked ? 'text-blue-500 font-bold' : 'text-black font-medium',
+            )}
+          >
+            {title}
+          </div>
         </div>
         <span
           className={cn(
-            'ml-11 h-8 w-fit items-center rounded-sm px-2.5 py-2 text-2xs',
+            'ml-11 h-8 w-fit items-center rounded-sm px-2.5 py-2 text-2xs text-gray-500',
             checked ? 'bg-white' : 'bg-gray-100',
           )}
         >

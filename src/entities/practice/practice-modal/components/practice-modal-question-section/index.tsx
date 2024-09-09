@@ -118,7 +118,11 @@ export default function PracticeModalQuestionSection({
   return (
     <div className="flex w-1/2 flex-col">
       <section className="flex h-12 w-full flex-row text-xs leading-5 text-gray-500">
-        <div className="flex w-full flex-row items-center justify-between border border-gray-100">
+        <div
+          className={cn(
+            'flex w-full flex-row items-center justify-between border border-b-0 border-gray-100',
+          )}
+        >
           <div className="ml-[24px]">예상 면접질문</div>
           <div className="flex flex-row gap-4">
             <Popover>

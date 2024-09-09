@@ -11,6 +11,7 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArchiveListItemDTO } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
 import { useResumes } from '../../hooks';
 import MyResumeSelection from '../practice-resume-selection';
@@ -45,7 +46,11 @@ export default function PracticeModalResumeSection({
   return (
     <div className="flex  w-1/2 flex-col">
       <section className="flex h-12 w-full flex-row text-xs leading-5 text-gray-500">
-        <div className="flex w-full flex-row items-center justify-between border border-gray-100 ">
+        <div
+          className={cn(
+            'flex w-full flex-row items-center justify-between border-y border-b-0 border-gray-100 ',
+          )}
+        >
           <div className="ml-[36px]">내 자기소개서</div>
           <div className="mr-[28px]">
             <button
@@ -58,13 +63,13 @@ export default function PracticeModalResumeSection({
                 width={24}
                 height={24}
               />
-              선택 초가화
+              선택 초기화
             </button>
           </div>
         </div>
       </section>
       <section>
-        <div className="flex h-[68px] w-full items-center border border-gray-100 pl-[24px] text-base">
+        <div className="flex h-[68px] w-full items-center border-y border-gray-100 pl-[24px] text-base">
           <label htmlFor={'resume'}>
             <Checkbox
               id="resumes"
@@ -88,9 +93,10 @@ export default function PracticeModalResumeSection({
       </section>
       <section className="h-[300px] overflow-scroll">
         {resume &&
-          resume.map((value: ArchiveListItemDTO) => {
+          resume.map((value: ArchiveListItemDTO, index) => {
             return (
               <MyResumeSelection
+                index={index}
                 key={value.archiveId}
                 selectedArchiveIds={selectArchiveIds}
                 setSelectArchiveIds={setSelectedArchiveIds}

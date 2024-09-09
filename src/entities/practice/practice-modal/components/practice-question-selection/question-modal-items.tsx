@@ -4,10 +4,8 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { Checkbox } from '@/components/ui/checkbox';
-import {
-  ModalQuestionType,
-  QuestionSearchType,
-} from '@/entities/types/question';
+import { ModalQuestionType } from '@/entities/types/question';
+import { cn } from '@/lib/utils';
 
 interface QuestionDetailProp {
   questionId: number;
@@ -35,7 +33,12 @@ export default function PracticeModalQuestionItems({
   }, [finalList]);
 
   return (
-    <div className="flex h-[68px] w-full flex-row items-center  gap-[12px] border border-gray-100 bg-white  pl-[24px] pr-[48px]">
+    <div
+      className={cn(
+        'flex h-[68px] w-full flex-row items-center gap-[12px] border border-gray-100 bg-white border-b-0 pl-[24px] pr-[48px]',
+        index === 0 && 'border-t-0',
+      )}
+    >
       <Checkbox
         className="m-[10px] size-5 p-[2px]"
         checked={checked}
