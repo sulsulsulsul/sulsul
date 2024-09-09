@@ -5,6 +5,7 @@ export const APP_ROUTES = {
   createArchive: () => '/archive/create',
   practice: () => '/practice',
   my: () => '/my',
+  solved: () => '/solved',
 } as const;
 
 export const ROOT = APP_ROUTES.home();

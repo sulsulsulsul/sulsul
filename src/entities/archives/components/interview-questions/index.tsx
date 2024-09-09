@@ -85,7 +85,7 @@ export const InterviewQuestions = ({
                             deleteQuestionMutation({ questionId }),
                           ),
                         );
-                        toast.success('예상질문을 삭제하였습니다.');
+                        toast.success('예상질문을 삭제했어요.');
                         handleReset();
                       } catch (error) {
                         toast.error(

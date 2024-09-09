@@ -17,7 +17,8 @@ interface Job {
 
 interface AuthState {
   userId: number;
-  token: string;
+  accessToken: string;
+  refreshToken: string;
 }
 
 interface DataState {
@@ -39,7 +40,8 @@ export interface UserState {
 export const useUserStore = create<UserState>((set) => ({
   auth: {
     userId: 0,
-    token: '',
+    accessToken: '',
+    refreshToken: '',
   },
   data: {
     email: '',
