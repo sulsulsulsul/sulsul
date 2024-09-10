@@ -154,7 +154,7 @@ export const API_ENDPOINT = {
       return {
         url: `${API_V1_BASE}/questions/search`,
         method: Method.GET,
-        authorization: true,
+        authorization: false,
       };
     },
     getSearchQuestions: (query: string) => {
@@ -212,14 +212,14 @@ export const API_ENDPOINT = {
       return {
         url: `${API_V1_BASE}/practice/statistics/summary`,
         method: Method.GET,
-        authorization: true,
+        authorization: false,
       };
     },
     getStatisticsDetail: (period: Period) => {
       return {
         url: `${API_V1_BASE}/practice/statistics/detail/${period}`,
         method: Method.GET,
-        authorization: true,
+        authorization: false,
       };
     },
     createPractice: () => {
