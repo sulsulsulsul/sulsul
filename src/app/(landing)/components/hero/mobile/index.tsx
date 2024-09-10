@@ -63,7 +63,7 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
           </div>
           <Button
             variant={'black'}
-            className="font-semi mt-[30px] size-fit px-4 py-2 text-base"
+            className="mt-[30px] size-fit px-4 py-2 text-base font-semibold"
           >
             무료로 시작하기
           </Button>
