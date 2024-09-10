@@ -1,7 +1,6 @@
 import { HTMLAttributes } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { signOut } from 'next-auth/react';
 import {
   AlertDialog,
@@ -12,7 +11,6 @@ import { ChevronDown, ChevronRight } from 'lucide-react';
 
 import { Logo } from '@/components/shared/logo';
 import {
-  AlertDialogCancel,
   AlertDialogDescription,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
@@ -136,14 +134,17 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
 
   return (
     <header
-      className={cn('flex h-full items-center justify-between', className)}
+      className={cn(
+        'flex h-full items-center justify-between gap-[46px] tablet:gap-6',
+        className,
+      )}
       {...props}
     >
-      <div className="flex items-center gap-[46px]">
+      <div className="flex items-center gap-[46px] tablet:gap-6">
         <Link href={'/'}>
           <Logo />
         </Link>
-        <HeaderNavigation className="gap-[46px]" />
+        <HeaderNavigation className="gap-[46px] tablet:gap-6" />
       </div>
       {renderLoginState()}
     </header>

@@ -76,6 +76,7 @@ export const MobileReason = ({ className, ...props }: ReasonProps) => {
           >
             <CarouselContent>
               {images.map((src, index) => (
+                // @ts-ignore
                 <CarouselItem key={index}>
                   <div
                     key={index}

@@ -61,7 +61,7 @@ export const QuestionCard = ({
             </AccordionTrigger>
             <AccordionContent className="pt-2">
               <CardBody
-                className="pb-5"
+                className="pb-5 pl-4"
                 question={data}
                 questionId={questionId}
                 archiveId={archiveId!}

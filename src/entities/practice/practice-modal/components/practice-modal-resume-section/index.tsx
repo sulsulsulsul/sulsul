@@ -1,11 +1,5 @@
 'use client';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import Image from 'next/image';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
@@ -13,7 +7,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { ArchiveListItemDTO } from '@/entities/types';
 import { cn } from '@/lib/utils';
 
-import { useResumes } from '../../hooks';
 import MyResumeSelection from '../practice-resume-selection';
 
 interface ResumeSectionType {
@@ -43,6 +36,11 @@ export default function PracticeModalResumeSection({
       setSelectedArchiveIds([resume[0].archiveId]);
     }
   }, [resume]);
+
+  resume?.length === selectArchiveIds.length
+    ? setAllResume(true)
+    : setAllResume(false);
+
   return (
     <div className="flex  w-1/2 flex-col">
       <section className="flex h-12 w-full flex-row text-xs leading-5 text-gray-500">
@@ -74,7 +72,7 @@ export default function PracticeModalResumeSection({
             <Checkbox
               id="resumes"
               className="m-[10px] size-5 p-[2px] "
-              checked={resume?.length === selectArchiveIds.length}
+              checked={allResume}
               onCheckedChange={(check: CheckedState) => {
                 if (resume) {
                   check
@@ -96,7 +94,6 @@ export default function PracticeModalResumeSection({
           resume.map((value: ArchiveListItemDTO, index) => {
             return (
               <MyResumeSelection
-                index={index}
                 key={value.archiveId}
                 selectedArchiveIds={selectArchiveIds}
                 setSelectArchiveIds={setSelectedArchiveIds}

@@ -22,63 +22,33 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { ModalQuestionType } from '@/entities/types/question';
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
 import { usePracticeQuestions } from '../../hooks';
-import PracticeModalQuestionItems from '../practice-question-selection/question-modal-items';
+import PracticeModalQuestionSelection from '../practice-question-selection';
 
 interface QuestionSelectionType {
-  selectedArchiveIds: number[];
-  setSelectArchiveIds: Dispatch<SetStateAction<number[]>>;
-
-  allResume: boolean;
-  setAllResume: Dispatch<SetStateAction<boolean>>;
-
-  finalList: ModalQuestionType[];
-  setFinalList: Dispatch<SetStateAction<ModalQuestionType[]>>;
-
-  resetQuestionList: () => void;
-
-  answerFilter: CheckedState;
-  setAnswerFilter: Dispatch<SetStateAction<CheckedState>>;
-
-  hintFilter: CheckedState;
-  setHintFilter: Dispatch<SetStateAction<CheckedState>>;
-
+  finalList: ArchiveQuestionItem[];
+  setFinalList: Dispatch<SetStateAction<ArchiveQuestionItem[]>>;
   focusedResume: number;
-  setFocusedResume: Dispatch<SetStateAction<number>>;
-
   selectedQuestionIds: number[];
   setSelectedQuestionIds: Dispatch<SetStateAction<number[]>>;
 }
 
 export default function PracticeModalQuestionSection({
-  selectedArchiveIds,
-  setSelectArchiveIds,
-
-  allResume,
-  setAllResume,
-
   finalList,
   setFinalList,
-
-  resetQuestionList,
-
-  answerFilter,
-  setAnswerFilter,
-  hintFilter,
-  setHintFilter,
-
   focusedResume,
-  setFocusedResume,
-
   selectedQuestionIds,
   setSelectedQuestionIds,
 }: QuestionSelectionType) {
   const { questions } = usePracticeQuestions(focusedResume);
+  const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
+  const [hintFilter, setHintFilter] = useState<CheckedState>(false);
 
   const handleFilter = useCallback(
-    (list: ModalQuestionType[]) => {
+    (list: ArchiveQuestionItem[]) => {
       return list?.filter((item) => {
         const answerCondition = !answerFilter || !item.isAnswered;
         const hintCondition = !hintFilter || item.isHint;
@@ -87,6 +57,15 @@ export default function PracticeModalQuestionSection({
     },
     [answerFilter, hintFilter],
   );
+
+  const resetQuestionList = useCallback(() => {
+    setAnswerFilter(false);
+    setHintFilter(false);
+    setSelectedQuestionIds([]);
+    setFinalList((prev) =>
+      prev.filter((item) => !questions?.questions.includes(item)),
+    );
+  }, [questions]);
 
   const modifiedQuestionByFilter =
     questions && (answerFilter || hintFilter)
@@ -246,11 +225,11 @@ export default function PracticeModalQuestionSection({
       </section>
       <section className="h-[300px] overflow-scroll">
         {modifiedQuestionByFilter &&
-          modifiedQuestionByFilter.map((value) => {
+          modifiedQuestionByFilter.map((value, index) => {
             return (
-              <PracticeModalQuestionItems
+              <PracticeModalQuestionSelection
+                index={index}
                 key={value.questionId}
-                selectedQuestionIds={selectedQuestionIds}
                 setSelectedQuestionIds={setSelectedQuestionIds}
                 finalList={finalList}
                 setFinalList={setFinalList}

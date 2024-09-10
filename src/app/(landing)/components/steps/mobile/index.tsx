@@ -13,7 +13,6 @@ export const MobileSteps = ({
         <h2>술술과 함께하는</h2>
         <h2>면접 완성 프로젝트</h2>
       </div>
-
       <Video
         src="/videos/step-1.mp4"
         title="step1"

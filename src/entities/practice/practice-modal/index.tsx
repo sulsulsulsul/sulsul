@@ -11,17 +11,18 @@ import {
 import { useRouter } from 'next/navigation';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
+import { ArchiveQuestionItem } from '@/entities/types';
 import { cn } from '@/lib/utils';
 import { usePracticeStore } from '@/store/practiceStore';
 
-import { ModalQuestionType, PracticingListType } from '../../types/question';
+import { PracticingListType } from '../../types/question';
 import { usePracticeDetail } from '../hooks/use-get-practice-detail';
 import ModalHeader from './components/modal-header';
 import PracticeModalButton from './components/practice-modal-button';
 import PracticeModalOption from './components/practice-modal-option';
 import PracticeModalQuestionSection from './components/practice-modal-question-section';
 import PracticeModalResumeSection from './components/practice-modal-resume-section';
-import { useResumes } from './hooks';
+import { useAllPracticeQuestions, useResumes } from './hooks';
 import { useCreatePractice } from './hooks/use-create-practice';
 
 interface PracticeSelectionProp {
@@ -38,15 +39,10 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
   const [allResume, setAllResume] = useState(false);
   const [selectedQuestionIds, setSelectedQuestionIds] = useState<number[]>([]);
 
-  const [finalList, setFinalList] = useState<ModalQuestionType[]>([]);
-
-  const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
-  const [hintFilter, setHintFilter] = useState<CheckedState>(false);
+  const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([]);
 
   const [timer, setTimer] = useState<CheckedState>(false);
   const [random, setRandom] = useState<boolean>(false);
-
-  const [currentFocus, setCurrentFocus] = useState(0);
 
   const mutation = useCreatePractice();
 
@@ -71,13 +67,21 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
     setFocusedResume(0);
     setAllResume(false);
     setSelectedArchiveIds([]);
-  }, []);
-
-  const resetQuestionList = useCallback(() => {
-    setAnswerFilter(false);
-    setHintFilter(false);
     setFinalList([]);
   }, []);
+
+  const allQuestions = useAllPracticeQuestions(selectedArchiveIds);
+
+  useEffect(() => {
+    if (
+      allResume &&
+      allQuestions &&
+      allQuestions.allQuestions &&
+      selectedArchiveIds.length === resume?.length
+    ) {
+      setFinalList(allQuestions.allQuestions);
+    }
+  }, [allResume]);
 
   const shuffledList = useMemo(() => {
     const newList = [...finalList];
@@ -97,7 +101,6 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
       });
 
   const { data, refetch } = usePracticeDetail(detailedQuestionsIds);
-  // const  allArchiveQuestions = usePracticeDetail()
 
   const handleSubmit = async () => {
     await refetch();
@@ -135,21 +138,11 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
             setFocusedResume={setFocusedResume}
           />
           <PracticeModalQuestionSection
-            selectedArchiveIds={selectedArchiveIds}
-            setSelectArchiveIds={setSelectedArchiveIds}
-            allResume={allResume}
-            setAllResume={setAllResume}
             selectedQuestionIds={selectedQuestionIds}
             setSelectedQuestionIds={setSelectedQuestionIds}
             setFinalList={setFinalList}
-            resetQuestionList={resetQuestionList}
-            answerFilter={answerFilter}
-            setAnswerFilter={setAnswerFilter}
-            hintFilter={hintFilter}
-            setHintFilter={setHintFilter}
             focusedResume={focusedResume}
             finalList={finalList}
-            setFocusedResume={setFocusedResume}
           />
         </div>
         <section>

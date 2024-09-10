@@ -57,12 +57,15 @@ export const ArchiveCard = ({
           <div className="rounded-sm bg-gray-100 px-[10px] py-[7px] text-blue-500">
             <h3 className="text-2xs font-semibold">{companyName}</h3>
           </div>
-          <div onClick={(e) => e.stopPropagation()}>
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="flex items-center justify-center"
+          >
             <ArchiveCardMenu archiveId={archiveId} currentPage={currentPage} />
           </div>
         </div>
         <div className="mt-3 h-[84px]">
-          <h4 className="line-clamp-3">{title}</h4>
+          <h4 className="line-clamp-3 text-2xl font-semibold">{title}</h4>
         </div>
 
         {questionCount === 0 ? (
@@ -71,7 +74,7 @@ export const ArchiveCard = ({
           </div>
         ) : (
           <div className="mt-[20px] text-lg font-normal">
-            예상 면접 질문{' '}
+            예상 면접질문{' '}
             <span className="text-green-point">{questionCount}</span>
           </div>
         )}

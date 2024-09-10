@@ -9,3 +9,16 @@ export const getPracticeQuestion = async (id: number) => {
     endpoint: API_ENDPOINT.archive.getArchive(id),
   });
 };
+
+export const getAllPracticeQuestion = async (ids: number[]) => {
+  const collect = [];
+  for (let i of ids) {
+    collect.push(
+      backendApi<ArchiveDetailDTO>({
+        endpoint: API_ENDPOINT.archive.getArchive(i),
+      }),
+    );
+  }
+  const result = await Promise.all(collect);
+  return result.flatMap((item) => item.questions);
+};

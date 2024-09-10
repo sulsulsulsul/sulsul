@@ -2,7 +2,10 @@
 
 import { queryOptions, useQuery } from '@tanstack/react-query';
 
-import { getPracticeQuestion } from '../actions/get-modal-questions';
+import {
+  getAllPracticeQuestion,
+  getPracticeQuestion,
+} from '../actions/get-modal-questions';
 
 export const QuestionListQueryOptions = (id: number) =>
   queryOptions({
@@ -10,7 +13,7 @@ export const QuestionListQueryOptions = (id: number) =>
     queryFn: () => {
       return getPracticeQuestion(id);
     },
-    staleTime: Infinity,
+    // staleTime: Infinity,
   });
 
 export const usePracticeQuestions = (id: number) => {
@@ -19,5 +22,23 @@ export const usePracticeQuestions = (id: number) => {
   return {
     ...rest,
     questions: data,
+  };
+};
+
+export const AllQuestionListQueryOptions = (ids: number[]) =>
+  queryOptions({
+    queryKey: ['questions', ids],
+    queryFn: () => {
+      return getAllPracticeQuestion(ids);
+    },
+    // staleTime: Infinity,
+  });
+
+export const useAllPracticeQuestions = (ids: number[]) => {
+  const result = useQuery(AllQuestionListQueryOptions(ids));
+  const { data, ...rest } = result;
+  return {
+    ...rest,
+    allQuestions: data,
   };
 };

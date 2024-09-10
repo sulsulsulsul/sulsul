@@ -7,7 +7,7 @@ import { Action } from './components/action';
 import Challenge from './components/challenge';
 import { Feedback } from './components/feedback';
 import { Footer } from './components/footer';
-import { Hero } from './components/hero';
+import Hero from './components/hero';
 import { OnboardModal } from './components/onboard/views/onboard-modal-view';
 import { Reason } from './components/reason';
 import { Recommendation } from './components/recommendation';
@@ -23,7 +23,6 @@ const Page = async () => {
         <OnboardModal />
       </AuthSignedIn>
       <Hero />
-      <Recommendation />
       <Steps />
       <Challenge />
       <Reason />

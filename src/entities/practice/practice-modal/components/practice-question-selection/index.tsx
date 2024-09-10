@@ -1,75 +1,65 @@
-// 'use client';
+'use client';
 
-// import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
-// import { CheckedState } from '@radix-ui/react-checkbox';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { CheckedState } from '@radix-ui/react-checkbox';
 
-// import { ModalQuestionType } from '@/entities/types/question';
+import { Checkbox } from '@/components/ui/checkbox';
+import { ArchiveQuestionItem } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-// import { usePracticeQuestions } from '../../hooks/use-get-modal-questions';
-// import PracticeModalQuestionItems from './question-modal-items';
-// import { ArchiveDetailDTO } from '@/entities/types';
+interface QuestionDetailProp {
+  index: number;
+  questionId: number;
+  questionProp: ArchiveQuestionItem;
+  finalList: ArchiveQuestionItem[];
+  setFinalList: Dispatch<SetStateAction<ArchiveQuestionItem[]>>;
+  setSelectedQuestionIds: Dispatch<SetStateAction<number[]>>;
+}
 
-// interface QuestionDetail {
-//   resetQuestion: boolean;
-//   selectAll: CheckedState;
-//   archiveId: number;
-//   answerFilter: CheckedState;
-//   hintFilter: CheckedState;
-//   finalQuestions:ModalQuestionType[];
-//   questions: ArchiveDetailDTO;
-//   setFinalQuestions: Dispatch<SetStateAction<ModalQuestionType[]>>;
-// }
+export default function PracticeModalQuestionSelection({
+  index,
+  questionId,
+  questionProp,
+  finalList,
+  setFinalList,
+  setSelectedQuestionIds,
+}: QuestionDetailProp) {
+  const [checked, setChecked] = useState<CheckedState>(false);
 
-// export default function QuestionSelection({
-//   resetQuestion,
-//   setFinalQuestions,
-//   selectAll,
-//   archiveId,
-//   answerFilter,
-//   hintFilter,
-//   questions,
-//   finalQuestions
-// }: QuestionDetail) {
+  useEffect(() => {
+    finalList.some((item) => item.questionId === questionId)
+      ? setChecked(true)
+      : setChecked(false);
+  }, [finalList]);
 
-//   const handleFilter = useCallback(
-//     (list: ModalQuestionType[]) => {
-//       return list?.filter((item) => {
-//         const answerCondition = !answerFilter || !item.isAnswered;
-//         const hintCondition = !hintFilter || item.isHint;
-//         return answerCondition && hintCondition;
-//       });
-//     },
-//     [answerFilter, hintFilter],
-//   );
-
-//   const modifiedQuestionByFilter =
-//     questions && (answerFilter || hintFilter)
-//       ? handleFilter(questions!.questions.flat())
-//       : questions?.questions;
-
-//   useEffect(() => {
-//     if (questions && (answerFilter || hintFilter)) {
-//       setFinalQuestions((prev) => {
-//         return handleFilter(prev);
-//       });
-//     }
-//   }, [answerFilter, hintFilter]);
-
-//   return (
-//     <>
-//       {modifiedQuestionByFilter &&
-//         modifiedQuestionByFilter.map((value) => {
-//           return (
-//             <PracticeModalQuestionItems
-//               key={value.questionId}
-//               setFinalQuestions={setFinalQuestions}
-//               questionProp={value}
-//               resetQuestion={resetQuestion}
-//               questionId={value.questionId}
-//               selectAll={selectAll}
-//             />
-//           );
-//         })}
-//     </>
-//   );
-// }
+  return (
+    <div
+      className={cn(
+        'flex h-[68px] w-full flex-row items-center gap-[12px] border border-gray-100 bg-white border-b-0 pl-[24px] pr-[48px]',
+        index === 0 && 'border-t-0',
+      )}
+    >
+      <Checkbox
+        className="m-[10px] size-5 p-[2px]"
+        checked={checked}
+        onCheckedChange={(check) => {
+          check
+            ? (setSelectedQuestionIds((prev) => [...prev, questionId]),
+              setFinalList((prev) => [...prev, questionProp]))
+            : (setSelectedQuestionIds((prev) => {
+                return prev.filter((item) => {
+                  return item !== questionId;
+                });
+              }),
+              setFinalList((prev) => {
+                return prev.filter((item) => {
+                  return item.questionId !== questionId;
+                });
+              }));
+          setChecked(check);
+        }}
+      />
+      <div className="h-fit w-full">{questionProp.content}</div>
+    </div>
+  );
+}

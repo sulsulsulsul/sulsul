@@ -2,11 +2,15 @@ import { APP_ROUTES } from './app-routes';
 
 export const DesktopHeaderLinks = [
   {
-    label: '내 면접 질문',
+    label: '면접질문 예측',
     link: APP_ROUTES.createArchive(),
   },
-  { label: '아카이브', link: APP_ROUTES.archive() },
+  {
+    label: '기출문제',
+    link: APP_ROUTES.solved(),
+  },
   { label: '실전연습', link: APP_ROUTES.practice() },
+  { label: '아카이브', link: APP_ROUTES.archive() },
 ] as const;
 
 export const MobileHeaderLinks = [
@@ -15,11 +19,15 @@ export const MobileHeaderLinks = [
     link: APP_ROUTES.home(),
   },
   {
-    label: '면접 질문 예측',
+    label: '면접질문 예측',
     link: APP_ROUTES.createArchive(),
   },
-  { label: '아카이브', link: APP_ROUTES.archive() },
+  {
+    label: '기출문제',
+    link: APP_ROUTES.solved(),
+  },
   { label: '실전연습', link: APP_ROUTES.practice() },
+  { label: '아카이브', link: APP_ROUTES.archive() },
 ] as const;
 
 export const LandingFooterLinks = [
@@ -28,9 +36,13 @@ export const LandingFooterLinks = [
     link: APP_ROUTES.home(),
   },
   {
-    label: '내 면접 질문',
+    label: '면접질문 예측',
     link: APP_ROUTES.createArchive(),
   },
-  { label: '아카이브', link: APP_ROUTES.archive() },
+  {
+    label: '기출문제',
+    link: APP_ROUTES.solved(),
+  },
   { label: '실전연습', link: APP_ROUTES.practice() },
+  { label: '아카이브', link: APP_ROUTES.archive() },
 ] as const;

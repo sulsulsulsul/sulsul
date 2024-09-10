@@ -5,6 +5,8 @@ import { SessionProvider } from 'next-auth/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
+import { ErrorIcon } from '@/components/shared/error-icon';
+import { SuccessIcon } from '@/components/shared/success-icon';
 import { Toaster } from '@/components/ui/sonner';
 import { getQueryClient } from '@/lib/tanstack-query/client';
 
@@ -22,7 +24,12 @@ export const Providers = ({
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient ?? getQueryClient()}>
         {children}
-        <Toaster />
+        <Toaster
+          icons={{
+            success: <SuccessIcon />,
+            error: <ErrorIcon />,
+          }}
+        />
 
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>

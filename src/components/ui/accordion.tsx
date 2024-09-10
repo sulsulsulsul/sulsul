@@ -29,9 +29,9 @@ AccordionItem.displayName = 'AccordionItem';
 type AccordionTriggerProps = React.ComponentPropsWithoutRef<
   typeof AccordionPrimitive.Trigger
 > & {
-  questionId: number;
-  isClicked: boolean;
-  setClickedQuestions: React.Dispatch<React.SetStateAction<number[]>>;
+  questionId?: number;
+  isClicked?: boolean;
+  setClickedQuestions?: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
 const AccordionTrigger = React.forwardRef<
@@ -40,30 +40,33 @@ const AccordionTrigger = React.forwardRef<
 >(({ questionId, className, children, setClickedQuestions, ...props }, ref) => {
   const { isEditing } = useEditQuestionStore();
   const { deleteQuestions, setDeleteQuestions } = useDeleteQuestionStore();
-  const isClicked = deleteQuestions.includes(questionId);
+  const isClicked = questionId && deleteQuestions.includes(questionId);
 
   const handleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    setClickedQuestions((prev: number[]) => {
-      const isCurrentlyClicked = prev.includes(questionId);
 
-      setDeleteQuestions((prevDeleteQuestions) => {
-        if (isCurrentlyClicked) {
-          return prevDeleteQuestions.filter((id) => id !== questionId);
-        } else {
-          if (!prevDeleteQuestions.includes(questionId)) {
-            return [...prevDeleteQuestions, questionId];
+    if (questionId && setClickedQuestions) {
+      setClickedQuestions((prev: number[]) => {
+        const isCurrentlyClicked = prev.includes(questionId);
+
+        setDeleteQuestions((prevDeleteQuestions) => {
+          if (isCurrentlyClicked) {
+            return prevDeleteQuestions.filter((id) => id !== questionId);
+          } else {
+            if (!prevDeleteQuestions.includes(questionId)) {
+              return [...prevDeleteQuestions, questionId];
+            }
+            return prevDeleteQuestions;
           }
-          return prevDeleteQuestions;
+        });
+
+        if (isCurrentlyClicked) {
+          return prev.filter((id) => id !== questionId);
+        } else {
+          return [...prev, questionId];
         }
       });
-
-      if (isCurrentlyClicked) {
-        return prev.filter((id) => id !== questionId);
-      } else {
-        return [...prev, questionId];
-      }
-    });
+    }
   };
 
   return (
