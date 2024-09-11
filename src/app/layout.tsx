@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '[Sulsul] 취준유형 테스트',
     description: '내 취준스타일로 알아보는 취준 꿀팁',
-    images: ['https://suulsuul.vercel.app/public/images/open-graph'],
+    images: ['/public/images/open-graph.png'],
   },
 };
 
