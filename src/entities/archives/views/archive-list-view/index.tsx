@@ -43,7 +43,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
               src={'/images/icons/etc-folder.svg'}
               alt="etc folder"
             />
-            <h2>내 면접 질문 및 답변</h2>
+            <h2>내 면접질문 및 답변</h2>
           </div>
           <SelectDropdown onChangeSortType={onChangeSortType} />
         </div>
@@ -80,7 +80,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
 
   return (
     <main className="relative px-0 pt-[-60px] sm:px-[-12px] md:px-[-20px]">
-      <div className="flex justify-between">
+      <div className="mx-5 flex justify-between">
         <div className="flex items-center gap-1 text-4xl font-bold">
           <Image
             width={32}
@@ -88,13 +88,13 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
             src={'/images/icons/etc-folder.svg'}
             alt="etc folder"
           />
-          <h2>내 면접 질문 및 답변 </h2>
+          <h2>내 면접질문 및 답변 </h2>
           <span className="text-blue-500">{archives?.totalCount}</span>
         </div>
         <SelectDropdown onChangeSortType={onChangeSortType} />
       </div>
       <div className="my-4 mb-14 flex items-center justify-center">
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 2xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 2xl:grid-cols-4">
           {archives &&
             archives.archives?.map((archive: ArchiveListItemDTO) => (
               <Link

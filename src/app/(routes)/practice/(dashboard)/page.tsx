@@ -1,4 +1,5 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import getStatisticsDetailAction from '@/entities/practice/actions/get-statistics-detail-action';
@@ -8,12 +9,14 @@ import { getQueryKey as getStatisticsSummaryQueryKey } from '@/entities/practice
 import getSearchQuestionsAction from '@/entities/questions/actions/get-search-questions-action';
 import { getQueryKey as getSearchQuestionsQueryKey } from '@/entities/questions/hooks/use-search-questions';
 import { getQueryClient } from '@/lib/tanstack-query/client';
+import { formatDate } from '@/shared/helpers/date-helpers';
 import Practice from '@/views/practice';
 
 const Page = async () => {
   const queryClient = getQueryClient();
   const authInfo = await auth();
   const userId = authInfo?.user.auth.userId || 0;
+  const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
 
   // TODO: prefetch 깔끔하게 정리 생각해보기
   await Promise.all([
@@ -21,16 +24,30 @@ const Page = async () => {
       queryKey: getStatisticsSummaryQueryKey(userId),
       queryFn: () => getStatisticsSummaryAction(userId),
     }),
-    // TODO: 월 데이터도 캐싱
+    queryClient.prefetchQuery({
+      queryKey: getStatisticsDetailQueryKey({
+        period: 'MONTHLY',
+        userId,
+        pivotDate,
+      }),
+      queryFn: () =>
+        getStatisticsDetailAction({
+          period: 'MONTHLY',
+          userId,
+          pivotDate,
+        }),
+    }),
     queryClient.prefetchQuery({
       queryKey: getStatisticsDetailQueryKey({
         period: 'WEEKLY',
         userId,
+        pivotDate,
       }),
       queryFn: () =>
         getStatisticsDetailAction({
           period: 'WEEKLY',
           userId,
+          pivotDate,
         }),
     }),
     queryClient.prefetchQuery({

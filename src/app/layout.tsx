@@ -15,11 +15,16 @@ export const metadata: Metadata = {
   icons: {
     icon: '/public/images/favicon.ico',
   },
+  // openGraph: {
+  //   images: 'https://suulsuul.vercel.app/public/images/favicon.ico',
+  //   title: '술술ㅣAI 면접 질문 예측부터 면접 기출 100선까지',
+  //   description:
+  //     '인공지능 수리와 함께하는 취업 면접 올킬 작전! 체계적인 면접준비, 지금 무료로 시작해보세요.',
+  // },
   openGraph: {
-    images: 'https://suulsuul.vercel.app/public/images/favicon.ico',
-    title: '술술ㅣAI 면접 질문 예측부터 면접 기출 100선까지',
-    description:
-      '인공지능 수리와 함께하는 취업 면접 올킬 작전! 체계적인 면접준비, 지금 무료로 시작해보세요.',
+    title: '[Sulsul] 취준유형 테스트',
+    description: '내 취준스타일로 알아보는 취준 꿀팁',
+    images: ['https://suulsuul.vercel.app/public/images/open-graph'],
   },
 };
 

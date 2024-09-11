@@ -49,7 +49,7 @@ export const MyJob = ({ className, ...props }: MyFormProps) => {
                     내 직무
                   </FormLabel>
                   <Select onValueChange={field.onChange}>
-                    <SelectTrigger className="h-[58px] w-[449px] rounded-xl border border-gray-200 p-5 text-lg font-medium text-gray-800 data-[state=open]:border data-[state=open]:border-blue-500">
+                    <SelectTrigger className="h-[58px] w-[449px] justify-between rounded-xl border border-gray-200 p-5 text-lg font-medium text-gray-800 data-[state=open]:border data-[state=open]:border-blue-500">
                       <SelectValue
                         placeholder={
                           jobId === 1
