@@ -29,17 +29,23 @@ import { usePracticeQuestions } from '../../hooks';
 import PracticeModalQuestionSelection from '../practice-question-selection';
 
 interface QuestionSelectionType {
+  allResume: boolean;
   finalList: ArchiveQuestionItem[];
   setFinalList: Dispatch<SetStateAction<ArchiveQuestionItem[]>>;
   focusedResume: number;
+  selectedArchiveIds: number[];
+  setSelectedArchiveIds: Dispatch<SetStateAction<number[]>>;
   selectedQuestionIds: number[];
   setSelectedQuestionIds: Dispatch<SetStateAction<number[]>>;
 }
 
 export default function PracticeModalQuestionSection({
+  allResume,
   finalList,
   setFinalList,
   focusedResume,
+  selectedArchiveIds,
+  setSelectedArchiveIds,
   selectedQuestionIds,
   setSelectedQuestionIds,
 }: QuestionSelectionType) {
@@ -82,17 +88,43 @@ export default function PracticeModalQuestionSection({
 
   useEffect(() => {
     if (questions) {
-      setSelectedQuestionIds(
-        questions.questions.map((value) => value.questionId),
-      );
-      setFinalList((prev) =>
-        [...prev, ...questions.questions].filter(
-          (item, index, self) =>
-            index === self.findIndex((t) => t.questionId === item.questionId),
-        ),
-      );
+      if (!selectedArchiveIds.includes(focusedResume)) {
+        setSelectedQuestionIds(
+          questions.questions.map((value) => value.questionId),
+        );
+        setFinalList((prev) =>
+          [...prev, ...questions.questions].filter(
+            (item, index, self) =>
+              index === self.findIndex((t) => t.questionId === item.questionId),
+          ),
+        );
+      } else {
+        const x = finalList.filter((item) =>
+          questions.questions.some(
+            (item2) => item2.questionId == item.questionId,
+          ),
+        );
+        setSelectedQuestionIds(x.map((item) => item.questionId));
+      }
+      if (allResume) {
+        setSelectedQuestionIds(
+          questions.questions.map((item) => item.questionId),
+        );
+      }
     }
   }, [focusedResume, questions]);
+
+  useEffect(() => {
+    if (selectedQuestionIds.length === 0) {
+      setSelectedArchiveIds((prev) =>
+        prev.filter((item) => {
+          return item !== focusedResume;
+        }),
+      );
+    } else {
+      setSelectedArchiveIds((prev) => [...prev, focusedResume]);
+    }
+  }, [selectedQuestionIds.length]);
 
   return (
     <div className="flex w-1/2 flex-col">
@@ -201,6 +233,7 @@ export default function PracticeModalQuestionSection({
                 questions?.questions.length === selectedQuestionIds.length
               }
               onCheckedChange={(check: CheckedState) => {
+                //전체 선택/해제
                 if (questions) {
                   check
                     ? (setFinalList((prev) => [
@@ -212,9 +245,11 @@ export default function PracticeModalQuestionSection({
                       ))
                     : (setSelectedQuestionIds([]),
                       setFinalList((prev) =>
-                        prev.filter(
-                          (item) => !questions.questions.includes(item),
-                        ),
+                        prev.filter((item) => {
+                          return questions.questions.every(
+                            (item2) => item.questionId !== item2.questionId,
+                          );
+                        }),
                       ));
                 }
               }}

@@ -2,14 +2,9 @@
 
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { CheckedState } from '@radix-ui/react-checkbox';
 import { ChevronRight } from 'lucide-react';
 
-import { Checkbox } from '@/components/ui/checkbox';
-import { ArchiveDetailDTO } from '@/entities/types';
 import { cn } from '@/lib/utils';
-
-import { usePracticeQuestions } from '../../hooks/use-get-modal-questions';
 
 interface ResumeSelection {
   title: string;
@@ -25,7 +20,6 @@ export default function MyResumeSelection({
   title,
   companyName,
   selectedArchiveIds,
-  setSelectArchiveIds,
   archiveId,
   focusedResume,
   setFocusedResume,
@@ -40,15 +34,8 @@ export default function MyResumeSelection({
 
   const handleCheck = () => {
     setFocusedResume(archiveId);
-    !checked
-      ? setSelectArchiveIds((prev) => [...prev, archiveId])
-      : setSelectArchiveIds((prev) => {
-          return prev.filter((item) => {
-            return item !== archiveId;
-          });
-        });
-    setChecked(true);
   };
+
   return (
     <div
       className={cn(

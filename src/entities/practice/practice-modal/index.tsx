@@ -52,7 +52,6 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
   );
 
   useEffect(() => {
-    //질문이 하나도 선택되어있지 않았을때 다시 체크 박스 OFF
     if (resume) {
       selectedQuestionIds.length === 0 &&
         selectedArchiveIds.length !== 0 &&
@@ -70,16 +69,13 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
     setFinalList([]);
   }, []);
 
-  const allQuestions = useAllPracticeQuestions(selectedArchiveIds);
+  const allQuestions = useAllPracticeQuestions(
+    resume?.flatMap((item) => item.archiveId)!,
+  );
 
   useEffect(() => {
-    if (
-      allResume &&
-      allQuestions &&
-      allQuestions.allQuestions &&
-      selectedArchiveIds.length === resume?.length
-    ) {
-      setFinalList(allQuestions.allQuestions);
+    if (allResume && allQuestions.isSuccess) {
+      allQuestions.allQuestions && setFinalList(allQuestions.allQuestions);
     }
   }, [allResume]);
 
@@ -104,20 +100,18 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
 
   const handleSubmit = async () => {
     await refetch();
-    await mutation.mutate(
-      finalList.flatMap((value) => value.questionId),
-      {
-        onSuccess: (value) => {
-          router.push('/practice/ing'),
-            setStore({
-              timer: !!timer,
-              practiceList: data as PracticingListType[],
-              practiceId: value,
-            });
-        },
+    await mutation.mutate(detailedQuestionsIds, {
+      onSuccess: (value) => {
+        router.push('/practice/ing'),
+          setStore({
+            timer: !!timer,
+            practiceList: data as PracticingListType[],
+            practiceId: value,
+          });
       },
-    );
+    });
   };
+
   return (
     <div
       className={cn(
@@ -138,11 +132,14 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
             setFocusedResume={setFocusedResume}
           />
           <PracticeModalQuestionSection
+            selectedArchiveIds={selectedArchiveIds}
+            setSelectedArchiveIds={setSelectedArchiveIds}
             selectedQuestionIds={selectedQuestionIds}
             setSelectedQuestionIds={setSelectedQuestionIds}
             setFinalList={setFinalList}
             focusedResume={focusedResume}
             finalList={finalList}
+            allResume={allResume}
           />
         </div>
         <section>
@@ -152,7 +149,7 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
             setTimer={setTimer}
           />
           <PracticeModalButton
-            listCount={detailedQuestionsIds.length}
+            listCount={finalList.length}
             setCancel={setModal}
             handleSubmit={handleSubmit}
             setDisable={finalList.length === 0}

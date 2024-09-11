@@ -33,13 +33,16 @@ export default function PracticeModalResumeSection({
   useEffect(() => {
     if (resume) {
       setFocusedResume(resume[0].archiveId);
-      setSelectedArchiveIds([resume[0].archiveId]);
     }
   }, [resume]);
 
-  resume?.length === selectArchiveIds.length
-    ? setAllResume(true)
-    : setAllResume(false);
+  useEffect(() => {
+    if (resume) {
+      resume?.length === selectArchiveIds.length
+        ? setAllResume(true)
+        : setAllResume(false);
+    }
+  }, [selectArchiveIds.length]);
 
   return (
     <div className="flex  w-1/2 flex-col">
