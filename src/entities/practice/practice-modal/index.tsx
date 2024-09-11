@@ -11,16 +11,18 @@ import {
 import { useRouter } from 'next/navigation';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
+import { ArchiveQuestionItem } from '@/entities/types';
 import { cn } from '@/lib/utils';
 import { usePracticeStore } from '@/store/practiceStore';
 
-import { ModalQuestionType, PracticingListType } from '../../types/question';
+import { PracticingListType } from '../../types/question';
 import { usePracticeDetail } from '../hooks/use-get-practice-detail';
 import ModalHeader from './components/modal-header';
 import PracticeModalButton from './components/practice-modal-button';
 import PracticeModalOption from './components/practice-modal-option';
 import PracticeModalQuestionSection from './components/practice-modal-question-section';
 import PracticeModalResumeSection from './components/practice-modal-resume-section';
+import { useAllPracticeQuestions, useResumes } from './hooks';
 import { useCreatePractice } from './hooks/use-create-practice';
 
 interface PracticeSelectionProp {
@@ -33,43 +35,49 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
 
   const { setStore } = usePracticeStore();
 
-  const [resetResume, setResetResume] = useState(false);
-
-  const [resetQuestion, setResetQuestion] = useState(false);
-
   const [selectedArchiveIds, setSelectedArchiveIds] = useState<number[]>([]);
+  const [allResume, setAllResume] = useState(false);
+  const [selectedQuestionIds, setSelectedQuestionIds] = useState<number[]>([]);
 
-  const [finalList, setFinalList] = useState<ModalQuestionType[]>([]);
-
-  const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
-  const [hintFilter, setHintFilter] = useState<CheckedState>(false);
-
-  const [allResumes, setAllResumes] = useState<CheckedState>(false);
-  const [allQuestions, setAllQuestions] = useState<CheckedState>(false);
+  const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([]);
 
   const [timer, setTimer] = useState<CheckedState>(false);
   const [random, setRandom] = useState<boolean>(false);
 
   const mutation = useCreatePractice();
 
+  const { resume } = useResumes();
+  const [focusedResume, setFocusedResume] = useState(
+    resume ? resume[0].archiveId : 0,
+  );
+
   useEffect(() => {
-    setResetResume(false);
-  }, [selectedArchiveIds, answerFilter, hintFilter]);
+    if (resume) {
+      selectedQuestionIds.length === 0 &&
+        selectedArchiveIds.length !== 0 &&
+        selectedArchiveIds.length !== resume.length &&
+        setSelectedArchiveIds((prev) =>
+          prev.filter((item) => item !== focusedResume),
+        );
+    }
+  }, [selectedQuestionIds]);
 
   const reset = useCallback(() => {
-    setResetResume(true);
-    setAllQuestions(false);
-    setAllResumes(false);
+    setFocusedResume(0);
+    setAllResume(false);
     setSelectedArchiveIds([]);
-  }, []);
-
-  const resetQuestionList = useCallback(() => {
-    setResetQuestion(true);
-    setAllQuestions(false);
-    setAnswerFilter(false);
-    setHintFilter(false);
     setFinalList([]);
   }, []);
+
+  const allQuestions = useAllPracticeQuestions(
+    resume?.flatMap((item) => item.archiveId)!,
+  );
+
+  useEffect(() => {
+    if (allResume && allQuestions.isSuccess) {
+      allQuestions.allQuestions && setFinalList(allQuestions.allQuestions);
+    }
+  }, [allResume]);
 
   const shuffledList = useMemo(() => {
     const newList = [...finalList];
@@ -92,68 +100,62 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
 
   const handleSubmit = async () => {
     await refetch();
-    await mutation.mutate(
-      finalList.flatMap((value) => value.questionId),
-      {
-        onSuccess: (value) => {
-          router.push('/practice/ing'),
-            setStore({
-              timer: !!timer,
-              practiceList: data as PracticingListType[],
-              practiceId: value,
-            });
-        },
+    await mutation.mutate(detailedQuestionsIds, {
+      onSuccess: (value) => {
+        router.push('/practice/ing'),
+          setStore({
+            timer: !!timer,
+            practiceList: data as PracticingListType[],
+            practiceId: value,
+          });
       },
-    );
+    });
   };
 
   return (
-    <>
-      <div
-        className={cn(
-          'fixed flex  w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center',
-        )}
-      >
-        <div className="flex w-[75rem] flex-col rounded-md border border-gray-100 bg-white">
-          <ModalHeader />
-          <div className="flex w-full flex-row">
-            <PracticeModalResumeSection
-              reset={reset}
-              selectArchiveIds={selectedArchiveIds}
-              setSelectedArchiveIds={setSelectedArchiveIds}
-              allResumes={allResumes}
-              setAllResumes={setAllResumes}
-              resetResume={resetResume}
-              setResetResume={setResetResume}
-            />
-            <PracticeModalQuestionSection
-              selectedArchiveIds={selectedArchiveIds}
-              resetQuestion={resetQuestion}
-              setFinalList={setFinalList}
-              resetQuestionList={resetQuestionList}
-              allQuestions={allQuestions}
-              setAllQuestions={setAllQuestions}
-              answerFilter={answerFilter}
-              setAnswerFilter={setAnswerFilter}
-              hintFilter={hintFilter}
-              setHintFilter={setHintFilter}
-            />
-          </div>
-          <section>
-            <PracticeModalOption
-              random={random}
-              setRandom={setRandom}
-              setTimer={setTimer}
-            />
-            <PracticeModalButton
-              listCount={finalList.length}
-              setCancel={setModal}
-              handleSubmit={handleSubmit}
-              setDisable={finalList.length === 0}
-            />
-          </section>
+    <div
+      className={cn(
+        'fixed flex  w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center',
+      )}
+    >
+      <div className="flex w-[75rem] flex-col rounded-md border border-gray-100 bg-white">
+        <ModalHeader />
+        <div className="flex w-full flex-row">
+          <PracticeModalResumeSection
+            resume={resume!}
+            allResume={allResume}
+            setAllResume={setAllResume}
+            reset={reset}
+            selectArchiveIds={selectedArchiveIds}
+            setSelectedArchiveIds={setSelectedArchiveIds}
+            focusedResume={focusedResume}
+            setFocusedResume={setFocusedResume}
+          />
+          <PracticeModalQuestionSection
+            selectedArchiveIds={selectedArchiveIds}
+            setSelectedArchiveIds={setSelectedArchiveIds}
+            selectedQuestionIds={selectedQuestionIds}
+            setSelectedQuestionIds={setSelectedQuestionIds}
+            setFinalList={setFinalList}
+            focusedResume={focusedResume}
+            finalList={finalList}
+            allResume={allResume}
+          />
         </div>
+        <section>
+          <PracticeModalOption
+            random={random}
+            setRandom={setRandom}
+            setTimer={setTimer}
+          />
+          <PracticeModalButton
+            listCount={finalList.length}
+            setCancel={setModal}
+            handleSubmit={handleSubmit}
+            setDisable={finalList.length === 0}
+          />
+        </section>
       </div>
-    </>
+    </div>
   );
 }

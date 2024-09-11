@@ -12,12 +12,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
+    resume: [],
+    allResume: false,
+    setAllResume: () => {},
     reset: () => {},
-    resetResume: false,
-    setResetResume: () => {},
     selectArchiveIds: [],
     setSelectedArchiveIds: () => {},
-    allResumes: false,
-    setAllResumes: () => {},
+    focusedResume: 0,
+    setFocusedResume: () => {},
   },
 } satisfies Story;

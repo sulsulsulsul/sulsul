@@ -1,48 +1,57 @@
 'use client';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import Image from 'next/image';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArchiveListItemDTO } from '@/entities/types';
+import { cn } from '@/lib/utils';
 
-import { useResumes } from '../../hooks';
 import MyResumeSelection from '../practice-resume-selection';
 
 interface ResumeSectionType {
+  resume: ArchiveListItemDTO[];
+  allResume: boolean;
+  setAllResume: Dispatch<SetStateAction<boolean>>;
   reset: () => void;
-  resetResume: boolean;
-  setResetResume: Dispatch<SetStateAction<boolean>>;
   selectArchiveIds: number[];
   setSelectedArchiveIds: Dispatch<SetStateAction<number[]>>;
-  allResumes: CheckedState;
-  setAllResumes: Dispatch<SetStateAction<CheckedState>>;
+  focusedResume: number;
+  setFocusedResume: Dispatch<SetStateAction<number>>;
 }
 
 export default function PracticeModalResumeSection({
+  resume,
+  allResume,
+  setAllResume,
   reset,
   selectArchiveIds,
   setSelectedArchiveIds,
-  allResumes,
-  setAllResumes,
-  resetResume,
-  setResetResume,
+  focusedResume,
+  setFocusedResume,
 }: ResumeSectionType) {
-  const { resume } = useResumes();
   useEffect(() => {
-    resume?.length !== selectArchiveIds.length && setAllResumes(false);
-  }, [selectArchiveIds]);
+    if (resume) {
+      setFocusedResume(resume[0].archiveId);
+    }
+  }, [resume]);
+
+  useEffect(() => {
+    if (resume) {
+      resume?.length === selectArchiveIds.length
+        ? setAllResume(true)
+        : setAllResume(false);
+    }
+  }, [selectArchiveIds.length]);
 
   return (
     <div className="flex  w-1/2 flex-col">
       <section className="flex h-12 w-full flex-row text-xs leading-5 text-gray-500">
-        <div className="flex w-full flex-row items-center justify-between border border-gray-100 ">
+        <div
+          className={cn(
+            'flex w-full flex-row items-center justify-between border-y border-b-0 border-gray-100 ',
+          )}
+        >
           <div className="ml-[36px]">내 자기소개서</div>
           <div className="mr-[28px]">
             <button
@@ -55,21 +64,28 @@ export default function PracticeModalResumeSection({
                 width={24}
                 height={24}
               />
-              선택 초가화
+              선택 초기화
             </button>
           </div>
         </div>
       </section>
       <section>
-        <div className="flex h-[68px] w-full items-center border border-gray-100 pl-[24px] text-base">
+        <div className="flex h-[68px] w-full items-center border-y border-gray-100 pl-[24px] text-base">
           <label htmlFor={'resume'}>
             <Checkbox
               id="resumes"
               className="m-[10px] size-5 p-[2px] "
-              checked={allResumes}
+              checked={allResume}
               onCheckedChange={(check: CheckedState) => {
-                setAllResumes(check);
-                !check && reset();
+                if (resume) {
+                  check
+                    ? (setAllResume(true),
+                      setSelectedArchiveIds(
+                        resume?.map((value) => value.archiveId),
+                      ),
+                      setFocusedResume(resume[resume.length - 1].archiveId))
+                    : reset();
+                }
               }}
             />
             내 자기소개서 전체
@@ -78,16 +94,17 @@ export default function PracticeModalResumeSection({
       </section>
       <section className="h-[300px] overflow-scroll">
         {resume &&
-          resume.map((value: ArchiveListItemDTO) => {
+          resume.map((value: ArchiveListItemDTO, index) => {
             return (
               <MyResumeSelection
                 key={value.archiveId}
-                resetChecked={resetResume}
+                selectedArchiveIds={selectArchiveIds}
                 setSelectArchiveIds={setSelectedArchiveIds}
-                selectAll={allResumes}
                 archiveId={value.archiveId}
                 title={value.title}
                 companyName={value.companyName}
+                focusedResume={focusedResume}
+                setFocusedResume={setFocusedResume}
               />
             );
           })}
