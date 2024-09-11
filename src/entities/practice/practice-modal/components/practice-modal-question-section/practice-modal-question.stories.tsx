@@ -11,10 +11,22 @@ type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
+    allResume: false,
     finalList: [],
     setFinalList: () => {},
     focusedResume: 0,
+    selectedArchiveIds: [],
+    setSelectedArchiveIds: () => {},
     selectedQuestionIds: [],
     setSelectedQuestionIds: () => {},
   },
 } satisfies Story;
+
+// allResume,
+// finalList,
+// setFinalList,
+// focusedResume,
+// selectedArchiveIds,
+// setSelectedArchiveIds,
+// selectedQuestionIds,
+// setSelectedQuestionIds,
