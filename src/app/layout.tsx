@@ -22,9 +22,9 @@ export const metadata: Metadata = {
   //     '인공지능 수리와 함께하는 취업 면접 올킬 작전! 체계적인 면접준비, 지금 무료로 시작해보세요.',
   // },
   openGraph: {
-    title: '[Sulsul] 취준유형 테스트',
-    description: '내 취준스타일로 알아보는 취준 꿀팁',
-    images: ['/public/images/open-graph.png'],
+    title: '술술ㅣ제대로 준비하는 취업 면접',
+    description: 'AI 면접질문 예측부터 면접 기출 100선까지',
+    images: ['/public/images/og-image.png'],
   },
 };
 
