@@ -5,15 +5,15 @@ export const TogetherSolvedAvatar = () => {
     <div className="flex items-center gap-1">
       <div className="relative flex items-center">
         <Avatar className="relative ml-[-12px] size-[30px]">
-          <AvatarImage src="/images/suri-profile.svg" alt="@shadcn" />
+          <AvatarImage src="/images/suri-profile.svg" alt="프로필 이미지" />
           <AvatarFallback>기본이미지</AvatarFallback>
         </Avatar>
         <Avatar className="relative ml-[-12px] size-[30px]">
-          <AvatarImage src="/images/suri-profile.svg" alt="@shadcn" />
+          <AvatarImage src="/images/suri-profile.svg" alt="프로필 이미지" />
           <AvatarFallback>기본이미지</AvatarFallback>
         </Avatar>
         <Avatar className="relative ml-[-12px] size-[30px]">
-          <AvatarImage src="/images/suri-profile.svg" alt="@shadcn" />
+          <AvatarImage src="/images/suri-profile.svg" alt="프로필 이미지" />
           <AvatarFallback>기본이미지</AvatarFallback>
         </Avatar>
       </div>
