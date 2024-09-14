@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export const WeekRankingSection = () => {
   return (
-    <div className="mt-[6px] flex w-[282px] flex-col gap-2">
+    <div className="mt-[6px] flex w-full flex-col gap-2">
       <div className="flex items-center gap-1">
         <Image
           src="/images/icons/icon-crown.svg"
@@ -27,7 +27,7 @@ export const WeekRankingSection = () => {
               <div className="text-2xs font-semibold text-blue-500">
                 S-마스터
               </div>
-              <div className="text-2xs font-bold text-gray-500">
+              <div className="text-2xs font-semibold text-gray-500">
                 누적 추천수
               </div>
             </div>
@@ -35,7 +35,7 @@ export const WeekRankingSection = () => {
               <div className="text-base font-semibold text-gray-700">
                 한결같은 회의실
               </div>
-              <div className="text-2xs font-bold">999+</div>
+              <div className="text-2xs font-semibold">999+</div>
             </div>
           </div>
         </li>
@@ -52,7 +52,7 @@ export const WeekRankingSection = () => {
               <div className="text-2xs font-semibold text-blue-500">
                 S-마스터
               </div>
-              <div className="text-2xs font-bold text-gray-500">
+              <div className="text-2xs font-semibold text-gray-500">
                 누적 추천수
               </div>
             </div>
@@ -60,7 +60,7 @@ export const WeekRankingSection = () => {
               <div className="text-base font-semibold text-gray-700">
                 한결같은 회의실
               </div>
-              <div className="text-2xs font-bold">999+</div>
+              <div className="text-2xs font-semibold">999+</div>
             </div>
           </div>
         </li>
@@ -77,7 +77,7 @@ export const WeekRankingSection = () => {
               <div className="text-2xs font-semibold text-blue-500">
                 S-마스터
               </div>
-              <div className="text-2xs font-bold text-gray-500">
+              <div className="text-2xs font-semibold text-gray-500">
                 누적 추천수
               </div>
             </div>
@@ -85,7 +85,7 @@ export const WeekRankingSection = () => {
               <div className="text-base font-semibold text-gray-700">
                 한결같은 회의실
               </div>
-              <div className="text-2xs font-bold">999+</div>
+              <div className="text-2xs font-semibold">999+</div>
             </div>
           </div>
         </li>

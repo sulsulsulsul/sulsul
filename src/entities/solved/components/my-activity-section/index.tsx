@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export const MyActivitySection = () => {
   return (
-    <div className="mt-[6px] flex w-[282px] flex-col gap-2">
+    <div className="mt-[6px] flex w-full flex-col gap-2">
       <div className="flex items-center gap-1">
         <Image
           src="/images/icons/icon-my-activity.svg"

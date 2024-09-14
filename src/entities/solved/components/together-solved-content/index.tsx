@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 
 export const TogetherSolvedContent = () => {
   return (
-    <div className="flex max-w-[300px] flex-col gap-6">
+    <div className="flex w-full max-w-[300px] flex-col gap-6">
       <div className="flex flex-col items-center gap-1">
         <h2 className="max-h-[68px] max-w-[232px] text-center text-4xl font-bold">
           상사와 의견이 다를 때 <br />
@@ -12,7 +12,7 @@ export const TogetherSolvedContent = () => {
         </h2>
         <div className="text-sm text-gray-500">3일 09:10:43후 종료</div>
       </div>
-      <div className="relative h-[175px] w-[300px]">
+      <div className="relative h-[175px] w-full">
         <Image
           fill
           className="rounded-xl"
