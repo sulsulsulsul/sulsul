@@ -1,6 +1,6 @@
 import { Solved } from '@/views/solved';
 
-const page = () => {
+const Page = () => {
   return <Solved />;
 };
-export default page;
+export default Page;
