@@ -265,4 +265,73 @@ export const API_ENDPOINT = {
       };
     },
   },
+  interview: {
+    createInterviewsAnswer: (interviewId: number) => {
+      return {
+        url: `${API_V1_BASE}/interviews/${interviewId}/answers`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
+    deleteInterviewsAnswer: (interviewId: number, answerId: number) => {
+      return {
+        url: `${API_V1_BASE}/interviews/${interviewId}/answers/${answerId}`,
+        method: Method.DELETE,
+        authorization: true,
+      };
+    },
+    updateInterviewsAnswer: (interviewId: number, answerId: number) => {
+      return {
+        url: `${API_V1_BASE}/interviews/${interviewId}/answers/${answerId}`,
+        method: Method.PATCH,
+        authorization: true,
+      };
+    },
+    getInterviewsAnswer: (interviewId: number, userId: number) => {
+      return {
+        url: `${API_V1_BASE}/interviews/${interviewId}/answers/${userId}`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+    getSortedInterviewsAnswer: (interviewId: number, sortType: number) => {
+      return {
+        url: `${API_V1_BASE}/interviews/${interviewId}/answers/sort/${sortType}`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+    createAnswerRecommend: (interviewId: number, answerId: number) => {
+      return {
+        url: `${API_V1_BASE}/interviews/${interviewId}/answers/${answerId}/recommend`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
+    deleteAnswerRecommend: (
+      interviewId: number,
+      answerId: number,
+      userId: Number,
+    ) => {
+      return {
+        url: `${API_V1_BASE}/interviews/${interviewId}/answers/${answerId}/recommend/${userId}`,
+        method: Method.DELETE,
+        authorization: true,
+      };
+    },
+    getInterview: () => {
+      return {
+        url: `${API_V1_BASE}/interviews`,
+        method: Method.GET,
+        authorization: false,
+      };
+    },
+    getUserActivity: (userId: number) => {
+      return {
+        url: `${API_V1_BASE}/interviews/user-activities/${userId}`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+  },
 } as const;
