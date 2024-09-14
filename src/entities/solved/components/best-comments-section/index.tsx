@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 export const BestCommentsSection = () => {
   return (
-    <div className="mt-[6px] flex w-[282px] flex-col gap-2">
+    <div className="hidden lg:mt-[6px] lg:flex lg:w-[282px] lg:flex-col lg:gap-2">
       <div className="flex items-center gap-1">
         <Image
           src="/images/icons/icon-pin.svg"
@@ -14,7 +14,7 @@ export const BestCommentsSection = () => {
       </div>
       <div className="flex h-[478px] w-full flex-col items-center justify-center gap-4 rounded-md border border-gray-200 bg-white px-5 shadow-base">
         <div className="flex gap-[13px] text-lg font-bold">
-          <div>Q </div>
+          <div>Q</div>
           <div>어떤 사람들과 일할 때 가장 좋은 시너지가 나나요?</div>
         </div>
         <ul className="flex flex-col gap-6">

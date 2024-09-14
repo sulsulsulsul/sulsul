@@ -8,7 +8,7 @@ import { WeekRankingSection } from '@/entities/solved/components/week-ranking-se
 export const Solved = () => {
   return (
     <main className="flex w-full gap-6">
-      <div className="flex w-[282px] flex-col gap-[30px]">
+      <div className="hidden lg:flex lg:w-[282px] lg:flex-col lg:gap-[30px]">
         <MyActivitySection />
         <WeekRankingSection />
         <Image
