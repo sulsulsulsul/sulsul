@@ -319,11 +319,11 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
-    getInterview: () => {
+    getInterview: (pivotDate: string) => {
       return {
-        url: `${API_V1_BASE}/interviews`,
+        url: `${API_V1_BASE}/interviews?pivotDate=${pivotDate}`,
         method: Method.GET,
-        authorization: false,
+        authorization: true,
       };
     },
     getUserActivity: (userId: number) => {

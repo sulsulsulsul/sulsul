@@ -1,16 +1,43 @@
+'use client';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
+import { formatDate } from '@/shared/helpers/date-helpers';
+
+import { useInterview } from '../../hooks/use-get-interview';
+import { getTimeRemaining } from '../timer';
 
 export const TogetherSolvedContent = () => {
+  const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
+  const { data, refetch } = useInterview(pivotDate);
+  const [timeRemaining, setTimeRemaining] = useState<string>('');
+
+  useEffect(() => {
+    if (!data?.endTime) return;
+
+    const { timeString, timeDiff } = getTimeRemaining(data.endTime);
+    setTimeRemaining(timeString);
+
+    const intervalId = setInterval(() => {
+      const { timeString, timeDiff } = getTimeRemaining(data.endTime);
+      setTimeRemaining(timeString);
+
+      if (timeDiff <= 0) {
+        clearInterval(intervalId);
+        refetch();
+      }
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, [data?.endTime, refetch]);
   return (
     <div className="flex w-full max-w-[300px] flex-col gap-6">
       <div className="flex flex-col items-center gap-1">
         <h2 className="max-h-[68px] max-w-[232px] text-center text-4xl font-bold">
-          상사와 의견이 다를 때 <br />
-          어떻게 대처하실 건가요?
+          {data?.content}
         </h2>
-        <div className="text-sm text-gray-500">3일 09:10:43후 종료</div>
+        <div className="text-sm text-gray-500">{timeRemaining}</div>
       </div>
       <div className="relative h-[175px] w-full">
         <Image
