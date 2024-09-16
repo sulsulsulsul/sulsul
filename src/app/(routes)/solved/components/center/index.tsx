@@ -1,4 +1,4 @@
-import CommonInterviewQuestions from './common-interview-questions/inex';
+import CommonInterviewQuestions from './common-interview-questions';
 import OnehundredQa from './onehundred-qa';
 
 const CenterPart = () => {
