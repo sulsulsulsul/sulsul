@@ -103,9 +103,10 @@ export const SelectJobTypeModal = () => {
 
       //create archive
       const newArchiveId = await createArchiveMutate({
-        title: getValues('title'),
+        title: getValues('title') || '자소서 제목을 입력해 주세요',
         resume: getValues('resume'),
-        companyName: getValues('companyName'),
+        companyName:
+          getValues('companyName') || '지원하는 기업을 입력해 주세요',
       });
       setCurrentId(newArchiveId);
 
