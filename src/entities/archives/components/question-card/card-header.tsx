@@ -64,7 +64,7 @@ export const CardHeader = ({
     setInputValue(e.target.value);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === ' ') {
       e.preventDefault();
       e.stopPropagation();
@@ -81,9 +81,9 @@ export const CardHeader = ({
           ref={textareaRef}
           value={inputValue}
           placeholder="예상질문을 작성해주세요"
-          className="w-[500px] resize-none overflow-hidden focus:outline-none"
+          className="w-[500px] resize-none overflow-hidden break-keep focus:outline-none"
           onClick={(e) => e.stopPropagation()}
-          onKeyDown={handleKeyDown}
+          onKeyUp={handleKeyUp}
           onChange={handleInputChange}
           rows={1}
         />
