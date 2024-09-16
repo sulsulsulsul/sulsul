@@ -31,7 +31,7 @@ export default function PracticeModalResumeSection({
   setFocusedResume,
 }: ResumeSectionType) {
   useEffect(() => {
-    if (resume) {
+    if (resume && resume[0]) {
       setFocusedResume(resume[0].archiveId);
     }
   }, [resume]);

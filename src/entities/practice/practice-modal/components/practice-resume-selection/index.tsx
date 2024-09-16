@@ -20,6 +20,7 @@ export default function MyResumeSelection({
   title,
   companyName,
   selectedArchiveIds,
+  setSelectArchiveIds,
   archiveId,
   focusedResume,
   setFocusedResume,

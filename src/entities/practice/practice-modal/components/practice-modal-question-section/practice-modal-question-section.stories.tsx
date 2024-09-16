@@ -21,12 +21,3 @@ export const Default = {
     setSelectedQuestionIds: () => {},
   },
 } satisfies Story;
-
-// allResume,
-// finalList,
-// setFinalList,
-// focusedResume,
-// selectedArchiveIds,
-// setSelectedArchiveIds,
-// selectedQuestionIds,
-// setSelectedQuestionIds,

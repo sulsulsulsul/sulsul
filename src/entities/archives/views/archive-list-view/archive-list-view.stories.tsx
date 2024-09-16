@@ -15,25 +15,25 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default = {
-  parameters: {
-    moduleMock: {
-      mock: () => {
-        const getArchiveListAction = createMock(
-          actions,
-          'getArchiveListAction',
-        );
-        getArchiveListAction.mockImplementation(mockGetArchiveListAction);
-        const deleteArchiveAction = createMock(actions, 'deleteArchiveAction');
-        deleteArchiveAction.mockImplementation(async () => {});
-        return [actions.getArchiveListAction, actions.deleteArchiveAction];
-      },
-    },
-  },
-  render() {
-    return (
-      <Layout>
-        <ArchiveListView />
-      </Layout>
-    );
-  },
+  // parameters: {
+  //   moduleMock: {
+  //     mock: () => {
+  //       const getArchiveListAction = createMock(
+  //         actions,
+  //         'getArchiveListAction',
+  //       );
+  //       getArchiveListAction.mockImplementation(mockGetArchiveListAction);
+  //       const deleteArchiveAction = createMock(actions, 'deleteArchiveAction');
+  //       deleteArchiveAction.mockImplementation(async () => {});
+  //       return [actions.getArchiveListAction, actions.deleteArchiveAction];
+  //     },
+  //   },
+  // },
+  // render() {
+  //   return (
+  //     <Layout>
+  //       <ArchiveListView />
+  //     </Layout>
+  //   );
+  // },
 } satisfies Story;
