@@ -12,7 +12,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [Google, Kakao],
   callbacks: {
     jwt: async ({ token, account, trigger, session }) => {
-      console.log('account', account);
       if (account) {
         if (account.provider === 'google') {
           if (!account.id_token) {
@@ -81,7 +80,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
       session.user.auth.accessToken = token.auth.accessToken;
       session.user.auth.refreshToken = token.auth.refreshToken;
-      console.log('session', session);
 
       return session;
     },
