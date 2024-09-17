@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import OnehundredQa from '@/app/(routes)/solved/components/center/onehundred-qa';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { BestCommentsSection } from '@/entities/solved/components/best-comments-section';
 import { MyActivitySection } from '@/entities/solved/components/my-activity-section';
@@ -23,7 +24,10 @@ export const Solved = async () => {
           alt="banner"
         />
       </div>
-      <TogetherSolvedSection />
+      <div className="flex flex-1 flex-col gap-2 px-4 md:px-0 lg:px-0">
+        <TogetherSolvedSection />
+        <OnehundredQa />
+      </div>
       <BestCommentsSection />
     </main>
   );
