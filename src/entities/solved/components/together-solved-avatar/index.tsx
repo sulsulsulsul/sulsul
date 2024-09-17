@@ -9,7 +9,7 @@ export const TogetherSolvedAvatar = () => {
   const answerCount = data?.answerCount || 0;
   return (
     <div className="relative flex items-center gap-1">
-      {profileImgs.length > 3 ? (
+      {profileImgs.length >= 3 ? (
         <>
           {profileImgs.slice(0, 3).map((v, i) => (
             <Avatar key={i} className="relative ml-[-12px] size-[30px]">
