@@ -22,7 +22,7 @@ export const TogetherSolvedAvatar = () => {
         </>
       ) : (
         <div className="flex items-center gap-1">
-          <Avatar className="relative ml-[-12px] size-[66px]">
+          <Avatar className="relative ml-[-12px] h-[33px] w-[66px]">
             <AvatarImage src="/images/profile.svg" alt="프로필 이미지" />
           </Avatar>
           <div className="text-xs text-gray-600">

@@ -9,7 +9,7 @@ export const getTimeRemaining = (endTime: string) => {
   const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 
   return {
-    timeString: `${days}일 ${hours}시간 ${minutes}분 ${seconds}초 후 종료`,
+    timeString: `${days}일 ${hours}:${minutes}:${seconds}후 종료`,
     timeDiff,
   };
 };
