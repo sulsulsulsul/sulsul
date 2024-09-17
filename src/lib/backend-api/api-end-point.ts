@@ -294,7 +294,13 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
-    getSortedInterviewsAnswer: (interviewId: number, sortType: number) => {
+    getSortedInterviewsAnswer: ({
+      interviewId,
+      sortType,
+    }: {
+      interviewId: number;
+      sortType: 'NEW' | 'RECOMMEND';
+    }) => {
       return {
         url: `${API_V1_BASE}/interviews/${interviewId}/answers/sort/${sortType}`,
         method: Method.GET,

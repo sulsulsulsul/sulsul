@@ -1,6 +1,9 @@
+'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useInterviewStore } from '@/store/interviewStore';
 
 export const TogetherSolvedAvatar = () => {
+  const { data } = useInterviewStore();
   return (
     <div className="flex items-center gap-1">
       <div className="relative flex items-center">
@@ -17,7 +20,9 @@ export const TogetherSolvedAvatar = () => {
           <AvatarFallback>기본이미지</AvatarFallback>
         </Avatar>
       </div>
-      <div className="text-xs text-gray-600">24명이 답변을 남기고 갔어요!</div>
+      <div className="text-xs text-gray-600">
+        {data?.answerCount}명이 답변을 남기고 갔어요!
+      </div>
     </div>
   );
 };

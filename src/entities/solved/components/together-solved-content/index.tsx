@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/shared/helpers/date-helpers';
+import { useInterviewStore } from '@/store/interviewStore';
 
 import { useInterview } from '../../hooks/use-get-interview';
 import { getTimeRemaining } from '../timer';
@@ -11,9 +12,14 @@ import { getTimeRemaining } from '../timer';
 export const TogetherSolvedContent = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const { data, refetch } = useInterview(pivotDate);
+  const { setInterviewData } = useInterviewStore();
+
   const [timeRemaining, setTimeRemaining] = useState<string>('');
 
   useEffect(() => {
+    if (data) {
+      setInterviewData(data);
+    }
     if (!data?.endTime) return;
 
     const { timeString, timeDiff } = getTimeRemaining(data.endTime);
@@ -31,6 +37,7 @@ export const TogetherSolvedContent = () => {
 
     return () => clearInterval(intervalId);
   }, [data?.endTime, refetch]);
+
   return (
     <div className="flex w-full max-w-[300px] flex-col gap-6">
       <div className="flex flex-col items-center gap-1">
