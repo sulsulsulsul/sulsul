@@ -41,7 +41,7 @@ export const TogetherSolvedContent = () => {
   return (
     <div className="flex w-full max-w-[300px] flex-col gap-6">
       <div className="flex flex-col items-center gap-1">
-        <h2 className="max-h-[68px] max-w-[232px] text-center text-4xl font-bold">
+        <h2 className="max-w-[240px] text-center text-4xl font-bold">
           {data?.content}
         </h2>
         <div className="text-sm text-gray-500">{timeRemaining}</div>

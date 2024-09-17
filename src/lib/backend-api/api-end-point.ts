@@ -329,7 +329,7 @@ export const API_ENDPOINT = {
       return {
         url: `${API_V1_BASE}/interviews?pivotDate=${pivotDate}`,
         method: Method.GET,
-        authorization: true,
+        authorization: false,
       };
     },
     getUserActivity: (userId: number) => {
