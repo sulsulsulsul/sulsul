@@ -1,5 +1,8 @@
+'use client';
+
 import * as React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Box, Typography } from '@mui/material';
 
 const GradientCircularProgress = ({ value, item }: any) => {
@@ -7,6 +10,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
   const strokeWidth = 4; // 선의 굵기
   const circumference = 2 * Math.PI * radius; // 원의 둘레
   const offset = circumference - (value / 100) * circumference; // 프로그레스 바의 길이 조절
+  const router = useRouter();
 
   return (
     <Box
@@ -73,6 +77,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
               left: '70px',
               cursor: 'pointer',
             }}
+            onClick={() => router.push('/solved/question')}
           />
         )}
         {value !== 0 ? (
@@ -87,6 +92,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
               left: '35px',
               cursor: 'pointer',
             }}
+            onClick={() => router.push('/solved/question')}
           />
         ) : (
           <Image
@@ -100,6 +106,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
               left: '45px',
               cursor: 'pointer',
             }}
+            onClick={() => router.push('/solved/question')}
           />
         )}
         <div className="mt-[160px] text-center">
