@@ -1,4 +1,4 @@
-import { HTMLAttributes, useState } from 'react';
+import { HTMLAttributes } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
@@ -22,7 +22,7 @@ export const FormAction = ({
     <div className={cn(className)} {...props}>
       <div className="flex gap-2">
         <Button
-          className="basis-[117px] text-gray-600 disabled:opacity-100"
+          className="basis-[117px] text-gray-600 disabled:opacity-60"
           variant="outline"
           onClick={onClickResetContents}
           disabled={!isResetAvailable}
