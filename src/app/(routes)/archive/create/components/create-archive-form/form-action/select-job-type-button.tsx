@@ -156,7 +156,7 @@ export const SelectJobTypeModal = () => {
       isSampleWritten ||
       isQuestionCreated ||
       isSubmitting ||
-      !isFormValid
+      (!isFormValid && !isSampleClicked)
     )
       return true;
     return false;
