@@ -1,6 +1,5 @@
 // TODO: lib 폴더를 shared로 옮기는게 어떨지??
 
-import { getSession } from 'next-auth/react';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import resolveConfig from 'tailwindcss/resolveConfig';
@@ -23,7 +22,7 @@ export const assertValue = <T>(value: T | undefined, message: string): T => {
 
 export const getAccessToken = async () => {
   const session = await auth();
-  console.log('sessiontoken', session);
+  //console.log('sessiontoken', session);
   return session?.user.auth.accessToken;
 };
 

@@ -19,7 +19,7 @@ export const ActionButtons = ({
     <div className={cn('flex items-center gap-2', className)} {...props}>
       <Button
         disabled={true}
-        className="gap-2 px-8 text-gray-600 disabled:opacity-100"
+        className="gap-2 px-8 text-gray-600 disabled:opacity-60"
         variant="outline"
       >
         <Image
