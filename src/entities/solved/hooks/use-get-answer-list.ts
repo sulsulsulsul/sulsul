@@ -10,10 +10,12 @@ export const useAnswerList = ({
   interviewId,
   sortType,
   accessToken,
+  count,
 }: AnswerListActionProps) => {
   const result = useQuery({
-    queryKey: ['interview', interviewId, sortType, accessToken],
-    queryFn: () => getAnswerListAction({ interviewId, sortType, accessToken }),
+    queryKey: ['interview', interviewId, sortType, accessToken, count],
+    queryFn: () =>
+      getAnswerListAction({ interviewId, sortType, accessToken, count }),
   });
 
   const { data, ...rest } = result;

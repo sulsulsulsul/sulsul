@@ -16,7 +16,7 @@ export const Solved = async () => {
     <main className="flex w-full gap-6">
       <div className="hidden lg:flex lg:w-[282px] lg:flex-col lg:gap-[30px]">
         <MyActivitySection userId={Number(userId)} accessToken={accessToken} />
-        <WeekRankingSection />
+        <WeekRankingSection accessToken={accessToken} />
         <Image
           src="/images/gift-banner.svg"
           width={282}

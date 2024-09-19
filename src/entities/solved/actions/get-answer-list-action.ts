@@ -8,6 +8,7 @@ export interface AnswerListActionProps {
   interviewId: number;
   sortType: 'NEW' | 'RECOMMEND';
   accessToken: string;
+  count?: number;
 }
 export const getAnswerListAction = async ({
   interviewId,
