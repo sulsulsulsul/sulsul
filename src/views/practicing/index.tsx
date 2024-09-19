@@ -41,7 +41,10 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   //FIXME
   // const [coachModal, setCoachModal] = useState(firstPractice);
 
-  const isMobile = window.innerWidth >= 375 && window.innerWidth <= 767;
+  const isMobile =
+    typeof window !== 'undefined'
+      ? window.innerWidth >= 375 && window.innerWidth <= 767
+      : false;
 
   const [coachModal, setCoachModal] = useState(!isMobile);
   const smileRef = useRef<LottieRefCurrentProps>(null);
