@@ -28,7 +28,7 @@ export const Solved = async () => {
         <TogetherSolvedSection />
         <OnehundredQa />
       </div>
-      <BestCommentsSection />
+      <BestCommentsSection accessToken={accessToken} />
     </main>
   );
 };

@@ -12,10 +12,14 @@ interface InterviewData {
 }
 
 export interface InterviewState {
-  data: InterviewData | null;
+  currentData: InterviewData | null;
+  previousData: InterviewData | null;
   setInterviewData: (newData: InterviewData) => void;
+  setPreviousInterviewData: (newData: InterviewData) => void;
 }
 export const useInterviewStore = create<InterviewState>((set) => ({
-  data: null,
-  setInterviewData: (newData) => set({ data: newData }),
+  currentData: null,
+  previousData: null,
+  setInterviewData: (data) => set({ currentData: data }),
+  setPreviousInterviewData: (data) => set({ previousData: data }),
 }));

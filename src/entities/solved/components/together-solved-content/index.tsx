@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import dayjs from 'dayjs';
 
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/shared/helpers/date-helpers';
@@ -11,22 +12,37 @@ import { getTimeRemaining } from '../timer';
 
 export const TogetherSolvedContent = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
-  const { data, refetch } = useInterview(pivotDate);
-  const { setInterviewData } = useInterviewStore();
+  const previousWeekDate = formatDate({
+    date: dayjs().subtract(7, 'day'),
+    formatCase: 'YYYY-MM-DD',
+  });
+  const { data: currentData, refetch } = useInterview(pivotDate);
+  const { data: previousData } = useInterview(previousWeekDate);
+  console.log(previousData);
+  const { setInterviewData, setPreviousInterviewData } = useInterviewStore();
+  // const { setPreviousInterviewData } = useInterviewStore();
 
   const [timeRemaining, setTimeRemaining] = useState<string>('');
 
-  useEffect(() => {
-    if (data) {
-      setInterviewData(data);
-    }
-    if (!data?.endTime) return;
+  console.log(previousWeekDate);
 
-    const { timeString, timeDiff } = getTimeRemaining(data.endTime);
+  useEffect(() => {
+    if (currentData) {
+      setInterviewData(currentData);
+    }
+    if (previousData) {
+      setPreviousInterviewData(previousData);
+    }
+  }, [currentData, previousData]);
+
+  useEffect(() => {
+    if (!currentData?.endTime) return;
+
+    const { timeString, timeDiff } = getTimeRemaining(currentData.endTime);
     setTimeRemaining(timeString);
 
     const intervalId = setInterval(() => {
-      const { timeString, timeDiff } = getTimeRemaining(data.endTime);
+      const { timeString, timeDiff } = getTimeRemaining(currentData.endTime);
       setTimeRemaining(timeString);
 
       if (timeDiff <= 0) {
@@ -36,13 +52,13 @@ export const TogetherSolvedContent = () => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [data?.endTime, refetch]);
+  }, [currentData?.endTime, refetch]);
 
   return (
     <div className="flex w-full max-w-[300px] flex-col gap-6">
       <div className="flex flex-col items-center gap-1">
         <h2 className="max-w-[240px] text-center text-4xl font-bold">
-          {data?.content}
+          {currentData?.content}
         </h2>
         <div className="text-sm text-gray-500">{timeRemaining}</div>
       </div>
