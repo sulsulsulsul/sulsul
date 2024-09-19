@@ -16,6 +16,7 @@ export const BestCommentsSection = ({
     interviewId: lastWeekInterviewId,
     sortType: 'RECOMMEND',
     accessToken: accessToken,
+    count: 3,
   });
   return (
     <div className="hidden lg:mt-[6px] lg:flex lg:w-[282px] lg:flex-col lg:gap-2">
@@ -36,27 +37,31 @@ export const BestCommentsSection = ({
               <div>{previousData?.content}</div>
             </div>
             <ul className="flex min-h-[291px] w-full flex-col gap-6">
-              {answerListData?.answerDetailResponses.map((answerData) => (
-                <li key={answerData.userId} className="flex gap-[13px]">
-                  <div className="text-lg font-semibold text-gray-400">1</div>
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-center gap-1">
-                      <Image
-                        src="/images/suri-profile.svg"
-                        width={24}
-                        height={24}
-                        alt="icon"
-                      />
-                      <div className="text-sm text-gray-600">
-                        {answerData.nickname}
+              {answerListData?.answerDetailResponses.map(
+                (answerData, index) => (
+                  <li key={answerData.userId} className="flex gap-[13px]">
+                    <div className="text-lg font-semibold text-gray-400">
+                      {index + 1}
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-1">
+                        <Image
+                          src="/images/suri-profile.svg"
+                          width={24}
+                          height={24}
+                          alt="icon"
+                        />
+                        <div className="text-sm font-medium text-gray-600">
+                          {answerData.nickname}
+                        </div>
+                      </div>
+                      <div className="line-clamp-2 break-all text-base font-medium text-gray-700">
+                        {answerData.content}
                       </div>
                     </div>
-                    <div className="line-clamp-2 break-all text-base text-gray-700">
-                      {answerData.content}
-                    </div>
-                  </div>
-                </li>
-              ))}
+                  </li>
+                ),
+              )}
             </ul>
             <button className="mt-2 w-full border-t border-gray-200 pt-3 text-center text-base text-gray-500">
               Best 답변 모두 보기

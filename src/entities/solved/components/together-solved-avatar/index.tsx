@@ -12,7 +12,7 @@ export const TogetherSolvedAvatar = () => {
       {profileImgs.length >= 3 ? (
         <>
           {profileImgs.slice(0, 3).map((v, i) => (
-            <Avatar key={i} className="relative ml-[-12px] size-[30px]">
+            <Avatar key={i} className="relative ml-[-16px] size-[30px]">
               <AvatarImage src={v} alt="프로필 이미지" />
             </Avatar>
           ))}
