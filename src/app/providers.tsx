@@ -30,7 +30,6 @@ export const Providers = ({
             error: <ErrorIcon />,
           }}
         />
-
         <ReactQueryDevtools initialIsOpen={false} />
       </QueryClientProvider>
     </SessionProvider>

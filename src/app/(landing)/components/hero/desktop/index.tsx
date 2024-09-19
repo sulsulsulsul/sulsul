@@ -3,6 +3,7 @@
 import { HTMLAttributes, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
@@ -20,6 +21,7 @@ interface HeroProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const DesktopHero = ({ className, ...props }: HeroProps) => {
   const container = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   const videoContainer = useRef<HTMLDivElement>(null);
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [completedTextAnimation, setCompletedTextAnimation] = useState(false);
@@ -67,7 +69,8 @@ export const DesktopHero = ({ className, ...props }: HeroProps) => {
           </div>
           <Button
             variant={'black'}
-            className="mt-8 px-8 text-base font-bold sm:text-xl"
+            className="mt-8 px-8 text-base font-semibold sm:text-xl"
+            onClick={() => router.push('/archive/create')}
           >
             내 면접질문 예측하기
           </Button>

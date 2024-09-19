@@ -55,7 +55,12 @@ const Practice = ({ className, userId }: PracticeProps) => {
           )}
           nickname="수리수리"
         />
-        {openModal && <PracticeSelection setModal={setOpenModal} />}
+        {openModal && (
+          <PracticeSelection
+            setModal={setOpenModal}
+            className="mobile:hidden"
+          />
+        )}
         <PracticeResultCard type="good" value={statisticsSummary.answerCount} />
         <PracticeResultCard
           type="bad"
