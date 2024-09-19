@@ -60,18 +60,20 @@ export const PracticeComplete = ({
     <main
       className={cn(
         className,
-        'absolute top-[60px] left-0 w-screen justify-items-center',
+        'absolute top-[60px] left-0 w-screen justify-items-center mobile:top-14',
       )}
       {...props}
     >
-      <div className="absolute h-[497px] w-screen bg-blue-500" />
-      <ConfettiAnimation
-        loop={1}
-        className="absolute left-1/2 -translate-x-1/2"
-      />
+      <div className="absolute h-[497px] w-screen bg-blue-500 mobile:h-[360px]" />
+      {totalScore >= 0.8 && (
+        <ConfettiAnimation
+          loop={1}
+          className="absolute left-1/2 -translate-x-1/2"
+        />
+      )}
       <div className="relative">
         <div className="flex flex-col items-center justify-center">
-          <Badge variant="result" className="mt-[42px]">
+          <Badge variant="result" className="mt-[42px] mobile:mt-2">
             {totalScore >= 0.8 ? '답변이 술술' : '천 리 길도 한 걸음부터죠'}
           </Badge>
           <h2 className="mt-3 text-center text-5xl font-bold text-white">
@@ -80,7 +82,7 @@ export const PracticeComplete = ({
               : '연습이 조금 더 필요해요'}
           </h2>
           <Image
-            className="mt-[37px]"
+            className="mt-[37px] mobile:hidden"
             src={
               totalScore >= 0.8
                 ? '/images/character-happy.svg'
@@ -90,7 +92,18 @@ export const PracticeComplete = ({
             width={164}
             height={164}
           />
-          <div className="mt-[47px] flex w-full items-center justify-center gap-4">
+          <Image
+            className="mt-[13px] desktop:hidden"
+            src={
+              totalScore >= 0.8
+                ? '/images/character-happy.svg'
+                : '/images/character-shocked.svg'
+            }
+            alt="happy character"
+            width={150}
+            height={150}
+          />
+          <div className="mt-[47px] flex w-full items-center justify-center gap-4 mobile:mt-[6px] mobile:flex-col mobile:px-4">
             <ResultCard
               title="술술 말한 면접질문"
               result={totalCorrect}
@@ -101,7 +114,6 @@ export const PracticeComplete = ({
               result={totalIncorrect}
               icon={<ThinkingAnimation loop={false} className="w-8" />}
             />
-
             <ResultCard
               title="총 연습시간"
               result={timeText}
@@ -115,23 +127,35 @@ export const PracticeComplete = ({
               }
             />
           </div>
-          <div className="mt-14 flex items-center justify-center">
-            <div className="flex w-[652px] items-center justify-center gap-2">
-              <Button className="w-full" onClick={handlePracticeAll}>
+          <div className="mt-14 flex items-center justify-center mobile:mt-6">
+            <div className="flex w-full items-center justify-center gap-2 desktop:w-[652px] ">
+              <Button
+                className={cn(
+                  'mobile:w-[168px] mobile:py-[11.5px]',
+                  incorrect.length !== 0 ? 'w-full' : 'w-[300px] py-[13px]',
+                )}
+                onClick={handlePracticeAll}
+              >
                 전체 다시하기
               </Button>
               {incorrect.length !== 0 && (
-                <Button className="w-full" onClick={handlePracticeIncorrect}>
-                  답변 못한 질문만 다시하기
+                <Button
+                  className="w-full mobile:w-[168px] mobile:py-[11.5px]"
+                  onClick={handlePracticeIncorrect}
+                >
+                  답변 못한 질문만 다시
+                  <span className="mobile:hidden">하기</span>
                 </Button>
               )}
             </div>
           </div>
           <Link
             href={'/practice'}
-            className="mt-9 flex items-center gap-1 text-lg font-semibold"
+            className="mt-9 flex items-center gap-1 text-lg font-semibold mobile:mt-5"
           >
-            <span className="text-gray-600">실전 연습 홈으로</span>
+            <span className="text-gray-600 mobile:text-base">
+              실전 연습 홈으로
+            </span>
             <ChevronRight className="text-gray-500" />
           </Link>
         </div>

@@ -2,6 +2,7 @@
 
 import {
   Dispatch,
+  HTMLAttributes,
   SetStateAction,
   useCallback,
   useEffect,
@@ -25,12 +26,15 @@ import PracticeModalResumeSection from './components/practice-modal-resume-secti
 import { useAllPracticeQuestions, useResumes } from './hooks';
 import { useCreatePractice } from './hooks/use-create-practice';
 
-interface PracticeSelectionProp {
+interface PracticeSelectionProp extends HTMLAttributes<HTMLDivElement> {
   setModal: Dispatch<SetStateAction<boolean>>;
   //TODO: Get ResumeId on dashboard 다시하기 클릭
   //resumeId?: number;
 }
-export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
+export default function PracticeSelection({
+  setModal,
+  className,
+}: PracticeSelectionProp) {
   const router = useRouter();
 
   const { setStore } = usePracticeStore();
@@ -116,6 +120,7 @@ export default function PracticeSelection({ setModal }: PracticeSelectionProp) {
     <div
       className={cn(
         'fixed flex  w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center',
+        className,
       )}
     >
       <div className="flex w-[75rem] flex-col rounded-md border border-gray-100 bg-white">

@@ -27,7 +27,7 @@ export const AnswerButton = ({
             }}
             key={item.questionId}
             layoutId={item.questionId.toString()}
-            className="absolute  left-[2.5%] top-[-10px] w-[95%] rounded-md bg-blue-500 p-4 text-white"
+            className="absolute  left-[2.5%] top-[-10px] w-[95%] rounded-md bg-blue-500 p-4 text-white mobile:rounded-xl"
           ></motion.div>
         );
       })}
@@ -35,10 +35,17 @@ export const AnswerButton = ({
       <Button
         onClick={handleCorrect}
         variant={'outline'}
-        className="relative h-[158px] w-full flex-col gap-1 border-gray-200 bg-white shadow-base"
+        className="relative h-[158px] w-full flex-col gap-1 rounded-md border-gray-200 bg-white shadow-base mobile:h-[80px] mobile:rounded-xl"
       >
         {children}
-        <span className="text-gray-300">{questions.length}</span>
+        <span
+          className={cn(
+            ' text-3xl mobile:text-base',
+            questions.length === 0 ? 'text-gray-300' : 'text-gray-700',
+          )}
+        >
+          {questions.length}
+        </span>
       </Button>
     </div>
   );
