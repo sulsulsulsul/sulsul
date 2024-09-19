@@ -49,7 +49,7 @@ export default function Challenge() {
     >
       <div className="mt-[50px] lg:mt-[100px] ">백문백답 챌린지로</div>
       <div>단골 기출문제 완벽 대비</div>
-      <Button className="mt-8 px-4 py-[8.5px] text-base font-semibold lg:px-12 lg:text-lg mobile:font-medium">
+      <Button className="mt-8 px-4 text-base font-semibold lg:px-12 lg:text-lg mobile:py-[8.5px] mobile:font-medium">
         면접 기출문제 풀기
       </Button>
       <div className="invisible absolute bottom-[120px] flex flex-row gap-[524px] lg:visible ">

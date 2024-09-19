@@ -129,7 +129,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                             </div>
                           </SheetTrigger>
                           <SheetContent side={'rightFull'} className="w-full">
-                            <div className="mt-[156px] flex size-full flex-col items-center ">
+                            <div className="mt-[132px] flex size-full flex-col items-center ">
                               <Image
                                 src="/images/mobile-title.png"
                                 width={255}

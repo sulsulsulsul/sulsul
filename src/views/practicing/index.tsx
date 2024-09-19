@@ -137,8 +137,8 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
             >
               <Image
                 src="/images/icons/check-box.svg"
-                width={20}
-                height={20}
+                width={24}
+                height={24}
                 className="p-[2px]"
                 alt="icon"
               />
@@ -249,7 +249,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
           <div className="sticky z-20 mt-[68px] rounded-md bg-white p-4">
             <div className="absolute left-6 top-[-100px] z-30 flex size-fit flex-row gap-2">
               <Image
-                src="/images/icons/arrow-hint.svg"
+                src="/images/coach-mark-arrow3.svg"
                 width={65}
                 height={76}
                 alt="icon"
