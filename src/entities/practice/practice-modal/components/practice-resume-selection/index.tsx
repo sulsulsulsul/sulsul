@@ -61,7 +61,9 @@ export default function MyResumeSelection({
           <div
             className={cn(
               ' text-base',
-              checked ? 'text-blue-500 font-bold' : 'text-black font-medium',
+              checked
+                ? 'text-blue-500 font-semibold'
+                : 'text-black font-normal',
             )}
           >
             {title}

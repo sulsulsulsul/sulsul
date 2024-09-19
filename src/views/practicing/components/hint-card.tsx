@@ -1,5 +1,5 @@
 import { HTMLAttributes } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { useUpdateHint } from '@/entities/practice/practicing/hooks';
@@ -30,7 +30,6 @@ export const HintCard = ({
     setShowHint(!showHint);
     !hintShown && mutate(questionId);
   };
-
   return (
     <div
       className={cn(
@@ -52,16 +51,16 @@ export const HintCard = ({
             </Badge>
           ))}
       </div>
-      <div className="mt-3 grow overflow-scroll text-lg font-medium">
+      <div className="mt-3 grow overflow-scroll text-lg font-medium mobile:text-sm">
         {answerHint}
       </div>
       <div
         onClick={handleUseHint}
-        className="absolute bottom-[18px] left-1/2 flex w-full -translate-x-1/2 cursor-pointer items-center justify-center gap-1"
+        className="absolute bottom-[13.5px] left-1/2 flex w-full -translate-x-1/2 cursor-pointer items-center justify-center gap-1"
       >
-        <span className="text-gray-500">힌트</span>
-        <ChevronDown
-          className={cn('text-gray-400 transition-transform', {
+        <span className="text-gray-500 mobile:text-sm">힌트</span>
+        <ChevronUp
+          className={cn('text-gray-400 transition-transform mobile:size-4', {
             'transform -rotate-180': showHint,
           })}
         />

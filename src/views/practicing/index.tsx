@@ -38,8 +38,12 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const { firstPractice } = useUserStore((state) => ({
     firstPractice: state.data.firstPractice,
   }));
-  const [coachModal, setCoachModal] = useState(firstPractice);
+  //FIXME
+  // const [coachModal, setCoachModal] = useState(firstPractice);
 
+  const isMobile = window.innerWidth >= 375 && window.innerWidth <= 767;
+
+  const [coachModal, setCoachModal] = useState(!isMobile);
   const smileRef = useRef<LottieRefCurrentProps>(null);
   const thinkingRef = useRef<LottieRefCurrentProps>(null);
 
@@ -110,80 +114,77 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
       mutationTime.mutate({ practiceId, time });
       router.push('/practice/result');
     }
-  }, [questions, router]);
+  }, [questions, router, isMobile]);
 
   const handleCoachMark = () => {
     setCoachModal(false);
   };
 
   return (
-    <div className={cn(className)} {...props}>
+    <div className={cn(className, 'relative w-full mobile:px-4')} {...props}>
       {coachModal && (
-        <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-gray-800/80"></div>
+        <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-gray-800/80 mobile:hidden" />
       )}
       {coachModal ? (
-        <>
-          <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-gray-800/80"></div>
-          <div className={cn('flex justify-between')}>
-            <div className="flex items-center">
-              <button
-                className="absolute z-30 flex w-fit flex-row items-center gap-px p-[16px]"
-                onClick={handleCoachMark}
-              >
-                <Image
-                  src="/images/icons/check-box.svg"
-                  width={20}
-                  height={20}
-                  className="p-[2px]"
-                  alt="icon"
-                />
-                <span className="text-lg font-semibold text-white">
-                  다시 보지않기
-                </span>
-              </button>
-            </div>
-            {timer && (
-              <div className="flex flex-col">
-                <div className="z-[60] rounded-md bg-white">
-                  <Timer
-                    setTime={setTime}
-                    pauseTimer={pauseTimer}
-                    className="relative z-20 m-2"
-                  />
-                </div>
-                <div className="sticky z-20 flex items-start justify-center">
-                  <div className="absolute flex size-fit flex-row gap-x-1.5">
-                    <span className="mt-[38px] font-semibold text-white">
-                      타이머
-                    </span>
-                    <Image
-                      src="/images/icons/arrow-hint.svg"
-                      className="mb-[10px] mr-6 rotate-180 "
-                      width={65}
-                      height={76}
-                      alt="icon"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
+        <div className="h-78 absolute -top-[78px] left-4 flex w-full justify-between ">
+          <div className="flex items-center">
+            <button
+              className="absolute z-30 flex w-fit flex-row items-center gap-px p-[16px]"
+              onClick={handleCoachMark}
+            >
+              <Image
+                src="/images/icons/check-box.svg"
+                width={20}
+                height={20}
+                className="p-[2px]"
+                alt="icon"
+              />
+              <span className="ml-1 text-lg font-semibold text-white">
+                다시 보지않기
+              </span>
+            </button>
           </div>
-        </>
-      ) : (
-        <>
-          {timer && (
-            <div className={cn('flex justify-end')}>
+          <div className={cn('flex flex-col', timer ? 'visible' : 'invisible')}>
+            <div className="z-[60] flex h-[78px] w-[158px] items-center justify-center rounded-md bg-white">
               <Timer
                 setTime={setTime}
                 pauseTimer={pauseTimer}
                 className="relative z-20 m-2"
+                disableTime={true}
               />
             </div>
+            <div className="sticky z-20 flex items-start justify-center">
+              <div className="absolute flex size-fit flex-row gap-x-1.5">
+                <span className="mt-[38px] font-semibold text-white">
+                  타이머
+                </span>
+                <Image
+                  src="/images/icons/arrow-hint.svg"
+                  className="mb-[10px] mr-6 rotate-180 "
+                  width={65}
+                  height={76}
+                  alt="icon"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div
+          className={cn(
+            'absolute flex -top-[62px] right-0 mobile:right-4 justify-end',
+            timer ? 'visible' : 'invisible',
           )}
-        </>
+        >
+          <Timer
+            setTime={setTime}
+            pauseTimer={pauseTimer}
+            className="relative z-40 m-2 mobile:m-0"
+          />
+        </div>
       )}
       {questions.length === 0 && (
-        <div className="relative mt-[86px] h-[468px] w-[792px]  min-w-[343px] "></div>
+        <div className="relative mt-[86px] h-[458px] w-[792px]  min-w-[343px] mobile:mt-[66px] mobile:h-[390px] mobile:w-[21.5rem]"></div>
       )}
       {questions.length > 0 && (
         <AnimatePresence mode="wait">
@@ -197,21 +198,20 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
             key={q.questionId}
             layoutId={q.questionId.toString()}
             className={cn(
-              'relative mx-auto z-10   h-[29.25em] w-[49.5em]',
-              coachModal ? 'mt-[0px]' : 'mt-[13px]',
+              'relative mx-auto z-10 mt-[54px] h-[458px] w-[792px] mobile:w-full mobile:h-[390px] mobile:mt-[66px]',
             )}
           >
             <AskCard
               className={cn(
-                'relative z-10  w-[49.5em] h-[29.25em] transition-[height]',
+                'relative z-10 transition-[height] h-[458px] w-[792px] mobile:w-full mobile:h-[390px]',
                 {
-                  'h-[253px]': showHint,
+                  'h-[253px] mobile:h-[194px]': showHint,
                 },
               )}
               question={q.data}
               remainingQuestions={questions.length}
             />
-            <div className="absolute left-1/2 top-[210px] h-[308px] w-[90%] -translate-x-1/2 rounded-md bg-white">
+            <div className="absolute left-1/2 top-[211px] h-[308px] w-[90%] -translate-x-1/2 rounded-md border border-solid border-gray-200 bg-white shadow-base mobile:top-[182px] mobile:h-[252px]">
               <HintCard
                 keywords={q.data.keywords}
                 answerHint={q.data.answer}
@@ -225,9 +225,9 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
         </AnimatePresence>
       )}
       {coachModal ? (
-        <>
-          <div className="sticky z-20  flex items-center justify-center gap-1">
-            <div className="absolute bottom-[40px] ml-[200px] flex size-fit flex-row gap-x-1.5">
+        <div>
+          <div className="z-20 flex items-center justify-center gap-1">
+            <div className="absolute bottom-[35px] ml-[200px] flex size-fit flex-row gap-x-1.5">
               <Image
                 src="/images/icons/arrow-hint.svg"
                 width={65}
@@ -246,7 +246,6 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
           <div className="sticky z-20 mt-[68px] rounded-md bg-white p-4">
             <div className="absolute left-6 top-[-100px] z-30 flex size-fit flex-row gap-2">
               <Image
-                className="mt-1"
                 src="/images/icons/arrow-hint.svg"
                 width={65}
                 height={76}
@@ -279,38 +278,30 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
             </div>
             <div className="flex w-full gap-x-6 rounded-md">
               <AnswerButton
-                onMouseEnter={() => {
-                  smileRef.current?.stop();
-                  smileRef.current?.play();
-                }}
                 questions={correctQuestions}
                 handleCorrect={handleCorrect}
               >
                 <SmileAnimation
                   loop={false}
                   lottieRef={smileRef}
-                  className="w-10"
+                  className="w-[60px]"
                 />
               </AnswerButton>
               <AnswerButton
-                onMouseEnter={() => {
-                  thinkingRef.current?.stop();
-                  thinkingRef.current?.play();
-                }}
                 questions={inCorrectQuestions}
                 handleCorrect={handleInCorrect}
               >
                 <ThinkingAnimation
                   lottieRef={thinkingRef}
                   loop={false}
-                  className="w-10"
+                  className="w-[60px]"
                 />
               </AnswerButton>
             </div>
           </div>
-        </>
+        </div>
       ) : (
-        <div className="relative z-20 mt-[108px] flex gap-6">
+        <div className="relative z-20 mt-[108px] flex gap-6 mobile:mt-[80px] mobile:h-[80px] mobile:gap-2.5">
           <AnswerButton
             onMouseEnter={() => {
               smileRef.current?.stop();
@@ -322,7 +313,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
             <SmileAnimation
               loop={false}
               lottieRef={smileRef}
-              className="w-10"
+              className="w-[60px] mobile:w-[32px]"
             />
           </AnswerButton>
           <AnswerButton
@@ -336,7 +327,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
             <ThinkingAnimation
               lottieRef={thinkingRef}
               loop={false}
-              className="w-10"
+              className="w-[60px] mobile:w-[32px]"
             />
           </AnswerButton>
         </div>

@@ -3,6 +3,7 @@
 import { HTMLAttributes, useRef, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
@@ -21,6 +22,7 @@ interface HeroProps extends HTMLAttributes<HTMLDivElement> {}
 export const MobileHero = ({ className, ...props }: HeroProps) => {
   const container = useRef<HTMLDivElement>(null);
   const videoContainer = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [completedTextAnimation, setCompletedTextAnimation] = useState(false);
   useGSAP(() => {
@@ -63,7 +65,8 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
           </div>
           <Button
             variant={'black'}
-            className="mt-[30px] size-fit px-4 py-2 text-base font-semibold"
+            className="mt-[30px] px-4 py-[8.5px]  text-base font-medium"
+            onClick={() => router.push('/archive/create')}
           >
             무료로 시작하기
           </Button>

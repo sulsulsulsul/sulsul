@@ -10,7 +10,6 @@ import { Footer } from './components/footer';
 import Hero from './components/hero';
 import { OnboardModal } from './components/onboard/views/onboard-modal-view';
 import { Reason } from './components/reason';
-import { Recommendation } from './components/recommendation';
 import { ScrollUpButton } from './components/scroll-up-button';
 import { Steps } from './components/steps';
 
@@ -29,7 +28,7 @@ const Page = async () => {
       <Action />
       <Feedback />
       <Footer />
-      <ScrollUpButton className="fixed bottom-[60px] right-20" />
+      <ScrollUpButton className="fixed bottom-[60px] right-20 mobile:hidden" />
     </main>
   );
 };
