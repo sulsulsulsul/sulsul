@@ -18,13 +18,9 @@ export const TogetherSolvedContent = () => {
   });
   const { data: currentData, refetch } = useInterview(pivotDate);
   const { data: previousData } = useInterview(previousWeekDate);
-  console.log(previousData);
   const { setInterviewData, setPreviousInterviewData } = useInterviewStore();
-  // const { setPreviousInterviewData } = useInterviewStore();
 
   const [timeRemaining, setTimeRemaining] = useState<string>('');
-
-  console.log(previousWeekDate);
 
   useEffect(() => {
     if (currentData) {
@@ -38,7 +34,7 @@ export const TogetherSolvedContent = () => {
   useEffect(() => {
     if (!currentData?.endTime) return;
 
-    const { timeString, timeDiff } = getTimeRemaining(currentData.endTime);
+    const { timeString } = getTimeRemaining(currentData.endTime);
     setTimeRemaining(timeString);
 
     const intervalId = setInterval(() => {
@@ -60,7 +56,7 @@ export const TogetherSolvedContent = () => {
         <h2 className="max-w-[240px] text-center text-4xl font-bold">
           {currentData?.content}
         </h2>
-        <div className="text-sm text-gray-500">{timeRemaining}</div>
+        <div className="text-sm font-medium text-gray-500">{timeRemaining}</div>
       </div>
       <div className="relative h-[175px] w-full">
         <Image

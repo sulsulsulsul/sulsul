@@ -10,8 +10,8 @@ export const BestCommentsSection = ({
 }: {
   accessToken: string;
 }) => {
-  const { currentData, previousData } = useInterviewStore();
-  const lastWeekInterviewId = previousData?.weeklyInterviewId || 0;
+  const { previousData } = useInterviewStore();
+  const lastWeekInterviewId = previousData?.weeklyInterviewId || 10;
   const { data: answerListData } = useAnswerList({
     interviewId: lastWeekInterviewId,
     sortType: 'RECOMMEND',
@@ -45,12 +45,9 @@ export const BestCommentsSection = ({
                     </div>
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-1">
-                        <Image
-                          src="/images/suri-profile.svg"
-                          width={24}
-                          height={24}
-                          alt="icon"
-                        />
+                        <div className="relative size-6 overflow-hidden rounded-full">
+                          <Image src={answerData.profileImg} fill alt="icon" />
+                        </div>
                         <div className="text-sm font-medium text-gray-600">
                           {answerData.nickname}
                         </div>
