@@ -8,7 +8,7 @@ import { formatDate } from '@/shared/helpers/date-helpers';
 import { useInterviewStore } from '@/store/interviewStore';
 
 import { useInterview } from '../../hooks/use-get-interview';
-import { getTimeRemaining } from '../timer';
+import { CountDownView } from '../count-down-view';
 
 export const TogetherSolvedContent = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
@@ -20,8 +20,6 @@ export const TogetherSolvedContent = () => {
   const { data: previousData } = useInterview(previousWeekDate);
   const { setInterviewData, setPreviousInterviewData } = useInterviewStore();
 
-  const [timeRemaining, setTimeRemaining] = useState<string>('');
-
   useEffect(() => {
     if (currentData) {
       setInterviewData(currentData);
@@ -31,24 +29,7 @@ export const TogetherSolvedContent = () => {
     }
   }, [currentData, previousData]);
 
-  useEffect(() => {
-    if (!currentData?.endTime) return;
-
-    const { timeString } = getTimeRemaining(currentData.endTime);
-    setTimeRemaining(timeString);
-
-    const intervalId = setInterval(() => {
-      const { timeString, timeDiff } = getTimeRemaining(currentData.endTime);
-      setTimeRemaining(timeString);
-
-      if (timeDiff <= 0) {
-        clearInterval(intervalId);
-        refetch();
-      }
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [currentData?.endTime, refetch]);
+  if (!currentData?.endTime) return;
 
   return (
     <div className="flex w-full max-w-[300px] flex-col gap-6">
@@ -56,7 +37,7 @@ export const TogetherSolvedContent = () => {
         <h2 className="max-w-[240px] text-center text-4xl font-bold">
           {currentData?.content}
         </h2>
-        <div className="text-sm font-medium text-gray-500">{timeRemaining}</div>
+        <CountDownView endTime={currentData?.endTime} refetch={refetch} />
       </div>
       <div className="relative h-[175px] w-full">
         <Image

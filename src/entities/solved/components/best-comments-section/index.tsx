@@ -1,6 +1,7 @@
 'use client';
 import Image from 'next/image';
 
+import NoDataCard from '@/entities/practice/components/no-data-card';
 import { useInterviewStore } from '@/store/interviewStore';
 
 import { useAnswerList } from '../../hooks/use-get-answer-list';
@@ -18,6 +19,9 @@ export const BestCommentsSection = ({
     accessToken: accessToken,
     count: 3,
   });
+
+  const hasNoData = !accessToken || answerListData?.totalCount === 0;
+
   return (
     <div className="hidden lg:mt-[6px] lg:flex lg:w-[282px] lg:flex-col lg:gap-2">
       <div className="flex items-center gap-1">
@@ -30,7 +34,7 @@ export const BestCommentsSection = ({
         <h3 className="text-lg font-bold">지난주 BEST 답변</h3>
       </div>
       <div className="flex h-[478px] w-full flex-col items-center justify-center gap-4 rounded-md border border-gray-200 bg-white px-5 shadow-base">
-        {accessToken ? (
+        {!hasNoData ? (
           <>
             <div className="flex gap-[13px] text-lg font-bold">
               <div>Q</div>
@@ -65,17 +69,7 @@ export const BestCommentsSection = ({
             </button>
           </>
         ) : (
-          <div className="flex flex-col items-center justify-center gap-2">
-            <Image
-              src="/images/no-data-face.svg"
-              width={42}
-              height={42}
-              alt="no-data"
-            />
-            <p className="text-base font-semibold text-gray-400">
-              아직 데이터가 없어요
-            </p>
-          </div>
+          <NoDataCard className="text-base font-semibold text-gray-400" />
         )}
       </div>
     </div>
