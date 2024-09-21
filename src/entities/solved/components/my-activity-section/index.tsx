@@ -11,7 +11,7 @@ export const MyActivitySection = ({
   userId,
   accessToken,
 }: MyActivitySectionProps) => {
-  const { data, refetch } = useUserActivity({ userId, accessToken });
+  const { data } = useUserActivity({ userId, accessToken });
   return (
     <div className="mt-[6px] flex w-full flex-col gap-2">
       <div className="flex items-center gap-1">

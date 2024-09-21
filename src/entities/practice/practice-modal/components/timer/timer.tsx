@@ -15,11 +15,12 @@ import { cn } from '@/lib/utils';
 interface TimerProp extends HTMLAttributes<HTMLDivElement> {
   setTime: Dispatch<SetStateAction<number>>;
   pauseTimer: boolean;
+  disableTime?: boolean;
 }
 
 export default function Timer({
   setTime,
-  //setTotalTime,
+  disableTime,
   pauseTimer,
   className,
   ...props
@@ -29,7 +30,7 @@ export default function Timer({
   let timeInterval = useRef<null | ReturnType<typeof setTimeout>>(null);
 
   const handleStart = useCallback(() => {
-    if (isRunning) return;
+    if (isRunning || disableTime) return;
     setIsRunning(true);
     timeInterval.current = setInterval(() => {
       setTimer((prev) => prev + 1);
@@ -69,14 +70,14 @@ export default function Timer({
   return (
     <div
       className={cn(
-        'flex w-fit flex-row gap-1 rounded-xl bg-gray-800  px-3 py-[11px]',
+        'flex w-fit flex-row gap-1 rounded-xl bg-gray-800  px-3 py-[11px] mobile:px-2 mobile:py-2',
         className,
       )}
     >
       {isRunning ? (
         <button onClick={handlePause}>
           <Image
-            src="/images/icons/icon-stop.svg"
+            src="/images/icons/icon-timer.svg"
             alt="icon"
             width={24}
             height={24}
@@ -92,12 +93,12 @@ export default function Timer({
           />
         </button>
       )}
-      <div className="text-lg font-semibold text-white">
-        {minutes + ' : ' + seconds}
+      <div className="w-[46px] text-lg font-medium text-white mobile:w-[40px] mobile:text-sm mobile:leading-6">
+        {minutes + ':' + seconds}
       </div>
       <button onClick={handleReset}>
         <Image
-          src="/images/icons/icon-redo.svg"
+          src="/images/icons/icon-redo-white.svg"
           alt="icon"
           width={24}
           height={24}

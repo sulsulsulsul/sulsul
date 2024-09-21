@@ -17,7 +17,7 @@ export default function SelectDropdown({
 }: SelectDropdownProps) {
   return (
     <Select onValueChange={onChangeSortType}>
-      <SelectTrigger className="absolute right-0 w-[100px]">
+      <SelectTrigger className="absolute right-0 h-[32px] w-[100px] mobile:p-0">
         <SelectValue placeholder="최근 순" />
       </SelectTrigger>
       <SelectContent>

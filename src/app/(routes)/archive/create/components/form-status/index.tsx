@@ -1,13 +1,14 @@
 'use client';
 
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { InterviewQuestions } from '@/entities/archives/components/interview-questions';
-import { PendingStatus } from '@/entities/archives/components/interview-questions/status/pending';
+import { PendingProgress } from '@/entities/archives/components/interview-questions/status/pending-progress';
 import { AddQuestion } from '@/entities/archives/components/question-card/add-question';
 import { useArchive } from '@/entities/archives/hooks';
 import { cn } from '@/lib/utils';
+import { useArchiveStatusStore } from '@/store/archiveStatus';
 import { usePendingStore } from '@/store/client';
 import { useCreateQuestionStore } from '@/store/createQuestions';
 import { useCurrentArchiveIdStore } from '@/store/currentArchiveId';
@@ -23,15 +24,33 @@ export const FormStatus = ({
   className,
   ...props
 }: InterviewQuestionsProps) => {
-  const { isPending } = usePendingStore();
+  const { isPending, setIsPending } = usePendingStore();
   const { form } = useCreateArchiveFormContext();
   const { isSampleClicked, isSampleWritten } = useSampleStore();
-  const { isQuestionCreated } = useCreateQuestionStore();
+  const { isQuestionCreated, setIsQuestionCreated } = useCreateQuestionStore();
   const { currentId } = useCurrentArchiveIdStore();
   const { archive } = useArchive(currentId);
+  const { status } = useArchiveStatusStore();
+
+  const [showProgress, setShowProgress] = useState(false);
 
   const isSubmitting = form.formState.isSubmitting;
   const isFormValid = form.formState.isValid;
+
+  useEffect(() => {
+    if (isPending && status === 'PENDING') {
+      setShowProgress(true);
+    } else if (status === 'COMPLETE' || status === 'FAIL') {
+      const timer = setTimeout(() => {
+        setShowProgress(false);
+        setIsPending(false);
+        if (status === 'COMPLETE') {
+          setIsQuestionCreated(true);
+        }
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, [isPending, status, setIsPending, setIsQuestionCreated]);
 
   return (
     <div className={cn(className)} {...props}>
@@ -55,9 +74,10 @@ export const FormStatus = ({
             <CompleteStatus />
           ) : (
             <div className="mt-[18px] size-full rounded-md">
-              {isSubmitting || isPending ? (
-                <PendingStatus />
-              ) : isSampleClicked ||
+              {showProgress ? (
+                <PendingProgress isPending={isPending} status={status} />
+              ) : // <PendingStatus />
+              isSampleClicked ||
                 (isFormValid && !isSubmitting && !isPending) ? (
                 <ValidStatus className="border border-gray-200 shadow-base" />
               ) : (

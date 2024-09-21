@@ -11,7 +11,7 @@ export const Footer = ({ className, ...props }: FooterProps) => {
     <div className={cn('container', className)} {...props}>
       <div
         className={cn(
-          'flex flex-row p-8 mobile:p-0 mobile:text-sm mobile:py-5 border-b mobile:gap-[36px] gap-10 justify-center items-center',
+          'flex flex-row p-8 mobile:p-0 mobile:text-sm mobile:py-5 border-b mobile:gap-[24px] gap-10 justify-center items-center',
           className,
         )}
         {...props}
@@ -21,7 +21,7 @@ export const Footer = ({ className, ...props }: FooterProps) => {
             <Link
               key={'footer' + link.link}
               className={cn(
-                'text-[#3E404B] text-base sm:text-lg font-semibold',
+                'text-[#3E404B] sm:text-lg font-semibold mobile:text-sm mobile:font-medium',
                 'transition-colors',
                 'hover:text-blue-500',
               )}

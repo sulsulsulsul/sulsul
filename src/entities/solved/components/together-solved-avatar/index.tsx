@@ -3,16 +3,16 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useInterviewStore } from '@/store/interviewStore';
 
 export const TogetherSolvedAvatar = () => {
-  const { data } = useInterviewStore();
+  const { currentData } = useInterviewStore();
 
-  const profileImgs = data?.profileImgs || [];
-  const answerCount = data?.answerCount || 0;
+  const profileImgs = currentData?.profileImgs || [];
+  const answerCount = currentData?.answerCount || 0;
   return (
     <div className="relative flex items-center gap-1">
-      {profileImgs.length > 3 ? (
+      {profileImgs.length >= 3 ? (
         <>
           {profileImgs.slice(0, 3).map((v, i) => (
-            <Avatar key={i} className="relative ml-[-12px] size-[30px]">
+            <Avatar key={i} className="relative ml-[-16px] size-[30px]">
               <AvatarImage src={v} alt="프로필 이미지" />
             </Avatar>
           ))}

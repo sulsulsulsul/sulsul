@@ -9,11 +9,15 @@ import {
 export const useAnswerList = ({
   interviewId,
   sortType,
+  accessToken,
+  count,
 }: AnswerListActionProps) => {
   const result = useQuery({
-    queryKey: ['interview', interviewId, sortType],
-    queryFn: () => getAnswerListAction({ interviewId, sortType }),
+    queryKey: ['interview', interviewId, sortType, accessToken, count],
+    queryFn: () =>
+      getAnswerListAction({ interviewId, sortType, accessToken, count }),
   });
+
   const { data, ...rest } = result;
   return {
     ...rest,

@@ -1,6 +1,6 @@
 'use client';
 
-import { HTMLAttributes, useState } from 'react';
+import { HTMLAttributes } from 'react';
 
 import { Form } from '@/components/ui/form';
 import { useCreateArchive } from '@/entities/archives/hooks';
@@ -53,7 +53,7 @@ export const CreateArchiveForm = ({
             <div className="flex size-full flex-col items-start gap-2">
               <CompanyNameField className="w-full" />
               <TitleField className="w-full" />
-              <ContentField className="size-full" />
+              <ContentField className="size-full overflow-y-scroll" />
               <ContentLength />
               <FormAction
                 onClickResetContents={onClickResetContents}

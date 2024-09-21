@@ -1,7 +1,7 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 
-import { getUserActivityAction } from '../actions';
+import { myActivityOptions } from '@/app/api/solved/query-options';
 
 interface UseUserActivityProps {
   userId: number;
@@ -12,10 +12,7 @@ export const useUserActivity = ({
   userId,
   accessToken,
 }: UseUserActivityProps) => {
-  const result = useQuery({
-    queryKey: ['interview', userId, accessToken],
-    queryFn: () => getUserActivityAction({ userId, accessToken }),
-  });
+  const result = useQuery(myActivityOptions(userId, accessToken));
   const { data, ...rest } = result;
   return {
     ...rest,

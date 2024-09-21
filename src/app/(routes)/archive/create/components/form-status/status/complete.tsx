@@ -31,14 +31,18 @@ export const CompleteStatus = ({
   ];
 
   return (
-    <div className="flex size-full cursor-pointer flex-col gap-3">
+    <div className="mt-[18px] flex size-full cursor-pointer flex-col gap-3">
       {SAMPLE_QUESTIONS.map((sampleQuestion, idx) => (
         <AlertDialog key={idx}>
           <AlertDialogTrigger asChild>
-            <div className="rounded-md border border-gray-200 bg-white pl-4 pr-7">
+            <div className="text-nowrap  rounded-md border border-gray-200 bg-white pl-4 pr-7 shadow-base">
               <div className="relative flex w-full items-center justify-start gap-2 border-none py-2 pr-7">
                 <div className="size-[9.6px] min-w-[9.6px] rounded-full bg-gray-200" />
-                <div className="py-7 text-lg">{sampleQuestion}</div>
+                <div className=" w-[500px] resize-none py-7 text-lg">
+                  <p className="w-full whitespace-break-spaces break-keep">
+                    {sampleQuestion}
+                  </p>
+                </div>
                 <Image
                   src={dropdown}
                   alt="드롭다운 아이콘"

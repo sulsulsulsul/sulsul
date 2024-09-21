@@ -2,6 +2,7 @@
 
 import { HTMLAttributes, useRef } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/all';
@@ -14,6 +15,7 @@ export const Action = ({ className, ...props }: ReasonProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   useGSAP(
     () => {
       const tl = gsap.timeline({ paused: true });
@@ -59,13 +61,15 @@ export const Action = ({ className, ...props }: ReasonProps) => {
               </div>
               <Button
                 variant={'black'}
-                className="mt-10 w-fit px-8 text-lg font-bold mobile:hidden"
+                className="mt-10 w-fit px-8 text-lg font-semibold mobile:hidden"
+                onClick={() => router.push('/archive/create')}
               >
                 내 면접질문 예측하기
               </Button>
               <Button
                 variant={'black'}
-                className="mt-[30px] w-fit px-4 py-[8.5px] text-base font-semibold desktop:hidden"
+                className="mt-[30px] w-fit px-4 py-[8.5px] text-base font-medium desktop:hidden"
+                onClick={() => router.push('/archive/create')}
               >
                 무료로 시작하기
               </Button>

@@ -111,7 +111,7 @@ export const InterviewQuestions = ({
                 </>
               )}
             </h2>
-            <div className="mt-[8px] max-h-[80vh] w-full overflow-y-scroll">
+            <div className="mt-[8px] w-full overflow-y-scroll">
               <LoadedStatus
                 data={data.questions}
                 archiveId={archiveId}
