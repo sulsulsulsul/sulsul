@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: '술술ㅣ제대로 준비하는 취업 면접',
     description: 'AI 면접질문 예측부터 면접 기출 100선까지',
-    images: ['/public/images/og-image.png'],
+    images: ['https://suulsuul.vercel.app/public/images/og-image.png'],
   },
 };
 
