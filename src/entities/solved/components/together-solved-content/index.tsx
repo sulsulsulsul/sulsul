@@ -8,9 +8,11 @@ import { formatDate } from '@/shared/helpers/date-helpers';
 import { useInterviewStore } from '@/store/interviewStore';
 
 import { useInterview } from '../../hooks/use-get-interview';
+import { WriteSolvedModal } from '../../write-answer-modal';
 import { CountDownView } from '../count-down-view';
 
 export const TogetherSolvedContent = () => {
+  const [openModal, setOpenModal] = useState(false);
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const previousWeekDate = formatDate({
     date: dayjs().subtract(7, 'day'),
@@ -55,9 +57,19 @@ export const TogetherSolvedContent = () => {
         />
       </div>
 
-      <Button size={'sm'} variant={'default'}>
+      <Button
+        type="button"
+        size={'sm'}
+        variant={'default'}
+        onClick={() => {
+          setOpenModal(true);
+        }}
+      >
         나도 답변 만들기
       </Button>
+      {openModal && (
+        <WriteSolvedModal setModal={setOpenModal} className="mobile:hidden" />
+      )}
     </div>
   );
 };
