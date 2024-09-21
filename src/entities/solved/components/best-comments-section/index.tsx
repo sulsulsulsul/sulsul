@@ -19,7 +19,7 @@ export const BestCommentsSection = ({
     accessToken: accessToken,
     count: 3,
   });
-
+  const previousTitle = previousData?.content.replace(/\\n/g, ' ');
   const hasNoData = !accessToken || answerListData?.totalCount === 0;
 
   return (
@@ -38,7 +38,7 @@ export const BestCommentsSection = ({
           <>
             <div className="flex gap-[13px] text-lg font-bold">
               <div>Q</div>
-              <div>{previousData?.content}</div>
+              <div>{previousTitle}</div>
             </div>
             <ul className="flex min-h-[291px] w-full flex-col gap-6">
               {answerListData?.answerDetailResponses.map(

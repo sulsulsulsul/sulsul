@@ -19,6 +19,7 @@ export const TogetherSolvedContent = () => {
   const { data: currentData, refetch } = useInterview(pivotDate);
   const { data: previousData } = useInterview(previousWeekDate);
   const { setInterviewData, setPreviousInterviewData } = useInterviewStore();
+  const currentTitle = currentData?.content.split('\\n');
 
   useEffect(() => {
     if (currentData) {
@@ -34,9 +35,15 @@ export const TogetherSolvedContent = () => {
   return (
     <div className="flex w-full max-w-[300px] flex-col gap-6">
       <div className="flex flex-col items-center gap-1">
-        <h2 className="max-w-[240px] text-center text-4xl font-bold">
-          {currentData?.content}
-        </h2>
+        {currentTitle?.map((line, i) => (
+          <div
+            className="max-w-[260px] text-center text-4xl font-bold"
+            key={line}
+          >
+            {line}
+            <br />
+          </div>
+        ))}
         <CountDownView endTime={currentData?.endTime} refetch={refetch} />
       </div>
       <div className="relative h-[175px] w-full">
