@@ -3,7 +3,6 @@
 import * as React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Box, Typography } from '@mui/material';
 
 const GradientCircularProgress = ({ value, item }: any) => {
   const radius = 50; // 원의 반지름
@@ -13,11 +12,12 @@ const GradientCircularProgress = ({ value, item }: any) => {
   const router = useRouter();
 
   return (
-    <Box
-      position="relative"
-      display="inline-flex"
-      top={item.top}
-      left={item.left}
+    <div
+      className="positon relative inline-flex"
+      style={{
+        top: item.top,
+        left: item.left,
+      }}
     >
       <svg width={124} height={124}>
         <defs>
@@ -26,7 +26,6 @@ const GradientCircularProgress = ({ value, item }: any) => {
             <stop offset="100%" stopColor="#F9B2FF" />
           </linearGradient>
         </defs>
-
         {/* 회색 원 */}
         <circle
           cx="60"
@@ -36,7 +35,6 @@ const GradientCircularProgress = ({ value, item }: any) => {
           strokeWidth={strokeWidth}
           fill="white"
         />
-
         {/* 그라데이션 원 */}
         {value !== 0 && (
           <circle
@@ -53,18 +51,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
           />
         )}
       </svg>
-
-      <Box
-        top={0}
-        left={0}
-        bottom={5}
-        right={5}
-        position="absolute"
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignContent="center"
-      >
+      <div className="absolute bottom-5 left-0 right-5 top-0 flex flex-col content-center justify-center">
         {value !== 0 && value !== 100 && (
           <Image
             src="/images/lv/ingSticker.svg"
@@ -117,8 +104,8 @@ const GradientCircularProgress = ({ value, item }: any) => {
             {item.done}/{item.total}개
           </p>
         </div>
-      </Box>
-    </Box>
+      </div>
+    </div>
   );
 };
 
