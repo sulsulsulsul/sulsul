@@ -9,7 +9,7 @@ const Page = () => {
     <>
       <Heading />
       <main className="flex items-start gap-6">
-        <QuestionList className="h-[75px] w-[690px]" />
+        <QuestionList className="mt-4 h-[75px] w-[690px]" />
         <ResponseCompletionRate className="h-auto w-[306px]" />
       </main>
     </>

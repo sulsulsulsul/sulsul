@@ -35,7 +35,7 @@ export const CompleteStatus = ({
       {SAMPLE_QUESTIONS.map((sampleQuestion, idx) => (
         <AlertDialog key={idx}>
           <AlertDialogTrigger asChild>
-            <div className="rounded-md bg-white pl-4 pr-7">
+            <div className="rounded-md border border-gray-200 bg-white pl-4 pr-7">
               <div className="relative flex w-full items-center justify-start gap-2 border-none py-2 pr-7">
                 <div className="size-[9.6px] min-w-[9.6px] rounded-full bg-gray-200" />
                 <div className="py-7 text-lg">{sampleQuestion}</div>
