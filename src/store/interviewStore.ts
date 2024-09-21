@@ -12,10 +12,25 @@ interface InterviewData {
 }
 
 export interface InterviewState {
-  data: InterviewData | null;
+  currentData: InterviewData;
+  previousData: InterviewData;
   setInterviewData: (newData: InterviewData) => void;
+  setPreviousInterviewData: (newData: InterviewData) => void;
 }
+
+const defaultInterviewData: InterviewData = {
+  weeklyInterviewId: 0,
+  content: '',
+  year: 0,
+  week: 0,
+  startDateTime: '',
+  endTime: '',
+  answerCount: 0,
+  profileImgs: [],
+};
 export const useInterviewStore = create<InterviewState>((set) => ({
-  data: null,
-  setInterviewData: (newData) => set({ data: newData }),
+  currentData: defaultInterviewData,
+  previousData: defaultInterviewData,
+  setInterviewData: (data) => set({ currentData: data }),
+  setPreviousInterviewData: (data) => set({ previousData: data }),
 }));

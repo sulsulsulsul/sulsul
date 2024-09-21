@@ -1,50 +1,50 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import dayjs from 'dayjs';
 
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import { useInterviewStore } from '@/store/interviewStore';
 
 import { useInterview } from '../../hooks/use-get-interview';
-import { getTimeRemaining } from '../timer';
+import { CountDownView } from '../count-down-view';
 
 export const TogetherSolvedContent = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
-  const { data, refetch } = useInterview(pivotDate);
-  const { setInterviewData } = useInterviewStore();
-
-  const [timeRemaining, setTimeRemaining] = useState<string>('');
+  const previousWeekDate = formatDate({
+    date: dayjs().subtract(7, 'day'),
+    formatCase: 'YYYY-MM-DD',
+  });
+  const { data: currentData, refetch } = useInterview(pivotDate);
+  const { data: previousData } = useInterview(previousWeekDate);
+  const { setInterviewData, setPreviousInterviewData } = useInterviewStore();
+  const currentTitle = currentData?.content.split('\\n');
 
   useEffect(() => {
-    if (data) {
-      setInterviewData(data);
+    if (currentData) {
+      setInterviewData(currentData);
     }
-    if (!data?.endTime) return;
+    if (previousData) {
+      setPreviousInterviewData(previousData);
+    }
+  }, [currentData, previousData]);
 
-    const { timeString, timeDiff } = getTimeRemaining(data.endTime);
-    setTimeRemaining(timeString);
-
-    const intervalId = setInterval(() => {
-      const { timeString, timeDiff } = getTimeRemaining(data.endTime);
-      setTimeRemaining(timeString);
-
-      if (timeDiff <= 0) {
-        clearInterval(intervalId);
-        refetch();
-      }
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [data?.endTime, refetch]);
+  if (!currentData?.endTime) return;
 
   return (
     <div className="flex w-full max-w-[300px] flex-col gap-6">
       <div className="flex flex-col items-center gap-1">
-        <h2 className="max-w-[240px] text-center text-4xl font-bold">
-          {data?.content}
-        </h2>
-        <div className="text-sm text-gray-500">{timeRemaining}</div>
+        {currentTitle?.map((line, i) => (
+          <div
+            className="max-w-[260px] text-center text-4xl font-bold"
+            key={line}
+          >
+            {line}
+            <br />
+          </div>
+        ))}
+        <CountDownView endTime={currentData?.endTime} refetch={refetch} />
       </div>
       <div className="relative h-[175px] w-full">
         <Image
