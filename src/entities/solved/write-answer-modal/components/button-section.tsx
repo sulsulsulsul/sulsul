@@ -22,7 +22,7 @@ export const ButtonSection = ({ charCount, setModal }: ButtonSectionProps) => {
           size="sm"
           className="h-[42px] w-[101px]"
           variant="default"
-          disabled={charCount === 0}
+          disabled={charCount >= 0 && charCount < 100}
         >
           답변 남기기
         </Button>

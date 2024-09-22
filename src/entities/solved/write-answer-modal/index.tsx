@@ -1,4 +1,3 @@
-'use client';
 import { Dispatch, HTMLAttributes, SetStateAction, useState } from 'react';
 
 import { cn } from '@/lib/utils';
@@ -16,8 +15,10 @@ export const WriteSolvedModal = ({
   className,
 }: WriteSolvedModalProp) => {
   const [charCount, setCharCount] = useState(0);
+  const [content, setContent] = useState('');
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setCharCount(e.target.value.length);
+    setContent(e.target.value);
   };
   return (
     <div
@@ -27,7 +28,7 @@ export const WriteSolvedModal = ({
     >
       <div className="flex min-h-[426px] w-[624px] flex-col gap-4 rounded-md border border-gray-100 bg-white p-[30px]">
         <div className="flex flex-col gap-6">
-          <ModalHeader charCount={charCount} />
+          <ModalHeader charCount={charCount} content={content} />
           <TextAreaSection handleInput={handleInput} charCount={charCount} />
         </div>
         <ButtonSection charCount={charCount} setModal={setModal} />
