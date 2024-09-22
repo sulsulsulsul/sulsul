@@ -1,9 +1,12 @@
 import { Button } from '@/components/ui/button';
-interface ButtonSectionProps {
+import { useAnswerModalStore } from '@/store/answerModalStore';
+
+interface ButtonSectionProp {
   charCount: number;
-  setModal: (state: boolean) => void;
 }
-export const ButtonSection = ({ charCount, setModal }: ButtonSectionProps) => {
+export const ButtonSection = ({ charCount }: ButtonSectionProp) => {
+  const { setOpenCancelModal } = useAnswerModalStore();
+
   return (
     <div className="flex justify-between">
       <p className="text-sm">
@@ -13,8 +16,8 @@ export const ButtonSection = ({ charCount, setModal }: ButtonSectionProps) => {
         <Button
           size="sm"
           variant="default"
-          className="h-[42px] w-[66px] border border-gray-300 bg-white text-gray-600"
-          onClick={() => setModal(false)}
+          className="h-[42px] w-[66px] border border-gray-300 bg-white text-gray-600 hover:bg-blue-500 hover:text-white"
+          onClick={setOpenCancelModal}
         >
           취소
         </Button>
