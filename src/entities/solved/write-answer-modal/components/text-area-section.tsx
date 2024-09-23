@@ -1,11 +1,10 @@
 import { useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { InterviewData } from '@/entities/types/interview';
 import { useAnswerModalStore } from '@/store/answerModalStore';
-import { useInterviewStore } from '@/store/interviewStore';
 
 import { useCreateAnswer } from '../../hooks/use-create-answer';
 import { useWriteAnswerForm } from '../../hooks/use-write-answer-form';
@@ -17,6 +16,7 @@ interface TextAreaSectionProps {
   charCount: number;
   content: string;
   accessToken: string;
+  currentData: InterviewData;
 }
 
 export const TextAreaSection = ({
@@ -24,6 +24,7 @@ export const TextAreaSection = ({
   charCount,
   content,
   accessToken,
+  currentData,
 }: TextAreaSectionProps) => {
   const { form } = useWriteAnswerForm();
   const {
@@ -32,14 +33,9 @@ export const TextAreaSection = ({
     isSuccess,
   } = useCreateAnswer();
   const { setOpenAnswerModal } = useAnswerModalStore();
-  const { currentData } = useInterviewStore();
+
   const currentInterviewId = currentData.weeklyInterviewId || 1;
-  // const authInfo = await auth();
-  // const accessToken = authInfo?.user.auth.accessToken || '';
-  // const handleSubmit = form.handleSubmit((data) => {
-  //   if (isPending) return;
-  //   mutate(data);
-  // });
+
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       answer: content,
