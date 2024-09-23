@@ -25,8 +25,18 @@ export const PracticedStatusChartTab = ({
         }}
       >
         <TabsList>
-          <TabsTrigger value="WEEKLY">주간</TabsTrigger>
-          <TabsTrigger value="MONTHLY">월간</TabsTrigger>
+          <TabsTrigger
+            className="mobile:rounded-sm mobile:text-[14px] mobile:font-semibold"
+            value="WEEKLY"
+          >
+            주간
+          </TabsTrigger>
+          <TabsTrigger
+            className="mobile:rounded-sm mobile:text-[14px] mobile:font-semibold"
+            value="MONTHLY"
+          >
+            월간
+          </TabsTrigger>
         </TabsList>
       </Tabs>
     </div>

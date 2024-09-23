@@ -93,8 +93,8 @@ export const options: ChartOptions<'bar'> = {
 };
 
 interface PracticeStatusChartProps extends HTMLAttributes<HTMLDivElement> {
-  type: Period;
   data: number[];
+  type: Period;
 }
 export const PracticeStatusChart = ({
   className,
@@ -105,23 +105,24 @@ export const PracticeStatusChart = ({
   const chartData: ChartData<'bar'> = {
     datasets: [
       {
-        data: data,
+        data,
         backgroundColor: tailwindTheme.colors.blue[500],
         barThickness: 20,
         borderRadius: 4,
       },
     ],
   };
+
   return (
     <div
       className={cn(
-        'relative p-5 h-full w-full flex items-center justify-center overflow-scroll',
+        'relative p-5 h-full w-full flex items-center justify-center overflow-scroll mobile:p-0',
         className,
       )}
       {...props}
     >
       {type === 'WEEKLY' ? (
-        <WeeklyChart options={options} data={chartData} className="size-full" />
+        <WeeklyChart className="size-full" options={options} data={chartData} />
       ) : (
         <MonthlyChart options={options} data={chartData} />
       )}

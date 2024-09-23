@@ -11,12 +11,13 @@ import useSearchQuestions from '@/entities/questions/hooks/use-search-questions'
 import { cn } from '@/lib/utils';
 interface PracticeProps extends HTMLAttributes<HTMLDivElement> {
   userId: number;
+  isDesktop?: boolean;
 }
 
 /**
  * https://www.figma.com/design/300FZcKnRKJSVsVLdTxQeN/%F0%9F%92%AC-Sulsul_team?m=dev&node-id=4308-9475&t=OZrGkP4ZgEF84mEl-1
  */
-const Practice = ({ className, userId }: PracticeProps) => {
+const Practice = ({ className, userId, isDesktop }: PracticeProps) => {
   const { data: statisticsSummary, isSuccess: isSuccessStatisticsSummary } =
     useStatisticsSummary({
       userId,
@@ -46,31 +47,36 @@ const Practice = ({ className, userId }: PracticeProps) => {
   }
 
   return (
-    <main className={cn(className)}>
-      <section className={cn('flex gap-[25px]')}>
+    <main className={cn('mobile:px-[16px]', className)}>
+      <section className="flex gap-[25px] mobile:flex-col">
         <PracticeStartCard
           setModalOpen={setOpenModal}
-          className={cn(
-            'flex h-[273px] min-w-[282px] flex-col items-center justify-between',
-          )}
+          className="flex h-[273px] min-w-[282px] flex-col items-center justify-between"
           nickname="수리수리"
         />
+        <div className="flex w-full gap-[25px] overflow-x-auto mobile:flex-auto mobile:gap-[8px]">
+          <PracticeResultCard
+            type="good"
+            value={statisticsSummary.answerCount}
+          />
+          <PracticeResultCard
+            type="bad"
+            value={statisticsSummary.notAnswerCount}
+          />
+          <PracticeResultCard
+            type="time"
+            value={statisticsSummary.totalPracticeTime}
+          />
+        </div>
+
         {openModal && <PracticeSelection setModal={setOpenModal} />}
-        <PracticeResultCard type="good" value={statisticsSummary.answerCount} />
-        <PracticeResultCard
-          type="bad"
-          value={statisticsSummary.notAnswerCount}
-        />
-        <PracticeResultCard
-          type="time"
-          value={statisticsSummary.totalPracticeTime}
-        />
       </section>
-      <section className="mt-[80px] grid grid-cols-2 gap-6">
+      <section className="mt-[80px] grid gap-6 mobile:mt-[42px] mobile:grid-cols-1 mobile:gap-10 desktop:grid-cols-2">
         <PracticeQuestions
           favoriteQuestions={favoriteQuestions}
           hintUsedQuestions={hintUsedQuestions}
           unansweredQuestions={unansweredQuestions}
+          isDesktop={isDesktop}
         />
         <MyPracticeStatus userId={userId} />
       </section>

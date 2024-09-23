@@ -1,5 +1,4 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
-import dayjs from 'dayjs';
 
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import getStatisticsDetailAction from '@/entities/practice/actions/get-statistics-detail-action';
@@ -12,11 +11,16 @@ import { getQueryClient } from '@/lib/tanstack-query/client';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import Practice from '@/views/practice';
 
-const Page = async () => {
+const Page = async ({
+  searchParams,
+}: {
+  searchParams: { viewport: string };
+}) => {
   const queryClient = getQueryClient();
   const authInfo = await auth();
   const userId = authInfo?.user.auth.userId || 0;
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
+  const isDesktop = searchParams.viewport === 'desktop';
 
   // TODO: prefetch 깔끔하게 정리 생각해보기
   await Promise.all([
@@ -70,7 +74,7 @@ const Page = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Practice userId={userId} />
+      <Practice userId={userId} isDesktop={isDesktop} />
     </HydrationBoundary>
   );
 };
