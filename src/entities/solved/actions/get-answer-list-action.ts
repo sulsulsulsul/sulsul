@@ -7,7 +7,7 @@ import { backendApi } from '@/lib/backend-api/client';
 export interface AnswerListActionProps {
   interviewId: number;
   sortType: 'NEW' | 'RECOMMEND';
-  accessToken: string;
+  accessToken?: string;
   count?: number;
 }
 export const getAnswerListAction = async ({
