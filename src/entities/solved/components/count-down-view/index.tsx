@@ -7,7 +7,7 @@ export const CountDownView = ({
   refetch,
 }: {
   endTime: string;
-  refetch: () => void;
+  refetch?: () => void;
 }) => {
   const now = new Date();
   const end = new Date(endTime);

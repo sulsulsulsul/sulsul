@@ -14,7 +14,7 @@ export interface InterviewData {
   endTime: string;
 }
 
-interface AnswerListData {
+export interface AnswerListData {
   weeklyInterviewAnswerId: number;
   userId: number;
   nickname: string;

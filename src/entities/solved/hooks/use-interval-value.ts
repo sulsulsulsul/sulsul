@@ -5,14 +5,14 @@ import { useInterval } from './use-interval';
 export const useIntervalValue = (
   calculator: () => number,
   delay: number,
-  refetch: () => void,
+  refetch?: () => void,
 ) => {
   const [result, setResult] = useState(calculator());
 
   useInterval(() => {
     const newResult = calculator();
     if (newResult !== result) setResult(newResult);
-    if (newResult <= 0) {
+    if (newResult <= 0 && refetch) {
       refetch();
     }
   }, delay);

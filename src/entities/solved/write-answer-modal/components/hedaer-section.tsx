@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { InterviewData } from '@/entities/types/interview';
-import { cn } from '@/lib/utils';
+import { cn, removeNewlines } from '@/lib/utils';
 
 interface ModalHeaderProp {
   charCount: number;
@@ -17,10 +17,6 @@ export const ModalHeader = ({
 }: ModalHeaderProp) => {
   const [isClicked, setClicked] = useState(false);
   const className = charCount ? 'text-blue-500' : 'text-gray-300';
-
-  const removeNewlines = (str: string) => {
-    return str.replace(/\\n/g, ' ');
-  };
 
   const handleClickTemporarySave = () => {
     if (charCount > 0) {
