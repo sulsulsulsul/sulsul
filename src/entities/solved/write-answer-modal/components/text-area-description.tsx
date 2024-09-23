@@ -9,7 +9,7 @@ export const TextAreaDescription = ({ show }: { show: boolean }) => {
       </p>
       <div className="flex items-center gap-2">
         <div className="relative flex flex-col items-center">
-          <div className="z-10 flex size-[18px] items-center justify-center rounded-full bg-gray-300 font-bold text-white">
+          <div className="z-10 flex size-[18px] items-center justify-center rounded-full bg-gray-300 text-[12px] font-bold text-white">
             1
           </div>
           <div className="absolute left-[8.5px] top-3 z-0 h-14 w-px bg-gray-300"></div>
@@ -19,7 +19,7 @@ export const TextAreaDescription = ({ show }: { show: boolean }) => {
 
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-center">
-          <div className="z-10 flex size-[18px] items-center justify-center rounded-full bg-gray-300 font-bold text-white">
+          <div className="z-10 flex size-[18px] items-center justify-center rounded-full bg-gray-300 text-[12px] font-bold text-white">
             2
           </div>
         </div>
@@ -30,7 +30,7 @@ export const TextAreaDescription = ({ show }: { show: boolean }) => {
 
       <div className="flex items-center gap-2">
         <div className="flex flex-col items-center">
-          <div className="z-10 flex size-[18px] items-center justify-center rounded-full bg-gray-300 font-bold text-white">
+          <div className="z-10 flex size-[18px] items-center justify-center rounded-full bg-gray-300 text-[12px] font-bold text-white">
             3
           </div>
         </div>

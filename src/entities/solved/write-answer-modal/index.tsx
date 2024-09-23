@@ -8,7 +8,7 @@ import { ButtonSection } from './components/button-section';
 import { ModalHeader } from './components/hedaer-section';
 import { TextAreaSection } from './components/text-area-section';
 
-export const WriteAnswerModal = () => {
+export const WriteAnswerModal = ({ accessToken }: { accessToken: string }) => {
   const { isOpenCancelModal } = useAnswerModalStore();
 
   const [charCount, setCharCount] = useState(0);
@@ -31,9 +31,13 @@ export const WriteAnswerModal = () => {
         <div className="absolute flex min-h-[426px] w-[624px] flex-col gap-4 rounded-md bg-white p-[30px]">
           <div className="flex flex-col gap-6">
             <ModalHeader charCount={charCount} content={content} />
-            <TextAreaSection handleInput={handleInput} charCount={charCount} />
+            <TextAreaSection
+              handleInput={handleInput}
+              charCount={charCount}
+              content={content}
+              accessToken={accessToken}
+            />
           </div>
-          <ButtonSection charCount={charCount} />
         </div>
       </div>
       {isOpenCancelModal && <CancelConfirmModal />}

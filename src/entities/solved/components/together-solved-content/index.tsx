@@ -12,7 +12,11 @@ import { useInterview } from '../../hooks/use-get-interview';
 import { WriteAnswerModal } from '../../write-answer-modal';
 import { CountDownView } from '../count-down-view';
 
-export const TogetherSolvedContent = () => {
+export const TogetherSolvedContent = ({
+  accessToken,
+}: {
+  accessToken: string;
+}) => {
   const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
 
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
@@ -67,7 +71,7 @@ export const TogetherSolvedContent = () => {
       >
         나도 답변 만들기
       </Button>
-      {isOpenAnswerModal && <WriteAnswerModal />}
+      {isOpenAnswerModal && <WriteAnswerModal accessToken={accessToken} />}
     </div>
   );
 };

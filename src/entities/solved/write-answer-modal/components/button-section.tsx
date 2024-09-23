@@ -1,6 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 
+import { useCreateAnswer } from '../../hooks/use-create-answer';
+import { useWriteAnswerForm } from '../../hooks/use-write-answer-form';
+
 interface ButtonSectionProp {
   charCount: number;
 }
@@ -18,6 +21,7 @@ export const ButtonSection = ({ charCount }: ButtonSectionProp) => {
           variant="default"
           className="h-[42px] w-[66px] border border-gray-300 bg-white text-gray-600 hover:bg-blue-500 hover:text-white"
           onClick={setOpenCancelModal}
+          type="button"
         >
           취소
         </Button>
@@ -26,6 +30,8 @@ export const ButtonSection = ({ charCount }: ButtonSectionProp) => {
           className="h-[42px] w-[101px]"
           variant="default"
           disabled={charCount >= 0 && charCount < 100}
+          type="submit"
+          // onClick={handleSubmit}
         >
           답변 남기기
         </Button>
