@@ -16,6 +16,7 @@ export const useAnswerList = ({
     queryKey: ['interview', interviewId, sortType, accessToken, count],
     queryFn: () =>
       getAnswerListAction({ interviewId, sortType, accessToken, count }),
+    enabled: !!accessToken && !!interviewId,
   });
 
   const { data, ...rest } = result;

@@ -8,6 +8,9 @@ export const getInterviewAction = (
   pivotDate: string,
 ): Promise<InterviewData> => {
   return backendApi<InterviewData>({
-    endpoint: API_ENDPOINT.interview.getInterview(pivotDate),
+    endpoint: API_ENDPOINT.interview.getInterview(),
+    params: {
+      pivotDate,
+    },
   });
 };

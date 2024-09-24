@@ -1,3 +1,4 @@
+'use client';
 import { useState } from 'react';
 
 import { useInterval } from './use-interval';
@@ -5,7 +6,7 @@ import { useInterval } from './use-interval';
 export const useIntervalValue = (
   calculator: () => number,
   delay: number,
-  refetch?: () => void,
+  refetch: () => void,
 ) => {
   const [result, setResult] = useState(calculator());
 
