@@ -4,6 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { InterviewData } from '@/entities/types/interview';
+import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
 
@@ -27,6 +28,7 @@ export const TextAreaSection = ({
 }: TextAreaSectionProps) => {
   const { auth } = useUserStore();
   const { form } = useWriteAnswerForm();
+  const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
 
   const userId = auth.userId;
   const accessToken = auth.accessToken;
@@ -38,7 +40,7 @@ export const TextAreaSection = ({
     mutate: createAnswerMutation,
     isPending,
     isSuccess,
-  } = useCreateAnswer({ currentInterviewId, userId });
+  } = useCreateAnswer({ currentInterviewId, userId, pivotDate });
 
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
@@ -63,7 +65,7 @@ export const TextAreaSection = ({
     });
   };
 
-  const inputAnswer = watch('answer');
+  // const inputAnswer = watch('answer');
 
   const onFormSubmit = handleSubmit((data) => {
     onSubmit({ answer: data.answer });

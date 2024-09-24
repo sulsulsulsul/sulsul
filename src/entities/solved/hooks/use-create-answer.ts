@@ -13,10 +13,12 @@ import {
 interface CreateAnswerProp {
   currentInterviewId: number;
   userId: number;
+  pivotDate: string;
 }
 export const useCreateAnswer = ({
   currentInterviewId,
   userId,
+  pivotDate,
 }: CreateAnswerProp) => {
   const queryClient = useQueryClient();
 
@@ -27,9 +29,14 @@ export const useCreateAnswer = ({
     onError: () => {
       toast.error('요청 중 오류가 발생했습니다. 다시 시도해주세요.');
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
+      toast.success('답변을 등록했어요.');
+
       queryClient.invalidateQueries({
         queryKey: ['interview', currentInterviewId, userId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['interview', pivotDate],
       });
     },
   });
