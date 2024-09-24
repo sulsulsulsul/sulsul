@@ -30,7 +30,6 @@ export const ButtonSection = ({ charCount }: ButtonSectionProp) => {
           variant="default"
           disabled={charCount >= 0 && charCount < 100}
           type="submit"
-          // onClick={handleSubmit}
         >
           답변 남기기
         </Button>

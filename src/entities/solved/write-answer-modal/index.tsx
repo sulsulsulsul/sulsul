@@ -28,12 +28,6 @@ export const WriteAnswerModal = () => {
     setContent(e.target.value);
   };
 
-  console.log(
-    'isOpenAnswerModal',
-    isOpenAnswerModal,
-    'isOpenCancelModal',
-    isOpenCancelModal,
-  );
   useEffect(() => {
     if (isOpenCancelModal || isOpenAnswerModal) {
       document.body.style.overflow = 'hidden';
@@ -44,10 +38,6 @@ export const WriteAnswerModal = () => {
       document.body.style.overflow = '';
     };
   }, [isOpenCancelModal, isOpenAnswerModal]);
-
-  // useEffect(()=>{
-
-  // },[])
 
   const modalZIndex = isOpenCancelModal ? 'z-[70]' : 'z-[60]';
 

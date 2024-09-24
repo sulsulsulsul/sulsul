@@ -26,7 +26,7 @@ export const Solved = async () => {
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 px-4 md:px-0 lg:px-0">
-        <TogetherSolvedSection accessToken={accessToken} />:
+        <TogetherSolvedSection />:
         <OnehundredQa />
       </div>
       <BestCommentsSection accessToken={accessToken} />
