@@ -17,10 +17,13 @@ import { TogetherSolvedHeader } from '../together-solved-header';
 
 export const AnswerCompleteSection = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
-  const [filteredReponses, setFilteredResponses] = useState<any>([]);
+  const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
+  console.log('filter', filteredReponses);
   const { auth, data } = useUserStore();
+  console.log(data);
   const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
   const userId = auth.userId;
 
@@ -46,12 +49,19 @@ export const AnswerCompleteSection = () => {
     setOpenMoreMenu(false);
   };
   useEffect(() => {
-    setFilteredResponses(
-      answerListData?.answerDetailResponses.filter(
-        (response) => response.userId !== userId,
-      ),
-    );
+    if (answerListData) {
+      setFilteredResponses(
+        answerListData?.answerDetailResponses.filter(
+          (response) => response.userId !== userId,
+        ),
+      );
+      setIsLoading(false);
+    }
   }, [answerListData, userId]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
   if (!currentData?.endTime) return;
 
@@ -135,7 +145,8 @@ export const AnswerCompleteSection = () => {
                 : ''}
             </span>
           </h4>
-          {!filteredReponses ? (
+
+          {filteredReponses.length === 0 ? (
             <p className="font-medium text-gray-500">
               {data.nickname}님이 첫 답변을 남기셨군요!
             </p>
@@ -161,7 +172,7 @@ export const AnswerCompleteSection = () => {
           )}
         </div>
       </div>
-      {/* {isEditModalOpen && <WriteAnswerModal />} */}
+      {isOpenAnswerModal && <WriteAnswerModal />}
     </section>
   );
 };
