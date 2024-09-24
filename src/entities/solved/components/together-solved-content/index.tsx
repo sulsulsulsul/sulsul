@@ -5,12 +5,16 @@ import dayjs from 'dayjs';
 
 import { Button } from '@/components/ui/button';
 import { formatDate } from '@/shared/helpers/date-helpers';
+import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useInterviewStore } from '@/store/interviewStore';
 
 import { useInterview } from '../../hooks/use-get-interview';
+import { WriteAnswerModal } from '../../write-answer-modal';
 import { CountDownView } from '../count-down-view';
 
 export const TogetherSolvedContent = () => {
+  const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
+
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const previousWeekDate = formatDate({
     date: dayjs().subtract(7, 'day'),
@@ -55,9 +59,15 @@ export const TogetherSolvedContent = () => {
         />
       </div>
 
-      <Button size={'sm'} variant={'default'}>
+      <Button
+        type="button"
+        size={'sm'}
+        variant={'default'}
+        onClick={setOpenAnswerModal}
+      >
         나도 답변 만들기
       </Button>
+      {isOpenAnswerModal && <WriteAnswerModal />}
     </div>
   );
 };
