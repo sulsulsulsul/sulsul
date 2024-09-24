@@ -3,19 +3,19 @@ import { create } from 'zustand';
 interface AnswerModalState {
   isOpenAnswerModal: boolean;
   isOpenCancelModal: boolean;
-  setOpenAnswerModal: () => void;
-  setOpenCancelModal: () => void;
+  setOpenAnswerModal: (isOpen: boolean) => void;
+  setOpenCancelModal: (isOpen: boolean) => void;
 }
 
 export const useAnswerModalStore = create<AnswerModalState>((set) => ({
   isOpenAnswerModal: false,
   isOpenCancelModal: false,
-  setOpenAnswerModal: () =>
-    set((state) => ({
-      isOpenAnswerModal: !state.isOpenAnswerModal,
+  setOpenAnswerModal: (isOpen: boolean) =>
+    set(() => ({
+      isOpenAnswerModal: isOpen,
     })),
-  setOpenCancelModal: () =>
-    set((state) => ({
-      isOpenCancelModal: !state.isOpenCancelModal,
+  setOpenCancelModal: (isOpen: boolean) =>
+    set(() => ({
+      isOpenCancelModal: isOpen,
     })),
 }));

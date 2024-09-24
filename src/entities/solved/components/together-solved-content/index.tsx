@@ -63,7 +63,7 @@ export const TogetherSolvedContent = () => {
         type="button"
         size={'sm'}
         variant={'default'}
-        onClick={setOpenAnswerModal}
+        onClick={() => setOpenAnswerModal(true)}
       >
         나도 답변 만들기
       </Button>

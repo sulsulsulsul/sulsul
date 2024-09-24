@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { removeNewlines } from '@/lib/utils';
 import { formatDate } from '@/shared/helpers/date-helpers';
+import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
 
 import { useAnswerList } from '../../hooks/use-get-answer-list';
@@ -18,9 +19,9 @@ export const AnswerCompleteSection = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const [filteredReponses, setFilteredResponses] = useState<any>([]);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
-  const [isEditModalOpen, setEditModalOpen] = useState(false); // 모달 열림 상태
+  const [isEditModalOpen, setEditModalOpen] = useState(false);
   const { auth, data } = useUserStore();
-
+  const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
   const userId = auth.userId;
   const { data: currentData, refetch } = useInterview(pivotDate);
   const { data: myWriteAnswerData } = useUserAnswer({
@@ -38,8 +39,9 @@ export const AnswerCompleteSection = () => {
     setOpenMoreMenu((prev) => !prev);
   };
 
-  const handleClickCancelMenu = () => {
-    setEditModalOpen(true);
+  const handleClickEditMenu = () => {
+    setOpenAnswerModal(true);
+    setOpenMoreMenu(false);
   };
   useEffect(() => {
     setFilteredResponses(
@@ -86,7 +88,7 @@ export const AnswerCompleteSection = () => {
             <div className="absolute right-6 top-[-12px] flex h-[98px] w-[135px] flex-col justify-center rounded-sm border border-gray-200 bg-white text-[14px] font-medium text-gray-700">
               <button
                 className="relative flex h-[41px] items-center hover:bg-gray-50"
-                onClick={handleClickCancelMenu}
+                onClick={handleClickEditMenu}
               >
                 <span className="absolute left-4">수정하기</span>
               </button>
@@ -157,7 +159,7 @@ export const AnswerCompleteSection = () => {
           )}
         </div>
       </div>
-      {isEditModalOpen && <WriteAnswerModal />}
+      {/* {isEditModalOpen && <WriteAnswerModal />} */}
     </section>
   );
 };

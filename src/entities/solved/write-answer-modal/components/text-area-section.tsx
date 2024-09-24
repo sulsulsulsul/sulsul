@@ -26,13 +26,15 @@ export const TextAreaSection = ({
   currentData,
 }: TextAreaSectionProps) => {
   const { auth } = useUserStore();
-  const accessToken = auth.accessToken;
   const { form } = useWriteAnswerForm();
+
+  const accessToken = auth.accessToken;
   const {
     mutate: createAnswerMutation,
     isPending,
     isSuccess,
   } = useCreateAnswer();
+
   const { setOpenAnswerModal } = useAnswerModalStore();
 
   const currentInterviewId = currentData.weeklyInterviewId || 1;
@@ -48,12 +50,11 @@ export const TextAreaSection = ({
 
   useEffect(() => {
     if (isSuccess) {
-      setOpenAnswerModal();
+      setOpenAnswerModal(false);
     }
   }, [isSuccess, setOpenAnswerModal]);
 
   const onSubmit = (data: { answer: string }) => {
-    console.log(currentInterviewId, accessToken, data.answer);
     createAnswerMutation({
       interviewId: currentInterviewId,
       accessToken: accessToken,
@@ -62,8 +63,6 @@ export const TextAreaSection = ({
   };
 
   const inputAnswer = watch('answer');
-  console.log(inputAnswer);
-  console.log(form);
 
   const onFormSubmit = handleSubmit((data) => {
     onSubmit({ answer: data.answer });
