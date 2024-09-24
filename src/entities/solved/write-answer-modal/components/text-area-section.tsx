@@ -5,6 +5,7 @@ import { FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { InterviewData } from '@/entities/types/interview';
 import { useAnswerModalStore } from '@/store/answerModalStore';
+import { useUserStore } from '@/store/client';
 
 import { useCreateAnswer } from '../../hooks/use-create-answer';
 import { useWriteAnswerForm } from '../../hooks/use-write-answer-form';
@@ -15,7 +16,6 @@ interface TextAreaSectionProps {
   handleInput: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   charCount: number;
   content: string;
-  accessToken: string;
   currentData: InterviewData;
 }
 
@@ -23,9 +23,10 @@ export const TextAreaSection = ({
   handleInput,
   charCount,
   content,
-  accessToken,
   currentData,
 }: TextAreaSectionProps) => {
+  const { auth } = useUserStore();
+  const accessToken = auth.accessToken;
   const { form } = useWriteAnswerForm();
   const {
     mutate: createAnswerMutation,

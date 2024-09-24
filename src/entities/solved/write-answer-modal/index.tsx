@@ -9,7 +9,7 @@ import { ButtonSection } from './components/button-section';
 import { ModalHeader } from './components/hedaer-section';
 import { TextAreaSection } from './components/text-area-section';
 
-export const WriteAnswerModal = ({ accessToken }: { accessToken: string }) => {
+export const WriteAnswerModal = () => {
   const { isOpenCancelModal } = useAnswerModalStore();
   const { currentData } = useInterviewStore();
   const [charCount, setCharCount] = useState(0);
@@ -40,7 +40,6 @@ export const WriteAnswerModal = ({ accessToken }: { accessToken: string }) => {
               handleInput={handleInput}
               charCount={charCount}
               content={content}
-              accessToken={accessToken}
               currentData={currentData}
             />
           </div>
