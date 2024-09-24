@@ -39,7 +39,7 @@ export const ScrollUpButton = ({
     <div className={cn(className)} {...props}>
       <Button
         onClick={handleClick}
-        className="invisible z-30 size-[52px] rounded-full p-0 shadow-md mobile:hidden"
+        className="invisible z-30 size-[52px] rounded-full p-0 shadow-md"
         ref={buttonRef}
       >
         <ChevronUp size={24} />

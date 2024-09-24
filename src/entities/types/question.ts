@@ -1,15 +1,6 @@
 import { FeedbackDTO } from './feedback';
 import { KeywordDTO } from './keyword';
 
-export interface ModalQuestionType {
-  questionId: number;
-  content: string;
-  answer: string;
-  isAnswered: boolean;
-  isHint: boolean;
-  keywords: KeywordDTO[];
-}
-
 export interface QuestionSearchType {
   questionId: number;
   content: string;

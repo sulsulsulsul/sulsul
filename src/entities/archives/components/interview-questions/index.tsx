@@ -2,6 +2,7 @@
 
 import { HTMLAttributes, useEffect, useState } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { toast } from 'sonner';
 
 import { FormStatus } from '@/app/(routes)/archive/create/components/form-status';
@@ -35,6 +36,7 @@ export const InterviewQuestions = ({
   const { mutateAsync: deleteQuestionMutation } = useDeleteQuestion(archiveId);
 
   const [clickedQuestions, setClickedQuestions] = useState<number[]>([]);
+  const pathName = usePathname();
 
   const handleReset = () => {
     setIsEditing(false);
@@ -57,14 +59,18 @@ export const InterviewQuestions = ({
         {status === 'COMPLETE' && (
           <>
             <h2 className="relative flex items-center gap-1 text-4xl font-bold">
-              <Image
-                src="/images/icons/etc-speech.svg"
-                width={32}
-                height={32}
-                alt="icon"
-              />
-              <span>면접 예상질문</span>
-              <span className="text-blue-500">{data.questions.length}</span>
+              {pathName === '/archive/create' && (
+                <>
+                  <Image
+                    src="/images/icons/etc-speech.svg"
+                    width={32}
+                    height={32}
+                    alt="icon"
+                  />
+                  <span>면접 예상질문</span>
+                  <span className="text-blue-500">{data.questions.length}</span>
+                </>
+              )}
               {isSaving && <SavingStatus />}
               {!isEditing && (
                 <span
@@ -105,7 +111,7 @@ export const InterviewQuestions = ({
                 </>
               )}
             </h2>
-            <div className="mt-[8px] max-h-[80vh] w-full overflow-y-scroll">
+            <div className="mt-[8px] w-full overflow-y-scroll">
               <LoadedStatus
                 data={data.questions}
                 archiveId={archiveId}

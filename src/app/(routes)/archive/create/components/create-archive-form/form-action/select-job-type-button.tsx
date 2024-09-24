@@ -24,6 +24,7 @@ import { useCreateArchive } from '@/entities/archives/hooks';
 import { useCreateQuestion } from '@/entities/questions/hooks/use-create-question';
 import { useUpdateJob } from '@/entities/users/hooks/use-update-job';
 import { cn } from '@/lib/utils';
+import { useArchiveStatusStore } from '@/store/archiveStatus';
 import { usePendingStore, useUserStore } from '@/store/client';
 import { useCreateQuestionStore } from '@/store/createQuestions';
 import { useCurrentArchiveIdStore } from '@/store/currentArchiveId';
@@ -68,6 +69,8 @@ export const SelectJobTypeModal = () => {
   const userId = auth.userId;
   const jobId = data.job.jobId;
 
+  const { setStatus } = useArchiveStatusStore();
+
   const { isPending, setIsPending } = usePendingStore();
   const { isSampleClicked, isSampleWritten, setIsSampleWritten } =
     useSampleStore();
@@ -91,6 +94,7 @@ export const SelectJobTypeModal = () => {
 
   const onSubmit = async () => {
     setIsPending(true);
+    setStatus('PENDING');
     setFailAlertOpen(false);
     wait().then(() => setOpen(false));
 
@@ -103,9 +107,10 @@ export const SelectJobTypeModal = () => {
 
       //create archive
       const newArchiveId = await createArchiveMutate({
-        title: getValues('title'),
+        title: getValues('title') || '자소서 제목을 입력해 주세요',
         resume: getValues('resume'),
-        companyName: getValues('companyName'),
+        companyName:
+          getValues('companyName') || '지원하는 기업을 입력해 주세요',
       });
       setCurrentId(newArchiveId);
 
@@ -120,13 +125,15 @@ export const SelectJobTypeModal = () => {
         });
 
         if (updatedArchive && updatedArchive.status === 'COMPLETE') {
-          setIsPending(false);
-          setIsQuestionCreated(true);
+          // setIsPending(false);
+          // setIsQuestionCreated(true);
+          setStatus('COMPLETE');
         } else if (updatedArchive && updatedArchive.status === 'FAIL') {
           setFailAlertOpen(true);
+          setStatus('FAIL');
         } else {
           setTimeout(async () => {
-            // Invalidate the query to refetch data
+            //Invalidate the query to refetch data
             await queryClient.invalidateQueries({
               queryKey: ['archive', newArchiveId],
             });
@@ -139,6 +146,7 @@ export const SelectJobTypeModal = () => {
     } catch (error) {
       setFailAlertOpen(true);
       setIsPending(false);
+      setStatus('FAIL');
     }
   };
 
@@ -148,7 +156,7 @@ export const SelectJobTypeModal = () => {
       isSampleWritten ||
       isQuestionCreated ||
       isSubmitting ||
-      !isFormValid
+      (!isFormValid && !isSampleClicked)
     )
       return true;
     return false;

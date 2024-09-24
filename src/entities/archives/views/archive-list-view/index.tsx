@@ -79,16 +79,16 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   }
 
   return (
-    <main className="relative px-0 pt-[-60px] sm:px-[-12px] md:px-[-20px]">
-      <div className="mx-5 flex justify-between">
-        <div className="flex items-center gap-1 text-4xl font-bold">
+    <main className="relative px-[16px] pt-[-60px] sm:px-[-12px] md:px-[-20px]">
+      <div className="mx-5 flex justify-between mobile:mx-0">
+        <div className="flex items-center gap-1 text-4xl font-bold mobile:text-2xl mobile:font-semibold mobile:leading-8">
           <Image
             width={32}
             height={32}
             src={'/images/icons/etc-folder.svg'}
             alt="etc folder"
           />
-          <h2>내 면접질문 및 답변 </h2>
+          <h2 className="">내 면접질문 및 답변 </h2>
           <span className="text-blue-500">{archives?.totalCount}</span>
         </div>
         <SelectDropdown onChangeSortType={onChangeSortType} />
@@ -97,16 +97,25 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 2xl:grid-cols-4">
           {archives &&
             archives.archives?.map((archive: ArchiveListItemDTO) => (
-              <Link
-                key={archive.archiveId}
-                href={APP_ROUTES.archiveDetail(archive.archiveId)}
-              >
+              <>
+                <Link
+                  key={archive.archiveId}
+                  href={APP_ROUTES.archiveDetail(archive.archiveId)}
+                  className="mobile:hidden"
+                >
+                  <ArchiveCard
+                    key={archive.archiveId}
+                    currentPage={currentPage}
+                    {...archive}
+                  />
+                </Link>
                 <ArchiveCard
                   key={archive.archiveId}
                   currentPage={currentPage}
                   {...archive}
+                  className="desktop:hidden"
                 />
-              </Link>
+              </>
             ))}
         </div>
       </div>

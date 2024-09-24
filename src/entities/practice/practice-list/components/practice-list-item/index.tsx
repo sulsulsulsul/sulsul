@@ -117,7 +117,7 @@ export default function PracticeListItem({
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent className="absolute h-[62px] w-[180px] rounded-sm">
-            <DropdownMenuItem className="justify-item-center flex size-full items-center bg-white pl-1.5 pr-[76px] focus:bg-white">
+            <DropdownMenuItem className="flex size-full items-center justify-items-center bg-white pl-1.5 pr-[76px] focus:bg-white">
               <Link
                 onClick={handleLinkClick}
                 className="w-fit text-lg"

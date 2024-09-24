@@ -1,22 +1,29 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
 
-import QuestionSelection from '.';
+import PracticeModalQuestionSelection from '.';
 
 const meta = {
-  component: QuestionSelection,
-} satisfies Meta<typeof QuestionSelection>;
+  component: PracticeModalQuestionSelection,
+} satisfies Meta<typeof PracticeModalQuestionSelection>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
-    resetQuestion: false,
-    selectAll: false,
-    archiveId: 1,
-    hintFilter: false,
-    answerFilter: false,
-    setFinalQuestions: () => {},
+    index: 0,
+    questionId: 0,
+    questionProp: {
+      isAnswered: true,
+      isHint: true,
+      questionId: 0,
+      content: '',
+      answer: '',
+      keywords: [],
+    },
+    finalList: [],
+    setFinalList: () => {},
+    setSelectedQuestionIds: () => {},
   },
 } satisfies Story;

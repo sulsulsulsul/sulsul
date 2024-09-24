@@ -61,18 +61,19 @@ export const MobileReason = ({ className, ...props }: ReasonProps) => {
       className={cn('bg-gray-[#F6F7FB] py-[50px] px-6', className)}
       {...props}
     >
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex w-full flex-col items-center justify-center">
         <div className="text-center text-4xl font-bold text-gray-800 ">
           <h2>취뽀생들이</h2>
           <h2>술술을 선택한 이유</h2>
         </div>
-        <div className="mt-6 flex flex-col items-center justify-center">
+        <div className="mt-6 flex flex-col items-center">
           <Carousel
             opts={{
               align: 'start',
               loop: true,
             }}
             setApi={setApi}
+            className="flex justify-center"
           >
             <CarouselContent>
               {images.map((src, index) => (
@@ -81,6 +82,7 @@ export const MobileReason = ({ className, ...props }: ReasonProps) => {
                   <div
                     key={index}
                     ref={(el: any) => (imageRefs.current[index] = el)}
+                    className="flex justify-center"
                   >
                     <Image
                       alt={`comment-${index}`}
