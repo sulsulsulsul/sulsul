@@ -34,7 +34,6 @@ export const TextAreaSection = ({
   const { setOpenAnswerModal } = useAnswerModalStore();
 
   const currentInterviewId = currentData.weeklyInterviewId || 1;
-  console.log(currentData);
   const {
     mutate: createAnswerMutation,
     isPending,
