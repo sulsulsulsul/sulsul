@@ -10,15 +10,22 @@ export interface RefreshActionParams {
   refreshToken: string;
 }
 
-export const refreshAction = ({
+export const refreshAction = async ({
   userId,
   refreshToken,
 }: RefreshActionParams) => {
-  return backendApi<RefreshAuthDTO>({
-    endpoint: API_ENDPOINT.auth.refreshAuth(),
-    data: {
-      userId,
-      refreshToken,
-    },
-  });
+  try {
+    const response = await backendApi<RefreshAuthDTO>({
+      endpoint: API_ENDPOINT.auth.refreshAuth(),
+      data: {
+        userId,
+        refreshToken,
+      },
+    });
+    console.log('Refresh API response:', response);
+    return response;
+  } catch (error) {
+    console.error('Refresh API error:', error);
+    throw error;
+  }
 };
