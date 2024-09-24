@@ -11,12 +11,15 @@ import { backendApi } from '@/lib/backend-api/client';
 interface InterviewAnswerActionProps {
   interviewId: number;
   userId: number;
+  accessToken: string;
 }
 export const getUserAnswerAction = ({
   interviewId,
   userId,
+  accessToken,
 }: InterviewAnswerActionProps): Promise<AnswerListData> => {
   return backendApi<AnswerListData>({
     endpoint: API_ENDPOINT.interview.getInterviewsAnswer(interviewId, userId),
+    accessToken,
   });
 };

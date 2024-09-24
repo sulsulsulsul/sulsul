@@ -11,14 +11,15 @@ export const TogetherSolvedSection = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const { auth } = useUserStore();
 
-  const userId = auth.userId;
+  const { userId, accessToken } = auth;
 
-  const { data: currentData, refetch } = useInterview(pivotDate);
+  const { data: currentData } = useInterview(pivotDate);
+
   const { data: myWriteAnswerData } = useUserAnswer({
     interviewId: currentData?.weeklyInterviewId || 1,
     userId,
+    accessToken,
   });
-
   return (
     <div>
       {myWriteAnswerData ? (

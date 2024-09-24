@@ -15,22 +15,22 @@ import { WriteAnswerModal } from '../../write-answer-modal';
 import { CountDownView } from '../count-down-view';
 import { TogetherSolvedHeader } from '../together-solved-header';
 
+//리팩토링 예정
+
 export const AnswerCompleteSection = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
 
-  console.log('filter', filteredReponses);
   const { auth, data } = useUserStore();
-  console.log(data);
   const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
-  const userId = auth.userId;
+  const { userId, accessToken } = auth;
 
   const { data: currentData, refetch } = useInterview(pivotDate);
   const { data: myWriteAnswerData } = useUserAnswer({
     interviewId: currentData?.weeklyInterviewId || 1,
     userId,
+    accessToken,
   });
   console.log(currentData);
   console.log(myWriteAnswerData);
@@ -55,13 +55,8 @@ export const AnswerCompleteSection = () => {
           (response) => response.userId !== userId,
         ),
       );
-      setIsLoading(false);
     }
   }, [answerListData, userId]);
-
-  if (isLoading) {
-    return <p>Loading...</p>;
-  }
 
   if (!currentData?.endTime) return;
 
