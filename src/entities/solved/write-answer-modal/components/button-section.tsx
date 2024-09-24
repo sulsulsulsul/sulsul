@@ -5,9 +5,13 @@ interface ButtonSectionProp {
   charCount: number;
 }
 export const ButtonSection = ({ charCount }: ButtonSectionProp) => {
-  const { setOpenCancelModal } = useAnswerModalStore();
+  const { setOpenCancelModal, setOpenAnswerModal } = useAnswerModalStore();
   const handleClickCancelBtn = () => {
-    setOpenCancelModal(true);
+    if (charCount > 0) {
+      setOpenCancelModal(true);
+    } else {
+      setOpenAnswerModal(false);
+    }
   };
   return (
     <div className="flex justify-between">
