@@ -1,17 +1,10 @@
-import {
-  Dispatch,
-  HTMLAttributes,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react';
+import { useEffect, useState } from 'react';
 
 import { cn } from '@/lib/utils';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useInterviewStore } from '@/store/interviewStore';
 
 import { CancelConfirmModal } from '../cancel-confirm-modal';
-import { ButtonSection } from './components/button-section';
 import { ModalHeader } from './components/hedaer-section';
 import { TextAreaSection } from './components/text-area-section';
 

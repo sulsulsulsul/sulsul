@@ -2,7 +2,6 @@ import Image from 'next/image';
 
 import OnehundredQa from '@/app/(routes)/solved/components/onehundred-qa';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import { AnswerCompleteSection } from '@/entities/solved/components/answer-complete-section';
 import { BestCommentsSection } from '@/entities/solved/components/best-comments-section';
 import { MyActivitySection } from '@/entities/solved/components/my-activity-section';
 import { TogetherSolvedSection } from '@/entities/solved/components/together-solved-section';

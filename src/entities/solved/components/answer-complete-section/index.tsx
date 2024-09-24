@@ -19,16 +19,18 @@ export const AnswerCompleteSection = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const [filteredReponses, setFilteredResponses] = useState<any>([]);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
-  const [isEditModalOpen, setEditModalOpen] = useState(false);
+
   const { auth, data } = useUserStore();
   const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
   const userId = auth.userId;
+
   const { data: currentData, refetch } = useInterview(pivotDate);
   const { data: myWriteAnswerData } = useUserAnswer({
     interviewId: currentData?.weeklyInterviewId || 1,
     userId,
   });
-
+  console.log(currentData);
+  console.log(myWriteAnswerData);
   const { data: answerListData } = useAnswerList({
     interviewId: currentData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',

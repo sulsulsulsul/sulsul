@@ -14,13 +14,11 @@ export const TogetherSolvedSection = () => {
   const userId = auth.userId;
 
   const { data: currentData, refetch } = useInterview(pivotDate);
-  console.log(currentData);
   const { data: myWriteAnswerData } = useUserAnswer({
     interviewId: currentData?.weeklyInterviewId || 1,
     userId,
   });
 
-  console.log('ss', myWriteAnswerData);
   return (
     <div>
       {myWriteAnswerData ? (

@@ -28,16 +28,18 @@ export const TextAreaSection = ({
   const { auth } = useUserStore();
   const { form } = useWriteAnswerForm();
 
+  const userId = auth.userId;
   const accessToken = auth.accessToken;
-  const {
-    mutate: createAnswerMutation,
-    isPending,
-    isSuccess,
-  } = useCreateAnswer();
 
   const { setOpenAnswerModal } = useAnswerModalStore();
 
   const currentInterviewId = currentData.weeklyInterviewId || 1;
+  console.log(currentData);
+  const {
+    mutate: createAnswerMutation,
+    isPending,
+    isSuccess,
+  } = useCreateAnswer({ currentInterviewId, userId });
 
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
