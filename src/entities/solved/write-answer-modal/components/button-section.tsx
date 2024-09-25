@@ -3,8 +3,9 @@ import { useAnswerModalStore } from '@/store/answerModalStore';
 
 interface ButtonSectionProp {
   charCount: number;
+  disalbled: boolean;
 }
-export const ButtonSection = ({ charCount }: ButtonSectionProp) => {
+export const ButtonSection = ({ charCount, disalbled }: ButtonSectionProp) => {
   const { setOpenCancelModal, setOpenAnswerModal } = useAnswerModalStore();
   const handleClickCancelBtn = () => {
     if (charCount > 0) {
@@ -32,7 +33,7 @@ export const ButtonSection = ({ charCount }: ButtonSectionProp) => {
           size="sm"
           className="h-[42px] w-[101px]"
           variant="default"
-          disabled={charCount >= 0 && charCount < 100}
+          disabled={(charCount >= 0 && charCount < 100) || disalbled}
           type="submit"
         >
           답변 남기기

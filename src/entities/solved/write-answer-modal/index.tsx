@@ -3,16 +3,21 @@ import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useInterviewStore } from '@/store/interviewStore';
+import { useMyAnswerStore } from '@/store/myAnswerStore';
 
 import { ConfirmModal } from '../components/re-confirm-modal';
 import { ModalHeader } from './components/hedaer-section';
 import { TextAreaSection } from './components/text-area-section';
 
-export const WriteAnswerModal = () => {
-  const { isOpenAnswerModal } = useAnswerModalStore();
+interface WriteAnswerModalProp {
+  isEditModal?: boolean;
+}
 
+export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
+  const { isOpenAnswerModal } = useAnswerModalStore();
   const { isOpenCancelModal } = useAnswerModalStore();
   const { currentData } = useInterviewStore();
+  const { myAnswerData } = useMyAnswerStore();
   const [charCount, setCharCount] = useState(0);
   const [content, setContent] = useState('');
 
@@ -32,6 +37,11 @@ export const WriteAnswerModal = () => {
     };
   }, [isOpenCancelModal, isOpenAnswerModal]);
 
+  useEffect(() => {
+    if (isEditModal && myAnswerData) {
+      setContent(myAnswerData.content);
+    }
+  }, []);
   const modalZIndex = isOpenCancelModal ? 'z-[70]' : 'z-[60]';
 
   return (
@@ -50,12 +60,13 @@ export const WriteAnswerModal = () => {
               charCount={charCount}
               content={content}
               currentData={currentData}
+              disabled={content === myAnswerData?.content}
             />
             <TextAreaSection
               handleInput={handleInput}
-              charCount={charCount}
-              content={content}
               currentData={currentData}
+              isEditModal={isEditModal}
+              myAnswerData={myAnswerData}
             />
           </div>
         </div>

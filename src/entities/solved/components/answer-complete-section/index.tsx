@@ -8,6 +8,7 @@ import { cn, removeNewlines } from '@/lib/utils';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
+import { useMyAnswerStore } from '@/store/myAnswerStore';
 
 import { useAnswerList } from '../../hooks/use-get-answer-list';
 import { useInterview } from '../../hooks/use-get-interview';
@@ -23,10 +24,13 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
+  const [isEditModal, setIsEditModal] = useState(false);
 
   const { auth, data } = useUserStore();
   const { isOpenDeleteModal, setOpenDeleteModal } = useAnswerModalStore();
   const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
+  const { setMyAnswerData } = useMyAnswerStore();
+
   const { userId, accessToken } = auth;
 
   const { data: currentData, refetch } = useInterview(pivotDate);
@@ -42,12 +46,14 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
   };
 
   const handleClickEditMenu = () => {
+    setIsEditModal(true);
     setOpenAnswerModal(true);
     setOpenMoreMenu(false);
   };
 
   const handleClickDeleteMenu = () => {
     setOpenDeleteModal(true);
+    setOpenMoreMenu(false);
   };
 
   useEffect(() => {
@@ -57,6 +63,7 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
           (response) => response.userId !== userId,
         ),
       );
+      setMyAnswerData(myWriteAnswerData);
     }
   }, [answerListData, userId]);
 
@@ -172,7 +179,7 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
           )}
         </div>
       </div>
-      {isOpenAnswerModal && <WriteAnswerModal />}
+      {isOpenAnswerModal && <WriteAnswerModal isEditModal={isEditModal} />}
       {isOpenDeleteModal && (
         <>
           <div

@@ -8,15 +8,17 @@ interface ModalHeaderProp {
   charCount: number;
   content: string;
   currentData: InterviewData;
+  disabled: boolean;
 }
 
 export const ModalHeader = ({
   charCount,
   content,
   currentData,
+  disabled,
 }: ModalHeaderProp) => {
   const [isClicked, setClicked] = useState(false);
-  const className = charCount ? 'text-blue-500' : 'text-gray-300';
+  const className = charCount || !disabled ? 'text-blue-500' : 'text-gray-300';
 
   const handleClickTemporarySave = () => {
     if (charCount > 0) {
@@ -28,7 +30,7 @@ export const ModalHeader = ({
   useEffect(() => {
     setClicked(false);
   }, [charCount]);
-
+  console.log(disabled);
   return (
     <div className="flex items-center justify-between">
       <div className="text-3xl font-bold text-gray-900">
@@ -36,10 +38,11 @@ export const ModalHeader = ({
       </div>
       <button
         className={cn(
-          'flex items-center gap-1 font-medium text-[15px]',
+          'flex items-center gap-1 font-medium text-[15px] disabled:cursor-not-allowed',
           className,
         )}
         onClick={handleClickTemporarySave}
+        disabled={disabled}
       >
         {isClicked && (
           <Image
