@@ -23,7 +23,7 @@ export const TogetherSolvedSection = () => {
   return (
     <>
       {myWriteAnswerData ? (
-        <AnswerCompleteSection />
+        <AnswerCompleteSection myWriteAnswerData={myWriteAnswerData} />
       ) : (
         <NoAnswerCompleteSection />
       )}

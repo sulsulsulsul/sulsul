@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
-import { removeNewlines } from '@/lib/utils';
+import { AnswerListData, MyAnswerData } from '@/entities/types/interview';
+import { cn, removeNewlines } from '@/lib/utils';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
@@ -13,30 +14,27 @@ import { useInterview } from '../../hooks/use-get-interview';
 import { useUserAnswer } from '../../hooks/use-get-user-answer';
 import { WriteAnswerModal } from '../../write-answer-modal';
 import { CountDownView } from '../count-down-view';
+import { ConfirmModal } from '../re-confirm-modal';
 import { TogetherSolvedHeader } from '../together-solved-header';
 
 //리팩토링 예정
 
-export const AnswerCompleteSection = () => {
+export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
 
   const { auth, data } = useUserStore();
+  const { isOpenDeleteModal, setOpenDeleteModal } = useAnswerModalStore();
   const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
   const { userId, accessToken } = auth;
 
   const { data: currentData, refetch } = useInterview(pivotDate);
-  const { data: myWriteAnswerData } = useUserAnswer({
-    interviewId: currentData?.weeklyInterviewId || 1,
-    userId,
-    accessToken,
-  });
 
   const { data: answerListData } = useAnswerList({
     interviewId: currentData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',
-    //   accessToken: accessToken,
+    accessToken: accessToken,
   });
 
   const handleClickMoreMenu = () => {
@@ -47,6 +45,11 @@ export const AnswerCompleteSection = () => {
     setOpenAnswerModal(true);
     setOpenMoreMenu(false);
   };
+
+  const handleClickDeleteMenu = () => {
+    setOpenDeleteModal(true);
+  };
+
   useEffect(() => {
     if (answerListData) {
       setFilteredResponses(
@@ -98,7 +101,10 @@ export const AnswerCompleteSection = () => {
               >
                 <span className="absolute left-4">수정하기</span>
               </button>
-              <button className="flex h-[41px] items-center hover:bg-gray-50">
+              <button
+                className="flex h-[41px] items-center hover:bg-gray-50"
+                onClick={handleClickDeleteMenu}
+              >
                 <span className="absolute left-4">삭제하기</span>
               </button>
             </div>
@@ -167,6 +173,18 @@ export const AnswerCompleteSection = () => {
         </div>
       </div>
       {isOpenAnswerModal && <WriteAnswerModal />}
+      {isOpenDeleteModal && (
+        <>
+          <div
+            className={cn(
+              'fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center',
+            )}
+          ></div>
+          <div className="fixed left-0 top-0 z-[70] flex h-screen w-screen items-center justify-center">
+            <ConfirmModal type="delete" myWriteAnswerData={myWriteAnswerData} />
+          </div>
+        </>
+      )}
     </section>
   );
 };

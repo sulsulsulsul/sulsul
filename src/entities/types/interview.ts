@@ -26,3 +26,7 @@ export interface AnswerList {
   totalCount: number;
   answerDetailResponses: AnswerListData[];
 }
+
+export interface MyAnswerData {
+  myWriteAnswerData: AnswerListData;
+}

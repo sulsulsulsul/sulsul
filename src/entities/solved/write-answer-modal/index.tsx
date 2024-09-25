@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useInterviewStore } from '@/store/interviewStore';
 
-import { CancelConfirmModal } from '../cancel-confirm-modal';
+import { ConfirmModal } from '../components/re-confirm-modal';
 import { ModalHeader } from './components/hedaer-section';
 import { TextAreaSection } from './components/text-area-section';
 
@@ -63,7 +63,7 @@ export const WriteAnswerModal = () => {
 
       {isOpenCancelModal && (
         <div className="fixed left-0 top-0 z-[70] flex h-screen w-screen items-center justify-center">
-          <CancelConfirmModal />
+          <ConfirmModal type="exit" />
         </div>
       )}
     </>
