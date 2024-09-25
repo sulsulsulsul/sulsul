@@ -35,7 +35,7 @@ export const WriteAnswerModal = () => {
   const modalZIndex = isOpenCancelModal ? 'z-[70]' : 'z-[60]';
 
   return (
-    <div className="">
+    <>
       <div
         className={cn(
           'fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center',
@@ -66,6 +66,6 @@ export const WriteAnswerModal = () => {
           <CancelConfirmModal />
         </div>
       )}
-    </div>
+    </>
   );
 };

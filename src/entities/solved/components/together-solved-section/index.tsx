@@ -21,12 +21,12 @@ export const TogetherSolvedSection = () => {
     accessToken,
   });
   return (
-    <div>
+    <>
       {myWriteAnswerData ? (
         <AnswerCompleteSection />
       ) : (
         <NoAnswerCompleteSection />
       )}
-    </div>
+    </>
   );
 };
