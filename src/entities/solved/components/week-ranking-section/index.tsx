@@ -25,17 +25,26 @@ export const WeekRankingSection = ({
   const hasNoData = !accessToken || answerListData?.totalCount === 0;
   return (
     <div className="mt-[6px] flex w-full flex-col gap-2">
-      <div className="flex items-center gap-1">
+      <div className="relative flex justify-between">
+        <div className="flex items-center gap-1">
+          <Image
+            src="/images/icons/icon-crown.svg"
+            width={24}
+            height={24}
+            alt="icon"
+          />
+          <div className="text-lg font-bold">이번주 랭킹</div>
+        </div>
         <Image
-          src="/images/icons/icon-crown.svg"
-          width={24}
-          height={24}
+          src="/images/icons/icon-information circle.svg"
+          className="absolute bottom-[2.5px] right-4"
+          width={20}
+          height={20}
           alt="icon"
         />
-        <div className="text-lg font-bold">이번주 랭킹</div>
       </div>
 
-      <ul className="flex h-[218px] w-full flex-col items-center justify-center gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-base">
+      <ul className="flex h-[218px] w-full flex-col items-center justify-start gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-base">
         {!hasNoData ? (
           answerListData?.answerDetailResponses.map((userInfo, index) => (
             <li key={userInfo.userId} className="flex w-full gap-2">

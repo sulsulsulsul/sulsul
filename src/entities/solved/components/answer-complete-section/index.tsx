@@ -32,8 +32,7 @@ export const AnswerCompleteSection = () => {
     userId,
     accessToken,
   });
-  console.log(currentData);
-  console.log(myWriteAnswerData);
+
   const { data: answerListData } = useAnswerList({
     interviewId: currentData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',
