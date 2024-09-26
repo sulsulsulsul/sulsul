@@ -53,7 +53,7 @@ export const TogetherSolvedContent = () => {
   if (!currentData?.endTime) return;
 
   return (
-    <div className="flex w-full max-w-[300px] flex-col gap-6">
+    <div className="flex max-h-[358px] w-full max-w-[300px] flex-col gap-6">
       <div className="flex flex-col items-center gap-1">
         {currentTitle?.map((line, i) => (
           <div
@@ -67,13 +67,13 @@ export const TogetherSolvedContent = () => {
         <CountDownView endTime={currentData?.endTime} refetch={refetch} />
       </div>
       <div className="relative h-[175px] w-full">
-        {/* <Image
+        <Image
           fill
           className="rounded-xl"
           src="https://via.placeholder.com/300x175"
           alt="기출 이미지"
-        /> */}
-      </div>{' '}
+        />
+      </div>
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button

@@ -21,12 +21,9 @@ export interface AnswerListData {
   profileImg: string;
   content: string;
   recommendCount: number;
+  isRecommended: boolean;
 }
 export interface AnswerList {
   totalCount: number;
   answerDetailResponses: AnswerListData[];
-}
-
-export interface MyAnswerData {
-  myWriteAnswerData: AnswerListData;
 }

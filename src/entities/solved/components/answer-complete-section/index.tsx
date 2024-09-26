@@ -3,13 +3,14 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
-import { AnswerListData, MyAnswerData } from '@/entities/types/interview';
+import { AnswerListData } from '@/entities/types/interview';
 import { cn, removeNewlines } from '@/lib/utils';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
 import { useMyAnswerStore } from '@/store/myAnswerStore';
 
+import { useAnswerRecommend } from '../../hooks/use-answer-recommend';
 import { useAnswerList } from '../../hooks/use-get-answer-list';
 import { useInterview } from '../../hooks/use-get-interview';
 import { useUserAnswer } from '../../hooks/use-get-user-answer';
@@ -20,13 +21,17 @@ import { TogetherSolvedHeader } from '../together-solved-header';
 
 //리팩토링 예정
 
-export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
+export const AnswerCompleteSection = ({
+  myWriteAnswerData,
+}: {
+  myWriteAnswerData: AnswerListData;
+}) => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
-  // const [isRecommend, setIsRecommend] =
 
+  const { isRecommended, weeklyInterviewAnswerId } = myWriteAnswerData;
   const { auth, data } = useUserStore();
   const {
     isOpenDeleteModal,
@@ -39,7 +44,14 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
   const { userId, accessToken } = auth;
 
   const { data: currentData, refetch } = useInterview(pivotDate);
-
+  const { mutate: recommendMutation } = useAnswerRecommend({
+    currentInterviewId: currentData?.weeklyInterviewId || 0,
+    userId,
+    pivotDate,
+    accessToken,
+    isRecommended,
+    answerId: weeklyInterviewAnswerId,
+  });
   const { data: answerListData } = useAnswerList({
     interviewId: currentData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',
@@ -61,7 +73,9 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
     setOpenMoreMenu(false);
   };
 
-  const handleClickRecommendBtn = () => {};
+  const handleClickRecommendBtn = () => {
+    recommendMutation();
+  };
 
   useEffect(() => {
     if (answerListData) {
@@ -123,20 +137,37 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
               </button>
             </div>
           )}
-          <Button
-            className="flex h-[36px] w-[71px] gap-1 p-2 text-gray-600"
-            variant="outline"
-            // onClick={onClickResetContents}
-            // disabled={!isResetAvailable}
-          >
-            <Image
-              src="/images/icons/icon-like.svg"
-              width={20}
-              height={20}
-              alt="icon"
-            />
-            <p className="text-xs">추천</p>
-          </Button>
+          {isRecommended ? (
+            <Button
+              className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-blue-500`)}
+              variant="outline"
+              onClick={handleClickRecommendBtn}
+              // disabled={!isResetAvailable}
+            >
+              <Image
+                src="/images/icons/icon-like-blue.svg"
+                width={20}
+                height={20}
+                alt="icon"
+              />
+              <p className="text-xs">추천</p>
+            </Button>
+          ) : (
+            <Button
+              className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-gray-600`)}
+              variant="outline"
+              onClick={handleClickRecommendBtn}
+              // disabled={!isResetAvailable}
+            >
+              <Image
+                src="/images/icons/icon-like.svg"
+                width={20}
+                height={20}
+                alt="icon"
+              />
+              <p className="text-xs">추천</p>
+            </Button>
+          )}
           <Image
             src="/images/icons/icon-more-vertical.svg"
             width={24}
