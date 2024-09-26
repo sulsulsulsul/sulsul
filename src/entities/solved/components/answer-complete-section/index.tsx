@@ -15,7 +15,7 @@ import { useInterview } from '../../hooks/use-get-interview';
 import { useUserAnswer } from '../../hooks/use-get-user-answer';
 import { WriteAnswerModal } from '../../write-answer-modal';
 import { CountDownView } from '../count-down-view';
-import { ConfirmModal } from '../re-confirm-modal';
+import { ReConfirmModal } from '../re-confirm-modal';
 import { TogetherSolvedHeader } from '../together-solved-header';
 
 //리팩토링 예정
@@ -25,10 +25,15 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
   const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
+  // const [isRecommend, setIsRecommend] =
 
   const { auth, data } = useUserStore();
-  const { isOpenDeleteModal, setOpenDeleteModal } = useAnswerModalStore();
-  const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
+  const {
+    isOpenDeleteModal,
+    isOpenAnswerModal,
+    setOpenDeleteModal,
+    setOpenAnswerModal,
+  } = useAnswerModalStore();
   const { setMyAnswerData } = useMyAnswerStore();
 
   const { userId, accessToken } = auth;
@@ -55,6 +60,8 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
     setOpenDeleteModal(true);
     setOpenMoreMenu(false);
   };
+
+  const handleClickRecommendBtn = () => {};
 
   useEffect(() => {
     if (answerListData) {
@@ -188,7 +195,10 @@ export const AnswerCompleteSection = ({ myWriteAnswerData }: MyAnswerData) => {
             )}
           ></div>
           <div className="fixed left-0 top-0 z-[70] flex h-screen w-screen items-center justify-center">
-            <ConfirmModal type="delete" myWriteAnswerData={myWriteAnswerData} />
+            <ReConfirmModal
+              type="delete"
+              myWriteAnswerData={myWriteAnswerData}
+            />
           </div>
         </>
       )}

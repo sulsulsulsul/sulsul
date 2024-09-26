@@ -40,3 +40,7 @@ export const sleep = (ms: number) =>
 export const removeNewlines = (str: string) => {
   return str.replace(/\\n/g, ' ');
 };
+
+export const applyNewLines = (str: string) => {
+  return str.split('\\n');
+};

@@ -5,7 +5,7 @@ import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useInterviewStore } from '@/store/interviewStore';
 import { useMyAnswerStore } from '@/store/myAnswerStore';
 
-import { ConfirmModal } from '../components/re-confirm-modal';
+import { ReConfirmModal } from '../components/re-confirm-modal';
 import { ModalHeader } from './components/hedaer-section';
 import { TextAreaSection } from './components/text-area-section';
 
@@ -48,13 +48,13 @@ export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
     <>
       <div
         className={cn(
-          'fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center',
+          'fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center ',
           modalZIndex,
         )}
       ></div>
 
       <div className="fixed left-0 top-0 z-[60] flex h-screen w-screen items-center justify-center">
-        <div className="absolute flex min-h-[426px] w-[624px] flex-col gap-4 rounded-md bg-white p-[30px]">
+        <div className="absolute flex min-h-[426px] w-[624px] flex-col gap-4 rounded-md bg-white p-[30px] mobile:size-full mobile:rounded-none">
           <div className="flex flex-col gap-6">
             <ModalHeader
               charCount={charCount}
@@ -74,7 +74,7 @@ export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
 
       {isOpenCancelModal && (
         <div className="fixed left-0 top-0 z-[70] flex h-screen w-screen items-center justify-center">
-          <ConfirmModal type="exit" />
+          <ReConfirmModal type="exit" />
         </div>
       )}
     </>
