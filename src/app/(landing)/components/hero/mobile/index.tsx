@@ -7,7 +7,15 @@ import { useRouter } from 'next/navigation';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
+import { AuthSignedIn } from '@/components/auth/auth-signed-in';
+import { AuthSignedOut } from '@/components/auth/auth-signed-out';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { SignInView } from '@/entities/auth/views/sign-in-view';
 import { cn } from '@/lib/utils';
 
 const Video = dynamic(
@@ -53,7 +61,7 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
       <div ref={container} className="invisible">
         <div className="flex w-full flex-col items-center justify-center pt-[88px] text-center">
           <h2 className="text-4xl font-bold text-white  sm:text-6xl">
-            자소서는 다 썼는데,
+            내 자소서는 다 썼는데,
             <br />
             면접 준비가 막막하다면?
           </h2>
@@ -63,13 +71,30 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
               예측부터 면접 단골 기출문제까지!
             </div>
           </div>
-          <Button
-            variant={'black'}
-            className="mt-[30px] px-4 py-[8.5px]  text-base font-medium"
-            onClick={() => router.push('/archive/create')}
-          >
-            무료로 시작하기
-          </Button>
+          <AuthSignedIn>
+            <Button
+              variant={'black'}
+              className="mt-[30px] px-4 py-[8.5px]  text-base font-medium"
+              onClick={() => router.push('/archive/create')}
+            >
+              무료로 시작하기
+            </Button>
+          </AuthSignedIn>
+          <AuthSignedOut>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant={'black'}
+                  className="mt-[30px] px-4 py-[8.5px]  text-base font-medium"
+                >
+                  무료로 시작하기
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <SignInView callbackUrl="/" />
+              </AlertDialogContent>
+            </AlertDialog>
+          </AuthSignedOut>
         </div>
       </div>
       <div

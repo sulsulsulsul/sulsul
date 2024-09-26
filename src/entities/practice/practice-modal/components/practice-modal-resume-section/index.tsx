@@ -71,7 +71,7 @@ export default function PracticeModalResumeSection({
       </section>
       <section>
         <div className="flex h-[68px] w-full items-center border-y border-gray-100 pl-[24px] text-base">
-          <label htmlFor={'resume'}>
+          <label htmlFor="resumes">
             <Checkbox
               id="resumes"
               className="m-[10px] size-5 p-[2px] "
