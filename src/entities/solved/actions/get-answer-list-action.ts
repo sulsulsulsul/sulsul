@@ -14,6 +14,7 @@ export const getAnswerListAction = async ({
   interviewId,
   sortType,
   accessToken,
+  count,
 }: AnswerListActionProps) => {
   try {
     const response = await backendApi<AnswerList>({
@@ -22,6 +23,9 @@ export const getAnswerListAction = async ({
         sortType,
       }),
       accessToken,
+      params: {
+        count,
+      },
     });
     return response;
   } catch (error) {
