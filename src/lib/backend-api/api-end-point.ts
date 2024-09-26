@@ -149,12 +149,12 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
-    // TODO: 동일 API 정리
+    // TODO: 동일 API 정리 and authorization 미가입 자 처리문의
     getPracticeSearchQuestions: () => {
       return {
         url: `${API_V1_BASE}/questions/search`,
         method: Method.GET,
-        authorization: false,
+        authorization: true,
       };
     },
     getSearchQuestions: (query: string) => {
@@ -212,14 +212,14 @@ export const API_ENDPOINT = {
       return {
         url: `${API_V1_BASE}/practice/statistics/summary`,
         method: Method.GET,
-        authorization: false,
+        authorization: true,
       };
     },
     getStatisticsDetail: (period: Period) => {
       return {
         url: `${API_V1_BASE}/practice/statistics/detail/${period}`,
         method: Method.GET,
-        authorization: false,
+        authorization: true,
       };
     },
     createPractice: () => {

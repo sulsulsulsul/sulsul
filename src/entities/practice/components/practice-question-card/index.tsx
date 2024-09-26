@@ -26,10 +26,10 @@ export const PracticedQuestionCard = ({
       <div className="flex flex-col gap-2 overflow-hidden">
         <h4 className="truncate text-lg font-semibold">{content}</h4>
         <div className="flex items-center gap-[6px] text-gray-500">
-          <span className="w-fit rounded-sm bg-gray-100 px-[7px] py-[10px] text-2xs font-medium">
+          <span className="w-fit shrink-0  rounded-sm bg-gray-100 px-[7px] py-[10px] text-2xs font-medium">
             {company}
           </span>
-          <p className="text-sm font-medium">{title}</p>
+          <p className="truncate text-sm font-medium">{title}</p>
         </div>
       </div>
       <Button size="sm" variant="green" onClick={onClickRetry}>

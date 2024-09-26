@@ -25,9 +25,24 @@ export const PracticedQuestionTab = ({
         }}
       >
         <TabsList>
-          <TabsTrigger value="unanswered">답하지 못했던</TabsTrigger>
-          <TabsTrigger value="hintUsed">힌트를 본</TabsTrigger>
-          <TabsTrigger value="favorite">즐겨 찾기한</TabsTrigger>
+          <TabsTrigger
+            className="mobile:rounded-sm mobile:text-[14px] mobile:font-semibold"
+            value="unanswered"
+          >
+            답하지 못했던
+          </TabsTrigger>
+          <TabsTrigger
+            className="mobile:rounded-sm mobile:text-[14px] mobile:font-semibold"
+            value="hintUsed"
+          >
+            힌트를 본
+          </TabsTrigger>
+          <TabsTrigger
+            className="mobile:rounded-sm mobile:text-[14px] mobile:font-semibold"
+            value="favorite"
+          >
+            즐겨 찾기한
+          </TabsTrigger>
         </TabsList>
       </Tabs>
     </div>

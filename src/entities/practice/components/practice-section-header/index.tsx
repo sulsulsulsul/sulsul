@@ -6,12 +6,14 @@ import { cn } from '@/lib/utils';
 interface PracticeSectionHeaderProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
   iconSrc: string;
+  isDesktop?: boolean;
 }
 
 const PracticeSectionHeader = ({
   className,
   title,
   iconSrc,
+  isDesktop,
   ...props
 }: PracticeSectionHeaderProps) => {
   return (
@@ -19,11 +21,13 @@ const PracticeSectionHeader = ({
       <Image
         className="translate-y-[-2px]"
         src={iconSrc}
-        width={32}
-        height={32}
+        width={isDesktop ? 32 : 24}
+        height={isDesktop ? 32 : 24}
         alt=""
       />
-      <h2 className="text-4xl font-bold text-gray-800">{title}</h2>
+      <h2 className="text-4xl font-bold text-gray-800 mobile:text-2xl">
+        {title}
+      </h2>
     </div>
   );
 };

@@ -77,7 +77,7 @@ export const WeeklyChart = ({
   return (
     <div
       className={cn(
-        'relative p-5 h-full w-full flex items-center justify-center overflow-scroll',
+        'relative p-5 h-full w-full flex items-center justify-center overflow-scroll mobile:py-0 mobile:px-5',
         className,
       )}
       {...props}
