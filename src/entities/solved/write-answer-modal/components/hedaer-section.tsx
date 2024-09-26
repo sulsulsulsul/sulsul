@@ -30,7 +30,7 @@ export const ModalHeader = ({
   useEffect(() => {
     setClicked(false);
   }, [charCount]);
-  console.log(disabled);
+
   return (
     <div className="flex items-center justify-between">
       <div className="text-3xl font-bold text-gray-900">

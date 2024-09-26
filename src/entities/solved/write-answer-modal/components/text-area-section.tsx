@@ -9,6 +9,7 @@ import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
 
 import { useCreateAnswer } from '../../hooks/use-create-answer';
+import { useUpdateAnswer } from '../../hooks/use-update-answer';
 import { useWriteAnswerForm } from '../../hooks/use-write-answer-form';
 import { ButtonSection } from './button-section';
 import { TextAreaDescription } from './text-area-description';
@@ -33,16 +34,6 @@ export const TextAreaSection = ({
   const userId = auth.userId;
   const accessToken = auth.accessToken;
 
-  const { setOpenAnswerModal } = useAnswerModalStore();
-
-  const currentInterviewId = currentData.weeklyInterviewId || 1;
-
-  const { mutate: createAnswerMutation, isSuccess } = useCreateAnswer({
-    currentInterviewId,
-    userId,
-    pivotDate,
-  });
-
   const { control, handleSubmit, reset, watch } = useForm({
     defaultValues: {
       answer: '',
@@ -50,6 +41,26 @@ export const TextAreaSection = ({
   });
 
   const inputValue = watch('answer');
+
+  const { setOpenAnswerModal } = useAnswerModalStore();
+
+  const currentInterviewId = currentData.weeklyInterviewId || 1;
+
+  const { mutate: createAnswerMutation, isSuccess: isSuccessCreate } =
+    useCreateAnswer({
+      currentInterviewId,
+      userId,
+      pivotDate,
+    });
+
+  const { mutate: editAnswerMutation, isSuccess: isSuccessUpdate } =
+    useUpdateAnswer({
+      currentInterviewId,
+      answerId: myAnswerData?.weeklyInterviewAnswerId || 0,
+      content: inputValue,
+      pivotDate,
+      userId,
+    });
 
   useEffect(() => {
     if (isEditModal) {
@@ -60,17 +71,21 @@ export const TextAreaSection = ({
   }, [isEditModal, myAnswerData, reset]);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccessCreate || isSuccessUpdate) {
       setOpenAnswerModal(false);
     }
-  }, [isSuccess, setOpenAnswerModal]);
+  }, [isSuccessCreate, isSuccessUpdate, setOpenAnswerModal]);
 
   const onSubmit = (data: { answer: string }) => {
-    createAnswerMutation({
-      interviewId: currentInterviewId,
-      accessToken: accessToken,
-      content: data.answer,
-    });
+    if (isEditModal) {
+      editAnswerMutation();
+    } else {
+      createAnswerMutation({
+        interviewId: currentInterviewId,
+        accessToken: accessToken,
+        content: data.answer,
+      });
+    }
   };
 
   const onFormSubmit = handleSubmit((data) => {
