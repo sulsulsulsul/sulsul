@@ -1,12 +1,21 @@
 'use client';
 import { useEffect } from 'react';
 import Image from 'next/image';
+import { AlertDialogContent } from '@radix-ui/react-alert-dialog';
 import dayjs from 'dayjs';
 
+import {
+  AlertDialog,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
+import { SignInView } from '@/entities/auth/views/sign-in-view';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerModalStore } from '@/store/answerModalStore';
+import { useUserStore } from '@/store/client';
 import { useInterviewStore } from '@/store/interviewStore';
+import { useVideoStateStore } from '@/store/modal';
 
 import { useInterview } from '../../hooks/use-get-interview';
 import { WriteAnswerModal } from '../../write-answer-modal';
@@ -14,6 +23,8 @@ import { CountDownView } from '../count-down-view';
 
 export const TogetherSolvedContent = () => {
   const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();
+  const { auth } = useUserStore();
+  const { accessToken } = auth;
 
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const previousWeekDate = formatDate({
@@ -25,6 +36,11 @@ export const TogetherSolvedContent = () => {
   const { setInterviewData, setPreviousInterviewData } = useInterviewStore();
   const currentTitle = currentData?.content.split('\\n');
 
+  const handleClickCreateAnswerBtn = () => {
+    if (accessToken) {
+      setOpenAnswerModal(true);
+    }
+  };
   useEffect(() => {
     if (currentData) {
       setInterviewData(currentData);
@@ -51,22 +67,31 @@ export const TogetherSolvedContent = () => {
         <CountDownView endTime={currentData?.endTime} refetch={refetch} />
       </div>
       <div className="relative h-[175px] w-full">
-        <Image
+        {/* <Image
           fill
           className="rounded-xl"
           src="https://via.placeholder.com/300x175"
           alt="기출 이미지"
-        />
-      </div>
-
-      <Button
-        type="button"
-        size={'sm'}
-        variant={'default'}
-        onClick={() => setOpenAnswerModal(true)}
-      >
-        나도 답변 만들기
-      </Button>
+        /> */}
+      </div>{' '}
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button
+            type="button"
+            size={'sm'}
+            variant={'default'}
+            onClick={handleClickCreateAnswerBtn}
+          >
+            나도 답변 만들기
+          </Button>
+        </AlertDialogTrigger>
+        {!accessToken && (
+          <AlertDialogContent>
+            <AlertDialogTitle />
+            <SignInView callbackUrl="/" />
+          </AlertDialogContent>
+        )}
+      </AlertDialog>
       {isOpenAnswerModal && <WriteAnswerModal />}
     </div>
   );

@@ -41,7 +41,7 @@ const MODAL_CONTENT: Record<'exit' | 'delete', ModalContent> = {
   },
 };
 
-export const ConfirmModal = ({
+export const ReConfirmModal = ({
   type,
   myWriteAnswerData,
 }: ConfirmModalProps) => {
@@ -79,7 +79,7 @@ export const ConfirmModal = ({
     }
   };
   return (
-    <div className="z-[70] flex min-h-[284px] w-[428px] flex-col items-center justify-center gap-8 rounded-md border border-gray-100 bg-white p-[30px]">
+    <div className="z-[70] flex min-h-[284px] w-[428px] flex-col items-center justify-center gap-8 rounded-md border border-gray-100 bg-white p-[30px] mobile:w-[350px]">
       <div className="flex flex-col items-center gap-6">
         <Image src={icon} alt="재확인 아이콘" width={60} height={60} />
         <div className="flex flex-col items-center gap-[2px]">
@@ -90,7 +90,7 @@ export const ConfirmModal = ({
       <div className="flex gap-2">
         <Button
           size="sm"
-          className="h-[52px] w-[180px] border-none bg-gray-200 text-gray-500"
+          className="h-[52px] w-[180px] border-none bg-gray-200 text-gray-500 mobile:w-32"
           variant="outline"
           onClick={handleClickLeftBtn}
         >
@@ -98,7 +98,7 @@ export const ConfirmModal = ({
         </Button>
         <Button
           size="sm"
-          className="h-[52px] w-[180px]"
+          className="h-[52px] w-[180px] mobile:w-32"
           variant="default"
           onClick={handleClickRightBtn}
         >
