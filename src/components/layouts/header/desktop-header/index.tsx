@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { signOut } from 'next-auth/react';
@@ -37,6 +37,13 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
   const { status } = useCurrentUser();
   const { pause } = useVideoStateStore();
   const { data, image } = useUserStore();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      setIsLoggingIn(false);
+    }
+  }, [status]);
 
   const renderLoginState = () => {
     if (status === 'authenticated')
@@ -110,6 +117,25 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           </DropdownMenuContent>
         </DropdownMenu>
       );
+    if (isLoggingIn) {
+      return (
+        <Button
+          size={'sm'}
+          variant={'default'}
+          aria-label="loading google login button"
+          className="bg-blue-300"
+        >
+          <Image
+            alt="icon"
+            src="/images/icons/spinner.svg"
+            className="mr-1.5 animate-spin"
+            width={19}
+            height={18}
+          />
+          로그인 중..
+        </Button>
+      );
+    }
     if (status === 'unauthenticated')
       return (
         <AlertDialog>
@@ -118,7 +144,9 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
               size={'sm'}
               variant={'default'}
               aria-label="google login button"
-              onClick={() => pause()}
+              onClick={() => {
+                pause();
+              }}
             >
               무료로 시작하기
             </Button>
@@ -126,7 +154,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
           <AlertDialogContent className={cn('absolute left-0 top-0')}>
             <AlertDialogTitle />
             <AlertDialogDescription />
-            <SignInView callbackUrl="/" />
+            <SignInView callbackUrl="/" onSignIn={() => setIsLoggingIn(true)} />
           </AlertDialogContent>
         </AlertDialog>
       );
