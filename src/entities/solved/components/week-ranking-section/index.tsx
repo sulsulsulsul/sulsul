@@ -22,7 +22,10 @@ export const WeekRankingSection = ({
     count: 3,
   });
 
-  const hasNoData = !accessToken || answerListData?.totalCount === 0;
+  const hasNoData =
+    !accessToken ||
+    answerListData?.totalCount === 0 ||
+    answerListData?.answerDetailResponses[0].recommendCount === 0;
   return (
     <div className="mt-[6px] flex w-full flex-col gap-2">
       <div className="relative flex justify-between">
