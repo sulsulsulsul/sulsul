@@ -2,7 +2,7 @@ name: Deploy
 
 on:
   push:
-    branches: ['main']
+    branches: ['develop']
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
 
           commit-message: ${{ github.event.commits[0].message }}
 
-          target-branch: main
+          target-branch: develop
 
       - name: Test get variable exported by push-to-another-repository
 
