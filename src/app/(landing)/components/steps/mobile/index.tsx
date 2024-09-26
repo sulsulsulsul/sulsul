@@ -16,12 +16,11 @@ export const MobileSteps = ({
       <Video
         src="/videos/step-1.mp4"
         title="step1"
-        className="w-full rounded-lg"
+        className="w-full rounded-md"
         autoPlay
         loop
         muted
       />
-
       <div className="mb-16 mt-5">
         <h4 className="text-base font-bold text-blue-500">STEP 01</h4>
         <h3 className="text-3xl font-bold text-gray-800">면접질문 예측하기</h3>
@@ -33,7 +32,7 @@ export const MobileSteps = ({
       <Video
         src="/videos/step-2.mp4"
         title="step1"
-        className="w-full rounded-lg"
+        className="w-full rounded-md"
         autoPlay
         loop
         muted
@@ -51,7 +50,7 @@ export const MobileSteps = ({
       <Video
         src="/videos/step-3.mp4"
         title="step1"
-        className="w-full rounded-lg"
+        className="w-full rounded-md"
         autoPlay
         loop
         muted

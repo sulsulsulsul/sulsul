@@ -48,9 +48,12 @@ export const StepVideos = ({
           muted
           key={index}
           src={video}
-          className={cn('hidden rounded-[30px] shadow-base top-0 z-0', {
-            'inline-block z-50': activeStep === index,
-          })}
+          className={cn(
+            'hidden rounded-[30px]  border border-gray-200 top-0 z-0',
+            {
+              'inline-block z-50': activeStep === index,
+            },
+          )}
         />
       ))}
     </div>
