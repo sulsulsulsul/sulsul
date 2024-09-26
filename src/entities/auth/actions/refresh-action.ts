@@ -22,7 +22,6 @@ export const refreshAction = async ({
         refreshToken,
       },
     });
-    console.log('Refresh API response:', response);
     return response;
   } catch (error) {
     console.error('Refresh API error:', error);

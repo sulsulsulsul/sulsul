@@ -35,10 +35,6 @@ export async function refreshAccessToken(token: JWT): Promise<JWT> {
 
     const decodedToken = jwtDecode(refreshedAuth.accessToken);
     const newExpirationTime = (decodedToken.exp as number) * 1000;
-    console.log(
-      'new!!! => ',
-      new Date(newExpirationTime as number).toISOString(),
-    );
 
     refreshAttempts = 0;
 
@@ -81,6 +77,9 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           token.auth = authDTO;
           token.accessToken = authDTO.accessToken;
           token.refreshToken = authDTO.refreshToken;
+          const decodedToken = jwtDecode(authDTO.accessToken);
+          token.accessTokenExpires = (decodedToken.exp as number) * 1000;
+          return token;
         } else if (account.provider === 'kakao') {
           if (!account.access_token) {
             throw new Error('Kakao access_token is undefined');
@@ -94,12 +93,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           token.accessToken = authDTO.accessToken;
           token.refreshToken = authDTO.refreshToken;
           const decodedToken = jwtDecode(authDTO.accessToken);
-          token.accessTokenExpires = (decodedToken.exp as number) * 1000; // 밀리초로 변환
-          console.log(
-            'Initial token expiration:',
-            new Date(token.accessTokenExpires as number).toISOString(),
-          );
-
+          token.accessTokenExpires = (decodedToken.exp as number) * 1000;
           return token;
         }
       }
@@ -137,9 +131,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
               accessToken: token.auth.accessToken,
             });
             token.data = userDTO;
-            console.log('User data fetched successfully');
           } catch (error) {
-            console.error('Error fetching user data:', error);
             token.error = 'FetchUserError';
           }
         }
@@ -164,7 +156,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (token.data) {
         session.user.data = { ...token.data };
       }
-      console.log('diffrent session ', token);
       return session;
     },
   },
