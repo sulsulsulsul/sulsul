@@ -4,15 +4,6 @@ import * as React from 'react';
 
 import { useUserChallengesProgress } from './hooks/use-user-challenges-progress';
 
-const data = [
-  { category: 'BASIC', count: 10 },
-  { category: 'JOB_1', count: 10 },
-  { category: 'JOB_2', count: 0 },
-  { category: 'CULTURE_1', count: 0 },
-  { category: 'CULTURE_2', count: 0 },
-  { category: 'VISION', count: 0 },
-];
-
 // 각 카테고리에 대한 설명 및 타입 매핑
 type CategoryInfo = {
   description: string;
@@ -26,7 +17,7 @@ const categoryInfo: Record<string, CategoryInfo> = {
 };
 
 // category에 같은 글자가 포함된 항목들을 묶고 count를 배열로 받는 함수
-const aggregateSteps = (steps: { category: string; count: number }[]) => {
+const aggregateSteps = (steps: any) => {
   const aggregated: Record<
     string,
     {
@@ -36,7 +27,7 @@ const aggregateSteps = (steps: { category: string; count: number }[]) => {
     }
   > = {};
 
-  steps.forEach(({ category, count }) => {
+  steps.forEach(({ category, count }: any) => {
     // 카테고리의 키를 생성
     const key = category.replace(/_\d+$/, ''); // 숫자 부분 제거하여 그룹화
 
@@ -56,15 +47,26 @@ const aggregateSteps = (steps: { category: string; count: number }[]) => {
   return Object.values(aggregated);
 };
 
-const steps = aggregateSteps(data);
-
 interface VerticalLinearStepperProps {
   accessToken: string;
 }
 
 const VerticalLinearStepper = ({ accessToken }: VerticalLinearStepperProps) => {
-  const { data } = useUserChallengesProgress({ accessToken });
-  console.log('나오나?', data);
+  const { data = [] } = useUserChallengesProgress({
+    accessToken,
+  });
+
+  const testDummyData = [
+    { category: 'BASIC', count: 10 },
+    { category: 'JOB_1', count: 10 },
+    { category: 'JOB_2', count: 0 },
+    { category: 'CULTURE_1', count: 0 },
+    { category: 'CULTURE_2', count: 0 },
+    { category: 'VISION', count: 0 },
+  ];
+
+  const steps = aggregateSteps(data);
+
   return (
     <div className="max-w-[400px]">
       {steps.map((step, index) => {

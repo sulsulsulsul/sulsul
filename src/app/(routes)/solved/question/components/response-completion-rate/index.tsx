@@ -1,9 +1,10 @@
 'use client';
 
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect, useState } from 'react';
 
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { cn } from '@/lib/utils';
+import { useUserStore } from '@/store/client';
 
 import Character from './character';
 import CompletionRate from './completion-rate';
@@ -11,17 +12,15 @@ import VerticalLinearStepper from './vertical-linear-stepper';
 
 interface QuestionListProps extends HTMLAttributes<HTMLDivElement> {}
 
-const ResponseCompletionRate = async ({ className }: QuestionListProps) => {
-  const authInfo = await auth();
-  const accessToken = authInfo?.user.auth.accessToken || '';
-  console.log('accessToken', authInfo);
+const ResponseCompletionRate = ({ className }: QuestionListProps) => {
+  const { auth } = useUserStore();
 
   return (
     <div className={cn('h-full', className)}>
       <div className="mt-[18px] size-full rounded-md border border-gray-200 bg-white p-[28px] shadow-base">
         <Character />
         <CompletionRate />
-        <VerticalLinearStepper accessToken={accessToken} />
+        <VerticalLinearStepper accessToken={auth.accessToken} />
       </div>
     </div>
   );
