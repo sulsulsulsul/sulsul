@@ -34,13 +34,7 @@ export const TextAreaSection = ({
   const userId = auth.userId;
   const accessToken = auth.accessToken;
 
-  const { control, handleSubmit, reset, watch } = useForm({
-    defaultValues: {
-      answer: '',
-    },
-  });
-
-  const inputValue = watch('answer');
+  const inputValue = form.watch('answer');
 
   const { setOpenAnswerModal } = useAnswerModalStore();
 
@@ -64,11 +58,11 @@ export const TextAreaSection = ({
 
   useEffect(() => {
     if (isEditModal) {
-      reset({
+      form.reset({
         answer: myAnswerData?.content || '',
       });
     }
-  }, [isEditModal, myAnswerData, reset]);
+  }, [isEditModal, myAnswerData, form.reset]);
 
   useEffect(() => {
     if (isSuccessCreate || isSuccessUpdate) {
@@ -88,22 +82,22 @@ export const TextAreaSection = ({
     }
   };
 
-  const onFormSubmit = handleSubmit((data) => {
+  const onFormSubmit = form.handleSubmit((data) => {
     onSubmit({ answer: data.answer || '' });
   });
 
   return (
     <FormProvider {...form}>
       <form onSubmit={onFormSubmit} className="flex flex-col gap-4">
-        <div className="relative h-[254px] rounded-xl border border-solid border-gray-200 px-4 pb-6 pt-4">
+        <div className="relative h-[254px] rounded-xl border border-solid border-gray-200 px-4 pb-6 pt-4 mobile:h-[206px]">
           <FormField
-            control={control}
+            control={form.control}
             name="answer"
             render={({ field }) => (
               <FormItem className="z-10 w-full space-y-0">
                 <Textarea
                   maxLength={499}
-                  className="z-10 h-[180px] w-full resize-none rounded-none border-none p-0 text-base"
+                  className="z-10 h-[180px] w-full resize-none rounded-none border-none p-0 text-base mobile:h-[120px]"
                   placeholder={''}
                   onInput={handleInput}
                   {...field}
@@ -121,7 +115,7 @@ export const TextAreaSection = ({
         </div>
         <ButtonSection
           charCount={inputValue.length}
-          disalbled={inputValue === myAnswerData?.content}
+          disalbled={isEditModal ? inputValue === myAnswerData?.content : false}
         />
       </form>
     </FormProvider>
