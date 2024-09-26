@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { FormField, FormItem, FormMessage } from '@/components/ui/form';
@@ -7,8 +7,10 @@ import { AnswerListData, InterviewData } from '@/entities/types/interview';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
+import { useTemporarySaveStore } from '@/store/temporarySaveStore';
 
 import { useCreateAnswer } from '../../hooks/use-create-answer';
+import { useInterval } from '../../hooks/use-interval';
 import { useUpdateAnswer } from '../../hooks/use-update-answer';
 import { useWriteAnswerForm } from '../../hooks/use-write-answer-form';
 import { ButtonSection } from './button-section';
@@ -19,6 +21,7 @@ interface TextAreaSectionProps {
   currentData: InterviewData;
   isEditModal?: boolean;
   myAnswerData: AnswerListData | null;
+  isOpenAnswerModal: boolean;
 }
 
 export const TextAreaSection = ({
@@ -26,6 +29,7 @@ export const TextAreaSection = ({
   currentData,
   isEditModal,
   myAnswerData,
+  isOpenAnswerModal,
 }: TextAreaSectionProps) => {
   const { auth } = useUserStore();
   const { form } = useWriteAnswerForm();
@@ -37,7 +41,7 @@ export const TextAreaSection = ({
   const inputValue = form.watch('answer');
 
   const { setOpenAnswerModal } = useAnswerModalStore();
-
+  const { setIsTemporarySaved } = useTemporarySaveStore();
   const currentInterviewId = currentData.weeklyInterviewId || 1;
 
   const { mutate: createAnswerMutation, isSuccess: isSuccessCreate } =
@@ -56,20 +60,6 @@ export const TextAreaSection = ({
       userId,
     });
 
-  useEffect(() => {
-    if (isEditModal) {
-      form.reset({
-        answer: myAnswerData?.content || '',
-      });
-    }
-  }, [isEditModal, myAnswerData, form.reset]);
-
-  useEffect(() => {
-    if (isSuccessCreate || isSuccessUpdate) {
-      setOpenAnswerModal(false);
-    }
-  }, [isSuccessCreate, isSuccessUpdate, setOpenAnswerModal]);
-
   const onSubmit = (data: { answer: string }) => {
     if (isEditModal) {
       editAnswerMutation();
@@ -82,9 +72,50 @@ export const TextAreaSection = ({
     }
   };
 
+  const saveTemporaryAnswer = () => {
+    localStorage.setItem('temporarySave', inputValue);
+    setIsTemporarySaved(true);
+
+    setTimeout(() => {
+      setIsTemporarySaved(false);
+    }, 3000);
+  };
+
+  useInterval(() => {
+    if (isEditModal) return;
+    if (localStorage.getItem('temporarySave') !== inputValue) {
+      saveTemporaryAnswer();
+    }
+  }, 30000);
+
   const onFormSubmit = form.handleSubmit((data) => {
     onSubmit({ answer: data.answer || '' });
   });
+
+  useEffect(() => {
+    if (isEditModal && !localStorage.getItem('temporarySave')) {
+      form.reset({
+        answer: myAnswerData?.content || '',
+      });
+    }
+
+    if (isEditModal && localStorage.getItem('temporarySave')) {
+      form.reset({
+        answer: localStorage.getItem('temporarySave') || '',
+      });
+    }
+    if (!isEditModal && localStorage.getItem('temporarySave')) {
+      form.reset({
+        answer: localStorage.getItem('temporarySave') || '',
+      });
+    }
+  }, [isEditModal, myAnswerData, form.reset]);
+
+  useEffect(() => {
+    if (isSuccessCreate || isSuccessUpdate) {
+      setOpenAnswerModal(false);
+    }
+  }, [isSuccessCreate, isSuccessUpdate, setOpenAnswerModal]);
 
   return (
     <FormProvider {...form}>

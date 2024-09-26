@@ -41,8 +41,15 @@ export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
     if (isEditModal && myAnswerData) {
       setContent(myAnswerData.content);
     }
+    if (!isEditModal && localStorage.getItem('temporarySave')) {
+      setContent(localStorage.getItem('temporarySave') || '');
+    }
   }, []);
+
   const modalZIndex = isOpenCancelModal ? 'z-[70]' : 'z-[60]';
+  const isSamePrevValue =
+    content === myAnswerData?.content ||
+    content === localStorage.getItem('temporarySave');
 
   return (
     <>
@@ -60,12 +67,13 @@ export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
               charCount={charCount}
               content={content}
               currentData={currentData}
-              disabled={content === myAnswerData?.content}
+              isDisabled={isSamePrevValue}
             />
             <TextAreaSection
               handleInput={handleInput}
               currentData={currentData}
               isEditModal={isEditModal}
+              isOpenAnswerModal={isOpenAnswerModal}
               myAnswerData={myAnswerData}
             />
           </div>

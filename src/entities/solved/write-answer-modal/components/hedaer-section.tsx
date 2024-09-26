@@ -4,34 +4,41 @@ import Image from 'next/image';
 import { InterviewData } from '@/entities/types/interview';
 import { applyNewLines, cn, removeNewlines } from '@/lib/utils';
 import { useAnswerModalStore } from '@/store/answerModalStore';
+import { useTemporarySaveStore } from '@/store/temporarySaveStore';
 
 interface ModalHeaderProp {
   charCount: number;
   content: string;
   currentData: InterviewData;
-  disabled: boolean;
+  isDisabled: boolean;
 }
 
 export const ModalHeader = ({
   charCount,
   content,
   currentData,
-  disabled,
+  isDisabled,
 }: ModalHeaderProp) => {
+  const { isTemporarySaved, setIsTemporarySaved } = useTemporarySaveStore();
   const { isOpenCancelModal, setOpenCancelModal } = useAnswerModalStore();
   const [isClicked, setClicked] = useState(false);
-  const className = charCount || !disabled ? 'text-blue-500' : 'text-gray-300';
 
   const handleClickTemporarySave = () => {
-    if (charCount > 0) {
+    if (content !== localStorage.getItem('temporarySave')) {
       localStorage.setItem('temporarySave', content);
+      setIsTemporarySaved(true);
       setClicked(true);
+
+      setTimeout(() => {
+        setIsTemporarySaved(false);
+      }, 3000);
     }
   };
 
   const handleClickCancelBtn = () => {
     setOpenCancelModal(true);
   };
+
   useEffect(() => {
     setClicked(false);
   }, [charCount]);
@@ -48,22 +55,26 @@ export const ModalHeader = ({
           onClick={handleClickCancelBtn}
         />
         <button
-          className={cn(
-            'flex items-center gap-1 font-medium text-[15px] disabled:cursor-not-allowed',
-            className,
-          )}
+          className={cn('flex items-center gap-1 font-medium text-[15px]')}
           onClick={handleClickTemporarySave}
-          disabled={disabled}
+          disabled={
+            isDisabled || content === localStorage.getItem('temporarySave')
+          }
         >
-          {isClicked && (
-            <Image
-              src="/images/icons/icon-check.svg"
-              alt="임시저장"
-              width={14}
-              height={14}
-            />
+          {isTemporarySaved || isClicked ? (
+            <div className="flex items-center gap-1 text-blue-500">
+              <Image
+                src="/images/icons/icon-check.svg"
+                className=""
+                alt="임시저장"
+                width={14}
+                height={14}
+              />
+              <p className="">임시저장됨</p>
+            </div>
+          ) : (
+            <p>임시저장</p>
           )}
-          <p>임시저장</p>
         </button>
       </div>
       <div className="flex items-center justify-between">
@@ -71,7 +82,6 @@ export const ModalHeader = ({
           Q. {removeNewlines(currentData?.content)}
         </div>
         <div className="text-3xl font-bold text-gray-900 tablet:hidden desktop:hidden">
-          {' '}
           {applyNewLines(currentData?.content).map((line) => (
             <div className="max-w-[260px] text-4xl font-bold" key={line}>
               {line}
@@ -81,21 +91,25 @@ export const ModalHeader = ({
         </div>
         <button
           className={cn(
-            'flex items-center gap-1 font-medium text-[15px] disabled:cursor-not-allowed mobile:hidden',
-            className,
+            'flex items-center gap-1 font-medium text-[15px] text-blue-500 disabled:text-gray-300  mobile:hidden',
           )}
           onClick={handleClickTemporarySave}
-          disabled={disabled}
+          disabled={isDisabled}
         >
-          {isClicked && (
-            <Image
-              src="/images/icons/icon-check.svg"
-              alt="임시저장"
-              width={14}
-              height={14}
-            />
+          {isTemporarySaved || isClicked ? (
+            <div className="flex items-center gap-1">
+              <Image
+                src="/images/icons/icon-check.svg"
+                className=""
+                alt="임시저장"
+                width={14}
+                height={14}
+              />
+              <p className="text-blue-500">임시저장됨</p>
+            </div>
+          ) : (
+            <p>임시저장</p>
           )}
-          <p>임시저장</p>
         </button>
       </div>
     </div>
