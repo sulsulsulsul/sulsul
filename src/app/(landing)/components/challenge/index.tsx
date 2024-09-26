@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 import { Button } from '@/components/ui/button';
 export default function Challenge() {
@@ -49,9 +50,11 @@ export default function Challenge() {
     >
       <div className="mt-[50px] lg:mt-[100px] ">백문백답 챌린지로</div>
       <div>단골 기출문제 완벽 대비</div>
-      <Button className="mt-8 px-4 text-base font-semibold lg:px-12 lg:text-lg mobile:py-[8.5px] mobile:font-medium">
-        면접 기출문제 풀기
-      </Button>
+      <Link href="/solved">
+        <Button className="mt-8 px-4 text-base font-semibold lg:px-12 lg:text-lg mobile:py-[8.5px] mobile:font-medium">
+          면접 기출문제 풀기
+        </Button>
+      </Link>
       <div className="invisible absolute bottom-[120px] flex flex-row gap-[524px] lg:visible ">
         <div className="flex flex-row gap-[18px]">
           <Image
@@ -100,7 +103,7 @@ export default function Challenge() {
       </div>
       <Image
         className="z-10  mt-[36px] lg:mt-[60px] mobile:px-6"
-        src="/images/challenge-section.svg"
+        src="/images/challenge-section.png"
         width={582}
         height={522}
         alt="challenge-seciton"

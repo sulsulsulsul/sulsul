@@ -14,7 +14,7 @@ const NoDataCard = ({
   return (
     <div
       className={cn(
-        'bg-white h-full w-full rounded-md flex flex-col justify-center items-center',
+        'bg-white h-full w-full rounded-md flex flex-col justify-center items-center mobile:h-80',
         className,
       )}
     >
