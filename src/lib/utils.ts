@@ -1,6 +1,7 @@
 // TODO: lib 폴더를 shared로 옮기는게 어떨지??
 
 import { type ClassValue, clsx } from 'clsx';
+import dayjs, { Dayjs } from 'dayjs';
 import { twMerge } from 'tailwind-merge';
 import resolveConfig from 'tailwindcss/resolveConfig';
 
@@ -43,4 +44,25 @@ export const removeNewlines = (str: string) => {
 
 export const applyNewLines = (str: string) => {
   return str.split('\\n');
+};
+
+export const getRecentWeeks = (currentDate: Dayjs) => {
+  const weeks = [];
+  let date = currentDate;
+
+  for (let i = 0; i < 4; i++) {
+    const weekStart = date.startOf('week').format('YYYY-MM-DD');
+    const weekEnd = date.endOf('week').format('YYYY-MM-DD');
+    const label = `${date.format('M')}월 ${Math.ceil(date.date() / 7)}째 주`;
+
+    weeks.push({
+      label,
+      start: weekStart,
+      end: weekEnd,
+    });
+
+    date = date.subtract(1, 'week');
+  }
+
+  return weeks;
 };

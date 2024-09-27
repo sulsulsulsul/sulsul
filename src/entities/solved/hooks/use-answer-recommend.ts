@@ -1,19 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 
-import {
-  AnswerActionParams,
-  createAnswerAction,
-} from '../actions/create-answer-action';
-import {
-  createAnswerRecommendAction,
-  CreateAnswerRecommendActionParams,
-} from '../actions/create-answer-recommend-action';
-import {
-  deleteAnswerRecommendAction,
-  DeleteAnswerRecommendActionParams,
-} from '../actions/delete-answer-recommend-action';
-import { updateAnswerAction } from '../actions/update-answer-action';
+import { createAnswerRecommendAction } from '../actions/create-answer-recommend-action';
+import { deleteAnswerRecommendAction } from '../actions/delete-answer-recommend-action';
 
 interface AnswerRecommendProp {
   currentInterviewId: number;
@@ -53,8 +42,6 @@ export const useAnswerRecommend = ({
       toast.error('요청 중 오류가 발생했습니다. 다시 시도해주세요.');
     },
     onSuccess: () => {
-      toast.success('답변을 등록했어요.');
-
       queryClient.invalidateQueries({
         queryKey: ['interview', currentInterviewId, userId],
       });

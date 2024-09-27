@@ -1,10 +1,19 @@
 'use client';
+import { useState } from 'react';
 import Image from 'next/image';
 
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { SignInView } from '@/entities/auth/views/sign-in-view';
 import NoDataCard from '@/entities/practice/components/no-data-card';
 import { useInterviewStore } from '@/store/interviewStore';
 
 import { useAnswerList } from '../../hooks/use-get-answer-list';
+import { ViewAllAnswersModal } from '../view-all-answers-modal';
 
 const DEFAULT_IMAGE_URL = '/images/suri-profile.svg';
 
@@ -14,6 +23,7 @@ export const BestCommentsSection = ({
   accessToken: string;
 }) => {
   const { previousData } = useInterviewStore();
+  const [isOpenAllAnswerModal, setIsOpenAllAnswerModal] = useState(false);
   const lastWeekInterviewId = previousData?.weeklyInterviewId || 10;
   const { data: answerListData } = useAnswerList({
     interviewId: lastWeekInterviewId,
@@ -24,9 +34,9 @@ export const BestCommentsSection = ({
   // console.log(answerListData);
   const previousTitle = previousData?.content.replace(/\\n/g, ' ');
   const hasNoData = !accessToken || answerListData?.totalCount === 0;
-  const defaultImageUrl = '/images/default-image.png';
 
   // 이미지가 https로 시작하지 않으면 기본 이미지 사용
+
   return (
     <div className="hidden lg:mt-[6px] lg:flex lg:w-[282px] lg:flex-col lg:gap-2">
       <div className="flex items-center gap-1">
@@ -77,9 +87,15 @@ export const BestCommentsSection = ({
                 ),
               )}
             </ul>
-            <button className="mt-2 w-full border-t border-gray-200 pt-3 text-center text-base text-gray-500">
+
+            <button
+              className="mt-2 w-full border-t border-gray-200 pt-3 text-center text-base text-gray-500"
+              onClick={() => setIsOpenAllAnswerModal(true)}
+            >
               Best 답변 모두 보기
             </button>
+
+            {accessToken && isOpenAllAnswerModal && <ViewAllAnswersModal />}
           </>
         ) : (
           <NoDataCard className="text-base font-semibold text-gray-400" />
