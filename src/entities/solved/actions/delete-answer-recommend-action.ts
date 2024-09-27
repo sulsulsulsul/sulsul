@@ -15,7 +15,6 @@ export const deleteAnswerRecommendAction = ({
   answerId,
   userId,
 }: DeleteAnswerRecommendActionParams) => {
-  console.log(accessToken, interviewId, answerId, userId);
   return backendApi({
     endpoint: API_ENDPOINT.interview.deleteAnswerRecommend(
       interviewId,

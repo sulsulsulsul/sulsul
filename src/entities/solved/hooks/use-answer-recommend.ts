@@ -32,7 +32,6 @@ export const useAnswerRecommend = ({
   answerId,
 }: AnswerRecommendProp) => {
   const queryClient = useQueryClient();
-  console.log(isRecommended);
   return useMutation({
     mutationFn: () => {
       if (isRecommended) {
