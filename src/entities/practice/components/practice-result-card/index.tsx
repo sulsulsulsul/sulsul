@@ -28,7 +28,7 @@ export const PracticeResultCard = ({
   return (
     <div
       className={cn(
-        'h-[273px] w-full rounded-md bg-white p-[26px] shadow-base',
+        'h-[273px] w-full rounded-md bg-white p-[26px] shadow-base mobile:h-[172px] mobile:w-[153px] mobile:shrink-0 mobile:pt-[24px] mobile:px-[20px] mobile:pb-[16px]',
         className,
       )}
       {...props}
@@ -42,11 +42,11 @@ export const PracticeResultCard = ({
           >
             {value}
           </h4>
-          <p className="text-base font-semibold text-gray-500">
+          <p className="text-base font-semibold text-gray-500 mobile:text-xs">
             {DISPLAY_PRACTICE_TYPE[type]}
           </p>
         </div>
-        <div className="flex size-16 items-center justify-center rounded-full bg-gray-50">
+        <div className="flex size-16 items-center justify-center rounded-full bg-gray-50 mobile:size-[42px]">
           <PracticeResultCardIcon type={type} />
         </div>
       </div>
@@ -61,15 +61,14 @@ const PracticeResultCardIcon = ({
 }) => {
   switch (type) {
     case 'good':
-      return <SmileAnimation loop={false} className="w-8" />;
+      return <SmileAnimation loop={false} className="w-8 mobile:w-[21px]" />;
     case 'bad':
-      return <ThinkingAnimation loop={false} className="w-8" />;
+      return <ThinkingAnimation loop={false} className="w-8 mobile:w-[21px]" />;
     case 'time':
       return (
-        <Image
+        <img
+          className="w-8 mobile:w-[21px]"
           alt="clock icon"
-          width={32}
-          height={32}
           src="/images/icons/etc-clock.svg"
         />
       );
