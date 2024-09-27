@@ -24,8 +24,8 @@ export const ModalHeader = ({
   const [isClicked, setClicked] = useState(false);
 
   const handleClickTemporarySave = () => {
-    if (content !== localStorage.getItem('temporarySave')) {
-      localStorage.setItem('temporarySave', content);
+    if (content !== sessionStorage.getItem('temporarySave')) {
+      sessionStorage.setItem('temporarySave', content);
       setIsTemporarySaved(true);
       setClicked(true);
 
@@ -58,7 +58,7 @@ export const ModalHeader = ({
           className={cn('flex items-center gap-1 font-medium text-[15px]')}
           onClick={handleClickTemporarySave}
           disabled={
-            isDisabled || content === localStorage.getItem('temporarySave')
+            isDisabled || content === sessionStorage.getItem('temporarySave')
           }
         >
           {isTemporarySaved || isClicked ? (

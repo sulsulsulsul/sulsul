@@ -73,7 +73,7 @@ export const TextAreaSection = ({
   };
 
   const saveTemporaryAnswer = () => {
-    localStorage.setItem('temporarySave', inputValue);
+    sessionStorage.setItem('temporarySave', inputValue);
     setIsTemporarySaved(true);
 
     setTimeout(() => {
@@ -83,7 +83,7 @@ export const TextAreaSection = ({
 
   useInterval(() => {
     if (isEditModal) return;
-    if (localStorage.getItem('temporarySave') !== inputValue) {
+    if (sessionStorage.getItem('temporarySave') !== inputValue) {
       saveTemporaryAnswer();
     }
   }, 30000);
@@ -93,20 +93,20 @@ export const TextAreaSection = ({
   });
 
   useEffect(() => {
-    if (isEditModal && !localStorage.getItem('temporarySave')) {
+    if (isEditModal && !sessionStorage.getItem('temporarySave')) {
       form.reset({
         answer: myAnswerData?.content || '',
       });
     }
 
-    if (isEditModal && localStorage.getItem('temporarySave')) {
+    if (isEditModal && sessionStorage.getItem('temporarySave')) {
       form.reset({
-        answer: localStorage.getItem('temporarySave') || '',
+        answer: sessionStorage.getItem('temporarySave') || '',
       });
     }
-    if (!isEditModal && localStorage.getItem('temporarySave')) {
+    if (!isEditModal && sessionStorage.getItem('temporarySave')) {
       form.reset({
-        answer: localStorage.getItem('temporarySave') || '',
+        answer: sessionStorage.getItem('temporarySave') || '',
       });
     }
   }, [isEditModal, myAnswerData, form.reset]);

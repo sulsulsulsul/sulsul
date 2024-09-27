@@ -41,15 +41,15 @@ export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
     if (isEditModal && myAnswerData) {
       setContent(myAnswerData.content);
     }
-    if (!isEditModal && localStorage.getItem('temporarySave')) {
-      setContent(localStorage.getItem('temporarySave') || '');
+    if (!isEditModal && sessionStorage.getItem('temporarySave')) {
+      setContent(sessionStorage.getItem('temporarySave') || '');
     }
   }, []);
 
   const modalZIndex = isOpenCancelModal ? 'z-[70]' : 'z-[60]';
   const isSamePrevValue =
     content === myAnswerData?.content ||
-    content === localStorage.getItem('temporarySave');
+    content === sessionStorage.getItem('temporarySave');
 
   return (
     <>
