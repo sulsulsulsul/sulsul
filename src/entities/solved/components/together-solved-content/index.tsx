@@ -18,8 +18,8 @@ import { useInterviewStore } from '@/store/interviewStore';
 import { useVideoStateStore } from '@/store/modal';
 
 import { useInterview } from '../../hooks/use-get-interview';
-import { WriteAnswerModal } from '../../write-answer-modal';
 import { CountDownView } from '../count-down-view';
+import { WriteAnswerModal } from '../write-answer-modal';
 
 export const TogetherSolvedContent = () => {
   const { isOpenAnswerModal, setOpenAnswerModal } = useAnswerModalStore();

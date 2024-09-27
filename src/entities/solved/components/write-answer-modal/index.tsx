@@ -5,7 +5,7 @@ import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useInterviewStore } from '@/store/interviewStore';
 import { useMyAnswerStore } from '@/store/myAnswerStore';
 
-import { ReConfirmModal } from '../components/re-confirm-modal';
+import { ReConfirmModal } from '../re-confirm-modal';
 import { ModalHeader } from './components/hedaer-section';
 import { TextAreaSection } from './components/text-area-section';
 

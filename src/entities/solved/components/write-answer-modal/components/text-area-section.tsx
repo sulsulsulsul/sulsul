@@ -9,10 +9,10 @@ import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
 import { useTemporarySaveStore } from '@/store/temporarySaveStore';
 
-import { useCreateAnswer } from '../../hooks/use-create-answer';
-import { useInterval } from '../../hooks/use-interval';
-import { useUpdateAnswer } from '../../hooks/use-update-answer';
-import { useWriteAnswerForm } from '../../hooks/use-write-answer-form';
+import { useCreateAnswer } from '../../../hooks/use-create-answer';
+import { useInterval } from '../../../hooks/use-interval';
+import { useUpdateAnswer } from '../../../hooks/use-update-answer';
+import { useWriteAnswerForm } from '../../../hooks/use-write-answer-form';
 import { ButtonSection } from './button-section';
 import { TextAreaDescription } from './text-area-description';
 

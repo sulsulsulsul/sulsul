@@ -14,10 +14,10 @@ import { useAnswerRecommend } from '../../hooks/use-answer-recommend';
 import { useAnswerList } from '../../hooks/use-get-answer-list';
 import { useInterview } from '../../hooks/use-get-interview';
 import { useUserAnswer } from '../../hooks/use-get-user-answer';
-import { WriteAnswerModal } from '../../write-answer-modal';
 import { CountDownView } from '../count-down-view';
 import { ReConfirmModal } from '../re-confirm-modal';
 import { TogetherSolvedHeader } from '../together-solved-header';
+import { WriteAnswerModal } from '../write-answer-modal';
 
 //리팩토링 예정
 
