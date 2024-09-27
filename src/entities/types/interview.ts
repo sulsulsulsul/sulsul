@@ -14,13 +14,14 @@ export interface InterviewData {
   endTime: string;
 }
 
-interface AnswerListData {
+export interface AnswerListData {
   weeklyInterviewAnswerId: number;
   userId: number;
   nickname: string;
   profileImg: string;
   content: string;
   recommendCount: number;
+  isRecommended: boolean;
 }
 export interface AnswerList {
   totalCount: number;

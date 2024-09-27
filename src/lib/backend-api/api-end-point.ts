@@ -325,9 +325,9 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
-    getInterview: (pivotDate: string) => {
+    getInterview: () => {
       return {
-        url: `${API_V1_BASE}/interviews?pivotDate=${pivotDate}`,
+        url: `${API_V1_BASE}/interviews`,
         method: Method.GET,
         authorization: false,
       };

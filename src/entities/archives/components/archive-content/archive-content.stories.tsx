@@ -5,7 +5,7 @@ import { ArchiveContent } from './';
 
 const meta = {
   parameters: {
-    tags: [!'autodocs'],
+    tags: ['autodocs'],
   },
   component: ArchiveContent,
 } satisfies Meta<typeof ArchiveContent>;
