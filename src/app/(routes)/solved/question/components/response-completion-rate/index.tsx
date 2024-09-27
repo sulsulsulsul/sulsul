@@ -1,8 +1,7 @@
 'use client';
 
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { HTMLAttributes } from 'react';
 
-import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import { cn } from '@/lib/utils';
 import { useUserStore } from '@/store/client';
 

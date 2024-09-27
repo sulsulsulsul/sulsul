@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import { MyChallengesProgressData } from '@/entities/types/challenges';
+
 import { useUserChallengesProgress } from './hooks/use-user-challenges-progress';
 
 // 각 카테고리에 대한 설명 및 타입 매핑
@@ -34,14 +36,21 @@ const aggregateSteps = (steps: any) => {
     if (!aggregated[key]) {
       aggregated[key] = {
         category: key,
-        description: categoryInfo[key].description, // 설명 추가
-        counts: [], // counts 배열 초기화
+        description: categoryInfo[key].description,
+        counts: [],
       };
     }
 
     // count 값을 배열에 추가
     aggregated[key].counts.push(count);
   });
+
+  // 답변 작성률 sessionStorage 에 저장
+  const totalCount = (steps || []).reduce(
+    (sum: number, item: MyChallengesProgressData) => sum + item.count,
+    0,
+  );
+  sessionStorage.setItem('Response Completion Rate', totalCount);
 
   // 결과를 배열로 변환
   return Object.values(aggregated);
