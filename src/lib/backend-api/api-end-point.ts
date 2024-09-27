@@ -340,4 +340,14 @@ export const API_ENDPOINT = {
       };
     },
   },
+
+  challenges: {
+    getUserChallengesProgress: () => {
+      return {
+        url: `${API_V1_BASE}/challenges/progress/category`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+  },
 } as const;
