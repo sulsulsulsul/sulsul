@@ -340,4 +340,24 @@ export const API_ENDPOINT = {
       };
     },
   },
+
+  challenges: {
+    // 백문백답 상세 - 카테고리별 첼린지 진행 상황 조회
+    getUserChallengesProgress: () => {
+      return {
+        url: `${API_V1_BASE}/challenges/progress/category`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+
+    // 백문백답 상세 - 카테고리별 첼린지 조회
+    getUserQuestionList: (category: string) => {
+      return {
+        url: `${API_V1_BASE}/challenges/${category}`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+  },
 } as const;
