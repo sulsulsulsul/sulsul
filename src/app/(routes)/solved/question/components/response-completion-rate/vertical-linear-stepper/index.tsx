@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { MyChallengesProgressData } from '@/entities/types/challenges';
 
-import { useUserChallengesProgress } from './hooks/use-user-challenges-progress';
+import { useUserChallengesProgress } from '../../../hook/use-user-challenges-progress';
 
 // 각 카테고리에 대한 설명 및 타입 매핑
 type CategoryInfo = {

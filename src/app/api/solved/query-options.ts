@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { getUserQuestionList } from '@/app/(routes)/solved/question/components/question-list/actions/get-user-question-list';
-import { getUserChallengesProgress } from '@/app/(routes)/solved/question/components/response-completion-rate/vertical-linear-stepper/actions/get-user-challenges-progress';
+import { getUserChallengesProgress } from '@/app/(routes)/solved/question/actions/get-user-challenges-progress';
+import { getUserQuestionList } from '@/app/(routes)/solved/question/actions/get-user-question-list';
 import { getUserActivityAction } from '@/entities/solved/actions';
 import { getInterviewAction } from '@/entities/solved/actions/get-interview-action';
 
