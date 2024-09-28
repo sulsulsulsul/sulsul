@@ -2,12 +2,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
 import { SignInView } from '@/entities/auth/views/sign-in-view';
 import NoDataCard from '@/entities/practice/components/no-data-card';
 import { useInterviewStore } from '@/store/interviewStore';
@@ -15,7 +9,7 @@ import { useInterviewStore } from '@/store/interviewStore';
 import { useAnswerList } from '../../hooks/use-get-answer-list';
 import { ViewAllAnswersModal } from '../view-all-answers-modal';
 
-const DEFAULT_IMAGE_URL = '/images/suri-profile.svg';
+export const DEFAULT_IMAGE_URL = '/images/suri-profile.svg';
 
 export const BestCommentsSection = ({
   accessToken,

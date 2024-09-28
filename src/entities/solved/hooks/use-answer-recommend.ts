@@ -6,35 +6,39 @@ import { deleteAnswerRecommendAction } from '../actions/delete-answer-recommend-
 
 interface AnswerRecommendProp {
   currentInterviewId: number;
+  accessToken: string;
   userId: number;
   pivotDate: string;
-  accessToken: string;
+  sortType?: string;
+}
+
+interface AnswerRecommendParams {
   isRecommended: boolean;
   answerId: number;
 }
 export const useAnswerRecommend = ({
   currentInterviewId,
+  accessToken,
+
   userId,
   pivotDate,
-  accessToken,
-  isRecommended,
-  answerId,
+  sortType,
 }: AnswerRecommendProp) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => {
-      if (isRecommended) {
+    mutationFn: (params: AnswerRecommendParams) => {
+      if (params.isRecommended) {
         return deleteAnswerRecommendAction({
-          accessToken,
+          accessToken: accessToken,
           interviewId: currentInterviewId,
-          answerId,
-          userId,
+          answerId: params.answerId,
+          userId: userId,
         });
       } else {
         return createAnswerRecommendAction({
-          accessToken,
+          accessToken: accessToken,
           interviewId: currentInterviewId,
-          answerId,
+          answerId: params.answerId,
         });
       }
     },
@@ -47,6 +51,9 @@ export const useAnswerRecommend = ({
       });
       queryClient.invalidateQueries({
         queryKey: ['interview', pivotDate],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['interview', currentInterviewId, sortType, accessToken],
       });
     },
   });

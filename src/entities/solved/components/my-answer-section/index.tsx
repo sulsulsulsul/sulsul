@@ -35,12 +35,10 @@ export const MyAnswerSection = ({
   } = useAnswerModalStore();
 
   const { mutate: recommendMutation } = useAnswerRecommend({
+    accessToken,
     currentInterviewId: interviewId,
     userId,
     pivotDate,
-    accessToken,
-    isRecommended,
-    answerId: weeklyInterviewAnswerId,
   });
 
   const handleClickMoreMenu = () => {
@@ -59,7 +57,10 @@ export const MyAnswerSection = ({
   };
 
   const handleClickRecommendBtn = () => {
-    recommendMutation();
+    recommendMutation({
+      isRecommended,
+      answerId: weeklyInterviewAnswerId,
+    });
   };
 
   return (

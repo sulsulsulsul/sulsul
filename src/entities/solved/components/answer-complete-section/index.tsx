@@ -46,11 +46,9 @@ export const AnswerCompleteSection = ({
   const { data: currentData, refetch } = useInterview(pivotDate);
   const { mutate: recommendMutation } = useAnswerRecommend({
     currentInterviewId: currentData?.weeklyInterviewId || 0,
+    accessToken,
     userId,
     pivotDate,
-    accessToken,
-    isRecommended,
-    answerId: weeklyInterviewAnswerId,
   });
   const { data: answerListData } = useAnswerList({
     interviewId: currentData?.weeklyInterviewId || 0,
@@ -74,7 +72,10 @@ export const AnswerCompleteSection = ({
   };
 
   const handleClickRecommendBtn = () => {
-    recommendMutation();
+    recommendMutation({
+      isRecommended,
+      answerId: weeklyInterviewAnswerId,
+    });
   };
 
   useEffect(() => {
