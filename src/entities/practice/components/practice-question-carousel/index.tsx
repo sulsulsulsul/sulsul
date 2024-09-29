@@ -1,5 +1,5 @@
 import { HTMLAttributes, useEffect, useState } from 'react';
-import _ from 'lodash-es';
+import * as _ from 'lodash-es';
 import { ChevronRight } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';

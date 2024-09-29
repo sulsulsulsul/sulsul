@@ -34,3 +34,11 @@ export const assertAccessToken = async () => {
 
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const removeNewlines = (str: string) => {
+  return str.replace(/\\n/g, ' ');
+};
+
+export const applyNewLines = (str: string) => {
+  return str.split('\\n');
+};

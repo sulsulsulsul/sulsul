@@ -80,7 +80,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                   <SheetClose asChild>
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <div className="flex cursor-pointer justify-between bg-gradient-to-r from-[#576DFC] to-[#BEB6FF] p-6 text-left text-lg font-semibold text-white">
+                        <div className="flex cursor-pointer justify-between bg-gradient-to-r from-[#576DFC] to-[#8EB9FF] p-6 text-left text-lg font-semibold text-white">
                           술술 시작하기
                           <ChevronRight />
                         </div>
@@ -146,7 +146,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                               </div>
                               <Button
                                 variant={'black'}
-                                className="mt-6 py-[8.5px]"
+                                className="mt-6 py-[8.5px] font-medium"
                                 onClick={() => {
                                   navigator.clipboard.writeText(copiedLink);
                                 }}
@@ -196,14 +196,14 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                             <div className="flex flex-row items-center gap-1">
                               <span
                                 className={cn(
-                                  'flex p-5 mobile:p-4',
-                                  'text-lg font-semibold',
+                                  'flex pl-6 py-4',
+                                  'text-lg font-medium',
                                 )}
                               >
                                 {link.label}
                               </span>
-                              <div className="relative rounded-xl bg-blue-100 px-4 py-3">
-                                <div className="text-center text-2xs text-blue-500">
+                              <div className="relative ml-3 rounded-xl bg-blue-100 px-4 py-3">
+                                <div className="text-center text-2xs font-medium text-blue-500">
                                   <p>PC 버전에서 이용해주세요</p>
                                 </div>
                                 <div className="absolute left-0 top-1/2 size-[12px] -translate-x-1/2 -translate-y-1/2 rotate-45 bg-blue-100" />
@@ -231,7 +231,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                               </div>
                               <Button
                                 variant={'black'}
-                                className="mt-6 py-[8.5px]"
+                                className="mt-6 py-[8.5px] font-medium"
                                 onClick={() => {
                                   navigator.clipboard.writeText(copiedLink);
                                 }}
@@ -261,13 +261,10 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                             aria-label={
                               isActive ? `active ${link.label}` : link.label
                             }
-                            className={cn(
-                              'flex p-5 mobile:p-4',
-                              'text-lg font-semibold',
-                            )}
+                            className={cn('flex pl-6 py-4 text-lg')}
                             href={link.link}
                           >
-                            <span className="relative w-full">
+                            <span className="relative w-full text-lg font-medium">
                               {link.label}
                             </span>
                           </Link>

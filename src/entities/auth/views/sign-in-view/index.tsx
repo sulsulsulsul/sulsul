@@ -12,10 +12,12 @@ import { useVideoStateStore } from '@/store/modal';
 type SingInViewProps = HTMLAttributes<HTMLDivElement> &
   PropsWithChildren & {
     callbackUrl: string;
+    onSignIn?: () => void;
   };
 export const SignInView = ({
   className,
   callbackUrl,
+  onSignIn,
   ...props
 }: SingInViewProps) => {
   const { restart } = useVideoStateStore();
@@ -55,7 +57,10 @@ export const SignInView = ({
               <div className="flex w-full flex-col gap-2">
                 <Button
                   className="flex items-center justify-center bg-[#FEE500]"
-                  onClick={() => signIn('kakao', { callbackUrl })}
+                  onClick={() => {
+                    signIn('kakao', { callbackUrl });
+                    if (onSignIn) onSignIn();
+                  }}
                   variant={'kakao'}
                 >
                   <Image

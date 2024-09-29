@@ -1,5 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 
+import { getUserQuestionList } from '@/app/(routes)/solved/question/components/question-list/actions/get-user-question-list';
+import { getUserChallengesProgress } from '@/app/(routes)/solved/question/components/response-completion-rate/vertical-linear-stepper/actions/get-user-challenges-progress';
 import { getUserActivityAction } from '@/entities/solved/actions';
 import { getInterviewAction } from '@/entities/solved/actions/get-interview-action';
 
@@ -9,6 +11,7 @@ export const myActivityOptions = (userId: number, accessToken: string) => {
     queryFn: () => {
       return getUserActivityAction({ userId, accessToken });
     },
+    enabled: !!accessToken && !!userId,
   });
 };
 
@@ -26,6 +29,29 @@ export const interviewPrevOptions = (pivotDate: string) => {
     queryKey: ['interview', 'prevDate', pivotDate],
     queryFn: () => {
       return getInterviewAction(pivotDate);
+    },
+  });
+};
+
+// 백문백답 상세 - 답변작성률 - 연정
+export const myChallengesProgressOptions = (accessToken: string) => {
+  return queryOptions({
+    queryKey: ['challenge', 'progress', accessToken],
+    queryFn: () => {
+      return getUserChallengesProgress(accessToken);
+    },
+  });
+};
+
+// 백문백답 상세 - 최다 빈출 기본질문 10
+export const myQuestionListOptions = (
+  accessToken: string,
+  category: string,
+) => {
+  return queryOptions({
+    queryKey: ['challenge', 'questionList', category, accessToken],
+    queryFn: () => {
+      return getUserQuestionList({ accessToken, category });
     },
   });
 };

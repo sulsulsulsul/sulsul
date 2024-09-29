@@ -30,9 +30,9 @@ export const Feedback = ({ className, ...props }: FeedbackProps) => {
           </p>
         </div>
         <Image
-          src="/images/feedback.svg"
-          layout="fill"
+          src="/images/feedback.png"
           objectFit="cover"
+          fill
           priority
           alt="feedback-bg"
         />

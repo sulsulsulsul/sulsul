@@ -72,7 +72,8 @@ const SheetContent = React.forwardRef<
         <SheetPrimitive.Close className="absolute left-0 top-0 h-14 w-full pl-3">
           <Image
             src="/images/icons/icon-chevron_left_l-black.svg"
-            alt=""
+            alt="sheet-close-icon"
+            priority
             height={24}
             width={24}
           />

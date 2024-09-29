@@ -1,15 +1,32 @@
-import { TogetherSolvedAvatar } from '../together-solved-avatar';
-import { TogetherSolvedContent } from '../together-solved-content';
-import { TogetherSolvedHeader } from '../together-solved-header';
+'use client';
+import { formatDate } from '@/shared/helpers/date-helpers';
+import { useUserStore } from '@/store/client';
+
+import { useInterview } from '../../hooks/use-get-interview';
+import { useUserAnswer } from '../../hooks/use-get-user-answer';
+import { AnswerCompleteSection } from '../answer-complete-section';
+import { NoAnswerCompleteSection } from '../no-answer-complete-section';
 
 export const TogetherSolvedSection = () => {
+  const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
+  const { auth } = useUserStore();
+
+  const { userId, accessToken } = auth;
+
+  const { data: currentData } = useInterview(pivotDate);
+
+  const { data: myWriteAnswerData } = useUserAnswer({
+    interviewId: currentData?.weeklyInterviewId || 1,
+    userId,
+    accessToken,
+  });
   return (
-    <section className="flex flex-col gap-2">
-      <TogetherSolvedHeader />
-      <div className="flex h-[520px] w-full flex-col items-center justify-center gap-5 rounded-md border border-gray-200 bg-white shadow-base">
-        <TogetherSolvedContent />
-        <TogetherSolvedAvatar />
-      </div>
-    </section>
+    <>
+      {myWriteAnswerData ? (
+        <AnswerCompleteSection myWriteAnswerData={myWriteAnswerData} />
+      ) : (
+        <NoAnswerCompleteSection />
+      )}
+    </>
   );
 };
