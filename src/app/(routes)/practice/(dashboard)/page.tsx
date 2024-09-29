@@ -19,6 +19,7 @@ const Page = async ({
   const queryClient = getQueryClient();
   const authInfo = await auth();
   const userId = authInfo?.user.auth.userId || 0;
+  const nickname = authInfo?.user.data.nickname || '수리수리';
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const isDesktop = searchParams.viewport === 'desktop';
 
@@ -74,7 +75,7 @@ const Page = async ({
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Practice userId={userId} isDesktop={isDesktop} />
+      <Practice userId={userId} nickname={nickname} isDesktop={isDesktop} />
     </HydrationBoundary>
   );
 };

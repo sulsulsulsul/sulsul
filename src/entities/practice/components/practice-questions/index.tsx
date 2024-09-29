@@ -54,14 +54,16 @@ const PracticeQuestions = ({
       {isDesktop ? (
         <div className="mt-6 flex h-[318px] flex-col gap-3 overflow-y-scroll scrollbar-hide mobile:mt-4">
           {questions[selectedTab].contents.length > 0 ? (
-            questions[selectedTab].contents.map((question, index) => (
-              <PracticedQuestionCard
-                key={`${question.questionId}_${index}`}
-                content={question.content}
-                title={question.archive.title}
-                company={question.archive.companyName}
-              />
-            ))
+            questions[selectedTab].contents
+              .slice(0, 10)
+              .map((question, index) => (
+                <PracticedQuestionCard
+                  key={`${question.questionId}_${index}`}
+                  content={question.content}
+                  title={question.archive.title}
+                  company={question.archive.companyName}
+                />
+              ))
           ) : (
             <NoDataCard />
           )}

@@ -22,15 +22,13 @@ export const assertValue = <T>(value: T | undefined, message: string): T => {
 
 export const getAccessToken = async () => {
   const session = await auth();
-  //console.log('sessiontoken', session);
+
   return session?.user.auth.accessToken;
 };
 
 export const assertAccessToken = async () => {
   const token = await getAccessToken();
-  if (!token) {
-    throw new Error('Access token is not defined');
-  }
+
   return token;
 };
 
