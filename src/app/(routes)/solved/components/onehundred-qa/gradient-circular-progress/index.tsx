@@ -54,7 +54,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
       <div className="absolute bottom-5 left-0 right-5 top-0 flex flex-col content-center justify-center">
         {value !== 0 && value !== 100 && (
           <Image
-            src="/images/lv/ingSticker.svg"
+            src={`/images/lv/ingSticker.svg`}
             width={52}
             height={26}
             alt="ingSticker"

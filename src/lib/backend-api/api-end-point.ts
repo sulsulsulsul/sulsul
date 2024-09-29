@@ -149,12 +149,12 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
-    // TODO: 동일 API 정리
+    // TODO: 동일 API 정리 and authorization 미가입 자 처리문의
     getPracticeSearchQuestions: () => {
       return {
         url: `${API_V1_BASE}/questions/search`,
         method: Method.GET,
-        authorization: false,
+        authorization: true,
       };
     },
     getSearchQuestions: (query: string) => {
@@ -212,14 +212,14 @@ export const API_ENDPOINT = {
       return {
         url: `${API_V1_BASE}/practice/statistics/summary`,
         method: Method.GET,
-        authorization: false,
+        authorization: true,
       };
     },
     getStatisticsDetail: (period: Period) => {
       return {
         url: `${API_V1_BASE}/practice/statistics/detail/${period}`,
         method: Method.GET,
-        authorization: false,
+        authorization: true,
       };
     },
     createPractice: () => {
@@ -325,9 +325,9 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
-    getInterview: (pivotDate: string) => {
+    getInterview: () => {
       return {
-        url: `${API_V1_BASE}/interviews?pivotDate=${pivotDate}`,
+        url: `${API_V1_BASE}/interviews`,
         method: Method.GET,
         authorization: false,
       };
@@ -335,6 +335,26 @@ export const API_ENDPOINT = {
     getUserActivity: (userId: number) => {
       return {
         url: `${API_V1_BASE}/interviews/user-activities/${userId}`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+  },
+
+  challenges: {
+    // 백문백답 상세 - 카테고리별 첼린지 진행 상황 조회
+    getUserChallengesProgress: () => {
+      return {
+        url: `${API_V1_BASE}/challenges/progress/category`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+
+    // 백문백답 상세 - 카테고리별 첼린지 조회
+    getUserQuestionList: (category: string) => {
+      return {
+        url: `${API_V1_BASE}/challenges/${category}`,
         method: Method.GET,
         authorization: true,
       };

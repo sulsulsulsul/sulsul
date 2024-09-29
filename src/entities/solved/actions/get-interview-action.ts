@@ -5,9 +5,12 @@ import { API_ENDPOINT } from '@/lib/backend-api/api-end-point';
 import { backendApi } from '@/lib/backend-api/client';
 
 export const getInterviewAction = (
-  pivotDate: string,
+  pivotDate?: string,
 ): Promise<InterviewData> => {
   return backendApi<InterviewData>({
-    endpoint: API_ENDPOINT.interview.getInterview(pivotDate),
+    endpoint: API_ENDPOINT.interview.getInterview(),
+    params: {
+      pivotDate,
+    },
   });
 };

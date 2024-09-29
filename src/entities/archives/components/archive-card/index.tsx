@@ -45,7 +45,8 @@ export const ArchiveCard = ({
       // onClick={()=>toast('PC버전으로 접속해주세요')}
       onClick={() => {
         toast('PC버전으로 접속해주세요', {
-          className: 'w-[343px] h-[53px] bg-gray-800 text-white px-4 mt-12',
+          className:
+            'w-[343px] h-[53px] bg-gray-800 text-white px-4 mt-12 desktop:hidden',
           position: 'top-center',
           dismissible: true,
           style: {

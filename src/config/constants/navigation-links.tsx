@@ -31,10 +31,6 @@ export const MobileHeaderLinks = [
 ] as const;
 
 export const LandingFooterLinks = [
-  // {
-  //   label: '홈',
-  //   link: APP_ROUTES.home(),
-  // },
   {
     label: '면접질문 예측',
     link: APP_ROUTES.createArchive(),

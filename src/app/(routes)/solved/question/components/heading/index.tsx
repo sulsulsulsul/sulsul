@@ -2,7 +2,7 @@ import Image from 'next/image';
 
 const Heading = () => {
   return (
-    <p className="mb-[4] flex items-center gap-1 text-4xl font-bold">
+    <p className="mb-[4] flex gap-1 pl-[67px] text-4xl font-bold">
       <Image
         src="/images/icons/etc-speech.svg"
         width={32}

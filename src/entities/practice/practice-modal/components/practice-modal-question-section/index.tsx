@@ -122,9 +122,11 @@ export default function PracticeModalQuestionSection({
         }),
       );
     } else {
-      setSelectedArchiveIds((prev) => [...prev, focusedResume]);
+      if (!selectedArchiveIds.includes(focusedResume)) {
+        setSelectedArchiveIds((prev) => [...prev, focusedResume]);
+      }
     }
-  }, [selectedQuestionIds.length]);
+  }, [selectedQuestionIds.length, focusedResume]);
 
   return (
     <div className="flex w-1/2 flex-col">

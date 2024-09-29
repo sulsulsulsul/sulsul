@@ -6,6 +6,8 @@ import { useInterviewStore } from '@/store/interviewStore';
 
 import { useAnswerList } from '../../hooks/use-get-answer-list';
 
+const DEFAULT_IMAGE_URL = '/images/suri-profile.svg';
+
 export const BestCommentsSection = ({
   accessToken,
 }: {
@@ -19,9 +21,12 @@ export const BestCommentsSection = ({
     accessToken: accessToken,
     count: 3,
   });
+  // console.log(answerListData);
   const previousTitle = previousData?.content.replace(/\\n/g, ' ');
   const hasNoData = !accessToken || answerListData?.totalCount === 0;
+  const defaultImageUrl = '/images/default-image.png';
 
+  // 이미지가 https로 시작하지 않으면 기본 이미지 사용
   return (
     <div className="hidden lg:mt-[6px] lg:flex lg:w-[282px] lg:flex-col lg:gap-2">
       <div className="flex items-center gap-1">
@@ -50,7 +55,15 @@ export const BestCommentsSection = ({
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-1">
                         <div className="relative size-6 overflow-hidden rounded-full">
-                          <Image src={answerData.profileImg} fill alt="icon" />
+                          <Image
+                            src={
+                              answerData.profileImg.startsWith('https')
+                                ? answerData.profileImg
+                                : DEFAULT_IMAGE_URL
+                            }
+                            fill
+                            alt="icon"
+                          />
                         </div>
                         <div className="text-sm font-medium text-gray-600">
                           {answerData.nickname}

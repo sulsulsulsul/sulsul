@@ -25,3 +25,10 @@ export const formatDate = ({
 }) => {
   return dayjs(date).format(formatCase);
 };
+
+export const isSameWeek = (date1: Dayjs, date2: Dayjs) => {
+  return (
+    dayjs(date1).week() === dayjs(date2).week() &&
+    dayjs(date1).year() === dayjs(date2).year()
+  );
+};

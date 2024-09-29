@@ -7,13 +7,14 @@ import { backendApi } from '@/lib/backend-api/client';
 export interface AnswerListActionProps {
   interviewId: number;
   sortType: 'NEW' | 'RECOMMEND';
-  accessToken: string;
+  accessToken?: string;
   count?: number;
 }
 export const getAnswerListAction = async ({
   interviewId,
   sortType,
   accessToken,
+  count,
 }: AnswerListActionProps) => {
   try {
     const response = await backendApi<AnswerList>({
@@ -22,6 +23,9 @@ export const getAnswerListAction = async ({
         sortType,
       }),
       accessToken,
+      params: {
+        count,
+      },
     });
     return response;
   } catch (error) {
