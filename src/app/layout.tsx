@@ -13,18 +13,12 @@ export const metadata: Metadata = {
   description:
     '인공지능 수리와 함께하는 취업 면접 올킬 작전! 체계적인 면접준비, 지금 무료로 시작해보세요.',
   icons: {
-    icon: '/public/images/favicon.ico',
+    icon: '/images/favicon.ico',
   },
-  // openGraph: {
-  //   images: 'https://suulsuul.vercel.app/public/images/favicon.ico',
-  //   title: '술술ㅣAI 면접 질문 예측부터 면접 기출 100선까지',
-  //   description:
-  //     '인공지능 수리와 함께하는 취업 면접 올킬 작전! 체계적인 면접준비, 지금 무료로 시작해보세요.',
-  // },
   openGraph: {
     title: '술술ㅣ제대로 준비하는 취업 면접',
     description: 'AI 면접질문 예측부터 면접 기출 100선까지',
-    images: ['https://suulsuul.vercel.app/public/images/og-image.png'],
+    images: ['https://www.sulsul-interview.kr/images/og-image.png'],
   },
 };
 
