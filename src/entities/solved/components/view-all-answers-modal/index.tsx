@@ -29,6 +29,7 @@ export const ViewAllAnswersModal = () => {
   >(getRecentWeeks(currentDate));
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const [filter, setFilter] = useState(weeks[0].label);
+  const [countIndex, setCountIndex] = useState(0);
   const [filteredResponses, setFilteredResponses] = useState<AnswerListData[]>(
     [],
   );
@@ -83,7 +84,11 @@ export const ViewAllAnswersModal = () => {
     }
   };
 
-  const handleClickMoreMenu = () => {
+  const handleClickMoreMenu = (
+    e: React.MouseEvent<HTMLImageElement>,
+    i: number,
+  ) => {
+    setCountIndex(i);
     setOpenMoreMenu((prev) => !prev);
   };
 
@@ -104,6 +109,13 @@ export const ViewAllAnswersModal = () => {
     }
   }, [recommendOrderAnswerData, recentOrderAnswerData, sortType, userId]);
 
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, []);
   return (
     <main className="fixed inset-0 z-10 flex items-center justify-center bg-gray-800/80">
       <div className="z-50 w-[688px] rounded-md bg-white px-[100px] py-[80px] mobile:h-[464px] mobile:w-[360px]">
@@ -111,14 +123,22 @@ export const ViewAllAnswersModal = () => {
           <div className="flex flex-col gap-[30px]">
             <div className="flex flex-col gap-4">
               <div className="relative flex w-full items-center justify-between">
-                <div className="flex h-[30px] w-fit items-center justify-center gap-1 rounded-sm bg-blue-500 px-[12px] py-[6px] text-2xs font-semibold text-white ">
-                  <Image
-                    src="/images/icons/icon-check-white.svg"
-                    alt="참여완료"
-                    width={14}
-                    height={14}
-                  />
-                  <p>참여완료</p>
+                <div
+                  className={`flex h-[30px] w-fit items-center justify-center gap-1 rounded-sm  px-[12px] py-[6px] text-2xs font-semibold ${myWriteAnswerData ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-500'}`}
+                >
+                  {myWriteAnswerData ? (
+                    <>
+                      <Image
+                        src="/images/icons/icon-check-white.svg"
+                        alt="참여완료"
+                        width={14}
+                        height={14}
+                      />
+                      <p>참여완료</p>
+                    </>
+                  ) : (
+                    <p>미참여</p>
+                  )}
                 </div>
                 <Select
                   onValueChange={(value) => {
@@ -153,7 +173,7 @@ export const ViewAllAnswersModal = () => {
                 {removeNewlines(interviewData?.content || '')}
               </h1>
             </div>
-            {myWriteAnswerData ? (
+            {myWriteAnswerData && (
               <MyAnswerSection
                 interviewId={interviewData?.weeklyInterviewId || 1}
                 myWriteAnswerData={myWriteAnswerData}
@@ -161,8 +181,6 @@ export const ViewAllAnswersModal = () => {
                 pivotDate={selectedDate}
                 accessToken={accessToken}
               />
-            ) : (
-              <></>
             )}
           </div>
           <Image
@@ -172,7 +190,7 @@ export const ViewAllAnswersModal = () => {
             alt="banner"
           />
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between">
               <h4 className="text-lg font-bold">
                 다른 지원자들의 답변{' '}
@@ -213,7 +231,7 @@ export const ViewAllAnswersModal = () => {
               {
                 <>
                   {filteredResponses.length >= 1 &&
-                    filteredResponses.map((v: AnswerListData) => (
+                    filteredResponses.map((v: AnswerListData, i) => (
                       <div key={v.weeklyInterviewAnswerId}>
                         <div className="mt-6 flex flex-col gap-4">
                           <div className="flex justify-between border-b border-gray-800 pb-2">
@@ -244,19 +262,17 @@ export const ViewAllAnswersModal = () => {
                             <span>{v.content}</span>
                           </p>
                           <div className="relative flex items-center justify-between">
-                            {isOpenMoreMenu && (
-                              <div className="absolute right-6 top-[-12px] flex h-[98px] w-[135px] flex-col justify-center rounded-sm border border-gray-200 bg-white text-[14px] font-medium text-gray-700">
-                                <button className="relative flex h-[41px] items-center hover:bg-gray-50">
-                                  <span className="absolute left-4">
-                                    신고하기
-                                  </span>
-                                </button>
+                            {countIndex === i && isOpenMoreMenu && (
+                              <div className="absolute right-6 flex h-[41px] w-[135px] cursor-pointer flex-col justify-center rounded-sm border border-gray-200 bg-white text-[14px] font-medium text-gray-700 hover:bg-gray-50">
+                                <span className="absolute left-4">
+                                  신고하기
+                                </span>
                               </div>
                             )}
                             {v.isRecommended ? (
                               <Button
                                 className={cn(
-                                  `flex h-[36px] w-fit gap-1 px-3 py-2 text-blue-500`,
+                                  `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 text-blue-500`,
                                 )}
                                 variant="outline"
                                 onClick={() =>
@@ -279,7 +295,7 @@ export const ViewAllAnswersModal = () => {
                             ) : (
                               <Button
                                 className={cn(
-                                  `flex h-[36px] w-fit gap-1 px-3 py-2 text-gray-600`,
+                                  `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 text-gray-600`,
                                 )}
                                 variant="outline"
                                 onClick={() =>
@@ -306,7 +322,7 @@ export const ViewAllAnswersModal = () => {
                               height={24}
                               alt="더보기"
                               className="cursor-pointer"
-                              onClick={handleClickMoreMenu}
+                              onClick={(e) => handleClickMoreMenu(e, i)}
                             />
                           </div>
                         </div>
