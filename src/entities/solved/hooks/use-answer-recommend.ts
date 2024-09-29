@@ -19,7 +19,6 @@ interface AnswerRecommendParams {
 export const useAnswerRecommend = ({
   currentInterviewId,
   accessToken,
-
   userId,
   pivotDate,
   sortType,
@@ -53,7 +52,10 @@ export const useAnswerRecommend = ({
         queryKey: ['interview', pivotDate],
       });
       queryClient.invalidateQueries({
-        queryKey: ['interview', currentInterviewId, sortType, accessToken],
+        queryKey: ['interview', currentInterviewId, 'NEW', accessToken],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['interview', currentInterviewId, 'RECOMMEND', accessToken],
       });
     },
   });
