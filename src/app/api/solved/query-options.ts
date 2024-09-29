@@ -2,6 +2,7 @@ import { queryOptions } from '@tanstack/react-query';
 
 import { getUserChallengesProgress } from '@/app/(routes)/solved/question/actions/get-user-challenges-progress';
 import { getUserQuestionList } from '@/app/(routes)/solved/question/actions/get-user-question-list';
+import { GetUserTotalChallengesProgress } from '@/app/(routes)/solved/question/actions/get-user-total-challenges-progress';
 import { getUserActivityAction } from '@/entities/solved/actions';
 import { getInterviewAction } from '@/entities/solved/actions/get-interview-action';
 
@@ -29,6 +30,16 @@ export const interviewPrevOptions = (pivotDate: string) => {
     queryKey: ['interview', 'prevDate', pivotDate],
     queryFn: () => {
       return getInterviewAction(pivotDate);
+    },
+  });
+};
+
+// 벡믄벡딥 - 진행상황 - 상위 프로그래스
+export const myTotalChallengesProgressOptions = (accessToken: string) => {
+  return queryOptions({
+    queryKey: ['challenge', 'totalProgress', accessToken],
+    queryFn: () => {
+      return GetUserTotalChallengesProgress(accessToken);
     },
   });
 };
