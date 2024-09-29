@@ -185,11 +185,11 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                 </AuthSignedIn>
               </div>
               <div>
-                {MobileHeaderLinks.map((link) => {
+                {MobileHeaderLinks.map((link, index) => {
                   const isActive = pathname === link.link;
                   const isPredictTab = link.label === '면접질문 예측';
                   return (
-                    <>
+                    <div key={`${link.link}_${index}`}>
                       {isPredictTab ? (
                         <Sheet>
                           <SheetTrigger>
@@ -256,7 +256,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                           </SheetContent>
                         </Sheet>
                       ) : (
-                        <SheetClose asChild key={'mobile' + link.link}>
+                        <SheetClose>
                           <Link
                             aria-label={
                               isActive ? `active ${link.label}` : link.label
@@ -273,7 +273,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                           </Link>
                         </SheetClose>
                       )}
-                    </>
+                    </div>
                   );
                 })}
               </div>
