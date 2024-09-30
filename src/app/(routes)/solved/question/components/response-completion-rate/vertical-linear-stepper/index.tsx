@@ -53,7 +53,10 @@ const aggregateSteps = (steps: any) => {
     (sum: number, item: MyChallengesProgressData) => sum + item.count,
     0,
   );
-  sessionStorage.setItem('Response Completion Rate', totalCount);
+
+  if (typeof window !== 'undefined') {
+    sessionStorage.setItem('Response Completion Rate', totalCount);
+  }
 
   // 결과를 배열로 변환
   return Object.values(aggregated);
