@@ -1,8 +1,16 @@
 'use client';
+import { useEffect, useState } from 'react';
 import { LineProgressBar } from '@frogress/line';
 
 const CompletionRate = () => {
-  const storedRate = sessionStorage.getItem('Response Completion Rate');
+  const [storedRate, setStoredRate] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const data = sessionStorage.getItem('Response Completion Rate');
+      setStoredRate(data ? data : '0');
+    }
+  }, []);
 
   return (
     <div className="mb-[32px] mt-[20px]">
