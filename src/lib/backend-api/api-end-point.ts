@@ -342,6 +342,15 @@ export const API_ENDPOINT = {
   },
 
   challenges: {
+    // 백문백답 - 챌린지 진행상황
+    getUserTotalChallengesProgress: () => {
+      return {
+        url: `${API_V1_BASE}/challenges/progress`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+
     // 백문백답 상세 - 카테고리별 첼린지 진행 상황 조회
     getUserChallengesProgress: () => {
       return {

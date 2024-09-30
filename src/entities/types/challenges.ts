@@ -23,3 +23,8 @@ export interface MyQuestionList {
     },
   ];
 }
+
+export interface MyTotalChallengesProgressData {
+  totalCount: number;
+  percent: number;
+}
