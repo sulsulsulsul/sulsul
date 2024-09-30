@@ -41,15 +41,25 @@ export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
     if (isEditModal && myAnswerData) {
       setContent(myAnswerData.content);
     }
-    if (!isEditModal && sessionStorage.getItem('temporarySave')) {
-      setContent(sessionStorage.getItem('temporarySave') || '');
+    if (
+      !isEditModal &&
+      typeof window !== 'undefined' &&
+      sessionStorage.getItem('temporarySave')
+    ) {
+      setContent(
+        (typeof window !== 'undefined' &&
+          sessionStorage.getItem('temporarySave')) ||
+          '',
+      );
     }
   }, []);
 
   const modalZIndex = isOpenCancelModal ? 'z-[70]' : 'z-[60]';
   const isSamePrevValue =
     content === myAnswerData?.content ||
-    content === sessionStorage.getItem('temporarySave');
+    content ===
+      (typeof window !== 'undefined' &&
+        sessionStorage.getItem('temporarySave'));
 
   return (
     <>
