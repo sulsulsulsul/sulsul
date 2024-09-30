@@ -20,7 +20,7 @@ import {
 
 interface QuestionAnswerFormProps
   extends Omit<HTMLAttributes<HTMLDivElement>, 'onSubmit'> {
-  onSubmit: (data: QuestionAnswerFormValues) => void;
+  onSubmit?: (data: QuestionAnswerFormValues) => void;
 }
 
 export const QuestionAnswerForm = ({
@@ -32,7 +32,7 @@ export const QuestionAnswerForm = ({
   const answerLength = form.watch('answer')?.length;
 
   const handleSubmit = form.handleSubmit((data) => {
-    onSubmit(data);
+    if (onSubmit) onSubmit(data);
   });
 
   return (
