@@ -17,6 +17,7 @@ import { useUserAnswer } from '../../hooks/use-get-user-answer';
 import { CountDownView } from '../count-down-view';
 import { ReConfirmModal } from '../re-confirm-modal';
 import { TogetherSolvedHeader } from '../together-solved-header';
+import { ViewAllAnswersModal } from '../view-all-answers-modal';
 import { WriteAnswerModal } from '../write-answer-modal';
 
 //리팩토링 예정
@@ -28,16 +29,18 @@ export const AnswerCompleteSection = ({
 }) => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
+  const [isTogetherSection, setIsTogetherSection] = useState(false);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const [isEditModal, setIsEditModal] = useState(false);
-
   const { isRecommended, weeklyInterviewAnswerId } = myWriteAnswerData;
   const { auth, data } = useUserStore();
   const {
     isOpenDeleteModal,
     isOpenAnswerModal,
+    isOpenAllAnswerModal,
     setOpenDeleteModal,
     setOpenAnswerModal,
+    setIsOpenAllAnswerModal,
   } = useAnswerModalStore();
   const { setMyAnswerData } = useMyAnswerStore();
 
@@ -61,6 +64,7 @@ export const AnswerCompleteSection = ({
   };
 
   const handleClickEditMenu = () => {
+    setIsOpenAllAnswerModal(false);
     setIsEditModal(true);
     setOpenAnswerModal(true);
     setOpenMoreMenu(false);
@@ -76,6 +80,16 @@ export const AnswerCompleteSection = ({
       isRecommended,
       answerId: weeklyInterviewAnswerId,
     });
+  };
+
+  const handleClickAnswerViewBtn = () => {
+    setIsTogetherSection(true);
+    setIsOpenAllAnswerModal(true);
+  };
+
+  const handleClickCloseBtn = () => {
+    setIsTogetherSection(false);
+    setIsOpenAllAnswerModal(false);
   };
 
   useEffect(() => {
@@ -210,7 +224,11 @@ export const AnswerCompleteSection = ({
                 </p>
               </div>
               <div className="flex w-full justify-center">
-                <Button variant="outline" className="h-12 w-[300px]">
+                <Button
+                  variant="outline"
+                  className="h-12 w-[300px]"
+                  onClick={handleClickAnswerViewBtn}
+                >
                   답변 모두 보기
                 </Button>
               </div>
@@ -233,6 +251,9 @@ export const AnswerCompleteSection = ({
             />
           </div>
         </>
+      )}
+      {accessToken && isOpenAllAnswerModal && isTogetherSection && (
+        <ViewAllAnswersModal handleClickCloseBtn={handleClickCloseBtn} />
       )}
     </section>
   );

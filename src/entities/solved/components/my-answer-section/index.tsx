@@ -32,6 +32,7 @@ export const MyAnswerSection = ({
     isOpenAnswerModal,
     setOpenDeleteModal,
     setOpenAnswerModal,
+    setIsOpenAllAnswerModal,
   } = useAnswerModalStore();
 
   const { mutate: recommendMutation } = useAnswerRecommend({
@@ -46,6 +47,7 @@ export const MyAnswerSection = ({
   };
 
   const handleClickEditMenu = () => {
+    setIsOpenAllAnswerModal(false);
     setIsEditModal(true);
     setOpenAnswerModal(true);
     setOpenMoreMenu(false);
@@ -67,14 +69,14 @@ export const MyAnswerSection = ({
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
         <h4 className="text-lg font-bold text-gray-700">내가 쓴 답변</h4>
-        <p className="text-lg font-medium text-gray-800">
+        <p className="max-h-[200px] overflow-y-scroll text-lg font-medium text-gray-800">
           {myWriteAnswerData?.content}
         </p>
       </div>
 
       <div className="relative flex items-center justify-between">
         {isOpenMoreMenu && (
-          <div className="absolute right-6 top-[-12px] flex h-[98px] w-[135px] flex-col justify-center rounded-sm border border-gray-200 bg-white text-[14px] font-medium text-gray-700">
+          <div className="absolute right-6 top-[-12px] z-[999] flex h-[98px] w-[135px] flex-col justify-center rounded-sm border border-gray-200 bg-white text-[14px] font-medium text-gray-700">
             <button
               className="relative flex h-[41px] items-center hover:bg-gray-50"
               onClick={handleClickEditMenu}
