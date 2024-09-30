@@ -117,8 +117,8 @@ export const ViewAllAnswersModal = () => {
     };
   }, []);
   return (
-    <main className="fixed inset-0 z-10 flex items-center justify-center bg-gray-800/80">
-      <div className="z-50 w-[688px] rounded-md bg-white px-[100px] py-[80px] mobile:h-[464px] mobile:w-[360px]">
+    <main className="fixed inset-0 z-10 flex justify-center bg-gray-800/80">
+      <div className="absolute top-10 z-50 w-[688px] rounded-md bg-white px-[100px] py-[80px] mobile:h-[464px] mobile:w-[360px]">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-[30px]">
             <div className="flex flex-col gap-4">
@@ -221,7 +221,7 @@ export const ViewAllAnswersModal = () => {
               </div>
             </div>
 
-            <div>
+            <div className="max-h-[300px] overflow-y-scroll">
               {recommendOrderAnswerData &&
                 recommendOrderAnswerData.totalCount - 1 <= 0 && (
                   <p className="font-medium text-gray-500">
