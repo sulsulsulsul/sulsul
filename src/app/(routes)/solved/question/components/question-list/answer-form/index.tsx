@@ -1,6 +1,6 @@
 'use client';
 
-import { HTMLAttributes } from 'react';
+import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,34 +11,27 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { cn } from '@/lib/utils';
 
-import {
-  QuestionAnswerFormValues,
-  useQuestionAnswerForm,
-} from '../../hooks/use-question-answer-form';
-
-interface QuestionAnswerFormProps
-  extends Omit<HTMLAttributes<HTMLDivElement>, 'onSubmit'> {
-  onSubmit?: (data: QuestionAnswerFormValues) => void;
-}
-
-export const QuestionAnswerForm = ({
-  className,
-  onSubmit,
-  ...props
-}: QuestionAnswerFormProps) => {
-  const form = useQuestionAnswerForm();
-  const answerLength = form.watch('answer')?.length;
-
-  const handleSubmit = form.handleSubmit((data) => {
-    if (onSubmit) onSubmit(data);
+const AnswerForm = () => {
+  // React Hook Form 사용
+  const form = useForm({
+    defaultValues: {
+      answer: '',
+    },
+    mode: 'onChange',
   });
+  const { handleSubmit, watch, setFocus } = form;
+  const answerLength = watch('answer').length;
+
+  // 여기서 폼 데이터를 처리
+  const onSubmit = (data: any) => {
+    console.log('Form data:', data);
+  };
 
   return (
     <Form {...form}>
-      <div className={cn('relative', className)} {...props}>
-        <form onSubmit={handleSubmit}>
+      <div>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-[580px]">
           <FormField
             control={form.control}
             name="answer"
@@ -57,28 +50,28 @@ export const QuestionAnswerForm = ({
                         className="absolute left-5 top-5 z-10 cursor-default text-gray-500"
                       >
                         <h2 className="mb-1 text-base font-semibold">
-                          상황 - 액션 - 결과 순으로 답변을 구성하면 좋아요
+                          아래와 같이 답변을 구성해보세요.
                         </h2>
                         <div className="relative h-fit text-base">
                           <p className="mb-1 flex items-center gap-2">
                             <span className="relative flex size-[18px] items-center justify-center rounded-full bg-gray-300 text-[10px] text-white">
                               1
-                              <div className="absolute left-1/2 top-full h-[12px] -translate-x-1/2 border border-gray-200" />
+                              <span className="absolute left-1/2 top-full h-[12px] -translate-x-1/2 border border-gray-200" />
                             </span>
-                            구체적으로 언제, 어떤 상황이었나요?
+                            결론 · 핵심 메세지
                           </p>
                           <p className="mb-1 flex items-center gap-2">
                             <span className="relative -z-10 flex size-[18px] items-center justify-center rounded-full bg-gray-300 text-[10px] text-white">
                               2
-                              <div className="absolute left-1/2 top-full -z-10 h-[12px] -translate-x-1/2 border border-gray-200" />
+                              <span className="absolute left-1/2 top-full -z-10 h-[12px] -translate-x-1/2 border border-gray-200" />
                             </span>
-                            어떻게 행동했나요?
+                            1번을 뒷받침할 근거와 예시
                           </p>
                           <p className="flex items-center gap-2">
                             <span className="flex size-[18px] items-center justify-center rounded-full bg-gray-300 text-[10px] text-white">
                               3
                             </span>
-                            그 결과는 어땠나요?
+                            정리하며 강조
                           </p>
                         </div>
                       </div>
@@ -115,3 +108,5 @@ export const QuestionAnswerForm = ({
     </Form>
   );
 };
+
+export default AnswerForm;

@@ -2,6 +2,7 @@ import { HTMLAttributes } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
+import { useCurrentUser } from '@/entities/users/hooks';
 import { cn } from '@/lib/utils';
 import { useResetAvailableStore } from '@/store/resetAvailable';
 
@@ -17,6 +18,7 @@ export const FormAction = ({
   ...props
 }: FormActionProps) => {
   const { isResetAvailable } = useResetAvailableStore();
+  const { status } = useCurrentUser();
 
   return (
     <div className={cn(className)} {...props}>
@@ -25,7 +27,7 @@ export const FormAction = ({
           className="basis-[117px] text-gray-600 disabled:opacity-60"
           variant="outline"
           onClick={onClickResetContents}
-          disabled={!isResetAvailable}
+          disabled={!isResetAvailable || status === 'unauthenticated'}
         >
           <Image
             src="/images/icons/icon-redo.svg"
