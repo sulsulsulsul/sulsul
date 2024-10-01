@@ -43,7 +43,6 @@ export const ViewAllAnswersModal = ({
   const [sortType, setSortType] = useState<'NEW' | 'RECOMMEND'>('NEW');
 
   const { auth } = useUserStore();
-  const { isOpenCancelModal, setIsOpenAllAnswerModal } = useAnswerModalStore();
   const { data: interviewData } = useInterview(selectedDate);
 
   const { userId, accessToken } = auth;
@@ -101,14 +100,14 @@ export const ViewAllAnswersModal = ({
   useEffect(() => {
     if (recommendOrderAnswerData && sortType === 'RECOMMEND') {
       setFilteredResponses(
-        recommendOrderAnswerData?.answerDetailResponses.filter(
+        recommendOrderAnswerData?.answers.filter(
           (response) => response.userId !== userId,
         ),
       );
     }
     if (recentOrderAnswerData && sortType === 'NEW') {
       setFilteredResponses(
-        recentOrderAnswerData?.answerDetailResponses.filter(
+        recentOrderAnswerData?.answers.filter(
           (response) => response.userId !== userId,
         ),
       );

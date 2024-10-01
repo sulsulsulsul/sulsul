@@ -19,11 +19,15 @@ export interface AnswerListData {
   userId: number;
   nickname: string;
   profileImg: string;
+  job: string;
   content: string;
   recommendCount: number;
   isRecommended: boolean;
 }
 export interface AnswerList {
+  page: number;
+  size: number;
+  totalPage: number;
   totalCount: number;
-  answerDetailResponses: AnswerListData[];
+  answers: AnswerListData[];
 }

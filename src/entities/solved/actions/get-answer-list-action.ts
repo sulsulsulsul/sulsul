@@ -23,9 +23,6 @@ export const getAnswerListAction = async ({
         sortType,
       }),
       accessToken,
-      params: {
-        count,
-      },
     });
     return response;
   } catch (error) {
