@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -11,8 +12,19 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { MyQuestionList } from '@/entities/types/challenges';
 
-const AnswerForm = () => {
+import { useCreateMostFrequentAnswer } from '../../../hook/use-create-most-frequent-answer';
+
+const AnswerForm = ({
+  accessToken,
+  idx,
+  hasAnswer,
+}: {
+  accessToken: string;
+  idx: number;
+  hasAnswer: string | null;
+}) => {
   // React Hook Form 사용
   const form = useForm({
     defaultValues: {
@@ -20,12 +32,27 @@ const AnswerForm = () => {
     },
     mode: 'onChange',
   });
-  const { handleSubmit, watch, setFocus } = form;
+  const { handleSubmit, watch, setFocus, setValue } = form;
   const answerLength = watch('answer').length;
+  const category = 'BASIC';
+
+  useEffect(() => {
+    if (hasAnswer) {
+      setValue('answer', hasAnswer);
+      setFocus('answer', { shouldSelect: false }); // 커서 글자 뒤에 forcus
+    }
+  }, [hasAnswer, setValue, setFocus]);
+
+  const { mutate: createMostFrequentAnswerMutation } =
+    useCreateMostFrequentAnswer({ accessToken, category });
 
   // 여기서 폼 데이터를 처리
   const onSubmit = (data: any) => {
-    console.log('Form data:', data);
+    createMostFrequentAnswerMutation({
+      challengeId: 1,
+      accessToken: accessToken,
+      answer: data.answer,
+    });
   };
 
   return (
@@ -44,7 +71,7 @@ const AnswerForm = () => {
                       rows={11}
                       {...field}
                     />
-                    {!answerLength && (
+                    {!answerLength && hasAnswer === null ? (
                       <div
                         onClick={() => form.setFocus('answer')}
                         className="absolute left-5 top-5 z-10 cursor-default text-gray-500"
@@ -75,25 +102,36 @@ const AnswerForm = () => {
                           </p>
                         </div>
                       </div>
+                    ) : (
+                      <div
+                        onClick={() => form.setFocus('answer')}
+                        className="absolute left-5 top-5 z-10 cursor-default text-gray-500"
+                      ></div>
                     )}
                     <div className="absolute bottom-4 right-1/2 flex w-[calc(100%-32px)] translate-x-1/2 items-end justify-between">
                       <div className="flex flex-col gap-px text-2xs">
                         <div>
                           <span className="text-gray-600">
-                            {answerLength ?? 0}
+                            {!answerLength && hasAnswer === null
+                              ? (answerLength ?? 0)
+                              : hasAnswer?.length}
                           </span>
                           <span className="text-gray-400">/500자</span>
                         </div>
                         <FormMessage />
                       </div>
                       <div className="flex gap-1">
-                        {!answerLength ? (
+                        {!answerLength && hasAnswer === null ? (
                           <Button size={'sm'} disabled type="submit">
                             저장하기
                           </Button>
-                        ) : (
+                        ) : answerLength && hasAnswer === null ? (
                           <Button size={'sm'} type="submit">
                             저장하기
+                          </Button>
+                        ) : (
+                          <Button size="sm" type="submit" disabled={false}>
+                            수정하기
                           </Button>
                         )}
                       </div>

@@ -368,5 +368,14 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+
+    //최다 빈출 기본질문 - 저장하기
+    createMostFrequentAnswer: (challengeId: number) => {
+      return {
+        url: `${API_V1_BASE}/challenges/${challengeId}/answer`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
   },
 } as const;

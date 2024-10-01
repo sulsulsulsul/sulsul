@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { KeywordSection } from '@/entities/archives/components/keyword-section';
 import { cn } from '@/lib/utils';
 import { useUserStore } from '@/store/client';
 
@@ -27,14 +28,13 @@ const QuestionList = ({ className }: QuestionListProps) => {
     accessToken,
     category: 'BASIC',
   });
-
-  console.log('data', data);
+  console.log(data);
 
   return (
     <>
       <div className={cn('h-full', className)}>
         <div className="flex h-full w-[690px] flex-col gap-3 p-[10px]">
-          {data?.challenges.map((question) => (
+          {data?.challenges.map((question, idx) => (
             <div
               key={question.content}
               className="rounded-md border border-gray-200 bg-white p-[7px] px-7 shadow-base"
@@ -47,8 +47,15 @@ const QuestionList = ({ className }: QuestionListProps) => {
                   </AccordionTrigger>
                   <AccordionContent className="h-auto py-[10px] ">
                     <div className="pb-5 pl-4">
-                      <AnswerForm />
-                      <Keyword />
+                      <AnswerForm
+                        accessToken={accessToken}
+                        idx={idx}
+                        hasAnswer={
+                          question.question && question.question.answer
+                        }
+                      />
+                      {/* <Keyword /> */}
+                      <KeywordSection questionId={1} />
                       <Feedback />
                     </div>
                   </AccordionContent>
