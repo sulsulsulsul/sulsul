@@ -30,7 +30,6 @@ type AccordionTriggerProps = React.ComponentPropsWithoutRef<
   typeof AccordionPrimitive.Trigger
 > & {
   questionId?: number;
-  isClicked?: boolean;
   setClickedQuestions?: React.Dispatch<React.SetStateAction<number[]>>;
 };
 
