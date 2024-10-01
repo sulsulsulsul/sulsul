@@ -20,6 +20,7 @@ interface AlertModalProps {
   title: string;
   desc: string;
   action: string;
+  className?: string;
 }
 
 export const AlertModal = ({
@@ -27,9 +28,10 @@ export const AlertModal = ({
   title,
   desc,
   action,
+  className,
 }: AlertModalProps) => {
   return (
-    <AlertDialogContent>
+    <AlertDialogContent className={className}>
       <AlertDialogHeader className="items-center">
         <Image src={alert} alt="경고아이콘" />
         <AlertDialogTitle>{title}</AlertDialogTitle>
