@@ -29,7 +29,7 @@ const MODAL_CONTENT: Record<'exit' | 'delete', ModalContent> = {
     icon: faceIcon,
     title: '혹시 몰라요, 이 질문이 나올지도!',
     detail: '끝까지 답변을 완성해볼까요?',
-    leftButton: '나기기',
+    leftButton: '나가기',
     rightButton: '계속 작성하기',
   },
   delete: {
@@ -51,8 +51,14 @@ export const ReConfirmModal = ({
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const { data: currentData, refetch } = useInterview(pivotDate);
 
-  const { setOpenCancelModal, setOpenAnswerModal, setOpenDeleteModal } =
-    useAnswerModalStore();
+  const {
+    setOpenCancelModal,
+    setOpenAnswerModal,
+    setOpenDeleteModal,
+    setIsEditModal,
+    setIsTogetherSection,
+    setIsBestAnswerSection,
+  } = useAnswerModalStore();
 
   const { mutate: deleteAnswerMutation, isSuccess } = useDeleteAnswer({
     interviewId: currentData?.weeklyInterviewId || 0,
@@ -64,18 +70,27 @@ export const ReConfirmModal = ({
 
   const handleClickLeftBtn = () => {
     if (type === 'exit') {
+      setIsEditModal(false);
       setOpenCancelModal(false);
       setOpenAnswerModal(false);
+      setIsTogetherSection(false);
+      setIsBestAnswerSection(false);
     } else {
       setOpenDeleteModal(false);
+      setIsTogetherSection(false);
+      setIsBestAnswerSection(false);
     }
   };
 
   const handleClickRightBtn = () => {
     if (type === 'exit') {
       setOpenCancelModal(false);
+      setIsTogetherSection(false);
+      setIsBestAnswerSection(false);
     } else {
       deleteAnswerMutation();
+      setIsTogetherSection(false);
+      setIsBestAnswerSection(false);
     }
   };
   return (

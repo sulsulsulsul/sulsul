@@ -6,12 +6,23 @@ interface ButtonSectionProp {
   disalbled: boolean;
 }
 export const ButtonSection = ({ charCount, disalbled }: ButtonSectionProp) => {
-  const { setOpenCancelModal, setOpenAnswerModal } = useAnswerModalStore();
+  const {
+    setOpenCancelModal,
+    setOpenAnswerModal,
+    setIsEditModal,
+    setIsOpenAllAnswerModal,
+    setIsTogetherSection,
+    setIsBestAnswerSection,
+  } = useAnswerModalStore();
   const handleClickCancelBtn = () => {
     if (charCount > 0) {
       setOpenCancelModal(true);
     } else {
+      setIsEditModal(false);
       setOpenAnswerModal(false);
+      setIsOpenAllAnswerModal(false);
+      setIsTogetherSection(false);
+      setIsBestAnswerSection(false);
     }
   };
   return (

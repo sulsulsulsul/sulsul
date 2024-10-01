@@ -29,18 +29,19 @@ export const AnswerCompleteSection = ({
 }) => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
-  const [isTogetherSection, setIsTogetherSection] = useState(false);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
-  const [isEditModal, setIsEditModal] = useState(false);
   const { isRecommended, weeklyInterviewAnswerId } = myWriteAnswerData;
   const { auth, data } = useUserStore();
   const {
     isOpenDeleteModal,
     isOpenAnswerModal,
     isOpenAllAnswerModal,
+    isTogetherSection,
     setOpenDeleteModal,
     setOpenAnswerModal,
     setIsOpenAllAnswerModal,
+    setIsEditModal,
+    setIsTogetherSection,
   } = useAnswerModalStore();
   const { setMyAnswerData } = useMyAnswerStore();
 
@@ -58,7 +59,6 @@ export const AnswerCompleteSection = ({
     sortType: 'RECOMMEND',
     accessToken: accessToken,
   });
-
   const handleClickMoreMenu = () => {
     setOpenMoreMenu((prev) => !prev);
   };
@@ -95,7 +95,7 @@ export const AnswerCompleteSection = ({
   useEffect(() => {
     if (answerListData) {
       setFilteredResponses(
-        answerListData?.answerDetailResponses.filter(
+        answerListData?.answers.filter(
           (response) => response.userId !== userId,
         ),
       );
@@ -236,7 +236,7 @@ export const AnswerCompleteSection = ({
           )}
         </div>
       </div>
-      {isOpenAnswerModal && <WriteAnswerModal isEditModal={isEditModal} />}
+      {isOpenAnswerModal && <WriteAnswerModal />}
       {isOpenDeleteModal && (
         <>
           <div

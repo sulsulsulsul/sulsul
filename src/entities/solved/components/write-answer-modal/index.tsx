@@ -9,13 +9,9 @@ import { ReConfirmModal } from '../re-confirm-modal';
 import { ModalHeader } from './components/hedaer-section';
 import { TextAreaSection } from './components/text-area-section';
 
-interface WriteAnswerModalProp {
-  isEditModal?: boolean;
-}
-
-export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
-  const { isOpenAnswerModal } = useAnswerModalStore();
-  const { isOpenCancelModal } = useAnswerModalStore();
+export const WriteAnswerModal = () => {
+  const { isOpenAnswerModal, isOpenCancelModal, isEditModal } =
+    useAnswerModalStore();
   const { currentData } = useInterviewStore();
   const { myAnswerData } = useMyAnswerStore();
   const [charCount, setCharCount] = useState(0);

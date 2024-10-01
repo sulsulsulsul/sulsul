@@ -5,10 +5,16 @@ interface AnswerModalState {
   isOpenCancelModal: boolean;
   isOpenDeleteModal: boolean;
   isOpenAllAnswerModal: boolean;
+  isEditModal: boolean;
+  isTogetherSection: boolean;
+  isBestAnswerSection: boolean;
   setOpenAnswerModal: (isOpen: boolean) => void;
   setOpenCancelModal: (isOpen: boolean) => void;
   setOpenDeleteModal: (isOpen: boolean) => void;
   setIsOpenAllAnswerModal: (isOpen: boolean) => void;
+  setIsEditModal: (isEditModal: boolean) => void;
+  setIsTogetherSection: (isTogetherSection: boolean) => void;
+  setIsBestAnswerSection: (isBestAnswerSection: boolean) => void;
 }
 
 export const useAnswerModalStore = create<AnswerModalState>((set) => ({
@@ -16,6 +22,9 @@ export const useAnswerModalStore = create<AnswerModalState>((set) => ({
   isOpenCancelModal: false,
   isOpenDeleteModal: false,
   isOpenAllAnswerModal: false,
+  isEditModal: false,
+  isTogetherSection: false,
+  isBestAnswerSection: false,
   setOpenAnswerModal: (isOpen: boolean) =>
     set(() => ({
       isOpenAnswerModal: isOpen,
@@ -31,5 +40,19 @@ export const useAnswerModalStore = create<AnswerModalState>((set) => ({
   setIsOpenAllAnswerModal: (isOpen: boolean) =>
     set(() => ({
       isOpenAllAnswerModal: isOpen,
+    })),
+
+  setIsEditModal: (isOpen: boolean) =>
+    set(() => ({
+      isEditModal: isOpen,
+    })),
+
+  setIsTogetherSection: (isOpen: boolean) =>
+    set(() => ({
+      isTogetherSection: isOpen,
+    })),
+  setIsBestAnswerSection: (isOpen: boolean) =>
+    set(() => ({
+      isBestAnswerSection: isOpen,
     })),
 }));

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
@@ -24,15 +24,16 @@ export const MyAnswerSection = ({
   pivotDate,
   accessToken,
 }: MyAnswerSectionProp) => {
-  const [isEditModal, setIsEditModal] = useState(false);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const { isRecommended, weeklyInterviewAnswerId } = myWriteAnswerData;
   const {
     isOpenDeleteModal,
     isOpenAnswerModal,
+    isEditModal,
     setOpenDeleteModal,
     setOpenAnswerModal,
     setIsOpenAllAnswerModal,
+    setIsEditModal,
   } = useAnswerModalStore();
 
   const { mutate: recommendMutation } = useAnswerRecommend({
@@ -47,8 +48,8 @@ export const MyAnswerSection = ({
   };
 
   const handleClickEditMenu = () => {
-    setIsOpenAllAnswerModal(false);
     setIsEditModal(true);
+    setIsOpenAllAnswerModal(false);
     setOpenAnswerModal(true);
     setOpenMoreMenu(false);
   };
@@ -131,7 +132,7 @@ export const MyAnswerSection = ({
           onClick={handleClickMoreMenu}
         />
       </div>
-      {isOpenAnswerModal && <WriteAnswerModal isEditModal={isEditModal} />}
+      {isOpenAnswerModal && <WriteAnswerModal />}
       {isOpenDeleteModal && (
         <>
           <div

@@ -17,11 +17,13 @@ export const BestCommentsSection = ({
 }: {
   accessToken: string;
 }) => {
-  const [isBestAnswerSection, setIsBestAnswerSection] = useState(false);
-
   const { previousData } = useInterviewStore();
-  const { isOpenAllAnswerModal, setIsOpenAllAnswerModal } =
-    useAnswerModalStore();
+  const {
+    isOpenAllAnswerModal,
+    setIsOpenAllAnswerModal,
+    isBestAnswerSection,
+    setIsBestAnswerSection,
+  } = useAnswerModalStore();
   const lastWeekInterviewId = previousData?.weeklyInterviewId || 10;
   const { data: answerListData } = useAnswerList({
     interviewId: lastWeekInterviewId,
@@ -67,36 +69,34 @@ export const BestCommentsSection = ({
                 <div>{previousTitle}</div>
               </div>
               <ul className="flex min-h-[291px] w-full flex-col gap-6">
-                {answerListData?.answerDetailResponses.map(
-                  (answerData, index) => (
-                    <li key={answerData.userId} className="flex gap-[13px]">
-                      <div className="text-lg font-semibold text-gray-400">
-                        {index + 1}
-                      </div>
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-1">
-                          <div className="relative size-6 overflow-hidden rounded-full">
-                            <Image
-                              src={
-                                answerData.profileImg.startsWith('https')
-                                  ? answerData.profileImg
-                                  : DEFAULT_IMAGE_URL
-                              }
-                              fill
-                              alt="icon"
-                            />
-                          </div>
-                          <div className="text-sm font-medium text-gray-600">
-                            {answerData.nickname}
-                          </div>
+                {answerListData?.answers.map((answerData, index) => (
+                  <li key={answerData.userId} className="flex gap-[13px]">
+                    <div className="text-lg font-semibold text-gray-400">
+                      {index + 1}
+                    </div>
+                    <div className="flex flex-col gap-1">
+                      <div className="flex items-center gap-1">
+                        <div className="relative size-6 overflow-hidden rounded-full">
+                          <Image
+                            src={
+                              answerData.profileImg.startsWith('https')
+                                ? answerData.profileImg
+                                : DEFAULT_IMAGE_URL
+                            }
+                            fill
+                            alt="icon"
+                          />
                         </div>
-                        <div className="line-clamp-2 break-all text-base font-medium text-gray-700">
-                          {answerData.content}
+                        <div className="text-sm font-medium text-gray-600">
+                          {answerData.nickname}
                         </div>
                       </div>
-                    </li>
-                  ),
-                )}
+                      <div className="line-clamp-2 break-all text-base font-medium text-gray-700">
+                        {answerData.content}
+                      </div>
+                    </div>
+                  </li>
+                ))}
               </ul>
 
               <button
