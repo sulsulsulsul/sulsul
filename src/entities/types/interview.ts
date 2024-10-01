@@ -6,6 +6,7 @@ export interface MyActivityData {
 export interface InterviewData {
   answerCount: number;
   profileImgs: string[];
+  weeklyInterviewImage: string;
   weeklyInterviewId: number;
   content: string;
   year: number;
