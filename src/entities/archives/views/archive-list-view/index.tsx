@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, useState } from 'react';
+import { Fragment, HTMLAttributes, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -97,9 +97,8 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 2xl:grid-cols-4">
           {archives &&
             archives.archives?.map((archive: ArchiveListItemDTO) => (
-              <>
+              <Fragment key={archive.archiveId}>
                 <Link
-                  key={archive.archiveId}
                   href={APP_ROUTES.archiveDetail(archive.archiveId)}
                   className="mobile:hidden"
                 >
@@ -115,7 +114,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
                   {...archive}
                   className="desktop:hidden"
                 />
-              </>
+              </Fragment>
             ))}
         </div>
       </div>
