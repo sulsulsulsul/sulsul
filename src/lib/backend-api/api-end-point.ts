@@ -126,6 +126,14 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    // 백문백답 - 키워드 생성
+    createChallengeKeyword: (questionId: number) => {
+      return {
+        url: `${API_V1_BASE}/challenges/${questionId}/keyword`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
 
     deleteKeyword: ({
       questionId,
@@ -369,7 +377,7 @@ export const API_ENDPOINT = {
       };
     },
 
-    //최다 빈출 기본질문 - 저장하기
+    // 최다 빈출 기본질문 - 저장하기
     createMostFrequentAnswer: (challengeId: number) => {
       return {
         url: `${API_V1_BASE}/challenges/${challengeId}/answer`,

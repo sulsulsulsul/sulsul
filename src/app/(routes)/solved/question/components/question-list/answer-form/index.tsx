@@ -18,11 +18,11 @@ import { useCreateMostFrequentAnswer } from '../../../hook/use-create-most-frequ
 
 const AnswerForm = ({
   accessToken,
-  idx,
+  challengeId,
   hasAnswer,
 }: {
   accessToken: string;
-  idx: number;
+  challengeId: number;
   hasAnswer: string | null;
 }) => {
   // React Hook Form 사용
@@ -49,7 +49,7 @@ const AnswerForm = ({
   // 여기서 폼 데이터를 처리
   const onSubmit = (data: any) => {
     createMostFrequentAnswerMutation({
-      challengeId: 1,
+      challengeId: challengeId,
       accessToken: accessToken,
       answer: data.answer,
     });
@@ -112,9 +112,7 @@ const AnswerForm = ({
                       <div className="flex flex-col gap-px text-2xs">
                         <div>
                           <span className="text-gray-600">
-                            {!answerLength && hasAnswer === null
-                              ? (answerLength ?? 0)
-                              : hasAnswer?.length}
+                            {answerLength ?? 0}
                           </span>
                           <span className="text-gray-400">/500자</span>
                         </div>
@@ -129,10 +127,17 @@ const AnswerForm = ({
                           <Button size={'sm'} type="submit">
                             저장하기
                           </Button>
-                        ) : (
+                        ) : hasAnswer !== null &&
+                          answerLength !== hasAnswer.length ? (
                           <Button size="sm" type="submit" disabled={false}>
                             수정하기
                           </Button>
+                        ) : (
+                          <>
+                            <Button size="sm" type="submit" disabled={true}>
+                              수정하기
+                            </Button>
+                          </>
                         )}
                       </div>
                     </div>

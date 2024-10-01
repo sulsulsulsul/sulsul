@@ -7,6 +7,7 @@ export interface MyQuestionList {
   answerRate: number;
   challenges: [
     {
+      challengeId: number;
       content: string;
       isAnswered: false;
       question: {
