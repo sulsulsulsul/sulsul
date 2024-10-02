@@ -75,10 +75,11 @@ export const ReConfirmModal = ({
       setOpenAnswerModal(false);
       setIsTogetherSection(false);
       setIsBestAnswerSection(false);
-    } else {
+    }
+    if ((type = 'delete')) {
       setOpenDeleteModal(false);
-      setIsTogetherSection(false);
-      setIsBestAnswerSection(false);
+      // setIsTogetherSection(false);
+      // setIsBestAnswerSection(false);
     }
   };
 

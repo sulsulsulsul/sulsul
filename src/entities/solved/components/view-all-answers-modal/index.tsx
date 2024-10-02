@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/select';
 import { AnswerListData } from '@/entities/types/interview';
 import { cn, getRecentWeeks, removeNewlines } from '@/lib/utils';
+import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
 
 import { useAnswerRecommend } from '../../hooks/use-answer-recommend';
@@ -44,6 +45,7 @@ export const ViewAllAnswersModal = ({
   const [sortType, setSortType] = useState<'NEW' | 'RECOMMEND'>('NEW');
 
   const { auth } = useUserStore();
+  const { setIsOpenAllAnswerModal } = useAnswerModalStore();
   const { data: interviewData } = useInterview(selectedDate);
 
   const { userId, accessToken } = auth;
@@ -112,6 +114,10 @@ export const ViewAllAnswersModal = ({
     setOpenMoreMenu((prev) => !prev);
   };
 
+  const handleClickBackBtn = () => {
+    setIsOpenAllAnswerModal(false);
+  };
+
   useEffect(() => {
     if (sortType === 'NEW' && inView && recentHasNextPage) {
       fetchRecentNextPage();
@@ -164,6 +170,7 @@ export const ViewAllAnswersModal = ({
         <div className="fixed top-0 z-[999] flex h-14 w-full items-center justify-center border border-gray-200 bg-white tablet:hidden desktop:hidden">
           <Image
             className="absolute left-3 top-4"
+            onClick={handleClickBackBtn}
             width={24}
             height={24}
             src="/images/icons/icon-chevron_left_l.svg"
