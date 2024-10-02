@@ -11,9 +11,8 @@ import {
   SelectItem,
   SelectTrigger,
 } from '@/components/ui/select';
-import { AnswerList, AnswerListData } from '@/entities/types/interview';
+import { AnswerListData } from '@/entities/types/interview';
 import { cn, getRecentWeeks, removeNewlines } from '@/lib/utils';
-import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
 
 import { useAnswerRecommend } from '../../hooks/use-answer-recommend';
@@ -40,7 +39,7 @@ export const ViewAllAnswersModal = ({
   const [filteredResponses, setFilteredResponses] = useState<AnswerListData[]>(
     [],
   );
-  console.log('filteredResponses', filteredResponses);
+
   const [selectedDate, setSelectedDate] = useState(weeks[0].end);
   const [sortType, setSortType] = useState<'NEW' | 'RECOMMEND'>('NEW');
 
@@ -65,7 +64,6 @@ export const ViewAllAnswersModal = ({
     sortType: 'RECOMMEND',
     accessToken: accessToken,
   });
-  console.log('recommendHasNextPage', recommendHasNextPage);
 
   const {
     data: recentOrderAnswerData,
@@ -77,9 +75,7 @@ export const ViewAllAnswersModal = ({
     sortType: 'NEW',
     accessToken: accessToken,
   });
-  console.log('recentHasNextPage', recentHasNextPage);
 
-  console.log('recommendOrderAnswerData', recommendOrderAnswerData);
   const { mutate: recommendMutation } = useAnswerRecommend({
     currentInterviewId: interviewData?.weeklyInterviewId || 0,
     accessToken,
@@ -87,7 +83,6 @@ export const ViewAllAnswersModal = ({
     pivotDate: selectedDate,
     sortType,
   });
-  console.log('recentOrderAnswerData', recentOrderAnswerData);
 
   const { ref: triggerRef, inView } = useInView();
 
@@ -157,7 +152,7 @@ export const ViewAllAnswersModal = ({
       document.body.style.overflow = '';
     };
   }, []);
-  // if (isLoading) return <h3>로딩중</h3>;
+
   return (
     <>
       <div
@@ -325,9 +320,11 @@ export const ViewAllAnswersModal = ({
                                 </p>
                               </div>
                               <p>
-                                <span className="mr-1 h-[22px] w-[45px] items-center rounded-[4px] bg-red-100 px-[7px] py-[3px] text-2xs font-semibold text-[#ff5a61]">
-                                  BEST
-                                </span>
+                                {i < 3 && (
+                                  <span className="mr-1 h-[22px] w-[45px] items-center rounded-[4px] bg-red-100 px-[7px] py-[3px] text-2xs font-semibold text-[#ff5a61]">
+                                    BEST
+                                  </span>
+                                )}
                                 <span>{v.content}</span>
                               </p>
                               <div className="relative flex items-center justify-between">
