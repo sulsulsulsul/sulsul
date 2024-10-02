@@ -52,27 +52,71 @@ const GradientCircularProgress = ({ value, item }: any) => {
         )}
       </svg>
       <div className="absolute bottom-5 left-0 right-5 top-0 flex flex-col content-center justify-center">
-        {value !== 0 && value !== 100 && (
-          <Image
-            src={`/images/lv/ingSticker.svg`}
-            width={52}
-            height={26}
-            alt="ingSticker"
-            style={{
-              position: 'absolute',
-              top: '10px',
-              left: '70px',
-              cursor: 'pointer',
-            }}
-            onClick={() => router.push('/solved/question')}
-          />
-        )}
-        {value !== 0 ? (
+        {item.title === '최다 빈출 기본질문' ? (
+          <>
+            <Image
+              src={`/images/lv/ingSticker.svg`}
+              width={52}
+              height={26}
+              alt="진행중 딱지 이미지"
+              style={{
+                position: 'absolute',
+                top: '10px',
+                left: '70px',
+                cursor: 'pointer',
+              }}
+              onClick={() => router.push('/solved/question')}
+            />
+            <Image
+              src={`/images/lv/${item.image}.svg`}
+              width={49}
+              height={46}
+              alt={`${item.image} 캐릭터 이미지`}
+              style={{
+                position: 'absolute',
+                top: '35px',
+                left: '35px',
+                cursor: 'pointer',
+              }}
+              onClick={() => router.push('/solved/question')}
+            />
+          </>
+        ) : value !== 0 && value !== 100 ? (
+          <>
+            <Image
+              src={`/images/lv/ingSticker.svg`}
+              width={52}
+              height={26}
+              alt="진행중 딱지 이미지"
+              style={{
+                position: 'absolute',
+                top: '10px',
+                left: '70px',
+                cursor: 'pointer',
+              }}
+              onClick={() => router.push('/solved/question')}
+            />
+
+            <Image
+              src={`/images/lv/${item.image}.svg`}
+              width={49}
+              height={46}
+              alt={`${item.image} 캐릭터 이미지`}
+              style={{
+                position: 'absolute',
+                top: '35px',
+                left: '35px',
+                cursor: 'pointer',
+              }}
+              onClick={() => router.push('/solved/question')}
+            />
+          </>
+        ) : value === 100 ? (
           <Image
             src={`/images/lv/${item.image}.svg`}
             width={49}
             height={46}
-            alt={item.image}
+            alt={`${item.image} 캐릭터 이미지`}
             style={{
               position: 'absolute',
               top: '35px',
@@ -86,7 +130,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
             src={`/images/lv/icon-lock.svg`}
             width={29}
             height={26}
-            alt={item.image}
+            alt={`${item.image} 캐릭터 이미지`}
             style={{
               position: 'absolute',
               top: '45px',
@@ -109,7 +153,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
   );
 };
 
-interface DataType {
+interface QaDataType {
   image: string;
   title: string;
   total: number;
@@ -117,13 +161,12 @@ interface DataType {
   top: number;
   left: number;
 }
-[];
 
-export default function App({ dummyData }: any) {
+export default function App({ qaData }: { qaData: QaDataType[] }) {
   return (
     <div className="mb-7 flex justify-center">
       <div className="bg-container h-[571px] w-[460px] bg-[url('/images/lv/line.svg')] bg-center bg-no-repeat">
-        {dummyData.map((item: DataType, index: number) => (
+        {qaData.map((item: QaDataType, index: number) => (
           <GradientCircularProgress
             key={index}
             value={(item.done * 100) / item.total}

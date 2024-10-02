@@ -11,13 +11,19 @@ import useSearchQuestions from '@/entities/questions/hooks/use-search-questions'
 import { cn } from '@/lib/utils';
 interface PracticeProps extends HTMLAttributes<HTMLDivElement> {
   userId: number;
+  nickname: string;
   isDesktop?: boolean;
 }
 
 /**
  * https://www.figma.com/design/300FZcKnRKJSVsVLdTxQeN/%F0%9F%92%AC-Sulsul_team?m=dev&node-id=4308-9475&t=OZrGkP4ZgEF84mEl-1
  */
-const Practice = ({ className, userId, isDesktop }: PracticeProps) => {
+const Practice = ({
+  className,
+  userId,
+  nickname,
+  isDesktop,
+}: PracticeProps) => {
   const { data: statisticsSummary, isSuccess: isSuccessStatisticsSummary } =
     useStatisticsSummary({
       userId,
@@ -50,9 +56,9 @@ const Practice = ({ className, userId, isDesktop }: PracticeProps) => {
     <main className={cn('mobile:px-[16px]', className)}>
       <section className="flex gap-[25px] mobile:flex-col">
         <PracticeStartCard
-          setModalOpen={setOpenModal}
           className="flex h-[273px] min-w-[282px] flex-col items-center justify-between"
-          nickname="수리수리"
+          setModalOpen={setOpenModal}
+          nickname={nickname}
         />
         <div className="flex w-full gap-[25px] overflow-x-auto mobile:flex-auto mobile:gap-[8px]">
           <PracticeResultCard

@@ -12,5 +12,6 @@ type Story = StoryObj<typeof meta>;
 export const Default = {
   args: {
     userId: 14,
+    nickname: '수리수리',
   },
 } satisfies Story;

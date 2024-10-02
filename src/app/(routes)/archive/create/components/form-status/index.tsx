@@ -69,6 +69,7 @@ export const FormStatus = ({
               alt="icon"
             />
             <span>면접 예상질문</span>
+            <span className="text-blue-500">{isSampleWritten && 6}</span>
           </h2>
           {isSampleWritten ? (
             <CompleteStatus />
