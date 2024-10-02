@@ -38,7 +38,7 @@ export default function RootLayout({
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
         ) : null}
         <Providers>
-          <div className="min-h-[940px] overflow-hidden bg-gray-50">
+          <div className="min-h-[910px] overflow-hidden bg-gray-50">
             <Header />
             <div className="min-h-[calc(100vh-60px)]">{children}</div>
           </div>

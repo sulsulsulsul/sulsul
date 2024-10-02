@@ -14,13 +14,21 @@ export const HeaderNavigation = ({
 
   return (
     <div className={cn('flex items-center', className)} {...props}>
-      {DesktopHeaderLinks.map((link) => {
-        const isEqual = pathname === link.link;
-        const isActive = isEqual;
+      {DesktopHeaderLinks.map((tab) => {
+        let isActive;
+
+        if (tab.link === '/archive') {
+          isActive =
+            pathname === '/archive' ||
+            (pathname.startsWith('/archive/') &&
+              !pathname.startsWith('/archive/create'));
+        } else {
+          isActive = pathname === tab.link;
+        }
         return (
           <Link
-            aria-label={isActive ? `active ${link.label}` : link.label}
-            key={'desktop' + link.link}
+            aria-label={isActive ? `active ${tab.label}` : tab.label}
+            key={'desktop' + tab.link}
             className={cn(
               'text-gray-600 text-subhead2',
               'transition-colors',
@@ -29,9 +37,9 @@ export const HeaderNavigation = ({
                 'text-blue-500': isActive,
               },
             )}
-            href={link.link}
+            href={tab.link}
           >
-            {link.label}
+            {tab.label}
           </Link>
         );
       })}

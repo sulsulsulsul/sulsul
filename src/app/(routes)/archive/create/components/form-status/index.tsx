@@ -4,6 +4,7 @@ import { HTMLAttributes, useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { InterviewQuestions } from '@/entities/archives/components/interview-questions';
+import { PendingStatus } from '@/entities/archives/components/interview-questions/status/pending';
 import { PendingProgress } from '@/entities/archives/components/interview-questions/status/pending-progress';
 import { AddQuestion } from '@/entities/archives/components/question-card/add-question';
 import { useArchive } from '@/entities/archives/hooks';
@@ -18,10 +19,13 @@ import { useCreateArchiveFormContext } from '../../hooks/use-create-archive-form
 import { CompleteStatus } from './status/complete';
 import { IdleStatus } from './status/idle';
 import { ValidStatus } from './status/valid';
-interface InterviewQuestionsProps extends HTMLAttributes<HTMLDivElement> {}
+interface InterviewQuestionsProps extends HTMLAttributes<HTMLDivElement> {
+  version?: string;
+}
 
 export const FormStatus = ({
   className,
+  version,
   ...props
 }: InterviewQuestionsProps) => {
   const { isPending, setIsPending } = usePendingStore();
@@ -76,9 +80,12 @@ export const FormStatus = ({
           ) : (
             <div className="mt-[18px] size-full rounded-md">
               {showProgress ? (
-                <PendingProgress isPending={isPending} status={status} />
-              ) : // <PendingStatus />
-              isSampleClicked ||
+                version === '2' ? (
+                  <PendingStatus />
+                ) : (
+                  <PendingProgress isPending={isPending} status={status} />
+                )
+              ) : isSampleClicked ||
                 (isFormValid && !isSubmitting && !isPending) ? (
                 <ValidStatus className="border border-gray-200 shadow-base" />
               ) : (

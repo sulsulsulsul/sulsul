@@ -124,8 +124,6 @@ export const SelectJobTypeModal = () => {
         });
 
         if (updatedArchive && updatedArchive.status === 'COMPLETE') {
-          // setIsPending(false);
-          // setIsQuestionCreated(true);
           setStatus('COMPLETE');
         } else if (updatedArchive && updatedArchive.status === 'FAIL') {
           setFailAlertOpen(true);
@@ -211,6 +209,7 @@ export const SelectJobTypeModal = () => {
     <>
       <AlertDialog open={failAlertOpen} onOpenChange={setFailAlertOpen}>
         <AlertModal
+          className="max-w-[428px] px-[30px] pb-[26px] pt-8"
           onClick={handleSubmit(onSubmit)}
           title="질문 예측 중 오류가 발생했어요"
           desc="다시 시도해 주시거나 문제가 지속될 경우 <br /> 관리자에게 문의해주세요."
@@ -238,7 +237,7 @@ export const SelectJobTypeModal = () => {
             </Button>
           </AlertDialogTrigger>
           {!isSampleClicked && !failAlertOpen && (
-            <AlertDialogContent className="h-auto min-w-fit">
+            <AlertDialogContent className="h-auto min-w-fit p-8 pb-6">
               <AlertDialogHeader>
                 <AlertDialogTitle className="mt-1">
                   <p className="text-sm text-blue-500">
@@ -263,13 +262,13 @@ export const SelectJobTypeModal = () => {
                   ))}
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter className="mx-auto">
+              <AlertDialogFooter className="mx-auto border-t border-gray-100">
                 <AlertDialogCancel className="w-[180px]">
                   취소하기
                 </AlertDialogCancel>
                 <AlertDialogAction
                   disabled={selectedJobType === ''}
-                  className="w-[180px] bg-blue-500 text-white"
+                  className="w-[180px] bg-blue-500 text-white disabled:bg-gray-200 disabled:text-gray-500"
                   onClick={handleSubmit(onSubmit)}
                 >
                   선택하기
