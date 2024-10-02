@@ -1,5 +1,7 @@
 'use client';
-import { useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+
+import { AnswerList } from '@/entities/types/interview';
 
 import {
   AnswerListActionProps,
@@ -10,13 +12,24 @@ export const useAnswerList = ({
   interviewId,
   sortType,
   accessToken,
-  count,
+  size,
 }: AnswerListActionProps) => {
-  const result = useQuery({
-    queryKey: ['interview', interviewId, sortType, accessToken, count],
-    queryFn: () =>
-      getAnswerListAction({ interviewId, sortType, accessToken, count }),
+  const result = useInfiniteQuery({
+    queryKey: ['interview', interviewId, sortType, accessToken, size],
+    queryFn: ({ pageParam }) =>
+      getAnswerListAction({
+        interviewId,
+        sortType,
+        accessToken,
+        size,
+        pageParam,
+      }),
     enabled: !!accessToken && !!interviewId,
+    initialPageParam: 0,
+    getNextPageParam: (lastPage: AnswerList) => {
+      const nextPage = lastPage.page + 1;
+      return nextPage < lastPage.totalPage ? nextPage : undefined;
+    },
   });
 
   const { data, ...rest } = result;

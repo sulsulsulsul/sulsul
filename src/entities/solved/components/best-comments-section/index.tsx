@@ -1,8 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Image from 'next/image';
 
-import { SignInView } from '@/entities/auth/views/sign-in-view';
 import NoDataCard from '@/entities/practice/components/no-data-card';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useInterviewStore } from '@/store/interviewStore';
@@ -29,11 +28,11 @@ export const BestCommentsSection = ({
     interviewId: lastWeekInterviewId,
     sortType: 'RECOMMEND',
     accessToken: accessToken,
-    count: 3,
+    size: 3,
   });
 
   const previousTitle = previousData?.content.replace(/\\n/g, ' ');
-  const hasNoData = !accessToken || answerListData?.totalCount === 0;
+  const hasNoData = !accessToken || answerListData?.pages[0].totalCount === 0;
 
   const handleClickAnswerViewBtn = () => {
     setIsBestAnswerSection(true);
@@ -69,7 +68,7 @@ export const BestCommentsSection = ({
                 <div>{previousTitle}</div>
               </div>
               <ul className="flex min-h-[291px] w-full flex-col gap-6">
-                {answerListData?.answers.map((answerData, index) => (
+                {answerListData?.pages[0].answers.map((answerData, index) => (
                   <li key={answerData.userId} className="flex gap-[13px]">
                     <div className="text-lg font-semibold text-gray-400">
                       {index + 1}

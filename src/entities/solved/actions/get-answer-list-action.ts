@@ -8,13 +8,15 @@ export interface AnswerListActionProps {
   interviewId: number;
   sortType: 'NEW' | 'RECOMMEND';
   accessToken?: string;
-  count?: number;
+  size?: number;
+  pageParam?: number;
 }
 export const getAnswerListAction = async ({
   interviewId,
   sortType,
   accessToken,
-  count,
+  size,
+  pageParam,
 }: AnswerListActionProps) => {
   try {
     const response = await backendApi<AnswerList>({
@@ -22,6 +24,10 @@ export const getAnswerListAction = async ({
         interviewId,
         sortType,
       }),
+      params: {
+        page: pageParam,
+        size,
+      },
       accessToken,
     });
     return response;

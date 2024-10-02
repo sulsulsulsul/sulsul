@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import Image from 'next/image';
 import { SelectContent, SelectValue } from '@radix-ui/react-select';
 import dayjs from 'dayjs';
@@ -10,7 +11,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from '@/components/ui/select';
-import { AnswerListData } from '@/entities/types/interview';
+import { AnswerList, AnswerListData } from '@/entities/types/interview';
 import { cn, getRecentWeeks, removeNewlines } from '@/lib/utils';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
@@ -39,6 +40,7 @@ export const ViewAllAnswersModal = ({
   const [filteredResponses, setFilteredResponses] = useState<AnswerListData[]>(
     [],
   );
+  console.log('filteredResponses', filteredResponses);
   const [selectedDate, setSelectedDate] = useState(weeks[0].end);
   const [sortType, setSortType] = useState<'NEW' | 'RECOMMEND'>('NEW');
 
@@ -52,18 +54,32 @@ export const ViewAllAnswersModal = ({
     userId,
     accessToken,
   });
-  const { data: recommendOrderAnswerData } = useAnswerList({
+
+  const {
+    data: recommendOrderAnswerData,
+    fetchNextPage: fetchRecommendNextPage,
+    isFetchingNextPage,
+    hasNextPage: recommendHasNextPage,
+  } = useAnswerList({
     interviewId: interviewData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',
     accessToken: accessToken,
   });
+  console.log('recommendHasNextPage', recommendHasNextPage);
 
-  const { data: recentOrderAnswerData } = useAnswerList({
+  const {
+    data: recentOrderAnswerData,
+    hasNextPage: recentHasNextPage,
+    fetchNextPage: fetchRecentNextPage,
+    isLoading,
+  } = useAnswerList({
     interviewId: interviewData?.weeklyInterviewId || 0,
     sortType: 'NEW',
     accessToken: accessToken,
   });
+  console.log('recentHasNextPage', recentHasNextPage);
 
+  console.log('recommendOrderAnswerData', recommendOrderAnswerData);
   const { mutate: recommendMutation } = useAnswerRecommend({
     currentInterviewId: interviewData?.weeklyInterviewId || 0,
     accessToken,
@@ -71,6 +87,10 @@ export const ViewAllAnswersModal = ({
     pivotDate: selectedDate,
     sortType,
   });
+  console.log('recentOrderAnswerData', recentOrderAnswerData);
+
+  const { ref: triggerRef, inView } = useInView();
+
   useInterval(
     () => {
       const newDate = dayjs();
@@ -98,17 +118,33 @@ export const ViewAllAnswersModal = ({
   };
 
   useEffect(() => {
+    if (sortType === 'NEW' && inView && recentHasNextPage) {
+      fetchRecentNextPage();
+    }
+    if (sortType === 'RECOMMEND' && inView && recommendHasNextPage) {
+      fetchRecommendNextPage();
+    }
+  }, [
+    inView,
+    fetchRecommendNextPage,
+    fetchRecentNextPage,
+    recentHasNextPage,
+    recommendHasNextPage,
+    sortType,
+  ]);
+
+  useEffect(() => {
     if (recommendOrderAnswerData && sortType === 'RECOMMEND') {
       setFilteredResponses(
-        recommendOrderAnswerData?.answers.filter(
-          (response) => response.userId !== userId,
+        recommendOrderAnswerData?.pages.flatMap((page) =>
+          page.answers.filter((response) => response.userId !== userId),
         ),
       );
     }
     if (recentOrderAnswerData && sortType === 'NEW') {
       setFilteredResponses(
-        recentOrderAnswerData?.answers.filter(
-          (response) => response.userId !== userId,
+        recentOrderAnswerData?.pages.flatMap((page) =>
+          page.answers.filter((response) => response.userId !== userId),
         ),
       );
     }
@@ -121,7 +157,7 @@ export const ViewAllAnswersModal = ({
       document.body.style.overflow = '';
     };
   }, []);
-
+  // if (isLoading) return <h3>로딩중</h3>;
   return (
     <>
       <div
@@ -226,8 +262,8 @@ export const ViewAllAnswersModal = ({
                     다른 지원자들의 답변{' '}
                     <span className="text-blue-500">
                       {recommendOrderAnswerData
-                        ? recommendOrderAnswerData.totalCount >= 1
-                          ? recommendOrderAnswerData.totalCount - 1
+                        ? recommendOrderAnswerData.pages[0].totalCount >= 1
+                          ? recommendOrderAnswerData.pages[0].totalCount - 1
                           : 0
                         : ''}
                     </span>
@@ -251,9 +287,9 @@ export const ViewAllAnswersModal = ({
                   </div>
                 </div>
 
-                <div>
+                <ul>
                   {recommendOrderAnswerData &&
-                    recommendOrderAnswerData.totalCount - 1 <= 0 && (
+                    recommendOrderAnswerData.pages[0].totalCount - 1 <= 0 && (
                       <p className="font-medium text-gray-500">
                         아직 답변이 없어요.
                       </p>
@@ -261,9 +297,12 @@ export const ViewAllAnswersModal = ({
                   {
                     <>
                       {filteredResponses.length >= 1 &&
-                        filteredResponses.map((v: AnswerListData, i) => (
-                          <div key={v.weeklyInterviewAnswerId}>
-                            <div className="mt-6 flex flex-col gap-4">
+                        filteredResponses.map(
+                          (v: AnswerListData, i: number) => (
+                            <li
+                              key={v.weeklyInterviewAnswerId}
+                              className="mt-6 flex flex-col gap-4"
+                            >
                               <div className="flex justify-between border-b border-gray-800 pb-2">
                                 <div className="flex items-center gap-1">
                                   <div className="relative size-6 overflow-hidden rounded-full">
@@ -282,7 +321,7 @@ export const ViewAllAnswersModal = ({
                                   </p>
                                 </div>
                                 <p className="text-sm font-medium text-gray-500">
-                                  인사 노무 HR
+                                  {v.job}
                                 </p>
                               </div>
                               <p>
@@ -355,13 +394,14 @@ export const ViewAllAnswersModal = ({
                                   onClick={(e) => handleClickMoreMenu(e, i)}
                                 />
                               </div>
-                            </div>
-                            <hr className="mt-6" />
-                          </div>
-                        ))}
+                              <hr className="mt-6" />
+                            </li>
+                          ),
+                        )}
                     </>
                   }
-                </div>
+                  {!isLoading && <div ref={triggerRef}></div>}
+                </ul>
               </div>
             </div>
           </div>

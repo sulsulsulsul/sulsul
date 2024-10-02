@@ -19,13 +19,12 @@ export const WeekRankingSection = ({
     interviewId: currentInterviewId,
     sortType: 'RECOMMEND',
     accessToken,
-    count: 3,
+    size: 3,
   });
-
   const hasNoData =
     !accessToken ||
-    answerListData?.totalCount === 0 ||
-    answerListData?.answers[0].recommendCount === 0;
+    answerListData?.pages[0].answers.length === 0 ||
+    answerListData?.pages[0].answers[0].recommendCount === 0;
   return (
     <div className="mt-[6px] flex w-full flex-col gap-2">
       <div className="relative flex justify-between">
@@ -49,7 +48,7 @@ export const WeekRankingSection = ({
 
       <ul className="flex h-[218px] w-full flex-col items-center justify-start gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-base">
         {!hasNoData ? (
-          answerListData?.answers.map((userInfo, index) => (
+          answerListData?.pages[0].answers.map((userInfo, index) => (
             <li key={userInfo.userId} className="flex w-full gap-2">
               <div className="relative size-10 overflow-hidden rounded-full">
                 <Image src={userInfo.profileImg} fill alt="icon" />

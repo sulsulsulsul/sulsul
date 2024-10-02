@@ -59,6 +59,7 @@ export const AnswerCompleteSection = ({
     sortType: 'RECOMMEND',
     accessToken: accessToken,
   });
+  console.log('answerListData', answerListData);
   const handleClickMoreMenu = () => {
     setOpenMoreMenu((prev) => !prev);
   };
@@ -95,7 +96,7 @@ export const AnswerCompleteSection = ({
   useEffect(() => {
     if (answerListData) {
       setFilteredResponses(
-        answerListData?.answers.filter(
+        answerListData?.pages[0].answers.filter(
           (response) => response.userId !== userId,
         ),
       );
@@ -157,7 +158,6 @@ export const AnswerCompleteSection = ({
               className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-blue-500`)}
               variant="outline"
               onClick={handleClickRecommendBtn}
-              // disabled={!isResetAvailable}
             >
               <Image
                 src="/images/icons/icon-like-blue.svg"
@@ -172,7 +172,6 @@ export const AnswerCompleteSection = ({
               className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-gray-600`)}
               variant="outline"
               onClick={handleClickRecommendBtn}
-              // disabled={!isResetAvailable}
             >
               <Image
                 src="/images/icons/icon-like.svg"
@@ -199,8 +198,8 @@ export const AnswerCompleteSection = ({
             다른 지원자들의 답변{' '}
             <span className="text-blue-500">
               {answerListData
-                ? answerListData.totalCount >= 1
-                  ? answerListData.totalCount - 1
+                ? answerListData.pages[0].totalCount >= 1
+                  ? answerListData.pages[0].totalCount - 1
                   : 0
                 : ''}
             </span>
