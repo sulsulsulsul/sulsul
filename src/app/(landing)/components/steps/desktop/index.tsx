@@ -62,7 +62,6 @@ export const DesktopSteps = ({ className, ...props }: StepSectionProps) => {
           <h2>술술과 함께하는</h2>
           <h2>면접 완성 프로젝트</h2>
         </div>
-
         <div>
           <div className="sticky mx-auto grid w-[1200px] grid-cols-2 pt-[80px]">
             <div className="relative">

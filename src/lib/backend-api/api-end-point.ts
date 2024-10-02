@@ -164,9 +164,9 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
-    getAllSearchQuestions: () => {
+    getAllSearchQuestions: (userId: number) => {
       return {
-        url: `/api/v1/questions/search`,
+        url: `/api/v1/questions/search?userId=${userId}`,
         method: Method.GET,
         authorization: true,
       };

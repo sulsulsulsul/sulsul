@@ -13,7 +13,6 @@ export const QuestionListQueryOptions = (id: number) =>
     queryFn: () => {
       return getPracticeQuestion(id);
     },
-    // staleTime: Infinity,
   });
 
 export const usePracticeQuestions = (id: number) => {

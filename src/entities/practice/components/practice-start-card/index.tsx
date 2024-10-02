@@ -1,13 +1,6 @@
 'use client';
 
-import {
-  Dispatch,
-  HTMLAttributes,
-  SetStateAction,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { Dispatch, HTMLAttributes, SetStateAction, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { CheckedState } from '@radix-ui/react-checkbox';
@@ -28,9 +21,11 @@ import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/swtich';
 import { PracticingListType } from '@/entities/types/question';
 import { cn } from '@/lib/utils';
+import { useUserStore } from '@/store/client';
 import { usePracticeStore } from '@/store/practiceStore';
 
 import { usePracticeDetail } from '../../hooks/use-get-practice-detail';
+import { useAllPracticeList } from '../../practice-list/hook';
 import {
   useCreatePractice,
   usePracticeQuestions,
@@ -43,7 +38,7 @@ interface PracticeStartCardProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 type QUESTCOLLECTION = {
-  archiveId: number;
+  archiveId?: number;
   collection: number[];
   allQuestion: boolean;
   resumeTitle: string;
@@ -65,14 +60,30 @@ export const PracticeStartCard = ({
   const [selectedQuestions, setSelectedQuestions] = useState<number[]>([]);
   const [collection, setCollection] = useState<QUESTCOLLECTION[]>([]);
   const [openAdd, setOpenAdd] = useState(true);
-
+  const { auth } = useUserStore();
   const { resume } = useResumes();
   const { questions } = usePracticeQuestions(focusedResume);
 
   //전체 자소서 선택
+  const { list } = useAllPracticeList(auth.userId);
+  // console.log("list",list?.contents.flatMap((item)=> item.questionId))
+  const handleAllResume = () => {
+    setCollection((prev) => [
+      ...prev,
+      {
+        collection: list
+          ? list?.contents.flatMap((item) => item.questionId)
+          : [],
+        allQuestion: true,
+        resumeTitle: '내 자기소서 전체',
+      },
+    ]);
+    setOpenQuestion(false), setOpenResume(false), setSelectedResume('');
+    setSelectedQuestions([]);
+    setOpenAdd(false);
+  };
 
-  const finalList = [...new Set(collection.flatMap((item) => item.collection))];
-
+  const finalList = collection.flatMap((item) => item.collection);
   const shuffledList = (list: number[]) => {
     const newList = [...list];
     for (let i = list.length - 1; i > 0; i--) {
@@ -81,8 +92,6 @@ export const PracticeStartCard = ({
     }
     return newList;
   };
-
-  const handleAllResume = () => {};
 
   const detailedQuestionsIds = random ? shuffledList(finalList) : finalList;
   const { data, refetch } = usePracticeDetail(detailedQuestionsIds);
@@ -123,14 +132,14 @@ export const PracticeStartCard = ({
         />
       </div>
       <Button
-        className="w-full mobile:hidden"
+        className="hidden w-full desktop:flex"
         onClick={() => setModalOpen(true)}
       >
         실전 연습하기
       </Button>
       <Drawer>
-        <DrawerTrigger className="overflow-scroll">
-          <Button className="w-full desktop:hidden">실전 연습하기</Button>
+        <DrawerTrigger className="hidden h-12 w-full items-center justify-center rounded-[30px] bg-blue-500 text-base text-white mobile:flex">
+          <div className="font-medium">실전 연습하기</div>
         </DrawerTrigger>
         <DrawerContent className="h-[620px]">
           <div className="flex h-full flex-col overflow-scroll">

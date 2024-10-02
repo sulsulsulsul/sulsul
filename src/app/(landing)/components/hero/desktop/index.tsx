@@ -67,13 +67,13 @@ export const DesktopHero = ({ className, ...props }: HeroProps) => {
       <div ref={container} className="invisible">
         <div className="flex w-full flex-col items-center justify-center pt-[120px] text-center">
           <h2 className="text-4xl font-bold text-white sm:text-6xl">
-            내 자소서는 다 썼는데,
+            자소서는 다 썼는데,
           </h2>
           <h2 className="text-4xl font-bold text-white sm:text-6xl">
             면접 준비가 막막하다면?
           </h2>
           <div className="mt-2 text-xl font-medium text-white ">
-            <p>자소서 기반 면접질문 예측부터 면접 단골 기출문제까지!</p>
+            <p>내 자소서 기반 면접질문 예측부터 면접 단골 기출문제까지!</p>
           </div>
           <AuthSignedIn>
             <Button

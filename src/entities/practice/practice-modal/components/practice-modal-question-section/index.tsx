@@ -52,6 +52,7 @@ export default function PracticeModalQuestionSection({
   const { questions } = usePracticeQuestions(focusedResume);
   const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
   const [hintFilter, setHintFilter] = useState<CheckedState>(false);
+  console.log(questions?.questions[0].questionId, focusedResume);
 
   const handleFilter = useCallback(
     (list: ArchiveQuestionItem[]) => {
@@ -69,7 +70,14 @@ export default function PracticeModalQuestionSection({
     setHintFilter(false);
     setSelectedQuestionIds([]);
     setFinalList((prev) =>
-      prev.filter((item) => !questions?.questions.includes(item)),
+      prev.filter((item) => {
+        return (
+          questions &&
+          questions.questions.every(
+            (item2) => item.questionId !== item2.questionId,
+          )
+        );
+      }),
     );
   }, [questions]);
 
@@ -78,16 +86,19 @@ export default function PracticeModalQuestionSection({
       ? handleFilter(questions!.questions.flat())
       : questions?.questions;
 
-  useEffect(() => {
-    if (questions && (answerFilter || hintFilter)) {
-      setFinalList((prev) => {
-        return handleFilter(prev);
-      });
-    }
-  }, [answerFilter, hintFilter]);
+  // useEffect(() => {
+  //   if (questions && (answerFilter || hintFilter)) {
+  //     setFinalList((prev) => {
+  //       return handleFilter(prev);
+  //     });
+  //   }
+  // }, [answerFilter, hintFilter]);
+
+  // console.log(questions?.questions.length,selectedQuestionIds, selectedArchiveIds)
 
   useEffect(() => {
     if (questions) {
+      //처음 전체 선택
       if (!selectedArchiveIds.includes(focusedResume)) {
         setSelectedQuestionIds(
           questions.questions.map((value) => value.questionId),
@@ -112,7 +123,7 @@ export default function PracticeModalQuestionSection({
         );
       }
     }
-  }, [focusedResume, questions]);
+  }, [focusedResume, questions, selectedArchiveIds, allResume]);
 
   useEffect(() => {
     if (selectedQuestionIds.length === 0) {
@@ -126,7 +137,7 @@ export default function PracticeModalQuestionSection({
         setSelectedArchiveIds((prev) => [...prev, focusedResume]);
       }
     }
-  }, [selectedQuestionIds.length, focusedResume]);
+  }, [selectedQuestionIds, focusedResume]);
 
   return (
     <div className="flex w-1/2 flex-col">
