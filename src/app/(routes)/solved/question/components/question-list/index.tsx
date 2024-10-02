@@ -1,6 +1,6 @@
 'use client';
 
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect, useState } from 'react';
 
 import {
   Accordion,
@@ -8,6 +8,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { KeywordSection } from '@/entities/archives/components/keyword-section';
+import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback';
 import { cn } from '@/lib/utils';
 import { useUserStore } from '@/store/client';
 
@@ -18,6 +20,11 @@ import Keyword from './keyword';
 
 interface QuestionListProps extends HTMLAttributes<HTMLDivElement> {}
 
+interface challengeKeywordDataType {
+  keywordId: number;
+  content: string;
+}
+
 const QuestionList = ({ className }: QuestionListProps) => {
   // user
   const { auth } = useUserStore();
@@ -27,8 +34,22 @@ const QuestionList = ({ className }: QuestionListProps) => {
     accessToken,
     category: 'BASIC',
   });
+  const [challengeKeywordData, setChallengeKeywordData] = useState<
+    challengeKeywordDataType[]
+  >([]);
 
-  console.log('data', data);
+  console.log(data);
+
+  // useEffect(() => {
+  //   if (data) {
+  //     let keywordData = data.challenges.map((list: any) => {
+  //       if (list.question) return list.question.keywords;
+  //     });
+  //     setChallengeKeywordData(keywordData);
+  //   }
+  // }, [data]);
+
+  // console.log('이거 나오나?', challengeKeywordData);
 
   return (
     <>
@@ -47,9 +68,33 @@ const QuestionList = ({ className }: QuestionListProps) => {
                   </AccordionTrigger>
                   <AccordionContent className="h-auto py-[10px] ">
                     <div className="pb-5 pl-4">
-                      <AnswerForm />
-                      <Keyword />
-                      <Feedback />
+                      <AnswerForm
+                        accessToken={accessToken}
+                        hasAnswer={
+                          question.question && question.question.answer
+                        }
+                        challengeId={question.challengeId}
+                      />
+                      {/* <Keyword /> */}
+                      <KeywordSection
+                        accessToken={accessToken}
+                        questionId={question.challengeId}
+                        className="mt-6"
+                        type={'challenge'}
+                        challengeKeywordData={
+                          question.question && question.question.keywords
+                        }
+                        category="BASIC"
+                        challengeQuestionId={
+                          question.question && question.question.questionId
+                        }
+                      />
+                      <Feedback
+                        questionId={
+                          question.question && question.question.questionId
+                        }
+                        isAnswered={question.isAnswered}
+                      />
                     </div>
                   </AccordionContent>
                 </AccordionItem>

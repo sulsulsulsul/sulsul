@@ -62,15 +62,11 @@ const aggregateSteps = (steps: any) => {
   return Object.values(aggregated);
 };
 
-interface VerticalLinearStepperProps {
-  accessToken: string;
-}
-
-const VerticalLinearStepper = ({ accessToken }: VerticalLinearStepperProps) => {
-  const { data = [] } = useUserChallengesProgress({
-    accessToken,
-  });
-
+const VerticalLinearStepper = ({
+  data,
+}: {
+  data: MyChallengesProgressData;
+}) => {
   const testDummyData = [
     { category: 'BASIC', count: 10, totalCount: 10 },
     { category: 'JOB_1', count: 8, totalCount: 18 },
