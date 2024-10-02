@@ -34,22 +34,8 @@ const QuestionList = ({ className }: QuestionListProps) => {
     accessToken,
     category: 'BASIC',
   });
-  const [challengeKeywordData, setChallengeKeywordData] = useState<
-    challengeKeywordDataType[]
-  >([]);
 
   console.log(data);
-
-  // useEffect(() => {
-  //   if (data) {
-  //     let keywordData = data.challenges.map((list: any) => {
-  //       if (list.question) return list.question.keywords;
-  //     });
-  //     setChallengeKeywordData(keywordData);
-  //   }
-  // }, [data]);
-
-  // console.log('이거 나오나?', challengeKeywordData);
 
   return (
     <>
