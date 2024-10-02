@@ -198,7 +198,7 @@ export const PracticeStartCard = ({
                             );
                           })
                         ) : (
-                          <>loading...</>
+                          <span>loading...</span>
                         )}
                       </div>
                     )}
