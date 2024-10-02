@@ -24,7 +24,7 @@ import { KeywordSet } from './keyword';
 import helpCircle from '/public/images/icons/help-circle.svg';
 interface KeywordSectionProps extends HTMLAttributes<HTMLDivElement> {
   questionId: number;
-  type?: string;
+  type: string;
   challengeKeywordData?: [
     {
       keywordId: number;
@@ -33,6 +33,7 @@ interface KeywordSectionProps extends HTMLAttributes<HTMLDivElement> {
   ];
   accessToken?: string;
   category?: string;
+  challengeQuestionId?: number;
 }
 
 export const KeywordSection = ({
@@ -41,7 +42,8 @@ export const KeywordSection = ({
   type = '',
   challengeKeywordData,
   accessToken,
-  category,
+  category = '',
+  challengeQuestionId,
   ...props
 }: KeywordSectionProps) => {
   const [inputValue, setInputValue] = useState('');
@@ -110,6 +112,9 @@ export const KeywordSection = ({
           keywords={keywords}
           questionId={questionId}
           challengeKeywordData={challengeKeywordData}
+          challengeQuestionId={challengeQuestionId!}
+          category={category}
+          accessToken={accessToken!}
         />
         <Input
           className="w-fit gap-1 rounded-sm border border-gray-300 bg-white text-base font-medium text-black"

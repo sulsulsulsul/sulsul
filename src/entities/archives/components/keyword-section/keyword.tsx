@@ -14,6 +14,9 @@ interface KeywordProps {
       content: string;
     },
   ];
+  challengeQuestionId: number;
+  category: string;
+  accessToken: string;
 }
 
 export const KeywordSet = ({
@@ -21,11 +24,13 @@ export const KeywordSet = ({
   isHeader = false,
   questionId = 0,
   challengeKeywordData,
+  challengeQuestionId,
+  category,
+  accessToken,
 }: KeywordProps) => {
   const { mutate: deleteKeywordMutation } = useDeleteKeyword();
   const queryClient = useQueryClient();
-
-  const onDeleteKeyword = (keywordId: number) => {
+  const onDeleteKeyword = (questionId: number, keywordId: number) => {
     {
       deleteKeywordMutation(
         { questionId, keywordId },
@@ -33,6 +38,9 @@ export const KeywordSet = ({
           onSuccess: () => {
             queryClient.invalidateQueries({
               queryKey: ['keywords', questionId],
+            });
+            queryClient.invalidateQueries({
+              queryKey: ['challenge', 'questionList', category, accessToken],
             });
           },
         },
@@ -48,7 +56,9 @@ export const KeywordSet = ({
         <span className="text-base font-medium">{keyword.content}</span>
         {!isHeader && (
           <span
-            onClick={() => onDeleteKeyword(keyword.keywordId)}
+            onClick={() =>
+              onDeleteKeyword(challengeQuestionId, keyword.keywordId)
+            }
             className="cursor-pointer"
           >
             <X size={16} strokeWidth={1.2} className="ml-1 -translate-y-px" />
@@ -65,7 +75,7 @@ export const KeywordSet = ({
         <span className="text-base font-medium">{keyword.content}</span>
         {!isHeader && (
           <span
-            onClick={() => onDeleteKeyword(keyword.keywordId)}
+            onClick={() => onDeleteKeyword(questionId, keyword.keywordId)}
             className="cursor-pointer"
           >
             <X size={16} strokeWidth={1.2} className="ml-1 -translate-y-px" />

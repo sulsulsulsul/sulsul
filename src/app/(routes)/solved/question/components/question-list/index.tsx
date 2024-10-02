@@ -85,6 +85,9 @@ const QuestionList = ({ className }: QuestionListProps) => {
                           question.question && question.question.keywords
                         }
                         category="BASIC"
+                        challengeQuestionId={
+                          question.question && question.question.questionId
+                        }
                       />
                       <Feedback
                         questionId={
