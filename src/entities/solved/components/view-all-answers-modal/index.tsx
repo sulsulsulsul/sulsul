@@ -209,18 +209,23 @@ export const ViewAllAnswersModal = ({
                         handleSelectWeek(value);
                       }}
                     >
-                      <SelectTrigger className="flex h-full w-[85px] flex-row justify-end p-0 text-black ring-0 focus:ring-0 focus:ring-offset-0">
+                      <SelectTrigger>
                         <SelectValue
                           placeholder={weeks[0].label}
                           className="text-right text-sm"
                         />
                       </SelectTrigger>
-                      <SelectContent className="absolute left-[340px] top-4 ml-4 h-[253px] w-[135px]">
+                      <SelectContent
+                        position="popper"
+                        className="z-[999] mt-1 h-[253px] w-[135px]"
+                      >
                         <SelectGroup className="my-2 flex flex-col justify-start rounded-sm border border-gray-200 bg-white py-2 shadow-sm">
                           {weeks.map((v) => (
                             <div key={v.label}>
                               <SelectItem
-                                className={`h-[41px] pl-4 text-sm font-semibold ${v.label === filter ? 'bg-muted text-blue-500 hover:!text-blue-500' : 'text-gray-700'}`}
+                                className={cn(
+                                  `h-[41px] pl-4 text-sm font-semibold ${v.label === filter ? 'bg-muted !text-blue-500 hover:!text-blue-500' : 'text-gray-700'}`,
+                                )}
                                 value={v.label}
                                 onClick={() => setSelectedDate(v.start)}
                               >
@@ -251,7 +256,7 @@ export const ViewAllAnswersModal = ({
                 <Image src="/images/gift-banner2.svg" fill alt="banner" />
               </div>
 
-              <div className="flex flex-col gap-3 mobile:px-4">
+              <div className="mt-2 flex flex-col gap-3 mobile:px-4">
                 <div className="flex items-center justify-between">
                   <h4 className="text-lg font-bold">
                     다른 지원자들의 답변{' '}
@@ -283,12 +288,11 @@ export const ViewAllAnswersModal = ({
                 </div>
 
                 <ul>
-                  {recommendOrderAnswerData &&
-                    recommendOrderAnswerData.pages[0].totalCount - 1 <= 0 && (
-                      <p className="font-medium text-gray-500">
-                        아직 답변이 없어요.
-                      </p>
-                    )}
+                  {filteredResponses.length === 0 && (
+                    <p className="font-medium text-gray-500">
+                      아직 답변이 없어요.
+                    </p>
+                  )}
                   {
                     <>
                       {filteredResponses.length >= 1 &&
@@ -391,7 +395,7 @@ export const ViewAllAnswersModal = ({
                                   onClick={(e) => handleClickMoreMenu(e, i)}
                                 />
                               </div>
-                              <hr className="mt-6" />
+                              <hr className="mt-2" />
                             </li>
                           ),
                         )}
