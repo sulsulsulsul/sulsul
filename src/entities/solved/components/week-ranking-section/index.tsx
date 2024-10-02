@@ -48,38 +48,41 @@ export const WeekRankingSection = ({
 
       <ul className="flex h-[218px] w-full flex-col items-center justify-start gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-base">
         {!hasNoData ? (
-          answerListData?.pages[0].answers.map((userInfo, index) => (
-            <li key={userInfo.userId} className="flex w-full gap-2">
-              <div className="relative size-10 overflow-hidden rounded-full">
-                <Image src={userInfo.profileImg} fill alt="icon" />
-              </div>
+          answerListData?.pages[0].answers.map(
+            (userInfo, index) =>
+              userInfo.recommendCount >= 1 && (
+                <li key={userInfo.userId} className="flex w-full gap-2">
+                  <div className="relative size-10 overflow-hidden rounded-full">
+                    <Image src={userInfo.profileImg} fill alt="icon" />
+                  </div>
 
-              <div className="flex w-full flex-1 flex-col">
-                <div className="flex items-center justify-between">
-                  <div className="text-2xs font-semibold text-blue-500">
-                    {index === 1
-                      ? 'S-마스터'
-                      : index === 2
-                        ? 'S-히어로'
-                        : 'S-챌린저'}
+                  <div className="flex w-full flex-1 flex-col">
+                    <div className="flex items-center justify-between">
+                      <div className="text-2xs font-semibold text-blue-500">
+                        {index === 1
+                          ? 'S-마스터'
+                          : index === 2
+                            ? 'S-히어로'
+                            : 'S-챌린저'}
+                      </div>
+                      <div className="text-2xs font-semibold text-gray-500">
+                        누적 추천수
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <div className="text-base font-semibold text-gray-700">
+                        {userInfo.nickname}
+                      </div>
+                      <div className="text-2xs font-semibold">
+                        {userInfo.recommendCount > 999
+                          ? '999+'
+                          : userInfo.recommendCount}
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-2xs font-semibold text-gray-500">
-                    누적 추천수
-                  </div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div className="text-base font-semibold text-gray-700">
-                    {userInfo.nickname}
-                  </div>
-                  <div className="text-2xs font-semibold">
-                    {userInfo.recommendCount > 999
-                      ? '999+'
-                      : userInfo.recommendCount}
-                  </div>
-                </div>
-              </div>
-            </li>
-          ))
+                </li>
+              ),
+          )
         ) : (
           <NoDataCard className="text-base font-semibold text-gray-400" />
         )}
