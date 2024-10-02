@@ -30,7 +30,6 @@ export const useDeleteArchive = (page: number) => {
       toast.success('성공적으로 삭제되었습니다.');
     },
     onError: (error, id, context) => {
-      console.log(error);
       toast.error('삭제 중 오류가 발생했습니다.');
       if (context?.snapshot) {
         queryClient.setQueryData(['archives', 'list', page], context.snapshot);
@@ -38,7 +37,7 @@ export const useDeleteArchive = (page: number) => {
     },
     onSettled: () => {
       queryClient.invalidateQueries({
-        queryKey: ['archives', 'list', page],
+        queryKey: ['archives', 'list'],
       });
     },
   });

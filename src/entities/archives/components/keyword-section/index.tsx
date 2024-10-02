@@ -24,11 +24,26 @@ import { KeywordSet } from './keyword';
 import helpCircle from '/public/images/icons/help-circle.svg';
 interface KeywordSectionProps extends HTMLAttributes<HTMLDivElement> {
   questionId: number;
+  type: string;
+  challengeKeywordData?: [
+    {
+      keywordId: number;
+      content: string;
+    },
+  ];
+  accessToken?: string;
+  category?: string;
+  challengeQuestionId?: number;
 }
 
 export const KeywordSection = ({
   className,
   questionId,
+  type = '',
+  challengeKeywordData,
+  accessToken,
+  category = '',
+  challengeQuestionId,
   ...props
 }: KeywordSectionProps) => {
   const [inputValue, setInputValue] = useState('');
@@ -46,12 +61,18 @@ export const KeywordSection = ({
     if (inputValue.trim() === '') return;
 
     const newKeyword = inputValue.trim();
+
     createKeywordMutation(
-      { questionId, content: newKeyword },
+      { questionId, content: newKeyword, type: type },
       {
         onSuccess: () => {
           setInputValue(() => '');
-          queryClient.invalidateQueries({ queryKey: ['keywords', questionId] });
+          queryClient.invalidateQueries({
+            queryKey: ['keywords', questionId],
+          });
+          queryClient.invalidateQueries({
+            queryKey: ['challenge', 'questionList', category, accessToken],
+          });
         },
       },
     );
@@ -87,7 +108,14 @@ export const KeywordSection = ({
         </TooltipProvider>
       </h3>
       <div className="mt-2 flex flex-wrap items-center gap-1">
-        <KeywordSet keywords={keywords} questionId={questionId} />
+        <KeywordSet
+          keywords={keywords}
+          questionId={questionId}
+          challengeKeywordData={challengeKeywordData}
+          challengeQuestionId={challengeQuestionId!}
+          category={category}
+          accessToken={accessToken!}
+        />
         <Input
           className="w-fit gap-1 rounded-sm border border-gray-300 bg-white text-base font-medium text-black"
           placeholder="+ 직접 쓰기"

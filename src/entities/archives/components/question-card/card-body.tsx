@@ -67,7 +67,7 @@ export const CardBody = ({
         />
       )}
 
-      <KeywordSection questionId={questionId} className="mt-6" />
+      <KeywordSection questionId={questionId} className="mt-6" type="" />
 
       <div className="mt-6">
         <h3 className="text-lg font-semibold">내 답변 피드백</h3>

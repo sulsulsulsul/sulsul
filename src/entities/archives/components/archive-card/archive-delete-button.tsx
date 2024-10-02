@@ -58,7 +58,7 @@ export const ArchiveDeleteButton = forwardRef<
             삭제하기
           </Button>
         </AlertDialogTrigger>
-        <AlertDialogContent>
+        <AlertDialogContent className="max-w-[428px] px-[30px] pb-[26px] pt-8">
           <AlertDialogHeader className="items-center">
             <Image src={alert} alt="경고아이콘" />
             <AlertDialogTitle>카드를 삭제하시겠어요?</AlertDialogTitle>

@@ -48,29 +48,15 @@ const aggregateSteps = (steps: any) => {
     aggregated[key].counts.push(count);
   });
 
-  // 답변 작성률 sessionStorage 에 저장
-  const totalCount = (steps || []).reduce(
-    (sum: number, item: MyChallengesProgressData) => sum + item.count,
-    0,
-  );
-
-  if (typeof window !== 'undefined') {
-    sessionStorage.setItem('Response Completion Rate', totalCount);
-  }
-
   // 결과를 배열로 변환
   return Object.values(aggregated);
 };
 
-interface VerticalLinearStepperProps {
-  accessToken: string;
-}
-
-const VerticalLinearStepper = ({ accessToken }: VerticalLinearStepperProps) => {
-  const { data = [] } = useUserChallengesProgress({
-    accessToken,
-  });
-
+const VerticalLinearStepper = ({
+  data,
+}: {
+  data: MyChallengesProgressData[];
+}) => {
   const testDummyData = [
     { category: 'BASIC', count: 10, totalCount: 10 },
     { category: 'JOB_1', count: 8, totalCount: 18 },
