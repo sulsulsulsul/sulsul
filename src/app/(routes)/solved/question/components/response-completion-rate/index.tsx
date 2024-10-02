@@ -22,7 +22,7 @@ const ResponseCompletionRate = ({ className }: QuestionListProps) => {
     <div className={cn('h-full', className)}>
       <div className="mt-[18px] size-full rounded-md border border-gray-200 bg-white p-[28px] shadow-base">
         <Character />
-        <CompletionRate />
+        {data && <CompletionRate data={data} />}
         {data && <VerticalLinearStepper data={data} />}
       </div>
     </div>
