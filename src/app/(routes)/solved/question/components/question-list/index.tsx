@@ -16,7 +16,6 @@ import { useUserStore } from '@/store/client';
 import { useUserQuestionList } from '../../hook/use-user-question-list';
 import AnswerForm from './answer-form';
 import Feedback from './feedback';
-import Keyword from './keyword';
 
 interface QuestionListProps extends HTMLAttributes<HTMLDivElement> {}
 
