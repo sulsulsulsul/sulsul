@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/lib/utils';
@@ -27,12 +27,11 @@ export function PendingProgress({
     false,
     false,
   ]);
-  const lastStageIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     let timeoutIds: NodeJS.Timeout[] = [];
 
-    const stageDurations = [2000, 2500, 3000];
+    const stageDurations = [2000, 2500, 3000, 4500];
 
     const updateProgress = (index: number) => {
       const startTime = Date.now();
@@ -45,7 +44,8 @@ export function PendingProgress({
 
         setProgress((prev) => {
           const newState = [...prev];
-          newState[index] = newProgress;
+          newState[index] =
+            index === 3 ? Math.min(newProgress, 85) : newProgress;
           return newState;
         });
 
@@ -54,14 +54,11 @@ export function PendingProgress({
         } else {
           setCompletedStages((prev) => {
             const newState = [...prev];
-            newState[index] = true;
+            newState[index] = index < 3;
             return newState;
           });
-          if (index < 2) {
+          if (index < 3) {
             updateProgress(index + 1);
-          } else if (index === 2) {
-            setActiveStage(3);
-            updateLastStage();
           }
         }
       };
@@ -69,66 +66,46 @@ export function PendingProgress({
       animate();
     };
 
-    const updateLastStage = () => {
-      if (lastStageIntervalRef.current) {
-        clearInterval(lastStageIntervalRef.current);
-      }
+    const completeStages = () => {
+      const incompleteStages = progress.findIndex((p) => p < 100);
+      if (incompleteStages === -1) return;
 
-      const startTime = Date.now();
-      const duration = 4500;
+      const completeStage = (stageIndex: number) => {
+        const startValue = progress[stageIndex];
+        const startTime = Date.now();
+        const duration = 500;
 
-      const animateLastStage = () => {
-        const elapsedTime = Date.now() - startTime;
-        const newProgress = Math.min((elapsedTime / duration) * 85, 85);
+        const animateStage = () => {
+          const elapsedTime = Date.now() - startTime;
+          const newProgress = Math.min(
+            startValue + (elapsedTime / duration) * (100 - startValue),
+            100,
+          );
 
-        setProgress((prev) => {
-          const newState = [...prev];
-          newState[3] = newProgress;
-          return newState;
-        });
-
-        if (newProgress < 90) {
-          requestAnimationFrame(animateLastStage);
-        }
-      };
-
-      requestAnimationFrame(animateLastStage);
-    };
-
-    const completeLastStage = () => {
-      if (lastStageIntervalRef.current) {
-        clearInterval(lastStageIntervalRef.current);
-      }
-
-      const startValue = progress[3];
-      const startTime = Date.now();
-      const duration = 1000;
-
-      const animateCompletion = () => {
-        const elapsedTime = Date.now() - startTime;
-        const newProgress = Math.min(
-          startValue + (elapsedTime / duration) * (100 - startValue),
-          100,
-        );
-
-        setProgress((prev) => {
-          const newState = [...prev];
-          newState[3] = newProgress;
-          return newState;
-        });
-
-        if (newProgress < 100) {
-          requestAnimationFrame(animateCompletion);
-        } else {
-          setCompletedStages((prev) => {
+          setProgress((prev) => {
             const newState = [...prev];
-            newState[3] = true;
+            newState[stageIndex] = newProgress;
             return newState;
           });
-        }
+
+          if (newProgress < 100) {
+            requestAnimationFrame(animateStage);
+          } else {
+            setCompletedStages((prev) => {
+              const newState = [...prev];
+              newState[stageIndex] = true;
+              return newState;
+            });
+            if (stageIndex < 3) {
+              completeStage(stageIndex + 1);
+            }
+          }
+        };
+
+        requestAnimationFrame(animateStage);
       };
 
-      requestAnimationFrame(animateCompletion);
+      completeStage(incompleteStages);
     };
 
     const startProgress = () => {
@@ -142,22 +119,16 @@ export function PendingProgress({
       if (status === 'PENDING') {
         startProgress();
       } else if (status === 'COMPLETE') {
-        completeLastStage();
+        completeStages();
       } else if (status === 'FAIL') {
         setProgress((prev) => [prev[0], prev[1], prev[2], 0]);
         setCompletedStages([true, true, true, false]);
         setActiveStage(3);
-        if (lastStageIntervalRef.current) {
-          clearInterval(lastStageIntervalRef.current);
-        }
       }
     }
 
     return () => {
       timeoutIds.forEach(clearTimeout);
-      if (lastStageIntervalRef.current) {
-        clearInterval(lastStageIntervalRef.current);
-      }
     };
   }, [isPending, status]);
 
@@ -234,7 +205,7 @@ export function PendingProgress({
         </div>
       </div>
       <div className="mt-4 flex flex-col">
-        {Array(8)
+        {Array(7)
           .fill(0)
           .map((_, i) => (
             <Skeleton key={i} className="mb-3 h-[70px] w-full bg-gray-100" />
