@@ -8,7 +8,7 @@ export const MobileSteps = ({
   ...props
 }: HTMLAttributes<HTMLDivElement>) => {
   return (
-    <div className={cn('px-5', className)} {...props}>
+    <div className={cn('px-6 pb-[50px] bg-white', className)} {...props}>
       <div className="py-[50px] text-center text-4xl font-bold text-gray-800">
         <h2>술술과 함께하는</h2>
         <h2>면접 완성 프로젝트</h2>
@@ -50,12 +50,12 @@ export const MobileSteps = ({
       <Video
         src="/videos/step-3.mp4"
         title="step1"
-        className="w-full rounded-md"
+        className="w-full rounded-md bg-white"
         autoPlay
         loop
         muted
       />
-      <div className="mb-16 mt-5">
+      <div className="mt-5">
         <h4 className="text-base font-bold text-blue-500">STEP 03</h4>
         <h3 className="text-3xl font-bold text-gray-800">실전 연습하기</h3>
         <div className="mt-[12px] text-sm text-gray-600">

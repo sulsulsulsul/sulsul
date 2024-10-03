@@ -40,7 +40,7 @@ export default function PracticeList() {
     userId: auth.userId,
     hint: hint,
   });
-  const { list, isSuccess } = useAllPracticeList();
+  const { list, isSuccess } = useAllPracticeList(auth.userId);
 
   const { countAnswer, countNotAnswer } = isSuccess
     ? list!.contents.reduce(

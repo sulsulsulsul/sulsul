@@ -69,7 +69,14 @@ export default function PracticeModalQuestionSection({
     setHintFilter(false);
     setSelectedQuestionIds([]);
     setFinalList((prev) =>
-      prev.filter((item) => !questions?.questions.includes(item)),
+      prev.filter((item) => {
+        return (
+          questions &&
+          questions.questions.every(
+            (item2) => item.questionId !== item2.questionId,
+          )
+        );
+      }),
     );
   }, [questions]);
 
@@ -78,16 +85,19 @@ export default function PracticeModalQuestionSection({
       ? handleFilter(questions!.questions.flat())
       : questions?.questions;
 
-  useEffect(() => {
-    if (questions && (answerFilter || hintFilter)) {
-      setFinalList((prev) => {
-        return handleFilter(prev);
-      });
-    }
-  }, [answerFilter, hintFilter]);
+  // useEffect(() => {
+  //   if (questions && (answerFilter || hintFilter)) {
+  //     setFinalList((prev) => {
+  //       return handleFilter(prev);
+  //     });
+  //   }
+  // }, [answerFilter, hintFilter]);
+
+  console.log(selectedQuestionIds);
 
   useEffect(() => {
     if (questions) {
+      //처음 전체 선택
       if (!selectedArchiveIds.includes(focusedResume)) {
         setSelectedQuestionIds(
           questions.questions.map((value) => value.questionId),
@@ -106,11 +116,11 @@ export default function PracticeModalQuestionSection({
         );
         setSelectedQuestionIds(x.map((item) => item.questionId));
       }
-      if (allResume) {
-        setSelectedQuestionIds(
-          questions.questions.map((item) => item.questionId),
-        );
-      }
+      // if (allResume) {
+      //   setSelectedQuestionIds(
+      //     questions.questions.map((item) => item.questionId),
+      //   );
+      // }
     }
   }, [focusedResume, questions]);
 
@@ -126,7 +136,7 @@ export default function PracticeModalQuestionSection({
         setSelectedArchiveIds((prev) => [...prev, focusedResume]);
       }
     }
-  }, [selectedQuestionIds.length, focusedResume]);
+  }, [selectedQuestionIds, focusedResume]);
 
   return (
     <div className="flex w-1/2 flex-col">
@@ -189,7 +199,7 @@ export default function PracticeModalQuestionSection({
                         </button>
                       </TooltipTrigger>
                       <TooltipContent className="fixed left-4 top-0.5 ml-1 h-[45px] w-[265px] overflow-visible rounded-[10px] border-none bg-gray-700 px-4 py-[12px] text-white">
-                        <>
+                        <div>
                           <Image
                             className="absolute left-[-8px] top-[15.5px]"
                             src="/images/polygonInfo.svg"
@@ -200,7 +210,7 @@ export default function PracticeModalQuestionSection({
                           <div className="flex size-full flex-row align-middle  text-sm">
                             답변은 했지만 힌트를 본 질문도 포함돼요.
                           </div>
-                        </>
+                        </div>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
@@ -226,7 +236,7 @@ export default function PracticeModalQuestionSection({
       </section>
       <section>
         <div className="flex h-[68px] w-full items-center border border-gray-100 pl-[24px] text-base">
-          <label htmlFor={'questions'}>
+          <label htmlFor={'questions'} className="flex h-full items-center">
             <Checkbox
               id="questions"
               className="m-[10px] size-5 p-[2px] "
@@ -235,7 +245,6 @@ export default function PracticeModalQuestionSection({
                 questions?.questions.length === selectedQuestionIds.length
               }
               onCheckedChange={(check: CheckedState) => {
-                //전체 선택/해제
                 if (questions) {
                   check
                     ? (setFinalList((prev) => [
@@ -260,7 +269,7 @@ export default function PracticeModalQuestionSection({
           </label>
         </div>
       </section>
-      <section className="h-[300px] overflow-scroll">
+      <section className="h-[300px] overflow-scroll border-x border-gray-100 ">
         {modifiedQuestionByFilter &&
           modifiedQuestionByFilter.map((value, index) => {
             return (
