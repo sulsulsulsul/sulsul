@@ -1,13 +1,10 @@
 'use client';
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
 import { answerListOptions } from '@/app/api/solved/query-options';
 import { AnswerList } from '@/entities/types/interview';
 
-import {
-  AnswerListActionProps,
-  getAnswerListAction,
-} from '../actions/get-answer-list-action';
+import { AnswerListActionProps } from '../actions/get-answer-list-action';
 
 export const useAnswerList = ({
   interviewId,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
@@ -98,7 +98,6 @@ export const MyAnswerSection = ({
             className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-blue-500`)}
             variant="outline"
             onClick={handleClickRecommendBtn}
-            // disabled={!isResetAvailable}
           >
             <Image
               src="/images/icons/icon-like-blue.svg"
@@ -113,7 +112,6 @@ export const MyAnswerSection = ({
             className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-gray-600`)}
             variant="outline"
             onClick={handleClickRecommendBtn}
-            // disabled={!isResetAvailable}
           >
             <Image
               src="/images/icons/icon-like.svg"

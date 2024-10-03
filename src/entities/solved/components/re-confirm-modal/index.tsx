@@ -78,8 +78,6 @@ export const ReConfirmModal = ({
     }
     if ((type = 'delete')) {
       setOpenDeleteModal(false);
-      // setIsTogetherSection(false);
-      // setIsBestAnswerSection(false);
     }
   };
 
