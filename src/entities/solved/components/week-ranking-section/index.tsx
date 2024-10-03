@@ -19,8 +19,8 @@ export const WeekRankingSection = ({
     interviewId: currentInterviewId,
     sortType: 'RECOMMEND',
     accessToken,
-    size: 3,
   });
+
   const hasNoData =
     !accessToken ||
     answerListData?.pages[0].answers.length === 0 ||
@@ -48,7 +48,7 @@ export const WeekRankingSection = ({
 
       <ul className="flex h-[218px] w-full flex-col items-center justify-start gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-base">
         {!hasNoData ? (
-          answerListData?.pages[0].answers.map(
+          answerListData?.pages[0].answers.slice(0, 3).map(
             (userInfo, index) =>
               userInfo.recommendCount >= 1 && (
                 <li key={userInfo.userId} className="flex w-full gap-2">

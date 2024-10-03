@@ -46,6 +46,9 @@ export const useAnswerRecommend = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
+        queryKey: ['myActivity', userId, accessToken],
+      });
+      queryClient.invalidateQueries({
         queryKey: ['interview', currentInterviewId, userId],
       });
       queryClient.invalidateQueries({

@@ -8,14 +8,12 @@ export interface AnswerListActionProps {
   interviewId: number;
   sortType: 'NEW' | 'RECOMMEND';
   accessToken?: string;
-  size?: number;
   pageParam?: number;
 }
 export const getAnswerListAction = async ({
   interviewId,
   sortType,
   accessToken,
-  size,
   pageParam,
 }: AnswerListActionProps) => {
   try {
@@ -26,7 +24,6 @@ export const getAnswerListAction = async ({
       }),
       params: {
         page: pageParam,
-        size,
       },
       accessToken,
     });
