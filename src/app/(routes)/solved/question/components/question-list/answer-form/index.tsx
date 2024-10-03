@@ -20,11 +20,13 @@ const AnswerForm = ({
   challengeId,
   hasAnswer,
   setIsAnswerChanged,
+  category,
 }: {
   accessToken: string;
   challengeId: number;
   hasAnswer: string | null;
   setIsAnswerChanged?: Dispatch<SetStateAction<boolean>>;
+  category: string;
 }) => {
   // React Hook Form 사용
   const form = useForm({
@@ -35,7 +37,6 @@ const AnswerForm = ({
   });
   const { handleSubmit, watch, setFocus, setValue } = form;
   const answerLength = watch('answer').length;
-  const category = 'BASIC';
 
   useEffect(() => {
     if (hasAnswer) {
