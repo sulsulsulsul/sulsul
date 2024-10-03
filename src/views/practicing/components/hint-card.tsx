@@ -33,19 +33,19 @@ export const HintCard = ({
   return (
     <div
       className={cn(
-        'relative flex size-full flex-col px-[42px] pt-[60px] pb-[50px]',
+        'relative flex size-full flex-col px-[42px] mobile:px-[16px] mobile:pt-[24px] pt-[60px] mobile:pb-[44px] pb-[50px]',
         className,
       )}
       {...props}
     >
-      <div className="flex h-[53px] w-full items-center gap-1 overflow-scroll">
+      <div className="flex h-[53px] w-full items-center gap-1 overflow-x-scroll mobile:h-[34px]">
         {keywords &&
           keywords.length !== 0 &&
           keywords.map((value: ArchiveKeyword) => (
             <Badge
               key={value.keywordId}
               variant={'keyword'}
-              className="min-w-fit"
+              className="min-w-fit mobile:h-[30px]"
             >
               {value.content}
             </Badge>
