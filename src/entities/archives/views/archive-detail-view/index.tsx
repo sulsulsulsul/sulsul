@@ -37,7 +37,11 @@ export const ArchiveDetailView = ({ id }: ArchiveDetailViewProps) => {
         companyName={archive!.companyName}
         className="h-full w-[486px]"
       />
-      <InterviewQuestions data={archive!} className="h-full w-[690px]" />
+      <InterviewQuestions
+        data={archive!}
+        className="h-full w-[690px]"
+        type=""
+      />
     </main>
   );
 };
