@@ -20,7 +20,6 @@ const Feedback = ({
   setIsAnswerChanged,
 }: FeedBackPropsType) => {
   const { feedback, refetch } = useFeedback(questionId);
-  console.log(feedback);
 
   const handleAnswerChanged = () => {
     setIsAnswerChanged(false);
