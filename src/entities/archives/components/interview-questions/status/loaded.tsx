@@ -9,6 +9,7 @@ interface LoadedInterviewQuestionProps extends HTMLAttributes<HTMLDivElement> {
   archiveId: number;
   clickedQuestions: number[];
   setClickedQuestions: React.Dispatch<React.SetStateAction<number[]>>;
+  type: string;
 }
 
 export const LoadedStatus = ({
@@ -17,6 +18,7 @@ export const LoadedStatus = ({
   archiveId,
   clickedQuestions,
   setClickedQuestions,
+  type = '',
   ...props
 }: LoadedInterviewQuestionProps) => {
   return (
@@ -30,6 +32,7 @@ export const LoadedStatus = ({
             isClicked={clickedQuestions.includes(question.questionId)}
             setClickedQuestions={setClickedQuestions}
             className="rounded-md border border-gray-200 shadow-base"
+            type={type}
           />
         ))}
       </div>

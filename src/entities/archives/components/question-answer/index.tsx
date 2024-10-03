@@ -19,6 +19,7 @@ interface QuestionAnswerProps {
   keywords: ArchiveKeyword[];
   questionId: number;
   onSubmit: (data: { answer: string }) => void;
+  type: string;
 }
 
 export const QuestionAnswer = ({
@@ -27,6 +28,7 @@ export const QuestionAnswer = ({
   keywords,
   questionId,
   onSubmit,
+  type = '',
   ...props
 }: QuestionAnswerProps) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -102,6 +104,7 @@ export const QuestionAnswer = ({
                           setClipboard={setClipboard}
                           setMenuOpen={setMenuOpen}
                           questionId={questionId}
+                          type={type}
                         />
                       )}
                     />

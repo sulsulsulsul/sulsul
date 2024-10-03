@@ -4,6 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { ChevronRight } from 'lucide-react';
 
+import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 
 interface ResumeSelection {
@@ -46,21 +47,12 @@ export default function MyResumeSelection({
     >
       <div className="flex w-[506px] flex-col">
         <div className="flex flex-row items-center font-semibold">
-          <div className="size-11 rounded-full p-[10px] group-hover:bg-blue-100">
-            <Image
-              src={
-                checked
-                  ? '/images/icons/checked_box.svg'
-                  : '/images/icons/unchecked_box.svg'
-              }
-              alt="checkbox"
-              width={24}
-              height={24}
-            />
+          <div className="size-11 rounded-full  group-hover:bg-blue-100">
+            <Checkbox className="m-2.5 size-5 p-[2px]" checked={checked} />
           </div>
           <div
             className={cn(
-              ' text-base',
+              'text-base w-[462px] max-h-[50px] line-clamp-2',
               checked
                 ? 'text-blue-500 font-semibold'
                 : 'text-black font-normal',

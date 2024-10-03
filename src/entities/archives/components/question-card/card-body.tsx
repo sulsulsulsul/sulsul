@@ -16,6 +16,7 @@ interface CardBodyProps extends HTMLAttributes<HTMLDivElement> {
   questionId: number;
   isAnswered: boolean;
   archiveId: number;
+  type: string;
 }
 
 export const CardBody = ({
@@ -24,6 +25,7 @@ export const CardBody = ({
   questionId,
   isAnswered,
   archiveId,
+  type = '',
   ...props
 }: CardBodyProps) => {
   const { answer } = question;
@@ -64,6 +66,7 @@ export const CardBody = ({
           answer={answer}
           keywords={question.keywords}
           questionId={questionId}
+          type={type}
         />
       )}
 
