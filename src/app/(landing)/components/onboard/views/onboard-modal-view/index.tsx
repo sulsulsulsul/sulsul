@@ -28,7 +28,6 @@ export const OnboardModal = () => {
 
   const descriptionText = buttonDisable ? 'text-gray-500' : 'text-blue-500';
 
-  //랜딩 페이지 비디오 멈추기
   const { pause, restart } = useVideoStateStore();
 
   const dialog: OnBoardProp[] = [

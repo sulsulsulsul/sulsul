@@ -129,7 +129,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
         <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-gray-800/80 mobile:hidden" />
       )}
       {coachModal ? (
-        <div className="h-78 absolute -top-[78px] left-4 flex w-full justify-between ">
+        <div className=" absolute left-4 top-[-78px] flex w-full justify-between ">
           <div className="flex items-center">
             <button
               className="absolute z-30 flex w-fit flex-row items-center gap-px p-[16px]"
@@ -214,7 +214,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
               question={q.data}
               remainingQuestions={questions.length}
             />
-            <div className="absolute left-1/2 top-[211px] h-[308px] w-[90%] -translate-x-1/2 rounded-md border border-solid border-gray-200 bg-white shadow-base mobile:top-[182px] mobile:h-[252px]">
+            <div className="absolute left-1/2 top-[200px] h-[308px] w-[90%] -translate-x-1/2 rounded-md border border-solid border-gray-200 bg-white shadow-base mobile:top-[182px] mobile:h-[252px]">
               <HintCard
                 keywords={q.data.keywords}
                 answerHint={q.data.answer}

@@ -64,9 +64,7 @@ export const PracticeStartCard = ({
   const { resume } = useResumes();
   const { questions } = usePracticeQuestions(focusedResume);
 
-  //전체 자소서 선택
   const { list } = useAllPracticeList(auth.userId);
-  // console.log("list",list?.contents.flatMap((item)=> item.questionId))
   const handleAllResume = () => {
     setCollection((prev) => [
       ...prev,
@@ -135,7 +133,7 @@ export const PracticeStartCard = ({
         className="hidden w-full desktop:flex"
         onClick={() => setModalOpen(true)}
       >
-        실전 연습하기
+        실전연습하기
       </Button>
       <Drawer>
         <DrawerTrigger className="hidden h-12 w-full items-center justify-center rounded-[30px] bg-blue-500 text-base text-white mobile:flex">

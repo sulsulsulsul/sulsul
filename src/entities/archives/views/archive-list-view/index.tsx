@@ -35,7 +35,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   if (status === 'unauthenticated' || archives?.totalCount === 0) {
     return (
       <main>
-        <div className="flex justify-between">
+        <div className="flex justify-between px-4">
           <div className="flex items-center gap-1 text-4xl font-bold">
             <Image
               width={32}
@@ -47,7 +47,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
           </div>
           <SelectDropdown onChangeSortType={onChangeSortType} />
         </div>
-        <div className="mt-40">
+        <div className="mt-40 mobile:hidden">
           <IdleStatus
             firstLine="내 자소서를 입력하고"
             secondLine="면접 예상질문을 생성해보세요!"
@@ -60,6 +60,70 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
               면접 예상질문 생성하러 가기
               <Image src={arrowUpRight} alt="대각선화살표" />
             </Button>
+          </div>
+        </div>
+        <div className="flex w-full flex-col items-center">
+          <div
+            className={
+              'relative mx-4 mt-4 hidden h-[380px] w-[260px] px-5 text-white mobile:flex mobile:h-[253px] mobile:w-[343px]'
+            }
+          >
+            <div className="absolute left-0 top-[20px] z-0 h-[90%] w-full rounded-md bg-blue-900 mobile:top-[10px] mobile:h-[243px]">
+              <span className="absolute right-6 top-[8px] text-2xs font-semibold text-white/70">
+                {'작성 전'}
+              </span>
+            </div>
+            <Image
+              className="absolute left-0 top-0 z-10 h-[380px] mobile:hidden"
+              width={400}
+              height={600}
+              src={'/images/folder-box.svg'}
+              alt="card background image"
+              priority
+            />
+            <Image
+              className="absolute left-0 top-0 z-10 h-[253px] desktop:hidden"
+              width={400}
+              height={600}
+              src={'/images/folder-box-mobile.svg'}
+              alt="card background image"
+              priority
+            />
+            <div className="relative z-10 flex h-[380px] flex-col bg-transparent pb-[50px] pt-[62px] mobile:h-[253px]">
+              <div className="flex justify-between">
+                <div className="rounded-sm bg-gray-100 px-[10px] py-[7px] text-blue-500">
+                  <h3 className="text-2xs font-semibold">{'술술 컴퍼니'}</h3>
+                </div>
+                <div className="flex items-center justify-center">
+                  <Image
+                    className="cursor-pointer"
+                    width={24}
+                    height={24}
+                    color="white"
+                    src={'/images/icons/icn-more.svg'}
+                    alt="more icon"
+                  />
+                </div>
+              </div>
+              <div className="mt-3 h-[84px]">
+                <h4 className="text-xl font-semibold text-blue-300">
+                  {'아직 내 면접질문과 답변이 없어요'}
+                </h4>
+                <h4 className="text-xl font-semibold text-white">
+                  {'PC버전에서 면접질문을 예측해보세요!'}
+                </h4>
+              </div>
+              <div className="mobile:[16px] mt-[20px] text-lg font-normal">
+                예상 면접질문{' '}
+                <span className="text-green-point">{' ? 개'}</span>
+              </div>
+
+              <div className="flex h-full grow flex-col justify-end ">
+                <div className="relative">
+                  <div className="h-[6px] rounded-[6.6px] bg-white/30"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </main>
@@ -101,7 +165,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
                 <Link
                   key={archive.archiveId}
                   href={APP_ROUTES.archiveDetail(archive.archiveId)}
-                  className="mobile:hidden"
+                  className="hidden desktop:block"
                 >
                   <ArchiveCard
                     key={archive.archiveId}
@@ -110,10 +174,10 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
                   />
                 </Link>
                 <ArchiveCard
-                  key={archive.archiveId}
+                  key={'mobile' + archive.archiveId}
                   currentPage={currentPage}
                   {...archive}
-                  className="desktop:hidden"
+                  className="hidden mobile:block"
                 />
               </>
             ))}

@@ -50,7 +50,7 @@ const MyPracticeChart = ({ className, userId }: StatusChartProps) => {
   return (
     <div className={cn(className)}>
       <PracticeSectionHeader
-        title="내 연습 현황"
+        title="내 연습현황"
         iconSrc="/images/icons/etc-calendar.svg"
       />
       <div className="flex items-center justify-between">
