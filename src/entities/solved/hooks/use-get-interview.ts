@@ -1,13 +1,10 @@
 'use client';
 import { useQuery } from '@tanstack/react-query';
 
-import { getInterviewAction } from '../actions/get-interview-action';
+import { interviewOptions } from './../../../app/api/solved/query-options';
 
 export const useInterview = (pivotDate?: string) => {
-  const result = useQuery({
-    queryKey: ['interview', pivotDate],
-    queryFn: () => getInterviewAction(pivotDate),
-  });
+  const result = useQuery(interviewOptions(pivotDate));
   const { data, ...rest } = result;
   return {
     ...rest,

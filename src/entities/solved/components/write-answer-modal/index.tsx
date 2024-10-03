@@ -9,13 +9,9 @@ import { ReConfirmModal } from '../re-confirm-modal';
 import { ModalHeader } from './components/hedaer-section';
 import { TextAreaSection } from './components/text-area-section';
 
-interface WriteAnswerModalProp {
-  isEditModal?: boolean;
-}
-
-export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
-  const { isOpenAnswerModal } = useAnswerModalStore();
-  const { isOpenCancelModal } = useAnswerModalStore();
+export const WriteAnswerModal = () => {
+  const { isOpenAnswerModal, isOpenCancelModal, isEditModal } =
+    useAnswerModalStore();
   const { currentData } = useInterviewStore();
   const { myAnswerData } = useMyAnswerStore();
   const [charCount, setCharCount] = useState(0);
@@ -41,15 +37,25 @@ export const WriteAnswerModal = ({ isEditModal }: WriteAnswerModalProp) => {
     if (isEditModal && myAnswerData) {
       setContent(myAnswerData.content);
     }
-    if (!isEditModal && sessionStorage.getItem('temporarySave')) {
-      setContent(sessionStorage.getItem('temporarySave') || '');
+    if (
+      !isEditModal &&
+      typeof window !== 'undefined' &&
+      sessionStorage.getItem('temporarySave')
+    ) {
+      setContent(
+        (typeof window !== 'undefined' &&
+          sessionStorage.getItem('temporarySave')) ||
+          '',
+      );
     }
   }, []);
 
   const modalZIndex = isOpenCancelModal ? 'z-[70]' : 'z-[60]';
   const isSamePrevValue =
     content === myAnswerData?.content ||
-    content === sessionStorage.getItem('temporarySave');
+    content ===
+      (typeof window !== 'undefined' &&
+        sessionStorage.getItem('temporarySave'));
 
   return (
     <>

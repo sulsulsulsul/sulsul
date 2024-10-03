@@ -1,15 +1,6 @@
 import { create } from 'zustand';
 
-interface InterviewData {
-  weeklyInterviewId: number;
-  content: string;
-  year: number;
-  week: number;
-  startDateTime: string;
-  endTime: string;
-  answerCount: number;
-  profileImgs: string[];
-}
+import { InterviewData } from '@/entities/types/interview';
 
 export interface InterviewState {
   currentData: InterviewData;
@@ -20,6 +11,7 @@ export interface InterviewState {
 
 const defaultInterviewData: InterviewData = {
   weeklyInterviewId: 0,
+  weeklyInterviewImage: '',
   content: '',
   year: 0,
   week: 0,

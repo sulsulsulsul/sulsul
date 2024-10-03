@@ -1,5 +1,5 @@
 'use client';
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
 import { myActivityOptions } from '@/app/api/solved/query-options';
 

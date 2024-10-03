@@ -17,6 +17,7 @@ import { useUserAnswer } from '../../hooks/use-get-user-answer';
 import { CountDownView } from '../count-down-view';
 import { ReConfirmModal } from '../re-confirm-modal';
 import { TogetherSolvedHeader } from '../together-solved-header';
+import { ViewAllAnswersModal } from '../view-all-answers-modal';
 import { WriteAnswerModal } from '../write-answer-modal';
 
 //리팩토링 예정
@@ -29,15 +30,18 @@ export const AnswerCompleteSection = ({
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
-  const [isEditModal, setIsEditModal] = useState(false);
-
   const { isRecommended, weeklyInterviewAnswerId } = myWriteAnswerData;
   const { auth, data } = useUserStore();
   const {
     isOpenDeleteModal,
     isOpenAnswerModal,
+    isOpenAllAnswerModal,
+    isTogetherSection,
     setOpenDeleteModal,
     setOpenAnswerModal,
+    setIsOpenAllAnswerModal,
+    setIsEditModal,
+    setIsTogetherSection,
   } = useAnswerModalStore();
   const { setMyAnswerData } = useMyAnswerStore();
 
@@ -46,23 +50,21 @@ export const AnswerCompleteSection = ({
   const { data: currentData, refetch } = useInterview(pivotDate);
   const { mutate: recommendMutation } = useAnswerRecommend({
     currentInterviewId: currentData?.weeklyInterviewId || 0,
+    accessToken,
     userId,
     pivotDate,
-    accessToken,
-    isRecommended,
-    answerId: weeklyInterviewAnswerId,
   });
   const { data: answerListData } = useAnswerList({
     interviewId: currentData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',
     accessToken: accessToken,
   });
-
   const handleClickMoreMenu = () => {
     setOpenMoreMenu((prev) => !prev);
   };
 
   const handleClickEditMenu = () => {
+    setIsOpenAllAnswerModal(false);
     setIsEditModal(true);
     setOpenAnswerModal(true);
     setOpenMoreMenu(false);
@@ -74,13 +76,26 @@ export const AnswerCompleteSection = ({
   };
 
   const handleClickRecommendBtn = () => {
-    recommendMutation();
+    recommendMutation({
+      isRecommended,
+      answerId: weeklyInterviewAnswerId,
+    });
+  };
+
+  const handleClickAnswerViewBtn = () => {
+    setIsTogetherSection(true);
+    setIsOpenAllAnswerModal(true);
+  };
+
+  const handleClickCloseBtn = () => {
+    setIsTogetherSection(false);
+    setIsOpenAllAnswerModal(false);
   };
 
   useEffect(() => {
     if (answerListData) {
       setFilteredResponses(
-        answerListData?.answerDetailResponses.filter(
+        answerListData?.pages[0].answers.filter(
           (response) => response.userId !== userId,
         ),
       );
@@ -142,7 +157,6 @@ export const AnswerCompleteSection = ({
               className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-blue-500`)}
               variant="outline"
               onClick={handleClickRecommendBtn}
-              // disabled={!isResetAvailable}
             >
               <Image
                 src="/images/icons/icon-like-blue.svg"
@@ -157,7 +171,6 @@ export const AnswerCompleteSection = ({
               className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-gray-600`)}
               variant="outline"
               onClick={handleClickRecommendBtn}
-              // disabled={!isResetAvailable}
             >
               <Image
                 src="/images/icons/icon-like.svg"
@@ -184,8 +197,8 @@ export const AnswerCompleteSection = ({
             다른 지원자들의 답변{' '}
             <span className="text-blue-500">
               {answerListData
-                ? answerListData.totalCount >= 1
-                  ? answerListData.totalCount - 1
+                ? answerListData.pages[0].totalCount >= 1
+                  ? answerListData.pages[0].totalCount - 1
                   : 0
                 : ''}
             </span>
@@ -209,7 +222,11 @@ export const AnswerCompleteSection = ({
                 </p>
               </div>
               <div className="flex w-full justify-center">
-                <Button variant="outline" className="h-12 w-[300px]">
+                <Button
+                  variant="outline"
+                  className="h-12 w-[300px]"
+                  onClick={handleClickAnswerViewBtn}
+                >
                   답변 모두 보기
                 </Button>
               </div>
@@ -217,12 +234,12 @@ export const AnswerCompleteSection = ({
           )}
         </div>
       </div>
-      {isOpenAnswerModal && <WriteAnswerModal isEditModal={isEditModal} />}
-      {isOpenDeleteModal && (
+      {isOpenAnswerModal && <WriteAnswerModal />}
+      {isOpenDeleteModal && !isOpenAllAnswerModal && (
         <>
           <div
             className={cn(
-              'fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center',
+              `fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center`,
             )}
           ></div>
           <div className="fixed left-0 top-0 z-[70] flex h-screen w-screen items-center justify-center">
@@ -232,6 +249,9 @@ export const AnswerCompleteSection = ({
             />
           </div>
         </>
+      )}
+      {accessToken && isOpenAllAnswerModal && isTogetherSection && (
+        <ViewAllAnswersModal handleClickCloseBtn={handleClickCloseBtn} />
       )}
     </section>
   );

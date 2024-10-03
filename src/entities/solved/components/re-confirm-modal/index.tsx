@@ -29,7 +29,7 @@ const MODAL_CONTENT: Record<'exit' | 'delete', ModalContent> = {
     icon: faceIcon,
     title: '혹시 몰라요, 이 질문이 나올지도!',
     detail: '끝까지 답변을 완성해볼까요?',
-    leftButton: '나기기',
+    leftButton: '나가기',
     rightButton: '계속 작성하기',
   },
   delete: {
@@ -51,8 +51,14 @@ export const ReConfirmModal = ({
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const { data: currentData, refetch } = useInterview(pivotDate);
 
-  const { setOpenCancelModal, setOpenAnswerModal, setOpenDeleteModal } =
-    useAnswerModalStore();
+  const {
+    setOpenCancelModal,
+    setOpenAnswerModal,
+    setOpenDeleteModal,
+    setIsEditModal,
+    setIsTogetherSection,
+    setIsBestAnswerSection,
+  } = useAnswerModalStore();
 
   const { mutate: deleteAnswerMutation, isSuccess } = useDeleteAnswer({
     interviewId: currentData?.weeklyInterviewId || 0,
@@ -64,9 +70,13 @@ export const ReConfirmModal = ({
 
   const handleClickLeftBtn = () => {
     if (type === 'exit') {
+      setIsEditModal(false);
       setOpenCancelModal(false);
       setOpenAnswerModal(false);
-    } else {
+      setIsTogetherSection(false);
+      setIsBestAnswerSection(false);
+    }
+    if ((type = 'delete')) {
       setOpenDeleteModal(false);
     }
   };
@@ -74,12 +84,16 @@ export const ReConfirmModal = ({
   const handleClickRightBtn = () => {
     if (type === 'exit') {
       setOpenCancelModal(false);
+      setIsTogetherSection(false);
+      setIsBestAnswerSection(false);
     } else {
       deleteAnswerMutation();
+      setIsTogetherSection(false);
+      setIsBestAnswerSection(false);
     }
   };
   return (
-    <div className="z-[70] flex min-h-[284px] w-[428px] flex-col items-center justify-center gap-8 rounded-md border border-gray-100 bg-white p-[30px] mobile:w-[350px]">
+    <div className="z-[999] flex min-h-[284px] w-[428px] flex-col items-center justify-center gap-8 rounded-md border border-gray-100 bg-white p-[30px] mobile:w-[350px]">
       <div className="flex flex-col items-center gap-6">
         <Image src={icon} alt="재확인 아이콘" width={60} height={60} />
         <div className="flex flex-col items-center gap-[2px]">

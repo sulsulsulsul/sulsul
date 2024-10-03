@@ -9,7 +9,7 @@ const Heading = () => {
         height={32}
         alt="icon"
       />
-      백문백답 첼린지
+      백문백답 챌린지
     </p>
   );
 };
