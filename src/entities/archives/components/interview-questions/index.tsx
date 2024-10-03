@@ -20,7 +20,7 @@ import { SavingStatus } from './status/saving';
 
 interface InterviewQuestionsProps extends HTMLAttributes<HTMLDivElement> {
   data: ArchiveDetailDTO;
-  type: string;
+  type?: string;
 }
 
 export const InterviewQuestions = ({
