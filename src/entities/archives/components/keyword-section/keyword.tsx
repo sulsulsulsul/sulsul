@@ -14,9 +14,9 @@ interface KeywordProps {
       content: string;
     },
   ];
-  challengeQuestionId: number;
-  category: string;
-  accessToken: string;
+  challengeQuestionId?: number;
+  category?: string;
+  accessToken?: string;
 }
 
 export const KeywordSet = ({
@@ -57,7 +57,7 @@ export const KeywordSet = ({
         {!isHeader && (
           <span
             onClick={() =>
-              onDeleteKeyword(challengeQuestionId, keyword.keywordId)
+              onDeleteKeyword(challengeQuestionId!, keyword.keywordId)
             }
             className="cursor-pointer"
           >

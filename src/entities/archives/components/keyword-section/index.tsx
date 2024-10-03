@@ -24,7 +24,7 @@ import { KeywordSet } from './keyword';
 import helpCircle from '/public/images/icons/help-circle.svg';
 interface KeywordSectionProps extends HTMLAttributes<HTMLDivElement> {
   questionId: number;
-  type: string;
+  type?: string;
   challengeKeywordData?: [
     {
       keywordId: number;
