@@ -268,11 +268,7 @@ export const ViewAllAnswersModal = ({
                   <h4 className="text-lg font-bold">
                     다른 지원자들의 답변{' '}
                     <span className="text-blue-500">
-                      {recommendOrderAnswerData
-                        ? recommendOrderAnswerData.pages[0].totalCount >= 1
-                          ? recommendOrderAnswerData.pages[0].totalCount - 1
-                          : 0
-                        : ''}
+                      {filteredResponses.length}
                     </span>
                   </h4>
                   <div

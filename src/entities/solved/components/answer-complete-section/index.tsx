@@ -1,8 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
+import { UNAUTHORIZED_MESSAGE } from '@/config/constants/error-message';
 import { AnswerListData } from '@/entities/types/interview';
 import { cn, removeNewlines } from '@/lib/utils';
 import { formatDate } from '@/shared/helpers/date-helpers';
@@ -13,7 +15,6 @@ import { useMyAnswerStore } from '@/store/myAnswerStore';
 import { useAnswerRecommend } from '../../hooks/use-answer-recommend';
 import { useAnswerList } from '../../hooks/use-get-answer-list';
 import { useInterview } from '../../hooks/use-get-interview';
-import { useUserAnswer } from '../../hooks/use-get-user-answer';
 import { CountDownView } from '../count-down-view';
 import { ReConfirmModal } from '../re-confirm-modal';
 import { TogetherSolvedHeader } from '../together-solved-header';
@@ -27,8 +28,12 @@ export const AnswerCompleteSection = ({
 }: {
   myWriteAnswerData: AnswerListData;
 }) => {
+  const router = useRouter();
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
-  const [filteredReponses, setFilteredResponses] = useState<any[]>([]);
+  const [filteredResponses, setFilteredResponses] = useState<AnswerListData[]>(
+    [],
+  );
+
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const { isRecommended, weeklyInterviewAnswerId } = myWriteAnswerData;
   const { auth, data } = useUserStore();
@@ -46,9 +51,9 @@ export const AnswerCompleteSection = ({
   const { setMyAnswerData } = useMyAnswerStore();
 
   const { userId, accessToken } = auth;
-
+  console.log(userId);
   const { data: currentData, refetch } = useInterview(pivotDate);
-  const { mutate: recommendMutation } = useAnswerRecommend({
+  const { mutate: recommendMutation, error } = useAnswerRecommend({
     currentInterviewId: currentData?.weeklyInterviewId || 0,
     accessToken,
     userId,
@@ -102,6 +107,12 @@ export const AnswerCompleteSection = ({
       setMyAnswerData(myWriteAnswerData);
     }
   }, [answerListData, userId]);
+
+  useEffect(() => {
+    if (error?.message === UNAUTHORIZED_MESSAGE) {
+      router.push('/solved');
+    }
+  }, [error]);
 
   if (!currentData?.endTime) return;
 
@@ -195,16 +206,10 @@ export const AnswerCompleteSection = ({
         <div className="flex flex-col gap-3">
           <h4 className="text-lg font-bold">
             다른 지원자들의 답변{' '}
-            <span className="text-blue-500">
-              {answerListData
-                ? answerListData.pages[0].totalCount >= 1
-                  ? answerListData.pages[0].totalCount - 1
-                  : 0
-                : ''}
-            </span>
+            <span className="text-blue-500">{filteredResponses.length}</span>
           </h4>
 
-          {filteredReponses.length === 0 ? (
+          {filteredResponses.length === 0 ? (
             <p className="font-medium text-gray-500">
               {data.nickname}님이 첫 답변을 남기셨군요!
             </p>
@@ -215,10 +220,10 @@ export const AnswerCompleteSection = ({
                   <div className="flex h-[22px] w-fit items-center justify-center gap-1 rounded-[4px] bg-red-100 px-[12px] py-[6px] text-2xs font-semibold text-[#ff5a61] ">
                     <p>BEST</p>
                   </div>
-                  {filteredReponses[0]?.nickname}
+                  {filteredResponses[0]?.nickname}
                 </div>
                 <p className="line-clamp-2 font-medium text-gray-800">
-                  {filteredReponses[0]?.content}
+                  {filteredResponses[0]?.content}
                 </p>
               </div>
               <div className="flex w-full justify-center">

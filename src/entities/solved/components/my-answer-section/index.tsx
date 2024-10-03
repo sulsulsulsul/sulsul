@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { AnswerListData } from '@/entities/types/interview';
@@ -37,7 +39,7 @@ export const MyAnswerSection = ({
     setIsEditModal,
   } = useAnswerModalStore();
 
-  const { mutate: recommendMutation } = useAnswerRecommend({
+  const { mutate: recommendMutation, error } = useAnswerRecommend({
     accessToken,
     currentInterviewId: interviewId,
     userId,
@@ -66,6 +68,13 @@ export const MyAnswerSection = ({
       answerId: weeklyInterviewAnswerId,
     });
   };
+
+  useEffect(() => {
+    if (error?.message === 'Request failed with status code 401') {
+      toast.error('로그인 후 서비스를 이용해주세요.');
+      redirect('/solved');
+    }
+  }, [error]);
 
   return (
     <div className="flex flex-col gap-6">

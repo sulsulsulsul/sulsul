@@ -1,8 +1,11 @@
 import { useEffect } from 'react';
 import { FormProvider } from 'react-hook-form';
+import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { UNAUTHORIZED_MESSAGE } from '@/config/constants/error-message';
 import { AnswerListData, InterviewData } from '@/entities/types/interview';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerModalStore } from '@/store/answerModalStore';
@@ -43,21 +46,27 @@ export const TextAreaSection = ({
   const { setIsTemporarySaved } = useTemporarySaveStore();
   const currentInterviewId = currentData.weeklyInterviewId || 1;
 
-  const { mutate: createAnswerMutation, isSuccess: isSuccessCreate } =
-    useCreateAnswer({
-      currentInterviewId,
-      userId,
-      pivotDate,
-    });
+  const {
+    mutate: createAnswerMutation,
+    isSuccess: isSuccessCreate,
+    error: isErrorCreate,
+  } = useCreateAnswer({
+    currentInterviewId,
+    userId,
+    pivotDate,
+  });
 
-  const { mutate: editAnswerMutation, isSuccess: isSuccessUpdate } =
-    useUpdateAnswer({
-      currentInterviewId,
-      answerId: myAnswerData?.weeklyInterviewAnswerId || 0,
-      content: inputValue,
-      pivotDate,
-      userId,
-    });
+  const {
+    mutate: editAnswerMutation,
+    isSuccess: isSuccessUpdate,
+    error: isErrorEdit,
+  } = useUpdateAnswer({
+    currentInterviewId,
+    answerId: myAnswerData?.weeklyInterviewAnswerId || 0,
+    content: inputValue,
+    pivotDate,
+    userId,
+  });
 
   const onSubmit = (data: { answer: string }) => {
     if (isEditModal) {
@@ -138,6 +147,15 @@ export const TextAreaSection = ({
     }
   }, [isSuccessCreate, isSuccessUpdate, setOpenAnswerModal]);
 
+  useEffect(() => {
+    if (
+      isErrorCreate?.message === UNAUTHORIZED_MESSAGE ||
+      isErrorEdit?.message === UNAUTHORIZED_MESSAGE
+    ) {
+      toast.error('로그인 후 서비스를 이용해주세요.');
+      redirect('/');
+    }
+  }, [isErrorCreate, isErrorEdit]);
   return (
     <FormProvider {...form}>
       <form onSubmit={onFormSubmit} className="flex flex-col gap-4">
