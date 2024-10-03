@@ -59,18 +59,14 @@ export const InterviewQuestions = ({
         {status === 'COMPLETE' && (
           <>
             <h2 className="relative flex items-center gap-1 text-4xl font-bold">
-              {pathName === '/archive/create' && (
-                <>
-                  <Image
-                    src="/images/icons/etc-speech.svg"
-                    width={32}
-                    height={32}
-                    alt="icon"
-                  />
-                  <span>면접 예상질문</span>
-                  <span className="text-blue-500">{data.questions.length}</span>
-                </>
-              )}
+              <Image
+                src="/images/icons/etc-speech.svg"
+                width={32}
+                height={32}
+                alt="icon"
+              />
+              <span>면접 예상질문</span>
+              <span className="text-blue-500">{data.questions.length}</span>
               {isSaving && <SavingStatus />}
               {!isEditing && (
                 <span
