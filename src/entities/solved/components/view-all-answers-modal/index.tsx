@@ -45,7 +45,7 @@ export const ViewAllAnswersModal = ({
   const [sortType, setSortType] = useState<'NEW' | 'RECOMMEND'>('NEW');
 
   const { auth } = useUserStore();
-  const { setIsOpenAllAnswerModal } = useAnswerModalStore();
+  const { setIsOpenAllAnswerModal, isOpenDeleteModal } = useAnswerModalStore();
   const { data: interviewData } = useInterview(selectedDate);
 
   const { userId, accessToken } = auth;
@@ -163,11 +163,11 @@ export const ViewAllAnswersModal = ({
     <>
       <div
         className={cn(
-          'fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center mobile:hidden',
+          `fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center mobile:hidden ${isOpenDeleteModal && 'hidden'}`,
         )}
       ></div>
       <main className="fixed left-0 top-0 z-[60] flex h-screen w-screen items-center justify-center mobile:flex-col">
-        <div className="fixed top-0 z-[999] flex h-14 w-full items-center justify-center border border-gray-200 bg-white tablet:hidden desktop:hidden">
+        <div className="fixed top-0 z-[997] flex h-14 w-full items-center justify-center border border-gray-200 bg-white tablet:hidden desktop:hidden">
           <Image
             className="absolute left-3 top-4"
             onClick={handleClickBackBtn}

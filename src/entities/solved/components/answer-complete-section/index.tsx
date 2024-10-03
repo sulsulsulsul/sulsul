@@ -59,7 +59,6 @@ export const AnswerCompleteSection = ({
     sortType: 'RECOMMEND',
     accessToken: accessToken,
   });
-  console.log('answerListData', answerListData);
   const handleClickMoreMenu = () => {
     setOpenMoreMenu((prev) => !prev);
   };
@@ -236,11 +235,11 @@ export const AnswerCompleteSection = ({
         </div>
       </div>
       {isOpenAnswerModal && <WriteAnswerModal />}
-      {isOpenDeleteModal && (
+      {isOpenDeleteModal && !isOpenAllAnswerModal && (
         <>
           <div
             className={cn(
-              'fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center',
+              `fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center`,
             )}
           ></div>
           <div className="fixed left-0 top-0 z-[70] flex h-screen w-screen items-center justify-center">

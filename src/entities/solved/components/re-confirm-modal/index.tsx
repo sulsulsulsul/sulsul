@@ -95,7 +95,7 @@ export const ReConfirmModal = ({
     }
   };
   return (
-    <div className="z-[70] flex min-h-[284px] w-[428px] flex-col items-center justify-center gap-8 rounded-md border border-gray-100 bg-white p-[30px] mobile:w-[350px]">
+    <div className="z-[999] flex min-h-[284px] w-[428px] flex-col items-center justify-center gap-8 rounded-md border border-gray-100 bg-white p-[30px] mobile:w-[350px]">
       <div className="flex flex-col items-center gap-6">
         <Image src={icon} alt="재확인 아이콘" width={60} height={60} />
         <div className="flex flex-col items-center gap-[2px]">
