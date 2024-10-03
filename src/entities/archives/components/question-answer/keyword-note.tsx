@@ -8,12 +8,14 @@ import { useCreateKeyword } from '@/entities/keywords/hooks/use-create-keyword';
 
 interface KeywordNoteProps extends MenuArgs {
   questionId: number;
+  type: string;
 }
 export const KeywordNote = ({
   selectedText = '',
   setClipboard,
   setMenuOpen,
   questionId,
+  type = '',
 }: KeywordNoteProps) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -31,7 +33,7 @@ export const KeywordNote = ({
           e.preventDefault();
           setClipboard(selectedText, () => {
             createKeywordMutation(
-              { questionId, content: selectedText },
+              { questionId, content: selectedText, type },
               {
                 onSuccess: () => {
                   queryClient.invalidateQueries({
