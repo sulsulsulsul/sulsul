@@ -1,8 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
-import { Button } from '@/components/ui/button';
 import { FeedbackSectionComplete } from '@/entities/archives/components/feedback-section-complete';
 import { FeedbackSectionIdle } from '@/entities/archives/components/feedback-section-idle';
 import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback';
@@ -10,11 +9,17 @@ import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback';
 interface FeedBackPropsType {
   questionId: number;
   isAnswered: boolean;
+  isAnswerChanged: boolean;
+  setIsAnswerChanged: Dispatch<SetStateAction<boolean>>;
 }
 
-const Feedback = ({ questionId, isAnswered }: FeedBackPropsType) => {
+const Feedback = ({
+  questionId,
+  isAnswered,
+  isAnswerChanged,
+  setIsAnswerChanged,
+}: FeedBackPropsType) => {
   const { feedback, refetch } = useFeedback(questionId);
-  const [isAnswerChanged, setIsAnswerChanged] = useState(false);
   console.log(feedback);
 
   const handleAnswerChanged = () => {

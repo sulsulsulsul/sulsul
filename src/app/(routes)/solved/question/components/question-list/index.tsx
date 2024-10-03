@@ -1,6 +1,6 @@
 'use client';
 
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { HTMLAttributes, useState } from 'react';
 
 import {
   Accordion,
@@ -9,7 +9,6 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { KeywordSection } from '@/entities/archives/components/keyword-section';
-import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback';
 import { cn } from '@/lib/utils';
 import { useUserStore } from '@/store/client';
 
@@ -18,11 +17,6 @@ import AnswerForm from './answer-form';
 import Feedback from './feedback';
 
 interface QuestionListProps extends HTMLAttributes<HTMLDivElement> {}
-
-interface challengeKeywordDataType {
-  keywordId: number;
-  content: string;
-}
 
 const QuestionList = ({ className }: QuestionListProps) => {
   // user
@@ -33,8 +27,7 @@ const QuestionList = ({ className }: QuestionListProps) => {
     accessToken,
     category: 'BASIC',
   });
-
-  console.log(data);
+  const [isAnswerChanged, setIsAnswerChanged] = useState(false);
 
   return (
     <>
@@ -48,7 +41,9 @@ const QuestionList = ({ className }: QuestionListProps) => {
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1" className="border-none">
                   <AccordionTrigger className="flex items-start gap-2">
-                    <span className="relative top-[7px] mr-1 size-[9.6px] min-w-[9.6px] rounded-full bg-gray-200" />
+                    <span
+                      className={`relative top-[7px] mr-1 size-[9.6px] min-w-[9.6px] rounded-full ${question.isAnswered ? 'bg-blue-500' : 'bg-gray-200'}`}
+                    />
                     <p className="w-full text-left">{question.content}</p>
                   </AccordionTrigger>
                   <AccordionContent className="h-auto py-[10px] ">
@@ -59,8 +54,8 @@ const QuestionList = ({ className }: QuestionListProps) => {
                           question.question && question.question.answer
                         }
                         challengeId={question.challengeId}
+                        setIsAnswerChanged={setIsAnswerChanged}
                       />
-                      {/* <Keyword /> */}
                       <KeywordSection
                         accessToken={accessToken}
                         questionId={question.challengeId}
@@ -79,6 +74,8 @@ const QuestionList = ({ className }: QuestionListProps) => {
                           question.question && question.question.questionId
                         }
                         isAnswered={question.isAnswered}
+                        isAnswerChanged={isAnswerChanged}
+                        setIsAnswerChanged={setIsAnswerChanged}
                       />
                     </div>
                   </AccordionContent>
