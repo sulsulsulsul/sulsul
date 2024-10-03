@@ -6,7 +6,7 @@ import { backendApi } from '@/lib/backend-api/client';
 export type CreateKeywordActionParams = {
   questionId: number;
   content: string;
-  type: string;
+  type?: string;
   accessToken?: string;
 };
 
