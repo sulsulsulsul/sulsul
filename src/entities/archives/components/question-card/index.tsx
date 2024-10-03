@@ -1,6 +1,6 @@
 'use client';
 
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { HTMLAttributes, useState } from 'react';
 
 import {
   Accordion,
@@ -46,7 +46,6 @@ export const QuestionCard = ({
           <AccordionItem value="item-1" className="border-none">
             <AccordionTrigger
               questionId={questionId}
-              isClicked={isClicked}
               setClickedQuestions={setClickedQuestions}
               onClick={() => setIsAccodionOpen((prev) => !prev)}
             >
