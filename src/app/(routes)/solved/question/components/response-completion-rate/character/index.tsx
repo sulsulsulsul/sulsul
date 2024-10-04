@@ -63,7 +63,7 @@ const Character = ({ data }: { data: MyChallengesProgressData[] }) => {
         />
       )}
       <Image
-        src={`/images/solved/${totalCount !== 100 ? 'character.png' : 'character2.svg'}`}
+        src={`/images/solved/${totalCount !== 100 ? 'character.svg' : 'character2.svg'}`}
         width={160}
         height={116}
         alt="character"

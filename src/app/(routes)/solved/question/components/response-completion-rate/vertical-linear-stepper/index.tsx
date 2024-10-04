@@ -69,7 +69,7 @@ const VerticalLinearStepper = ({
         const prevStep = steps[index - 1];
         return (
           <div key={step.category}>
-            <div>
+            <div className=" mt-[-7px]">
               <span
                 className={`inline-block size-[12px] rounded-full ${
                   step.counts.some((count) => count.count > 0) ||
@@ -136,7 +136,7 @@ const VerticalLinearStepper = ({
                     key={idx}
                   >
                     <p className="text-sx ml-[15px] whitespace-normal font-medium text-gray-500">
-                      {count} / {step.totalCount[idx]}
+                      {count}/{step.totalCount[idx]}
                     </p>
 
                     {step.description === '최다 빈출 기본질문' &&
