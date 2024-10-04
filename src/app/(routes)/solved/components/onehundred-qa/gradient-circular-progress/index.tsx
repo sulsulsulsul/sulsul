@@ -4,12 +4,18 @@ import * as React from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-const GradientCircularProgress = ({ value, item }: any) => {
+const GradientCircularProgress = ({ value, item, accessToken }: any) => {
   const radius = 50; // 원의 반지름
   const strokeWidth = 4; // 선의 굵기
   const circumference = 2 * Math.PI * radius; // 원의 둘레
   const offset = circumference - (value / 100) * circumference; // 프로그레스 바의 길이 조절
   const router = useRouter();
+
+  const handleClickImg = () => {
+    if (accessToken) {
+      router.push('/solved/question');
+    }
+  };
 
   return (
     <div
@@ -52,7 +58,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
         )}
       </svg>
       <div className="absolute bottom-5 left-0 right-5 top-0 flex w-[124px] flex-col content-center justify-center">
-        {item.title === '최다 빈출 기본질문' ? (
+        {item.title === '최다 빈출 기본질문' && value !== 100 ? (
           <>
             <Image
               src={`/images/lv/ingSticker.svg`}
@@ -65,7 +71,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
                 left: '70px',
                 cursor: 'pointer',
               }}
-              onClick={() => router.push('/solved/question')}
+              onClick={handleClickImg}
             />
             <Image
               src={`/images/lv/${item.image}.svg`}
@@ -78,7 +84,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
                 left: '35px',
                 cursor: 'pointer',
               }}
-              onClick={() => router.push('/solved/question')}
+              onClick={handleClickImg}
             />
           </>
         ) : value !== 0 && value !== 100 ? (
@@ -94,7 +100,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
                 left: '70px',
                 cursor: 'pointer',
               }}
-              onClick={() => router.push('/solved/question')}
+              onClick={handleClickImg}
             />
 
             <Image
@@ -108,7 +114,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
                 left: '35px',
                 cursor: 'pointer',
               }}
-              onClick={() => router.push('/solved/question')}
+              onClick={handleClickImg}
             />
           </>
         ) : value === 100 ? (
@@ -123,7 +129,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
               left: '35px',
               cursor: 'pointer',
             }}
-            onClick={() => router.push('/solved/question')}
+            onClick={handleClickImg}
           />
         ) : (
           <Image
@@ -137,7 +143,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
               left: '45px',
               cursor: 'pointer',
             }}
-            onClick={() => router.push('/solved/question')}
+            onClick={handleClickImg}
           />
         )}
         <div className="absolute bottom-[-60px] flex w-full flex-col items-center justify-center">
@@ -162,7 +168,13 @@ interface QaDataType {
   left: number;
 }
 
-export default function App({ qaData }: { qaData: QaDataType[] }) {
+export default function App({
+  qaData,
+  accessToken,
+}: {
+  qaData: QaDataType[];
+  accessToken: string;
+}) {
   return (
     <div className="mb-7 flex justify-center">
       <div className="bg-container h-[571px] w-[460px] bg-[url('/images/lv/line.svg')] bg-center bg-no-repeat">
@@ -171,6 +183,7 @@ export default function App({ qaData }: { qaData: QaDataType[] }) {
             key={index}
             value={(item.done * 100) / item.total}
             item={item}
+            accessToken={accessToken}
           />
         ))}
       </div>

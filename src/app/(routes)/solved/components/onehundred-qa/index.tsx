@@ -136,7 +136,7 @@ const OnehundredQa = ({ accessToken }: { accessToken: string }) => {
       <Heading />
       <div className="mb-[42px] rounded-md border border-gray-200 bg-white p-[28px] shadow-base">
         <Progress accessToken={accessToken} />
-        <CircularDeterminate qaData={qaData} />
+        <CircularDeterminate qaData={qaData} accessToken={accessToken} />
       </div>
     </>
   );
