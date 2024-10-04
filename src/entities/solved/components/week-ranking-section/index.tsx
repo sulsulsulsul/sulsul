@@ -2,6 +2,13 @@
 
 import Image from 'next/image';
 
+import { Popover } from '@/components/ui/popover';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import NoDataCard from '@/entities/practice/components/no-data-card';
 import { useInterviewStore } from '@/store/interviewStore';
 
@@ -37,16 +44,41 @@ export const WeekRankingSection = ({
           />
           <div className="text-lg font-bold">이번주 랭킹</div>
         </div>
-        <Image
-          src="/images/icons/icon-information circle.svg"
-          className="absolute bottom-[2.5px] right-4"
-          width={20}
-          height={20}
-          alt="icon"
-        />
+        <Popover>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Image
+                  src="/images/icons/icon-information circle.svg"
+                  className="absolute bottom-[3px] right-4"
+                  width={20}
+                  height={20}
+                  alt="icon"
+                />
+              </TooltipTrigger>
+              <TooltipContent className="fixed left-[-212px] top-[35px] flex h-[70px] w-[212px] flex-col items-center justify-center overflow-visible rounded-[10px] border-none bg-gray-700 pr-0 text-white">
+                <>
+                  <Image
+                    className="absolute left-52 top-[-10px] rotate-90"
+                    src="/images/polygonInfo.svg"
+                    alt="polygonInfo"
+                    width={8}
+                    height={14}
+                  />
+                  <ul className="flex w-[187px] flex-col justify-center gap-2 text-gray-400">
+                    <li className="text-sm">
+                      랭킹은 다같이 면접기출의 실시간 상위 누적 추천수로
+                      결정돼요.
+                    </li>
+                  </ul>
+                </>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </Popover>
       </div>
 
-      <ul className="flex h-[218px] w-full flex-col items-center justify-start gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-base">
+      <ul className="flex min-h-[218px] w-full flex-1 flex-col items-center justify-start gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-base">
         {!hasNoData ? (
           answerListData?.pages[0].answers.slice(0, 3).map(
             (userInfo, index) =>
@@ -58,22 +90,22 @@ export const WeekRankingSection = ({
 
                   <div className="flex w-full flex-1 flex-col">
                     <div className="flex items-center justify-between">
-                      <div className="text-2xs font-semibold text-blue-500">
+                      <div className="text-xs font-semibold text-blue-500">
                         {index === 1
                           ? 'S-마스터'
                           : index === 2
                             ? 'S-히어로'
                             : 'S-챌린저'}
                       </div>
-                      <div className="text-2xs font-semibold text-gray-500">
+                      <div className="text-xs font-medium text-gray-500">
                         누적 추천수
                       </div>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <div className="text-base font-semibold text-gray-700">
+                    <div className="flex items-center justify-between text-gray-700">
+                      <div className="text-base font-bold">
                         {userInfo.nickname}
                       </div>
-                      <div className="text-2xs font-semibold">
+                      <div className="text-xs font-semibold text-gray-600">
                         {userInfo.recommendCount > 999
                           ? '999+'
                           : userInfo.recommendCount}
@@ -84,7 +116,7 @@ export const WeekRankingSection = ({
               ),
           )
         ) : (
-          <NoDataCard className="text-base font-semibold text-gray-400" />
+          <NoDataCard className="text-base font-medium text-gray-400" />
         )}
       </ul>
     </div>

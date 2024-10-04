@@ -216,11 +216,8 @@ export const ViewAllAnswersModal = ({
                         handleSelectWeek(value);
                       }}
                     >
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={weeks[0].label}
-                          className="text-right text-sm"
-                        />
+                      <SelectTrigger className="p-0 font-medium text-gray-500">
+                        <SelectValue placeholder={weeks[0].label} />
                       </SelectTrigger>
                       <SelectContent
                         position="popper"
@@ -231,7 +228,7 @@ export const ViewAllAnswersModal = ({
                             <div key={v.label}>
                               <SelectItem
                                 className={cn(
-                                  `h-[41px] pl-4 text-sm font-semibold ${v.label === filter ? 'bg-muted !text-blue-500 hover:!text-blue-500' : 'text-gray-700'}`,
+                                  `h-[41px] pl-4 text-sm font-medium ${v.label === filter ? 'bg-muted !text-blue-500 hover:!text-blue-500' : 'text-gray-700'}`,
                                 )}
                                 value={v.label}
                                 onClick={() => setSelectedDate(v.start)}
@@ -268,11 +265,7 @@ export const ViewAllAnswersModal = ({
                   <h4 className="text-lg font-bold">
                     다른 지원자들의 답변{' '}
                     <span className="text-blue-500">
-                      {recommendOrderAnswerData
-                        ? recommendOrderAnswerData.pages[0].totalCount >= 1
-                          ? recommendOrderAnswerData.pages[0].totalCount - 1
-                          : 0
-                        : ''}
+                      {filteredResponses.length}
                     </span>
                   </h4>
                   <div
@@ -309,7 +302,7 @@ export const ViewAllAnswersModal = ({
                               key={v.weeklyInterviewAnswerId}
                               className="mt-6 flex flex-col gap-4"
                             >
-                              <div className="flex justify-between border-b border-gray-800 pb-2">
+                              <div className="flex items-center justify-between border-b border-gray-800 pb-2">
                                 <div className="flex items-center gap-1">
                                   <div className="relative size-6 overflow-hidden rounded-full">
                                     <Image
@@ -322,7 +315,7 @@ export const ViewAllAnswersModal = ({
                                       alt="프로필 이미지"
                                     />
                                   </div>
-                                  <p className="font-medium text-gray-600">
+                                  <p className="text-[15px] font-medium text-gray-600">
                                     {v.nickname}
                                   </p>
                                 </div>
@@ -346,53 +339,34 @@ export const ViewAllAnswersModal = ({
                                     </span>
                                   </div>
                                 )}
-                                {v.isRecommended ? (
-                                  <Button
-                                    className={cn(
-                                      `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 text-blue-500`,
-                                    )}
-                                    variant="outline"
-                                    onClick={() =>
-                                      recommendMutation({
-                                        isRecommended: v.isRecommended,
-                                        answerId: v.weeklyInterviewAnswerId,
-                                      })
+
+                                <Button
+                                  className={cn(
+                                    `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 font-semibold ${v.isRecommended ? 'text-blue-500' : 'text-gray-600'} `,
+                                  )}
+                                  variant="outline"
+                                  onClick={() =>
+                                    recommendMutation({
+                                      isRecommended: v.isRecommended,
+                                      answerId: v.weeklyInterviewAnswerId,
+                                    })
+                                  }
+                                >
+                                  <Image
+                                    src={
+                                      v.isRecommended
+                                        ? '/images/icons/icon-like-blue.svg'
+                                        : '/images/icons/icon-like.svg'
                                     }
-                                  >
-                                    <Image
-                                      src="/images/icons/icon-like-blue.svg"
-                                      width={20}
-                                      height={20}
-                                      alt="icon"
-                                    />
-                                    <p className="text-xs">
-                                      추천 {v.recommendCount}
-                                    </p>
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    className={cn(
-                                      `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 text-gray-600`,
-                                    )}
-                                    variant="outline"
-                                    onClick={() =>
-                                      recommendMutation({
-                                        isRecommended: v.isRecommended,
-                                        answerId: v.weeklyInterviewAnswerId,
-                                      })
-                                    }
-                                  >
-                                    <Image
-                                      src="/images/icons/icon-like.svg"
-                                      width={20}
-                                      height={20}
-                                      alt="icon"
-                                    />
-                                    <p className="text-xs">
-                                      추천 {v.recommendCount}
-                                    </p>
-                                  </Button>
-                                )}
+                                    width={20}
+                                    height={20}
+                                    alt="icon"
+                                  />
+                                  <p className="text-xs">
+                                    추천 {v.recommendCount}
+                                  </p>
+                                </Button>
+
                                 <Image
                                   src="/images/icons/icon-more-vertical.svg"
                                   width={24}

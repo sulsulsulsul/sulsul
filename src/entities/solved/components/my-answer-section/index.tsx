@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import { AnswerListData } from '@/entities/types/interview';
@@ -37,7 +39,7 @@ export const MyAnswerSection = ({
     setIsEditModal,
   } = useAnswerModalStore();
 
-  const { mutate: recommendMutation } = useAnswerRecommend({
+  const { mutate: recommendMutation, error } = useAnswerRecommend({
     accessToken,
     currentInterviewId: interviewId,
     userId,
@@ -67,6 +69,13 @@ export const MyAnswerSection = ({
     });
   };
 
+  useEffect(() => {
+    if (error?.message === 'Request failed with status code 401') {
+      toast.error('로그인 후 서비스를 이용해주세요.');
+      redirect('/solved');
+    }
+  }, [error]);
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
@@ -93,35 +102,27 @@ export const MyAnswerSection = ({
             </button>
           </div>
         )}
-        {isRecommended ? (
-          <Button
-            className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-blue-500`)}
-            variant="outline"
-            onClick={handleClickRecommendBtn}
-          >
-            <Image
-              src="/images/icons/icon-like-blue.svg"
-              width={20}
-              height={20}
-              alt="icon"
-            />
-            <p className="text-xs">추천</p>
-          </Button>
-        ) : (
-          <Button
-            className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-gray-600`)}
-            variant="outline"
-            onClick={handleClickRecommendBtn}
-          >
-            <Image
-              src="/images/icons/icon-like.svg"
-              width={20}
-              height={20}
-              alt="icon"
-            />
-            <p className="text-xs">추천</p>
-          </Button>
-        )}
+
+        <Button
+          className={cn(
+            `flex h-[36px] w-[71px] gap-1 p-2 font-semibold ${isRecommended ? 'text-blue-500' : 'text-gray-600'}`,
+          )}
+          variant="outline"
+          onClick={handleClickRecommendBtn}
+        >
+          <Image
+            src={
+              isRecommended
+                ? '/images/icons/icon-like-blue.svg'
+                : '/images/icons/icon-like.svg'
+            }
+            width={20}
+            height={20}
+            alt="icon"
+          />
+          <p className="text-xs">추천</p>
+        </Button>
+
         <Image
           src="/images/icons/icon-more-vertical.svg"
           width={24}

@@ -14,11 +14,6 @@ export const useAnswerList = ({
   const result = useInfiniteQuery({
     ...answerListOptions(interviewId, sortType, accessToken),
     enabled: !!accessToken && !!interviewId,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage: AnswerList) => {
-      const nextPage = lastPage.page + 1;
-      return nextPage < lastPage.totalPage ? nextPage : undefined;
-    },
   });
 
   const { data, ...rest } = result;

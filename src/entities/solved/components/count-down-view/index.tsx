@@ -33,8 +33,11 @@ export const CountDownView = ({
   }, []);
 
   return (
-    <div className="text-sm font-medium text-gray-500">
-      {days}일 {hours}:{minutes}:{seconds}후 종료
+    <div className="mt-1 flex text-sm font-medium text-gray-500">
+      <p className="w-[85px]">
+        {days}일 {hours}:{minutes}:{seconds}
+      </p>
+      <p>후 종료</p>
     </div>
   );
 };
