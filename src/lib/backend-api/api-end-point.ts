@@ -126,6 +126,14 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
+    // 백문백답 - 키워드 생성
+    createChallengeKeyword: (questionId: number) => {
+      return {
+        url: `${API_V1_BASE}/challenges/${questionId}/keyword`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
 
     deleteKeyword: ({
       questionId,
@@ -164,9 +172,9 @@ export const API_ENDPOINT = {
         authorization: true,
       };
     },
-    getAllSearchQuestions: () => {
+    getAllSearchQuestions: (userId: number) => {
       return {
-        url: `/api/v1/questions/search`,
+        url: `/api/v1/questions/search?userId=${userId}`,
         method: Method.GET,
         authorization: true,
       };
@@ -342,6 +350,15 @@ export const API_ENDPOINT = {
   },
 
   challenges: {
+    // 백문백답 - 챌린지 진행상황
+    getUserTotalChallengesProgress: () => {
+      return {
+        url: `${API_V1_BASE}/challenges/progress`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+
     // 백문백답 상세 - 카테고리별 첼린지 진행 상황 조회
     getUserChallengesProgress: () => {
       return {
@@ -356,6 +373,15 @@ export const API_ENDPOINT = {
       return {
         url: `${API_V1_BASE}/challenges/${category}`,
         method: Method.GET,
+        authorization: true,
+      };
+    },
+
+    // 최다 빈출 기본질문 - 저장하기
+    createMostFrequentAnswer: (challengeId: number) => {
+      return {
+        url: `${API_V1_BASE}/challenges/${challengeId}/answer`,
+        method: Method.POST,
         authorization: true,
       };
     },

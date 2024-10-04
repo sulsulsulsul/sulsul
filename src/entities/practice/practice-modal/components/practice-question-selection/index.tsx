@@ -35,7 +35,7 @@ export default function PracticeModalQuestionSelection({
   return (
     <div
       className={cn(
-        'flex h-[68px] w-full flex-row items-center gap-[12px] border border-gray-100 bg-white border-b-0 pl-[24px] pr-[48px]',
+        'flex h-[68px] w-full flex-row items-center  border-y border-gray-100 bg-white border-b-0 pl-[24px] pr-[48px]',
         index === 0 && 'border-t-0',
       )}
     >

@@ -70,7 +70,7 @@ export const TogetherSolvedContent = () => {
         <Image
           fill
           className="rounded-xl"
-          src="https://via.placeholder.com/300x175"
+          src={currentData.weeklyInterviewImage}
           alt="기출 이미지"
         />
       </div>

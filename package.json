@@ -59,6 +59,7 @@
     "react-highlight-within-textarea": "^3.2.1",
     "react-highlight-words": "^0.20.0",
     "react-hook-form": "^7.51.2",
+    "react-intersection-observer": "^9.13.1",
     "sonner": "^1.4.41",
     "storybook-addon-module-mock": "^1.3.0",
     "tailwind-merge": "^2.2.1",

@@ -8,13 +8,13 @@ export interface AnswerListActionProps {
   interviewId: number;
   sortType: 'NEW' | 'RECOMMEND';
   accessToken?: string;
-  count?: number;
+  pageParam?: number;
 }
 export const getAnswerListAction = async ({
   interviewId,
   sortType,
   accessToken,
-  count,
+  pageParam,
 }: AnswerListActionProps) => {
   try {
     const response = await backendApi<AnswerList>({
@@ -22,10 +22,10 @@ export const getAnswerListAction = async ({
         interviewId,
         sortType,
       }),
-      accessToken,
       params: {
-        count,
+        page: pageParam,
       },
+      accessToken,
     });
     return response;
   } catch (error) {

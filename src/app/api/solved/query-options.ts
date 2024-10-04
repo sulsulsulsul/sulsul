@@ -1,13 +1,15 @@
 import { queryOptions } from '@tanstack/react-query';
 
-import { getUserQuestionList } from '@/app/(routes)/solved/question/components/question-list/actions/get-user-question-list';
-import { getUserChallengesProgress } from '@/app/(routes)/solved/question/components/response-completion-rate/vertical-linear-stepper/actions/get-user-challenges-progress';
+import { getUserChallengesProgress } from '@/app/(routes)/solved/question/actions/get-user-challenges-progress';
+import { getUserQuestionList } from '@/app/(routes)/solved/question/actions/get-user-question-list';
+import { GetUserTotalChallengesProgress } from '@/app/(routes)/solved/question/actions/get-user-total-challenges-progress';
 import { getUserActivityAction } from '@/entities/solved/actions';
+import { getAnswerListAction } from '@/entities/solved/actions/get-answer-list-action';
 import { getInterviewAction } from '@/entities/solved/actions/get-interview-action';
 
 export const myActivityOptions = (userId: number, accessToken: string) => {
   return queryOptions({
-    queryKey: ['interview', userId, accessToken],
+    queryKey: ['myActivity', userId, accessToken],
     queryFn: () => {
       return getUserActivityAction({ userId, accessToken });
     },
@@ -15,7 +17,7 @@ export const myActivityOptions = (userId: number, accessToken: string) => {
   });
 };
 
-export const interviewOptions = (pivotDate: string) => {
+export const interviewOptions = (pivotDate?: string) => {
   return queryOptions({
     queryKey: ['interview', pivotDate],
     queryFn: () => {
@@ -24,11 +26,28 @@ export const interviewOptions = (pivotDate: string) => {
   });
 };
 
-export const interviewPrevOptions = (pivotDate: string) => {
+export const answerListOptions = (
+  interviewId: number,
+  sortType: 'NEW' | 'RECOMMEND',
+  accessToken?: string,
+) => {
+  return {
+    queryKey: ['interview', interviewId, sortType, accessToken],
+    queryFn: ({ pageParam = 0 }) =>
+      getAnswerListAction({
+        interviewId,
+        sortType,
+        accessToken,
+        pageParam,
+      }),
+  };
+};
+// 벡믄벡딥 - 진행상황 - 상위 프로그래스
+export const myTotalChallengesProgressOptions = (accessToken: string) => {
   return queryOptions({
-    queryKey: ['interview', 'prevDate', pivotDate],
+    queryKey: ['challenge', 'totalProgress', accessToken],
     queryFn: () => {
-      return getInterviewAction(pivotDate);
+      return GetUserTotalChallengesProgress(accessToken);
     },
   });
 };

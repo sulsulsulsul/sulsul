@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { useEffect } from 'react';
+import { FormProvider } from 'react-hook-form';
 
 import { FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
@@ -29,7 +29,6 @@ export const TextAreaSection = ({
   currentData,
   isEditModal,
   myAnswerData,
-  isOpenAnswerModal,
 }: TextAreaSectionProps) => {
   const { auth } = useUserStore();
   const { form } = useWriteAnswerForm();
@@ -73,7 +72,8 @@ export const TextAreaSection = ({
   };
 
   const saveTemporaryAnswer = () => {
-    sessionStorage.setItem('temporarySave', inputValue);
+    typeof window !== 'undefined' &&
+      sessionStorage.setItem('temporarySave', inputValue);
     setIsTemporarySaved(true);
 
     setTimeout(() => {
@@ -83,7 +83,10 @@ export const TextAreaSection = ({
 
   useInterval(() => {
     if (isEditModal) return;
-    if (sessionStorage.getItem('temporarySave') !== inputValue) {
+    if (
+      typeof window !== 'undefined' &&
+      sessionStorage.getItem('temporarySave') !== inputValue
+    ) {
       saveTemporaryAnswer();
     }
   }, 30000);
@@ -93,20 +96,38 @@ export const TextAreaSection = ({
   });
 
   useEffect(() => {
-    if (isEditModal && !sessionStorage.getItem('temporarySave')) {
+    if (
+      isEditModal &&
+      typeof window !== 'undefined' &&
+      !sessionStorage.getItem('temporarySave')
+    ) {
       form.reset({
         answer: myAnswerData?.content || '',
       });
     }
 
-    if (isEditModal && sessionStorage.getItem('temporarySave')) {
+    if (
+      isEditModal &&
+      typeof window !== 'undefined' &&
+      sessionStorage.getItem('temporarySave')
+    ) {
       form.reset({
-        answer: sessionStorage.getItem('temporarySave') || '',
+        answer:
+          (typeof window !== 'undefined' &&
+            sessionStorage.getItem('temporarySave')) ||
+          '',
       });
     }
-    if (!isEditModal && sessionStorage.getItem('temporarySave')) {
+    if (
+      !isEditModal &&
+      typeof window !== 'undefined' &&
+      sessionStorage.getItem('temporarySave')
+    ) {
       form.reset({
-        answer: sessionStorage.getItem('temporarySave') || '',
+        answer:
+          (typeof window !== 'undefined' &&
+            sessionStorage.getItem('temporarySave')) ||
+          '',
       });
     }
   }, [isEditModal, myAnswerData, form.reset]);

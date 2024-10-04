@@ -7,6 +7,7 @@ export interface MyQuestionList {
   answerRate: number;
   challenges: [
     {
+      challengeId: number;
       content: string;
       isAnswered: false;
       question: {
@@ -22,4 +23,9 @@ export interface MyQuestionList {
       };
     },
   ];
+}
+
+export interface MyTotalChallengesProgressData {
+  totalCount: number;
+  percent: number;
 }

@@ -38,15 +38,15 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const { firstPractice } = useUserStore((state) => ({
     firstPractice: state.data.firstPractice,
   }));
-  //FIXME
-  // const [coachModal, setCoachModal] = useState(firstPractice);
 
   const isMobile =
     typeof window !== 'undefined'
       ? window.innerWidth >= 375 && window.innerWidth <= 767
       : false;
+  //FIXME
+  // const [coachModal, setCoachModal] = useState(!isMobile && firstPractice);
+  const [coachModal, setCoachModal] = useState(true);
 
-  const [coachModal, setCoachModal] = useState(!isMobile);
   const smileRef = useRef<LottieRefCurrentProps>(null);
   const thinkingRef = useRef<LottieRefCurrentProps>(null);
 
@@ -129,7 +129,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
         <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-gray-800/80 mobile:hidden" />
       )}
       {coachModal ? (
-        <div className="h-78 absolute -top-[78px] left-4 flex w-full justify-between ">
+        <div className=" absolute left-4 top-[-78px] flex w-full justify-between ">
           <div className="flex items-center">
             <button
               className="absolute z-30 flex w-fit flex-row items-center gap-px p-[16px]"
@@ -214,7 +214,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
               question={q.data}
               remainingQuestions={questions.length}
             />
-            <div className="absolute left-1/2 top-[211px] h-[308px] w-[90%] -translate-x-1/2 rounded-md border border-solid border-gray-200 bg-white shadow-base mobile:top-[182px] mobile:h-[252px]">
+            <div className="absolute left-1/2 top-[200px] h-[308px] w-[90%] -translate-x-1/2 rounded-md border border-solid border-gray-200 bg-white shadow-base mobile:top-[182px] mobile:h-[252px]">
               <HintCard
                 keywords={q.data.keywords}
                 answerHint={q.data.answer}
@@ -228,8 +228,8 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
         </AnimatePresence>
       )}
       {coachModal ? (
-        <div>
-          <div className="z-20 flex items-center justify-center gap-1">
+        <>
+          <div className="z-50 flex items-center justify-center gap-1">
             <div className="absolute bottom-[35px] ml-[200px] flex size-fit flex-row gap-x-1.5">
               <Image
                 src="/images/icons/arrow-hint.svg"
@@ -302,7 +302,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
               </AnswerButton>
             </div>
           </div>
-        </div>
+        </>
       ) : (
         <div className="relative z-20 mt-[108px] flex gap-6 mobile:mt-[80px] mobile:h-[80px] mobile:gap-2.5">
           <AnswerButton

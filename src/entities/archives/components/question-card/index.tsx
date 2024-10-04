@@ -20,6 +20,7 @@ interface QuestionCardProps extends HTMLAttributes<HTMLDivElement> {
   archiveId?: number;
   isClicked: boolean;
   setClickedQuestions: React.Dispatch<React.SetStateAction<number[]>>;
+  type: string;
 }
 
 export const QuestionCard = ({
@@ -28,6 +29,7 @@ export const QuestionCard = ({
   archiveId,
   isClicked,
   setClickedQuestions,
+  type = '',
   ...props
 }: QuestionCardProps) => {
   const { focused } = useFocusedQuestionCard();
@@ -65,6 +67,7 @@ export const QuestionCard = ({
                 questionId={questionId}
                 archiveId={archiveId!}
                 isAnswered={isAnswered}
+                type={type}
               />
             </AccordionContent>
           </AccordionItem>

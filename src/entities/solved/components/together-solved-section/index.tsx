@@ -20,6 +20,7 @@ export const TogetherSolvedSection = () => {
     userId,
     accessToken,
   });
+
   return (
     <>
       {myWriteAnswerData ? (
