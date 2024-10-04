@@ -339,53 +339,34 @@ export const ViewAllAnswersModal = ({
                                     </span>
                                   </div>
                                 )}
-                                {v.isRecommended ? (
-                                  <Button
-                                    className={cn(
-                                      `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 text-blue-500`,
-                                    )}
-                                    variant="outline"
-                                    onClick={() =>
-                                      recommendMutation({
-                                        isRecommended: v.isRecommended,
-                                        answerId: v.weeklyInterviewAnswerId,
-                                      })
+
+                                <Button
+                                  className={cn(
+                                    `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 ${v.isRecommended ? 'text-blue-500' : 'text-gray-600'} `,
+                                  )}
+                                  variant="outline"
+                                  onClick={() =>
+                                    recommendMutation({
+                                      isRecommended: v.isRecommended,
+                                      answerId: v.weeklyInterviewAnswerId,
+                                    })
+                                  }
+                                >
+                                  <Image
+                                    src={
+                                      v.isRecommended
+                                        ? '/images/icons/icon-like-blue.svg'
+                                        : '/images/icons/icon-like.svg'
                                     }
-                                  >
-                                    <Image
-                                      src="/images/icons/icon-like-blue.svg"
-                                      width={20}
-                                      height={20}
-                                      alt="icon"
-                                    />
-                                    <p className="text-xs">
-                                      추천 {v.recommendCount}
-                                    </p>
-                                  </Button>
-                                ) : (
-                                  <Button
-                                    className={cn(
-                                      `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 text-gray-600`,
-                                    )}
-                                    variant="outline"
-                                    onClick={() =>
-                                      recommendMutation({
-                                        isRecommended: v.isRecommended,
-                                        answerId: v.weeklyInterviewAnswerId,
-                                      })
-                                    }
-                                  >
-                                    <Image
-                                      src="/images/icons/icon-like.svg"
-                                      width={20}
-                                      height={20}
-                                      alt="icon"
-                                    />
-                                    <p className="text-xs">
-                                      추천 {v.recommendCount}
-                                    </p>
-                                  </Button>
-                                )}
+                                    width={20}
+                                    height={20}
+                                    alt="icon"
+                                  />
+                                  <p className="text-xs">
+                                    추천 {v.recommendCount}
+                                  </p>
+                                </Button>
+
                                 <Image
                                   src="/images/icons/icon-more-vertical.svg"
                                   width={24}
