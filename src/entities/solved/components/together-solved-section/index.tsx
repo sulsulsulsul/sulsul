@@ -11,7 +11,6 @@ export const TogetherSolvedSection = () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const { auth } = useUserStore();
   const { userId, accessToken } = auth;
-  console.log(userId);
   const { data: currentData, error } = useInterview(pivotDate);
 
   const { data: myWriteAnswerData } = useUserAnswer({
