@@ -51,7 +51,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
           />
         )}
       </svg>
-      <div className="absolute bottom-5 left-0 right-5 top-0 flex flex-col content-center justify-center">
+      <div className="absolute bottom-5 left-0 right-5 top-0 flex w-[124px] flex-col content-center justify-center">
         {item.title === '최다 빈출 기본질문' ? (
           <>
             <Image
@@ -140,7 +140,7 @@ const GradientCircularProgress = ({ value, item }: any) => {
             onClick={() => router.push('/solved/question')}
           />
         )}
-        <div className="mt-[160px] text-center">
+        <div className="absolute bottom-[-60px] flex w-full flex-col items-center justify-center">
           <p className="text-nowrap text-base font-bold text-gray-700">
             {item.title}
           </p>
