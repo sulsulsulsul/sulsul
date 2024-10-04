@@ -8,7 +8,7 @@ const Progress = ({ accessToken }: { accessToken: string }) => {
   const { data } = UseUserTotalChallengesProgress({
     accessToken,
   });
-  // console.log(data);
+
   return (
     <>
       <p className="mb-0 text-2xs text-gray-500">첼린지 진행상황</p>
@@ -26,7 +26,12 @@ const Progress = ({ accessToken }: { accessToken: string }) => {
           에 속해요
         </p>
       </div>
-      <LineProgressBar percent={data?.percent || 0} rounded={36} height={8} />
+      <LineProgressBar
+        percent={data?.percent || 0}
+        rounded={36}
+        height={8}
+        progressColor="#3B82F6"
+      />
     </>
   );
 };
