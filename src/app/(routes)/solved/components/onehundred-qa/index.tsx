@@ -77,7 +77,6 @@ const OnehundredQa = ({ accessToken }: { accessToken: string }) => {
         ]);
       }
     } else {
-      console.log('?');
       setQaData([
         {
           image: 'lv1',
