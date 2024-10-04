@@ -216,11 +216,8 @@ export const ViewAllAnswersModal = ({
                         handleSelectWeek(value);
                       }}
                     >
-                      <SelectTrigger>
-                        <SelectValue
-                          placeholder={weeks[0].label}
-                          className="text-right text-sm"
-                        />
+                      <SelectTrigger className="p-0 font-medium text-gray-500">
+                        <SelectValue placeholder={weeks[0].label} />
                       </SelectTrigger>
                       <SelectContent
                         position="popper"
@@ -231,7 +228,7 @@ export const ViewAllAnswersModal = ({
                             <div key={v.label}>
                               <SelectItem
                                 className={cn(
-                                  `h-[41px] pl-4 text-sm font-semibold ${v.label === filter ? 'bg-muted !text-blue-500 hover:!text-blue-500' : 'text-gray-700'}`,
+                                  `h-[41px] pl-4 text-sm font-medium ${v.label === filter ? 'bg-muted !text-blue-500 hover:!text-blue-500' : 'text-gray-700'}`,
                                 )}
                                 value={v.label}
                                 onClick={() => setSelectedDate(v.start)}
@@ -305,7 +302,7 @@ export const ViewAllAnswersModal = ({
                               key={v.weeklyInterviewAnswerId}
                               className="mt-6 flex flex-col gap-4"
                             >
-                              <div className="flex justify-between border-b border-gray-800 pb-2">
+                              <div className="flex items-center justify-between border-b border-gray-800 pb-2">
                                 <div className="flex items-center gap-1">
                                   <div className="relative size-6 overflow-hidden rounded-full">
                                     <Image
@@ -318,7 +315,7 @@ export const ViewAllAnswersModal = ({
                                       alt="프로필 이미지"
                                     />
                                   </div>
-                                  <p className="font-medium text-gray-600">
+                                  <p className="text-[15px] font-medium text-gray-600">
                                     {v.nickname}
                                   </p>
                                 </div>
