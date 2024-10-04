@@ -71,7 +71,6 @@ const GradientCircularProgress = ({ value, item, accessToken }: any) => {
                 left: '70px',
                 cursor: 'pointer',
               }}
-              onClick={handleClickImg}
             />
             <Image
               src={`/images/lv/${item.image}.svg`}
@@ -100,7 +99,6 @@ const GradientCircularProgress = ({ value, item, accessToken }: any) => {
                 left: '70px',
                 cursor: 'pointer',
               }}
-              onClick={handleClickImg}
             />
 
             <Image
@@ -129,7 +127,6 @@ const GradientCircularProgress = ({ value, item, accessToken }: any) => {
               left: '35px',
               cursor: 'pointer',
             }}
-            onClick={handleClickImg}
           />
         ) : (
           <Image
@@ -143,7 +140,6 @@ const GradientCircularProgress = ({ value, item, accessToken }: any) => {
               left: '45px',
               cursor: 'pointer',
             }}
-            onClick={handleClickImg}
           />
         )}
         <div className="absolute bottom-[-60px] flex w-full flex-col items-center justify-center">
