@@ -102,35 +102,27 @@ export const MyAnswerSection = ({
             </button>
           </div>
         )}
-        {isRecommended ? (
-          <Button
-            className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-blue-500`)}
-            variant="outline"
-            onClick={handleClickRecommendBtn}
-          >
-            <Image
-              src="/images/icons/icon-like-blue.svg"
-              width={20}
-              height={20}
-              alt="icon"
-            />
-            <p className="text-xs">추천</p>
-          </Button>
-        ) : (
-          <Button
-            className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-gray-600`)}
-            variant="outline"
-            onClick={handleClickRecommendBtn}
-          >
-            <Image
-              src="/images/icons/icon-like.svg"
-              width={20}
-              height={20}
-              alt="icon"
-            />
-            <p className="text-xs">추천</p>
-          </Button>
-        )}
+
+        <Button
+          className={cn(
+            `flex h-[36px] w-[71px] gap-1 p-2 font-semibold ${isRecommended ? 'text-blue-500' : 'text-gray-600'}`,
+          )}
+          variant="outline"
+          onClick={handleClickRecommendBtn}
+        >
+          <Image
+            src={
+              isRecommended
+                ? '/images/icons/icon-like-blue.svg'
+                : '/images/icons/icon-like.svg'
+            }
+            width={20}
+            height={20}
+            alt="icon"
+          />
+          <p className="text-xs">추천</p>
+        </Button>
+
         <Image
           src="/images/icons/icon-more-vertical.svg"
           width={24}

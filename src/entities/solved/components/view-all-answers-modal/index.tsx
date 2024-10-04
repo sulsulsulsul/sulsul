@@ -342,7 +342,7 @@ export const ViewAllAnswersModal = ({
 
                                 <Button
                                   className={cn(
-                                    `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 ${v.isRecommended ? 'text-blue-500' : 'text-gray-600'} `,
+                                    `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 font-semibold ${v.isRecommended ? 'text-blue-500' : 'text-gray-600'} `,
                                   )}
                                   variant="outline"
                                   onClick={() =>

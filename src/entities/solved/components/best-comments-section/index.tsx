@@ -112,7 +112,7 @@ export const BestCommentsSection = ({
               </button>
             </>
           ) : (
-            <NoDataCard className="text-base font-semibold text-gray-400" />
+            <NoDataCard className="text-base font-medium text-gray-400" />
           )}
         </div>
       </div>

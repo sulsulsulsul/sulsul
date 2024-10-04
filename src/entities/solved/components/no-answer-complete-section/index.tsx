@@ -61,7 +61,7 @@ export const NoAnswerCompleteSection = () => {
       <TogetherSolvedHeader />
       <div className="flex h-[520px] w-full flex-col items-center justify-center gap-5 rounded-md border border-gray-200 bg-white shadow-base">
         <div className="flex max-h-[358px] w-full max-w-[300px] flex-col gap-6">
-          <div className="flex flex-col items-center gap-1">
+          <div className="flex flex-col items-center">
             {currentTitle?.map((line, i) => (
               <div
                 className="max-w-[260px] text-center text-4xl font-bold"
@@ -101,7 +101,7 @@ export const NoAnswerCompleteSection = () => {
           </AlertDialog>
           {isOpenAnswerModal && <WriteAnswerModal />}
         </div>
-        <div className="relative flex items-center gap-1">
+        <div className="relative flex items-center gap-1 font-semibold">
           {profileImgs.length >= 3 ? (
             <>
               {profileImgs.slice(0, 3).map((v, i) => (

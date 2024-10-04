@@ -51,7 +51,6 @@ export const AnswerCompleteSection = ({
   const { setMyAnswerData } = useMyAnswerStore();
 
   const { userId, accessToken } = auth;
-  console.log(userId);
   const { data: currentData, refetch } = useInterview(pivotDate);
   const { mutate: recommendMutation, error } = useAnswerRecommend({
     currentInterviewId: currentData?.weeklyInterviewId || 0,
