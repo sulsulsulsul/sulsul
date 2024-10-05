@@ -8,8 +8,10 @@ import { UNAUTHORIZED_MESSAGE } from '@/config/constants/error-message';
 import { AnswerListData } from '@/entities/types/interview';
 import { cn, removeNewlines } from '@/lib/utils';
 import { formatDate } from '@/shared/helpers/date-helpers';
+import { useAnswerListStore } from '@/store/answerListStore';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
+import { useInterviewStore } from '@/store/interviewStore';
 import { useMyAnswerStore } from '@/store/myAnswerStore';
 
 import { useAnswerRecommend } from '../../hooks/use-answer-recommend';
@@ -36,7 +38,10 @@ export const AnswerCompleteSection = ({
 
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const { isRecommended, weeklyInterviewAnswerId } = myWriteAnswerData;
+
   const { auth, data } = useUserStore();
+  const { userId, accessToken } = auth;
+
   const {
     isOpenDeleteModal,
     isOpenAnswerModal,
@@ -49,20 +54,16 @@ export const AnswerCompleteSection = ({
     setIsTogetherSection,
   } = useAnswerModalStore();
   const { setMyAnswerData } = useMyAnswerStore();
+  const { answerListData } = useAnswerListStore();
 
-  const { userId, accessToken } = auth;
-  const { data: currentData, refetch } = useInterview(pivotDate);
+  const { currentData, refetch } = useInterviewStore();
   const { mutate: recommendMutation, error } = useAnswerRecommend({
     currentInterviewId: currentData?.weeklyInterviewId || 0,
     accessToken,
     userId,
     pivotDate,
   });
-  const { data: answerListData } = useAnswerList({
-    interviewId: currentData?.weeklyInterviewId || 0,
-    sortType: 'RECOMMEND',
-    accessToken: accessToken,
-  });
+
   const handleClickMoreMenu = () => {
     setOpenMoreMenu((prev) => !prev);
   };

@@ -15,13 +15,13 @@ export const myActivityOptions = (userId: number, accessToken: string) => {
     queryFn: () => {
       return getUserActivityAction({ userId, accessToken });
     },
-    enabled: !!accessToken && !!userId,
+    enabled: !!accessToken,
   });
 };
 
 export const interviewOptions = (pivotDate?: string) => {
   return queryOptions({
-    queryKey: ['interview', pivotDate],
+    queryKey: ['interview', 'current', pivotDate],
     queryFn: () => {
       return getInterviewAction(pivotDate);
     },

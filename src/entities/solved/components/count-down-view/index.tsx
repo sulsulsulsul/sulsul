@@ -9,7 +9,7 @@ export const CountDownView = ({
   refetch,
 }: {
   endTime: string;
-  refetch: () => void;
+  refetch?: () => void;
 }) => {
   const now = new Date();
   const end = new Date(endTime);
@@ -27,10 +27,6 @@ export const CountDownView = ({
     Math.floor((Number(remain) / (1000 * 60 * 60)) % 24),
   ).padStart(2, '0');
   const days = Math.floor(Number(remain) / (1000 * 60 * 60 * 24));
-
-  useEffect(() => {
-    refetch();
-  }, []);
 
   return (
     <div className="mt-1 flex text-sm font-medium text-gray-500">

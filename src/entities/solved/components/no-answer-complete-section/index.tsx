@@ -33,7 +33,7 @@ export const NoAnswerCompleteSection = () => {
     formatCase: 'YYYY-MM-DD',
   });
   const { data: currentData, refetch } = useInterview(pivotDate);
-  const { data: previousData } = useInterview(previousWeekDate);
+
   const { setInterviewData, setPreviousInterviewData } = useInterviewStore();
   const currentTitle = currentData?.content.split('\\n');
 
@@ -46,10 +46,7 @@ export const NoAnswerCompleteSection = () => {
     if (currentData) {
       setInterviewData(currentData);
     }
-    if (previousData) {
-      setPreviousInterviewData(previousData);
-    }
-  }, [currentData, previousData]);
+  }, [currentData]);
 
   const profileImgs = currentData?.profileImgs || [];
   const answerCount = currentData?.answerCount || 0;

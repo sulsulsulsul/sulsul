@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import Image from 'next/image';
 
 import { Popover } from '@/components/ui/popover';
@@ -10,20 +11,20 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import NoDataCard from '@/entities/practice/components/no-data-card';
-import { useInterviewStore } from '@/store/interviewStore';
+import { useAnswerListStore } from '@/store/answerListStore';
 
 import { useAnswerList } from '../../hooks/use-get-answer-list';
 
 export const WeekRankingSection = ({
   accessToken,
+  weeklyInterviewId,
 }: {
   accessToken: string;
+  weeklyInterviewId: number;
 }) => {
-  const { currentData } = useInterviewStore();
-
-  const currentInterviewId = currentData.weeklyInterviewId || 1;
+  const { setAnswersData } = useAnswerListStore();
   const { data: answerListData } = useAnswerList({
-    interviewId: currentInterviewId,
+    interviewId: weeklyInterviewId,
     sortType: 'RECOMMEND',
     accessToken,
   });
@@ -32,6 +33,22 @@ export const WeekRankingSection = ({
     !accessToken ||
     answerListData?.pages[0].answers.length === 0 ||
     answerListData?.pages[0].answers[0].recommendCount === 0;
+
+  useEffect(() => {
+    if (answerListData) {
+      const pageInfo = {
+        pages: answerListData.pages.map((page) => ({
+          answers: page.answers,
+          page: page.page,
+          size: page.size,
+          totalPage: page.totalPage,
+          totalCount: page.totalCount,
+        })),
+      };
+
+      setAnswersData(pageInfo);
+    }
+  }, [answerListData, setAnswersData]);
   return (
     <div className="mt-[6px] flex w-full flex-col gap-2">
       <div className="relative flex justify-between">

@@ -31,9 +31,9 @@ export const TogetherSolvedContent = () => {
     date: dayjs().subtract(7, 'day'),
     formatCase: 'YYYY-MM-DD',
   });
-  const { data: currentData, refetch } = useInterview(pivotDate);
   const { data: previousData } = useInterview(previousWeekDate);
-  const { setInterviewData, setPreviousInterviewData } = useInterviewStore();
+  const { currentData, setInterviewData, setPreviousInterviewData, refetch } =
+    useInterviewStore();
   const currentTitle = currentData?.content.split('\\n');
 
   const handleClickCreateAnswerBtn = () => {

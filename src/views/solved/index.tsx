@@ -1,39 +1,59 @@
+'use client';
 import Image from 'next/image';
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import dayjs from 'dayjs';
 
 import OnehundredQa from '@/app/(routes)/solved/components/onehundred-qa';
-import { auth } from '@/app/api/auth/[...nextauth]/auth';
-import {
-  interviewOptions,
-  myActivityOptions,
-} from '@/app/api/solved/query-options';
+import NoDataCard from '@/entities/practice/components/no-data-card';
 import { BestCommentsSection } from '@/entities/solved/components/best-comments-section';
 import { MyActivitySection } from '@/entities/solved/components/my-activity-section';
 import { TogetherSolvedSection } from '@/entities/solved/components/together-solved-section';
 import { WeekRankingSection } from '@/entities/solved/components/week-ranking-section';
-import { getQueryClient } from '@/lib/tanstack-query/client';
+import { useUserActivity } from '@/entities/solved/hooks/use-get-activity';
+import { useInterview } from '@/entities/solved/hooks/use-get-interview';
 import { formatDate } from '@/shared/helpers/date-helpers';
 
-export const Solved = async () => {
-  const authInfo = await auth();
-  const userId = authInfo?.user.auth.userId || 0;
-  const accessToken = authInfo?.user.auth.accessToken || '';
+interface SolvedProps {
+  accessToken: string;
+  userId: number;
+}
+export const Solved = ({ accessToken, userId }: SolvedProps) => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
+  const previousWeekDate = formatDate({
+    date: dayjs().subtract(7, 'day'),
+    formatCase: 'YYYY-MM-DD',
+  });
+  const {
+    data: previousInterviewData,
+    isSuccess: isSuccessPreviousInterviewData,
+  } = useInterview(previousWeekDate);
+  const {
+    data: currentInterviewData,
+    isSuccess: isSuccessCurrentInterviewData,
+    refetch,
+  } = useInterview(pivotDate);
 
-  const queryClient = getQueryClient();
-  queryClient.prefetchQuery(myActivityOptions(userId, accessToken));
-  queryClient.prefetchQuery(interviewOptions(pivotDate));
+  const { data: userActivityData } = useUserActivity({ userId, accessToken });
+
+  const current = userActivityData?.current || 0;
+  const total = userActivityData?.total || 0;
+
+  if (
+    !isSuccessCurrentInterviewData ||
+    !currentInterviewData?.weeklyInterviewId ||
+    !previousInterviewData ||
+    !isSuccessPreviousInterviewData
+  ) {
+    return null;
+  }
 
   return (
     <main className="flex w-full gap-6">
       <div className="hidden lg:flex lg:w-[282px] lg:flex-col lg:gap-[30px]">
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <MyActivitySection
-            userId={Number(userId)}
-            accessToken={accessToken}
-          />
-          <WeekRankingSection accessToken={accessToken} />
-        </HydrationBoundary>
+        <MyActivitySection current={current} total={total} />
+        <WeekRankingSection
+          accessToken={accessToken}
+          weeklyInterviewId={currentInterviewData?.weeklyInterviewId}
+        />
 
         <Image
           src="/images/gift-banner.svg"
@@ -43,14 +63,33 @@ export const Solved = async () => {
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 px-4 md:px-0 lg:px-0">
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <TogetherSolvedSection />
-        </HydrationBoundary>
+        <TogetherSolvedSection
+          currentInterviewData={currentInterviewData}
+          refetch={refetch}
+        />
         <OnehundredQa accessToken={accessToken} />
       </div>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <BestCommentsSection accessToken={accessToken} />
-      </HydrationBoundary>
+      <div className="hidden lg:mt-[6px] lg:flex lg:w-[282px] lg:flex-col lg:gap-2">
+        <div className="flex items-center gap-1">
+          <Image
+            src="/images/icons/icon-pin.svg"
+            width={24}
+            height={24}
+            alt="icon"
+          />
+          <h3 className="text-lg font-bold">지난주 BEST 답변</h3>
+        </div>
+        <div className="relative flex h-[478px] w-full flex-col items-center rounded-md border border-gray-200 bg-white pb-[27px] pt-[30px] shadow-base">
+          {accessToken ? (
+            <BestCommentsSection
+              accessToken={accessToken}
+              previousInterviewData={previousInterviewData}
+            />
+          ) : (
+            <NoDataCard className="text-base font-medium text-gray-400" />
+          )}
+        </div>
+      </div>
     </main>
   );
 };

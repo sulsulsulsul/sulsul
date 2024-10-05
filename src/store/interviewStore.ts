@@ -3,9 +3,10 @@ import { create } from 'zustand';
 import { InterviewData } from '@/entities/types/interview';
 
 export interface InterviewState {
+  refetch?: () => void;
   currentData: InterviewData;
   previousData: InterviewData;
-  setInterviewData: (newData: InterviewData) => void;
+  setInterviewData: (newData: InterviewData, refetch?: () => void) => void;
   setPreviousInterviewData: (newData: InterviewData) => void;
 }
 
@@ -23,6 +24,7 @@ const defaultInterviewData: InterviewData = {
 export const useInterviewStore = create<InterviewState>((set) => ({
   currentData: defaultInterviewData,
   previousData: defaultInterviewData,
-  setInterviewData: (data) => set({ currentData: data }),
+  setInterviewData: (data, refetch) =>
+    set({ currentData: data, refetch: refetch }),
   setPreviousInterviewData: (data) => set({ previousData: data }),
 }));

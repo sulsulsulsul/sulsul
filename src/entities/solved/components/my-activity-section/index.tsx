@@ -1,18 +1,14 @@
 'use client';
 import Image from 'next/image';
 
-import { useUserActivity } from '../../hooks/use-get-activity';
-
 interface MyActivitySectionProps {
-  userId: number;
-  accessToken: string;
+  current: number;
+  total: number;
 }
 export const MyActivitySection = ({
-  userId,
-  accessToken,
+  current,
+  total,
 }: MyActivitySectionProps) => {
-  const { data } = useUserActivity({ userId, accessToken });
-
   return (
     <div className="mt-[6px] flex w-full flex-col gap-2">
       <div className="flex items-center gap-1">
@@ -30,13 +26,11 @@ export const MyActivitySection = ({
           <div className="flex flex-col gap-2">
             <div className="flex justify-between">
               <div className="font-semibold text-gray-500">이번달</div>
-              <div className="font-bold text-blue-500">
-                {data?.current ?? 0}
-              </div>
+              <div className="font-bold text-blue-500">{current}</div>
             </div>
             <div className="flex justify-between">
               <div className="font-semibold text-gray-500">전체</div>
-              <div className="font-bold text-blue-500">{data?.total ?? 0}</div>
+              <div className="font-bold text-blue-500">{total}</div>
             </div>
           </div>
         </div>
