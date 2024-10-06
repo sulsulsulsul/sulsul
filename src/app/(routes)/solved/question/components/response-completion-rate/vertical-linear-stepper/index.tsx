@@ -141,32 +141,32 @@ const VerticalLinearStepper = ({
 
                     {step.description === '최다 빈출 기본질문' &&
                     count !== step.totalCount[idx] ? (
-                      <button className="float-right h-[32px] w-[68px] rounded-sm bg-blue-100 text-base leading-[32px] text-blue-500">
+                      <button className="float-right h-[32px] w-[68px] rounded-sm bg-blue-100 text-sm leading-[32px] text-blue-500">
                         작성 중
                       </button>
                     ) : count === step.totalCount[idx] ? (
                       <button
-                        className="float-right h-[32px] w-[68px] rounded-sm bg-green-100 text-base leading-[32px] text-green-900 shadow-[0_0_0_7px_rgba(255,255,255,1)] transition-all duration-300 hover:h-[32px] hover:w-[68px] hover:shadow-[0_0_0_7px_rgba(163,226,206,1)]"
+                        className="float-right h-[32px] w-[68px] rounded-sm bg-green-100 text-sm leading-[32px] text-green-900 shadow-[0_0_0_7px_rgba(255,255,255,1)] transition-all duration-300 hover:h-[32px] hover:w-[68px] hover:shadow-[0_0_0_7px_rgba(163,226,206,1)]"
                         onClick={() => handleClickButton(category)}
                       >
                         작성완료
                       </button>
                     ) : count > 0 && count !== step.totalCount[idx] ? (
                       <button
-                        className="float-right h-[32px] w-[68px] rounded-sm bg-blue-100 text-base leading-[32px] text-blue-500"
+                        className="float-right h-[32px] w-[68px] rounded-sm bg-blue-100 text-sm leading-[32px] text-blue-500"
                         onClick={() => handleClickButton(category)}
                       >
                         작성 중
                       </button>
                     ) : showSubmitButton ? (
                       <button
-                        className="float-right h-[32px] w-[68px] rounded-sm bg-blue-500 text-base leading-[32px] text-white shadow-[0_0_0_7px_rgba(255,255,255,1)] transition-all duration-300 hover:h-[32px] hover:w-[68px] hover:shadow-[0_0_0_7px_rgba(228,232,255,1)]"
+                        className="float-right h-[32px] w-[68px] rounded-sm bg-blue-500 text-sm leading-[32px] text-white shadow-[0_0_0_7px_rgba(255,255,255,1)] transition-all duration-300 hover:h-[32px] hover:w-[68px] hover:shadow-[0_0_0_7px_rgba(228,232,255,1)]"
                         onClick={() => handleClickButton(category)}
                       >
                         작성하기
                       </button>
                     ) : (
-                      <button className="float-right h-[32px] w-[68px] cursor-default rounded-sm bg-gray-100 text-base leading-[32px] text-gray-500">
+                      <button className="float-right h-[32px] w-[68px] cursor-default rounded-sm bg-gray-100 text-sm leading-[32px] text-gray-500">
                         작성 전
                       </button>
                     )}

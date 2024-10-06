@@ -9,7 +9,7 @@ const CompletionRate = () => {
     <div className="mb-[32px] mt-[20px]">
       <div className="mb-[10px] flex justify-between">
         <p className="text-lg font-bold text-gray-800">답변 작성률</p>
-        <p className="text-base font-semibold text-gray-600">
+        <p className="text-lg font-semibold text-gray-600">
           {questions.answerRate}%
         </p>
       </div>

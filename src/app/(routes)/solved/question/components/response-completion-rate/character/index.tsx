@@ -52,12 +52,36 @@ const Character = ({ data }: { data: MyChallengesProgressData[] }) => {
     imgsrc = 'txt18';
   }
 
+  const imgSize = (img: string) => {
+    if (img === 'txt1' || img === 'txt9') {
+      return 168;
+    } else if (img === 'txt2') {
+      return 153;
+    } else if (img === 'txt3' || img === 'txt17') {
+      return 173;
+    } else if (img === 'txt4' || img === 'txt5') {
+      return 180;
+    } else if (img === 'txt6' || img === 'txt12' || img === 'txt15') {
+      return 156;
+    } else if (img === 'txt7' || img === 'txt8') {
+      return 149;
+    } else if (img === 'txt10' || img === 'txt11') {
+      return 192;
+    } else if (img === 'txt13' || img === 'txt14') {
+      return 188;
+    } else if (img === 'txt16') {
+      return 176;
+    } else if (img === 'txt18') {
+      return 190;
+    }
+  };
+
   return (
     <div className="flex flex-col items-center gap-2">
       {imgsrc && (
         <Image
           src={`/images/solved/${imgsrc}.svg`}
-          width={192}
+          width={imgSize(imgsrc)}
           height={74}
           alt="character text"
         />
