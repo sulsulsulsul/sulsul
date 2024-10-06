@@ -53,7 +53,7 @@ export const CreateArchiveForm = ({
             <div className="flex size-full flex-col items-start gap-2">
               <CompanyNameField className="w-full" />
               <TitleField className="w-full" />
-              <ContentField className="size-full overflow-y-scroll" />
+              <ContentField className="size-full" />
               <ContentLength />
               <FormAction
                 onClickResetContents={onClickResetContents}
