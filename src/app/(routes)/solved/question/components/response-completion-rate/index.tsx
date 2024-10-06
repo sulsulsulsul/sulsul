@@ -2,6 +2,7 @@
 
 import { HTMLAttributes, useEffect, useState } from 'react';
 
+import { VerticalLinearStepperSkeleton } from '@/components/ui/characterSkeleton';
 import { cn } from '@/lib/utils';
 import { useUserStore } from '@/store/client';
 
@@ -19,6 +20,16 @@ const ResponseCompletionRate = ({ className }: QuestionListProps) => {
   });
   // 스크롤 고정
   const [isSticky, setIsSticky] = useState(false);
+  // 스켈레톤 상태
+  const [isSkeleton, setIsSkeleton] = useState(false);
+
+  useEffect(() => {
+    if (data === undefined) {
+      setIsSkeleton(true);
+    } else {
+      setIsSkeleton(false);
+    }
+  }, [data]);
 
   const handleScroll = () => {
     if (window.scrollY > 200) {
@@ -46,9 +57,15 @@ const ResponseCompletionRate = ({ className }: QuestionListProps) => {
           maxWidth: '100%',
         }}
       >
-        {data && <Character data={data} />}
-        <CompletionRate />
-        {data && <VerticalLinearStepper data={data} />}
+        {data ? (
+          <>
+            <Character data={data} />
+            <CompletionRate />
+            <VerticalLinearStepper data={data} />
+          </>
+        ) : (
+          <VerticalLinearStepperSkeleton />
+        )}
       </div>
     </div>
   );
