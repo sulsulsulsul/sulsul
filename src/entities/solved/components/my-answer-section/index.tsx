@@ -27,7 +27,8 @@ export const MyAnswerSection = ({
   accessToken,
 }: MyAnswerSectionProp) => {
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
-  const { isRecommended, weeklyInterviewAnswerId } = myWriteAnswerData;
+  const { isRecommended, weeklyInterviewAnswerId, recommendCount } =
+    myWriteAnswerData;
   const {
     isOpenDeleteModal,
     isOpenAnswerModal,
@@ -105,7 +106,7 @@ export const MyAnswerSection = ({
 
         <Button
           className={cn(
-            `flex h-[36px] w-[71px] gap-1 p-2 font-semibold ${isRecommended ? 'text-blue-500' : 'text-gray-600'}`,
+            `flex h-[36px] w-fit gap-1 p-3 font-semibold ${isRecommended ? 'text-blue-500' : 'text-gray-600'}`,
           )}
           variant="outline"
           onClick={handleClickRecommendBtn}
@@ -120,7 +121,7 @@ export const MyAnswerSection = ({
             height={20}
             alt="icon"
           />
-          <p className="text-xs">추천</p>
+          <p className="text-xs">추천 {recommendCount}</p>
         </Button>
 
         <Image
