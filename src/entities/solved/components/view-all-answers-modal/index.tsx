@@ -23,6 +23,7 @@ import { useUserAnswer } from '../../hooks/use-get-user-answer';
 import { useInterval } from '../../hooks/use-interval';
 import { DEFAULT_IMAGE_URL } from '../best-comments-section';
 import { MyAnswerSection } from '../my-answer-section';
+import { ReConfirmModal } from '../re-confirm-modal';
 
 interface ViewAllAnswersModalProp {
   handleClickCloseBtn: () => void;
@@ -45,7 +46,12 @@ export const ViewAllAnswersModal = ({
   const [sortType, setSortType] = useState<'NEW' | 'RECOMMEND'>('NEW');
 
   const { auth } = useUserStore();
-  const { setIsOpenAllAnswerModal, isOpenDeleteModal } = useAnswerModalStore();
+  const {
+    setIsOpenAllAnswerModal,
+    isOpenDeleteModal,
+    setOpenDeclareModal,
+    isOpenDeclareModal,
+  } = useAnswerModalStore();
   const { data: interviewData } = useInterview(selectedDate);
 
   const { userId, accessToken } = auth;
@@ -114,6 +120,9 @@ export const ViewAllAnswersModal = ({
     setOpenMoreMenu((prev) => !prev);
   };
 
+  const handleClickDeclareBtn = () => {
+    setOpenDeclareModal(true);
+  };
   const handleClickBackBtn = () => {
     setIsOpenAllAnswerModal(false);
   };
@@ -163,7 +172,7 @@ export const ViewAllAnswersModal = ({
     <>
       <div
         className={cn(
-          `fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center mobile:hidden ${isOpenDeleteModal && 'hidden'}`,
+          `fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center mobile:hidden ${isOpenDeleteModal && 'hidden'} ${isOpenDeclareModal && 'z-[998]'}`,
         )}
       ></div>
       <main className="fixed left-0 top-0 z-[60] flex h-screen w-screen items-center justify-center mobile:flex-col">
@@ -333,7 +342,10 @@ export const ViewAllAnswersModal = ({
                               </p>
                               <div className="relative flex items-center justify-between">
                                 {countIndex === i && isOpenMoreMenu && (
-                                  <div className="absolute right-6 flex h-[41px] w-[135px] cursor-pointer flex-col justify-center rounded-sm border border-gray-200 bg-white text-[14px] font-medium text-gray-700 hover:bg-gray-50">
+                                  <div
+                                    className="absolute right-6 flex h-[41px] w-[135px] cursor-pointer flex-col justify-center rounded-sm border border-gray-200 bg-white text-[14px] font-medium text-gray-700 hover:bg-gray-50"
+                                    onClick={handleClickDeclareBtn}
+                                  >
                                     <span className="absolute left-4">
                                       신고하기
                                     </span>
@@ -389,6 +401,11 @@ export const ViewAllAnswersModal = ({
           </div>
         </div>
       </main>
+      {isOpenDeclareModal && (
+        <div className="fixed left-0 top-0 z-[999] flex h-screen w-screen items-center justify-center">
+          <ReConfirmModal type="declare" />
+        </div>
+      )}
     </>
   );
 };

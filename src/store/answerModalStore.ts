@@ -4,6 +4,7 @@ interface AnswerModalState {
   isOpenAnswerModal: boolean;
   isOpenCancelModal: boolean;
   isOpenDeleteModal: boolean;
+  isOpenDeclareModal: boolean;
   isOpenAllAnswerModal: boolean;
   isEditModal: boolean;
   isTogetherSection: boolean;
@@ -11,6 +12,7 @@ interface AnswerModalState {
   setOpenAnswerModal: (isOpen: boolean) => void;
   setOpenCancelModal: (isOpen: boolean) => void;
   setOpenDeleteModal: (isOpen: boolean) => void;
+  setOpenDeclareModal: (isOpen: boolean) => void;
   setIsOpenAllAnswerModal: (isOpen: boolean) => void;
   setIsEditModal: (isEditModal: boolean) => void;
   setIsTogetherSection: (isTogetherSection: boolean) => void;
@@ -21,6 +23,7 @@ export const useAnswerModalStore = create<AnswerModalState>((set) => ({
   isOpenAnswerModal: false,
   isOpenCancelModal: false,
   isOpenDeleteModal: false,
+  isOpenDeclareModal: false,
   isOpenAllAnswerModal: false,
   isEditModal: false,
   isTogetherSection: false,
@@ -36,6 +39,10 @@ export const useAnswerModalStore = create<AnswerModalState>((set) => ({
   setOpenDeleteModal: (isOpen: boolean) =>
     set(() => ({
       isOpenDeleteModal: isOpen,
+    })),
+  setOpenDeclareModal: (isOpen: boolean) =>
+    set(() => ({
+      isOpenDeclareModal: isOpen,
     })),
   setIsOpenAllAnswerModal: (isOpen: boolean) =>
     set(() => ({

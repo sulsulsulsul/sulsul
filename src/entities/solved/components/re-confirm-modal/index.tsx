@@ -13,18 +13,18 @@ import warningIcon from '/public/images/icons/alert.svg';
 import faceIcon from '/public/images/icons/face-empty-yellow.svg';
 
 interface ConfirmModalProps {
-  type: 'exit' | 'delete';
+  type: 'exit' | 'delete' | 'declare';
   myWriteAnswerData?: AnswerListData;
 }
 interface ModalContent {
   icon: string;
   title: string;
-  detail: string;
+  detail?: string;
   leftButton: string;
   rightButton: string;
 }
 
-const MODAL_CONTENT: Record<'exit' | 'delete', ModalContent> = {
+const MODAL_CONTENT: Record<'exit' | 'delete' | 'declare', ModalContent> = {
   exit: {
     icon: faceIcon,
     title: '혹시 몰라요, 이 질문이 나올지도!',
@@ -38,6 +38,12 @@ const MODAL_CONTENT: Record<'exit' | 'delete', ModalContent> = {
     detail: '삭제한 답변은 다시 복구할 수 없어요.',
     leftButton: '취소하기',
     rightButton: '삭제하기',
+  },
+  declare: {
+    icon: warningIcon,
+    title: '신고하시겠습니까?',
+    leftButton: '취소하기',
+    rightButton: '신고하기',
   },
 };
 
@@ -58,6 +64,7 @@ export const ReConfirmModal = ({
     setIsEditModal,
     setIsTogetherSection,
     setIsBestAnswerSection,
+    setOpenDeclareModal,
   } = useAnswerModalStore();
 
   const { mutate: deleteAnswerMutation, isSuccess } = useDeleteAnswer({
@@ -78,6 +85,9 @@ export const ReConfirmModal = ({
     }
     if ((type = 'delete')) {
       setOpenDeleteModal(false);
+    }
+    if ((type = 'declare')) {
+      setOpenDeclareModal(false);
     }
   };
 
