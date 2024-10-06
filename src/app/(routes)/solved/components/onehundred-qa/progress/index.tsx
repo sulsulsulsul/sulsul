@@ -17,7 +17,7 @@ const Progress = ({ accessToken }: { accessToken: string }) => {
           {data?.totalCount || 0}/100
           <span className="mt-[3px] text-xs text-blue-500">개</span>
         </p>
-        <p className="text-xl text-gray-700">
+        <p className="text-xl text-gray-700 mobile:hidden">
           지원자들 중
           <span className="text-xl font-bold text-gray-900">
             {' '}
@@ -25,13 +25,22 @@ const Progress = ({ accessToken }: { accessToken: string }) => {
           </span>
           에 속해요
         </p>
+        <p className="text-xl text-gray-700 tablet:hidden desktop:hidden">
+          <span className="text-xl font-bold text-gray-900">
+            {' '}
+            상위 {data?.percent || 100}%
+          </span>
+          에 속해요
+        </p>
       </div>
-      <LineProgressBar
-        percent={data?.totalCount || 0}
-        rounded={36}
-        height={8}
-        progressColor="#576DFC"
-      />
+      <div>
+        <LineProgressBar
+          percent={data?.totalCount || 0}
+          rounded={36}
+          height={8}
+          progressColor="#576DFC"
+        />
+      </div>
     </>
   );
 };

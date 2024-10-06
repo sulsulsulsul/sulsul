@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import {
@@ -220,19 +220,55 @@ export default function App({
   qaData: QaDataType[];
   accessToken: string;
 }) {
+  const [isMobileView, setIsMobileView] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      console.log('Current width:', window.innerWidth);
+      if (window.innerWidth <= 375) {
+        setIsMobileView(true);
+      } else {
+        setIsMobileView(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
   return (
-    <div className="mb-7 flex justify-center">
-      <div className="bg-container h-[571px] w-[460px] bg-[url('/images/lv/line.svg')] bg-center bg-no-repeat">
-        {qaData.map((item: QaDataType, index: number) => (
-          <GradientCircularProgress
-            key={index}
-            value={(item.done * 100) / item.total}
-            item={item}
-            accessToken={accessToken}
-            category={item.title}
-          />
-        ))}
-      </div>
+    <div className="mb-7 flex w-full justify-center mobile:mb-0">
+      {isMobileView && (
+        <div className="bg-container mt-20 h-[451px] w-[460px] bg-[url('/images/lv/mobileLine.svg')] bg-top bg-no-repeat">
+          {qaData.map((item: QaDataType, index: number) => (
+            <GradientCircularProgress
+              key={index}
+              value={(item.done * 100) / item.total}
+              item={item}
+              accessToken={accessToken}
+              category={item.title}
+            />
+          ))}
+        </div>
+      )}
+      {!isMobileView && (
+        <div className="bg-container h-[571px] w-[460px] bg-[url('/images/lv/line.svg')] bg-center bg-no-repeat">
+          {qaData.map((item: QaDataType, index: number) => (
+            <GradientCircularProgress
+              key={index}
+              value={(item.done * 100) / item.total}
+              item={item}
+              accessToken={accessToken}
+              category={item.title}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 }

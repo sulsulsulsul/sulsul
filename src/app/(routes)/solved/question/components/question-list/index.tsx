@@ -1,5 +1,6 @@
 'use client';
 import { HTMLAttributes, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 import {
   Accordion,
@@ -39,6 +40,26 @@ const QuestionList = ({ className }: QuestionListProps) => {
       setSelectedCategory: state.setSelectedCategory,
     }),
   );
+  const [isMobile, setIsMobile] = useState(false);
+
+  // 모바일 감지 로직
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 1024) {
+        setIsMobile(true);
+      } else {
+        setIsMobile(false);
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const { data } = useUserQuestionList({
     accessToken,
@@ -74,9 +95,27 @@ const QuestionList = ({ className }: QuestionListProps) => {
     }
   }, [index, selectedCategory]);
 
+  // 모바일에서 아코디언 클릭 액션
+  const handleAccordionClick = (e: any) => {
+    if (isMobile) {
+      e.preventDefault();
+      toast('PC버전으로 접속해주세요', {
+        className:
+          'w-[343px] h-[53px] bg-gray-800 text-white px-4 mt-12 desktop:hidden',
+        position: 'top-center',
+        dismissible: true,
+        style: {
+          background: '#2B2D35',
+          color: 'white',
+          border: 'none',
+        },
+      });
+    }
+  };
+
   return (
-    <div className={cn('h-full', className)}>
-      <div className="flex h-full w-[690px] flex-col gap-3 p-[10px]">
+    <div className={cn('h-full w-full', className)}>
+      <div className="flex size-full flex-col gap-3 p-[10px]">
         {data?.challenges.map((question) => (
           <div
             key={question.content}
@@ -84,7 +123,10 @@ const QuestionList = ({ className }: QuestionListProps) => {
           >
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1" className="border-none">
-                <AccordionTrigger className="flex items-start gap-2">
+                <AccordionTrigger
+                  className="flex items-start gap-2"
+                  onClick={handleAccordionClick}
+                >
                   <span
                     className={`relative top-[7px] mr-1 size-[9.6px] min-w-[9.6px] rounded-full ${question.isAnswered ? 'bg-blue-500' : 'bg-gray-200'}`}
                   />
