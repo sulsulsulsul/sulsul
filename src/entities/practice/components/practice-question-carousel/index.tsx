@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/carousel';
 import type { SearchQuestionContent } from '@/entities/questions/types';
 import { cn } from '@/lib/utils';
+import { useOpenModalStore, useSelectedQuestionStore } from '@/store/modal';
 
 interface PracticedQuestionCarouselProps
   extends HTMLAttributes<HTMLDivElement> {
@@ -34,6 +35,14 @@ const PracticedQuestionCarousel = ({
       setSelectedSnap(api.selectedScrollSnap());
     });
   }, [api]);
+
+  const { setModalOpen } = useOpenModalStore();
+  const { setPreSelectQuestionId, setResumeId } = useSelectedQuestionStore();
+
+  const onClickRetry = (resumeId: number, questionId: number) => {
+    setResumeId(resumeId);
+    setPreSelectQuestionId(questionId);
+  };
 
   return (
     <div
@@ -65,7 +74,13 @@ const PracticedQuestionCarousel = ({
                   <Button
                     className="mb-5 mt-3 w-full"
                     variant="green"
-                    onClick={() => {}}
+                    onClick={() => {
+                      onClickRetry(
+                        question.archive.archiveId,
+                        question.questionId,
+                      );
+                      setModalOpen(true);
+                    }}
                   >
                     다시 연습하기
                   </Button>

@@ -17,15 +17,9 @@ const PracticeSectionHeader = ({
   ...props
 }: PracticeSectionHeaderProps) => {
   return (
-    <div className={cn('flex gap-1.5 items-center', className)} {...props}>
-      <Image
-        className="translate-y-[-2px]"
-        src={iconSrc}
-        width={isDesktop ? 32 : 24}
-        height={isDesktop ? 32 : 24}
-        alt=""
-      />
-      <h2 className="text-4xl font-bold text-gray-800 mobile:text-2xl">
+    <div className={cn('flex gap-0.5 items-center', className)} {...props}>
+      <Image className="" src={iconSrc} width={32} height={32} alt="" />
+      <h2 className="text-4xl font-bold text-gray-900 mobile:text-2xl">
         {title}
       </h2>
     </div>

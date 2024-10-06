@@ -14,6 +14,5 @@ export const Default = {
   args: {
     nickname: '수리수리',
     className: 'w-[300px]',
-    setModalOpen: () => true,
   },
 } satisfies Story;

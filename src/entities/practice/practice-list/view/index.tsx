@@ -10,6 +10,7 @@ import {
   QuestionSearchType,
 } from '@/entities/types/question';
 import { useUserStore } from '@/store/client';
+import { useOpenModalStore } from '@/store/modal';
 import { usePracticeStore } from '@/store/practiceStore';
 
 import PracticeSectionHeader from '../../components/practice-section-header';
@@ -28,8 +29,14 @@ export default function PracticeList() {
   const [hint, setHint] = useState<HintType>('default');
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedQuestions, setSelectedQuestions] = useState<number[]>([]);
-
-  const [tabChange, setTabChange] = useState<QuestionState>('ALL');
+  const { selectedTab } = useOpenModalStore();
+  const [tabChange, setTabChange] = useState<QuestionState>(
+    selectedTab == 'all'
+      ? 'ALL'
+      : selectedTab == 'good'
+        ? 'ANSWER'
+        : 'NOT_ANSWER',
+  );
 
   const { auth } = useUserStore();
 
@@ -114,6 +121,7 @@ export default function PracticeList() {
           />
           <PracticeListTab
             onTabChange={setTabChange}
+            defaultTab={tabChange}
             allCount={isSuccess ? list!.totalCount : 0}
             isLoading={!isSuccess}
             unansweredCount={countNotAnswer}

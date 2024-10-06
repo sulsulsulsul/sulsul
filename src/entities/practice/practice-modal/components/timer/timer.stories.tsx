@@ -12,7 +12,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default = {
   args: {
-    setTime: () => {},
     pauseTimer: false,
   },
 } satisfies Story;

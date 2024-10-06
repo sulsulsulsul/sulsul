@@ -30,20 +30,6 @@ export default function PracticeModalResumeSection({
   focusedResume,
   setFocusedResume,
 }: ResumeSectionType) {
-  useEffect(() => {
-    if (resume && resume[0]) {
-      setFocusedResume(resume[0].archiveId);
-    }
-  }, [resume]);
-
-  useEffect(() => {
-    if (resume) {
-      resume?.length === selectArchiveIds.length
-        ? setAllResume(true)
-        : setAllResume(false);
-    }
-  }, [selectArchiveIds.length]);
-
   return (
     <div className="flex  w-1/2 flex-col">
       <section className="flex h-12 w-full flex-row text-xs leading-5 text-gray-500">
@@ -75,7 +61,7 @@ export default function PracticeModalResumeSection({
             <Checkbox
               id="resumes"
               className="m-[10px] size-5 p-[2px] "
-              checked={allResume}
+              checked={resume?.length === selectArchiveIds.length}
               onCheckedChange={(check: CheckedState) => {
                 if (resume) {
                   check

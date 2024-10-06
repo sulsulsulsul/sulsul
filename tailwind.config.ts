@@ -119,6 +119,7 @@ const config = {
         green: {
           100: '#EAFAF5',
           300: '#D6F6E9',
+          400: '#A3E2CE',
           500: '#7FCFB7',
           900: '#13A478',
           point: '#51E8BA',

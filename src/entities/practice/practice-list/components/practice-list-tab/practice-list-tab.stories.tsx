@@ -18,6 +18,7 @@ export const Default = {
     unansweredCount: 5,
     answeredCount: 5,
     isLoading: false,
+    defaultTab: 'ALL',
     onTabChange: (value: QuestionState) => {},
   },
 } satisfies Story;

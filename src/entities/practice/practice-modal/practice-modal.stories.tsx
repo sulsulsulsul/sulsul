@@ -11,7 +11,5 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default = {
-  args: {
-    setModal: () => {},
-  },
+  args: {},
 } satisfies Story;

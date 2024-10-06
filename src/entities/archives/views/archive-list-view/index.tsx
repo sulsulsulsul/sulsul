@@ -89,7 +89,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
               alt="card background image"
               priority
             />
-            <div className="relative z-10 flex h-[380px] flex-col bg-transparent pb-[50px] pt-[62px] mobile:h-[253px]">
+            <div className="relative z-10 flex h-[380px] flex-col bg-transparent pb-[50px] pt-[62px] mobile:h-[253px] mobile:pb-8">
               <div className="flex justify-between">
                 <div className="rounded-sm bg-gray-100 px-[10px] py-[7px] text-blue-500">
                   <h3 className="text-2xs font-semibold">{'술술 컴퍼니'}</h3>
@@ -117,7 +117,6 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
                 예상 면접질문{' '}
                 <span className="text-green-point">{' ? 개'}</span>
               </div>
-
               <div className="flex h-full grow flex-col justify-end ">
                 <div className="relative">
                   <div className="h-[6px] rounded-[6.6px] bg-white/30"></div>

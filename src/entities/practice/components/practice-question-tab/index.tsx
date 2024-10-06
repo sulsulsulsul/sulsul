@@ -41,7 +41,7 @@ export const PracticedQuestionTab = ({
             className="mobile:rounded-sm mobile:text-[14px] mobile:font-semibold"
             value="favorite"
           >
-            즐겨 찾기한
+            즐겨찾기한
           </TabsTrigger>
         </TabsList>
       </Tabs>
