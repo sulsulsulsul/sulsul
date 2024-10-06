@@ -115,7 +115,7 @@ const QuestionList = ({ className }: QuestionListProps) => {
 
   return (
     <div className={cn('h-full w-full', className)}>
-      <div className="flex size-full flex-col gap-3 p-[10px]">
+      <div className="flex size-full flex-col gap-3 mobile:px-[16px]">
         {data?.challenges.map((question) => (
           <div
             key={question.content}

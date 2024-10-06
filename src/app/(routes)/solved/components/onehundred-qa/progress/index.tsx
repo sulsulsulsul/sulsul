@@ -33,14 +33,14 @@ const Progress = ({ accessToken }: { accessToken: string }) => {
           에 속해요
         </p>
       </div>
-      <div>
-        <LineProgressBar
-          percent={data?.totalCount || 0}
-          rounded={36}
-          height={8}
-          progressColor="#576DFC"
-        />
-      </div>
+      <LineProgressBar
+        progressStyle={{ width: '100%' }}
+        percent={data?.totalCount || 0}
+        rounded={36}
+        height={8}
+        progressColor="#576DFC"
+        className="w-full"
+      />
     </>
   );
 };
