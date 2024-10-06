@@ -43,6 +43,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
     typeof window !== 'undefined'
       ? window.innerWidth >= 375 && window.innerWidth <= 767
       : false;
+
   //FIXME
   // const [coachModal, setCoachModal] = useState(!isMobile && firstPractice);
   const [coachModal, setCoachModal] = useState(true);
@@ -105,6 +106,15 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   };
 
   useEffect(() => {
+    let intervalId = setInterval(() => {
+      setTime((prev) => prev + 1);
+    }, 1000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  });
+
+  useEffect(() => {
     setShowHint(false);
     setQ(questions[0]);
     if (questions.length === 0) {
@@ -114,10 +124,10 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
         correct: correctQuestions,
         incorrect: inCorrectQuestions,
       });
-      mutationTime.mutate({ practiceId, time });
+      mutationTime.mutate({ practiceId, time: time });
       router.push('/practice/result');
     }
-  }, [questions, router, isMobile]);
+  }, [questions, router]);
 
   const handleCoachMark = () => {
     setCoachModal(false);
@@ -150,7 +160,6 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
           <div className={cn('flex flex-col', timer ? 'visible' : 'invisible')}>
             <div className="z-[60] flex h-[78px] w-[158px] items-center justify-center rounded-md bg-white">
               <Timer
-                setTime={setTime}
                 pauseTimer={pauseTimer}
                 className="relative z-20 m-2"
                 disableTime={true}
@@ -180,7 +189,6 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
           )}
         >
           <Timer
-            setTime={setTime}
             pauseTimer={pauseTimer}
             className="relative z-40 m-2 mobile:m-0"
           />

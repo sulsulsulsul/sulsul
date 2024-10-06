@@ -2,11 +2,13 @@ import { HTMLAttributes } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useOpenModalStore, useSelectedQuestionStore } from '@/store/modal';
 interface PracticedQuestionCardProps extends HTMLAttributes<HTMLDivElement> {
   content: string;
   title: string;
   company: string;
-  onClickRetry?: () => void; // TODO: 다시연습 체크
+  resumeId: number;
+  questionId: number;
 }
 
 export const PracticedQuestionCard = ({
@@ -14,12 +16,24 @@ export const PracticedQuestionCard = ({
   content,
   title,
   company,
-  onClickRetry,
+  resumeId,
+  questionId,
 }: PracticedQuestionCardProps) => {
+  const { setModalOpen } = useOpenModalStore();
+  const { setPreSelectQuestionId, setResumeId } = useSelectedQuestionStore();
+
+  const onClickRetry = (resumeId: number, questionId: number) => {
+    setResumeId(resumeId);
+    setPreSelectQuestionId(questionId);
+  };
+  const handleRetry = () => {
+    onClickRetry(resumeId, questionId);
+    setModalOpen(true);
+  };
   return (
     <div
       className={cn(
-        'flex items-center justify-between rounded-md border bg-white p-6 shadow-base gap-[16px]',
+        'w-full flex items-center justify-between rounded-md border bg-white p-6 shadow-base gap-[16px]',
         className,
       )}
     >
@@ -32,7 +46,7 @@ export const PracticedQuestionCard = ({
           <p className="truncate text-sm font-medium">{title}</p>
         </div>
       </div>
-      <Button size="sm" variant="green" onClick={onClickRetry}>
+      <Button size="sm" variant="green" onClick={handleRetry}>
         다시 연습
       </Button>
     </div>

@@ -77,7 +77,7 @@ export const ArchiveCard = ({
         alt="card background image"
         priority
       />
-      <div className="relative z-10 flex h-[380px] flex-col bg-transparent pb-[50px] pt-[62px] mobile:h-[253px]">
+      <div className="relative z-10 flex h-[380px] flex-col bg-transparent pb-[50px] pt-[62px] mobile:h-[253px] mobile:pb-8">
         <div className="flex justify-between">
           <div className="rounded-sm bg-gray-100 px-[10px] py-[7px] text-blue-500">
             <h3 className="text-2xs font-semibold">{companyName}</h3>

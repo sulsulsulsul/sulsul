@@ -47,7 +47,8 @@ export const options: ChartOptions<'bar'> = {
         size: 12,
         weight: 500,
       },
-
+      intersect: true,
+      mode: 'nearest',
       callbacks: {
         title: () => {
           return '';
@@ -55,7 +56,10 @@ export const options: ChartOptions<'bar'> = {
       },
     },
   },
-
+  hover: {
+    mode: 'nearest',
+    intersect: true,
+  },
   scales: {
     x: {
       grid: {
@@ -68,7 +72,6 @@ export const options: ChartOptions<'bar'> = {
     },
     y: {
       beginAtZero: true,
-
       grid: {
         tickBorderDash: [0, 100],
       },
@@ -112,7 +115,6 @@ export const PracticeStatusChart = ({
       },
     ],
   };
-
   return (
     <div
       className={cn(

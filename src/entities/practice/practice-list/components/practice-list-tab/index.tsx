@@ -10,6 +10,7 @@ interface PracticedListTabType extends HTMLAttributes<HTMLDivElement> {
   unansweredCount: number;
   answeredCount: number;
   isLoading: boolean;
+  defaultTab: QuestionState;
   onTabChange: (value: QuestionState) => void;
 }
 
@@ -19,6 +20,7 @@ export const PracticeListTab = ({
   unansweredCount,
   answeredCount,
   isLoading,
+  defaultTab,
   onTabChange,
   ...props
 }: PracticedListTabType) => {
@@ -28,7 +30,7 @@ export const PracticeListTab = ({
         onValueChange={(value) => {
           onTabChange(value as QuestionState);
         }}
-        defaultValue="all"
+        defaultValue={defaultTab.toLowerCase()}
       >
         <TabsList>
           <TabsTrigger value="all" disabled={isLoading}>

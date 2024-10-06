@@ -47,14 +47,17 @@ export const PracticeComplete = ({
       router.push('/practice/ing');
   };
 
-  const timeText =
-    Math.floor(time / 60)
-      .toString()
-      .padStart(2, '0') +
-    ' : ' +
-    Math.floor(time % 60)
-      .toString()
-      .padStart(2, '0');
+  const formatTime = (totalSeconds: number) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const formatNumber = (num: number) => String(num).padStart(2, '0');
+
+    return `${formatNumber(hours)}:${formatNumber(minutes)}:${formatNumber(seconds)}`;
+  };
+
+  const timeText = formatTime(time);
 
   return (
     <main

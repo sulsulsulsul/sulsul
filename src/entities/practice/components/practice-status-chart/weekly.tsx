@@ -16,34 +16,34 @@ const weeklyPlugin: Plugin = {
   afterTooltipDraw: (chart) => {
     const tooltip = chart.tooltip;
     const activeElements = tooltip!.getActiveElements();
-    if (!activeElements.length && tooltip) {
-      tooltip!.setActiveElements(
-        [
-          {
-            datasetIndex: 0,
-            index: weekIndex,
-          },
-        ],
-        tooltip.options.callbacks!.label as any,
-      );
-      chart.update();
-    }
+    // if (!activeElements.length && tooltip) {
+    //   tooltip!.setActiveElements(
+    //     [
+    //       {
+    //         datasetIndex: 0,
+    //         index: weekIndex,
+    //       },
+    //     ],
+    //     tooltip.options.callbacks!.label as any,
+    //   );
+    //   chart.update();
+    // }
   },
   afterDraw: (chart) => {
     const tooltip = chart.tooltip;
     const activeElements = tooltip!.getActiveElements();
-    if (!activeElements.length && tooltip) {
-      tooltip.setActiveElements(
-        [
-          {
-            datasetIndex: 0,
-            index: weekIndex,
-          },
-        ],
-        tooltip.options.callbacks!.label as any,
-      );
-      chart.update();
-    }
+    // if (!activeElements.length && tooltip) {
+    //   tooltip.setActiveElements(
+    //     [
+    //       {
+    //         datasetIndex: 0,
+    //         index: weekIndex,
+    //       },
+    //     ],
+    //     tooltip.options.callbacks!.label as any,
+    //   );
+    //   chart.update();
+    // }
   },
 };
 
