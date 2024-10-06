@@ -25,7 +25,7 @@ const OnehundredQa = ({ accessToken }: { accessToken: string }) => {
 
   // 윈도우 사이즈 체크
   const handleResize = () => {
-    setIsMobile(window.innerWidth <= 375);
+    setIsMobile(window.innerWidth <= 767);
   };
 
   useEffect(() => {
@@ -152,9 +152,13 @@ const OnehundredQa = ({ accessToken }: { accessToken: string }) => {
   return (
     <div className="w-full">
       <Heading />
-      <div className="mb-[42px] w-full rounded-md border border-gray-200 bg-white p-[28px] shadow-base mobile:px-[10px] mobile:py-[20px]">
+      <div className="mb-[42px] w-full rounded-md border border-gray-200 bg-white p-[28px] shadow-base">
         <Progress accessToken={accessToken} />
-        <CircularDeterminate qaData={qaData} accessToken={accessToken} />
+        <CircularDeterminate
+          qaData={qaData}
+          accessToken={accessToken}
+          isMobileView={isMobile}
+        />
       </div>
     </div>
   );

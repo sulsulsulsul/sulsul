@@ -27,7 +27,7 @@ const Heading = () => {
   }
 
   return (
-    <p className="mb-[4] flex w-full gap-1 text-4xl font-bold ">
+    <p className="mb-[4] flex w-[996px] gap-1 text-4xl font-bold mobile:pl-[3%]">
       <Image
         src="/images/icons/etc-speech.svg"
         width={32}

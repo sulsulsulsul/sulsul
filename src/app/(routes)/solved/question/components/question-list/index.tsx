@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Skeleton } from '@/components/ui/skeleton';
 import { KeywordSection } from '@/entities/archives/components/keyword-section';
 import { cn } from '@/lib/utils';
 import { useUserStore } from '@/store/client';
@@ -115,7 +116,19 @@ const QuestionList = ({ className }: QuestionListProps) => {
 
   return (
     <div className={cn('h-full w-full', className)}>
-      <div className="flex size-full flex-col gap-3 p-[10px]">
+      <div className="flex size-full flex-col gap-3 mobile:px-[16px]">
+        {data === undefined && (
+          <div className="flex flex-col">
+            {Array(8)
+              .fill(0)
+              .map((_, i) => (
+                <Skeleton
+                  key={i}
+                  className="mb-3 h-[70px] w-full bg-gray-100"
+                />
+              ))}
+          </div>
+        )}
         {data?.challenges.map((question) => (
           <div
             key={question.content}
