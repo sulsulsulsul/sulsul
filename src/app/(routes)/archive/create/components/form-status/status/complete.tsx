@@ -35,7 +35,7 @@ export const CompleteStatus = ({
   ];
 
   return (
-    <div className="mt-[8px] flex size-full  flex-col gap-3 overflow-y-scroll p-[10px]">
+    <div className="mt-[8px] flex size-full  flex-col gap-3 overflow-visible p-[10px]">
       {SAMPLE_QUESTIONS.map((sampleQuestion, idx) => (
         <AlertDialog key={sampleQuestion}>
           <div className="rounded-md border border-gray-200 shadow-base">
@@ -46,7 +46,7 @@ export const CompleteStatus = ({
                     <div className="flex cursor-pointer  flex-col justify-center ">
                       <div className="flex w-full items-center justify-start gap-2.5 border-none">
                         <div className="size-[9.6px] min-w-[9.6px] rounded-full bg-gray-200" />
-                        <div className=" w-[596px] resize-none py-2 text-lg">
+                        <div className=" w-[580px] resize-none py-2 text-lg">
                           <p className="w-full whitespace-break-spaces break-keep text-left font-semibold text-gray-700">
                             {sampleQuestion}
                           </p>

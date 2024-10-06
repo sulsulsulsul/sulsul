@@ -90,7 +90,7 @@ export const FormStatus = ({
                 <ValidStatus className="border border-gray-200 shadow-base" />
               ) : (
                 <IdleStatus
-                  className="rounded-md border border-gray-200 bg-white shadow-base"
+                  className="h-[650px] rounded-md border border-gray-200 bg-white shadow-base"
                   firstLine="내 자소서에선 어떤 질문이 나올까요?"
                   secondLine="왼쪽에서 내용을 입력해보세요!"
                   isCreate
