@@ -2,11 +2,14 @@
 
 import { type ClassValue, clsx } from 'clsx';
 import dayjs, { Dayjs } from 'dayjs';
+import isoWeek from 'dayjs/plugin/isoWeek';
 import { twMerge } from 'tailwind-merge';
 import resolveConfig from 'tailwindcss/resolveConfig';
 
 import tailwindConfig from '@/../tailwind.config';
 import { auth } from '@/app/api/auth/[...nextauth]/auth';
+
+dayjs.extend(isoWeek);
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -49,8 +52,8 @@ export const getRecentWeeks = (currentDate: Dayjs) => {
   let date = currentDate;
 
   for (let i = 0; i < 4; i++) {
-    const weekStart = date.startOf('week').format('YYYY-MM-DD');
-    const weekEnd = date.endOf('week').format('YYYY-MM-DD');
+    const weekStart = date.startOf('isoWeek').format('YYYY-MM-DD');
+    const weekEnd = date.endOf('isoWeek').format('YYYY-MM-DD');
     const label = `${date.format('M')}월 ${Math.ceil(date.date() / 7)}째 주`;
 
     weeks.push({
