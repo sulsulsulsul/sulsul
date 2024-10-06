@@ -58,7 +58,8 @@ const QuestionList = ({ className }: QuestionListProps) => {
     if (
       data &&
       data.answerRate === 100 &&
-      selectedCategory === categoryList[index]
+      selectedCategory === categoryList[index] &&
+      !categoryList.includes(selectedCategory) // 카테고리가 수동으로 설정된 경우 자동 변경 방지
     ) {
       setIndex((prevIndex) => {
         const newIndex = prevIndex + 1;
@@ -68,8 +69,10 @@ const QuestionList = ({ className }: QuestionListProps) => {
   }, [data, selectedCategory]);
 
   useEffect(() => {
-    setSelectedCategory(categoryList[index]);
-  }, [index]);
+    if (!categoryList.includes(selectedCategory)) {
+      setSelectedCategory(categoryList[index]);
+    }
+  }, [index, selectedCategory]);
 
   return (
     <div className={cn('h-full', className)}>

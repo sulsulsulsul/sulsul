@@ -17,7 +17,7 @@ const Heading = () => {
     count = 18;
   } else if (selectedCategory === 'CULTURE_1') {
     category = '회사 로열티 & 컬쳐핏';
-    count = 18;
+    count = 19;
   } else if (selectedCategory === 'CULTURE_2') {
     category = '회사 로열티 & 컬쳐핏';
     count = 20;

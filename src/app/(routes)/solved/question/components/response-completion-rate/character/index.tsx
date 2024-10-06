@@ -57,7 +57,7 @@ const Character = ({ data }: { data: MyChallengesProgressData[] }) => {
       {imgsrc && (
         <Image
           src={`/images/solved/${imgsrc}.svg`}
-          width={153}
+          width={192}
           height={74}
           alt="character text"
         />
