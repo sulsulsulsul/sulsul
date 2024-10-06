@@ -39,7 +39,7 @@ const ResponseCompletionRate = ({ className }: QuestionListProps) => {
     <div className={cn('h-full', className)}>
       <div
         className={`mt-[16px] size-full h-auto rounded-md border border-gray-200 bg-white p-[28px] shadow-base ${
-          isSticky ? 'fixed top-[18px] z-10' : ''
+          isSticky ? 'fixed top-[10px] z-10' : ''
         }`}
         style={{
           width: isSticky ? 'inherit' : '100%',
