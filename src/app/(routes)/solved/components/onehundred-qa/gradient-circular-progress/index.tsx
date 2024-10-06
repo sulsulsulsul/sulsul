@@ -1,17 +1,54 @@
 'use client';
 
-import * as React from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import {
+  AlertDialogContent,
+  AlertDialogTrigger,
+} from '@radix-ui/react-alert-dialog';
 
-const GradientCircularProgress = ({ value, item, accessToken }: any) => {
+import { AlertDialog, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { SignInView } from '@/entities/auth/views/sign-in-view';
+import useQuestionTypeStore from '@/store/questionListTypeStore';
+
+interface DataType {
+  value: number;
+  item: QaDataType;
+  accessToken: string;
+  category: string;
+}
+
+const GradientCircularProgress = ({
+  value,
+  item,
+  accessToken,
+  category,
+}: DataType) => {
   const radius = 50; // 원의 반지름
   const strokeWidth = 4; // 선의 굵기
   const circumference = 2 * Math.PI * radius; // 원의 둘레
   const offset = circumference - (value / 100) * circumference; // 프로그레스 바의 길이 조절
   const router = useRouter();
+  const { setSelectedCategory } = useQuestionTypeStore((state) => ({
+    setSelectedCategory: state.setSelectedCategory,
+  }));
 
-  const handleClickImg = () => {
+  const handleClickImg = (category: string) => {
+    if (category === '최다 빈출 기본질문') {
+      setSelectedCategory('BASIC');
+    } else if (category === '직무역량 & 경험 1') {
+      setSelectedCategory('JOB_1');
+    } else if (category === '직무역량 & 경험 2') {
+      setSelectedCategory('JOB_2');
+    } else if (category === '회사 로열티 & 컬쳐핏 1') {
+      setSelectedCategory('CULTURE_1');
+    } else if (category === '회사 로열티 & 컬쳐핏 2') {
+      setSelectedCategory('CULTURE_2');
+    } else if (category === '가치관 & 비전') {
+      setSelectedCategory('VISION');
+    }
+
     if (accessToken) {
       router.push('/solved/question');
     }
@@ -40,6 +77,7 @@ const GradientCircularProgress = ({ value, item, accessToken }: any) => {
           stroke="#F6F7FB"
           strokeWidth={strokeWidth}
           fill="white"
+          strokeLinecap="round"
         />
         {/* 그라데이션 원 */}
         {value !== 0 && (
@@ -72,19 +110,29 @@ const GradientCircularProgress = ({ value, item, accessToken }: any) => {
                 cursor: 'pointer',
               }}
             />
-            <Image
-              src={`/images/lv/${item.image}.svg`}
-              width={49}
-              height={46}
-              alt={`${item.image} 캐릭터 이미지`}
-              style={{
-                position: 'absolute',
-                top: '35px',
-                left: '35px',
-                cursor: 'pointer',
-              }}
-              onClick={handleClickImg}
-            />
+            <AlertDialog>
+              <AlertDialogTrigger>
+                <Image
+                  src={`/images/lv/${item.image}.svg`}
+                  width={49}
+                  height={46}
+                  alt={`${item.image} 캐릭터 이미지`}
+                  style={{
+                    position: 'absolute',
+                    top: '35px',
+                    left: '35px',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => handleClickImg(category)}
+                />
+              </AlertDialogTrigger>
+              {!accessToken && (
+                <AlertDialogContent>
+                  <AlertDialogTitle />
+                  <SignInView callbackUrl="/" />
+                </AlertDialogContent>
+              )}
+            </AlertDialog>
           </>
         ) : value !== 0 && value !== 100 ? (
           <>
@@ -112,7 +160,7 @@ const GradientCircularProgress = ({ value, item, accessToken }: any) => {
                 left: '35px',
                 cursor: 'pointer',
               }}
-              onClick={handleClickImg}
+              onClick={() => handleClickImg(category)}
             />
           </>
         ) : value === 100 ? (
@@ -127,6 +175,7 @@ const GradientCircularProgress = ({ value, item, accessToken }: any) => {
               left: '35px',
               cursor: 'pointer',
             }}
+            onClick={() => handleClickImg(category)}
           />
         ) : (
           <Image
@@ -180,6 +229,7 @@ export default function App({
             value={(item.done * 100) / item.total}
             item={item}
             accessToken={accessToken}
+            category={item.title}
           />
         ))}
       </div>

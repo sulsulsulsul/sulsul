@@ -27,10 +27,10 @@ const Progress = ({ accessToken }: { accessToken: string }) => {
         </p>
       </div>
       <LineProgressBar
-        percent={data?.percent || 0}
+        percent={data?.totalCount || 0}
         rounded={36}
         height={8}
-        progressColor="#3B82F6"
+        progressColor="#576DFC"
       />
     </>
   );

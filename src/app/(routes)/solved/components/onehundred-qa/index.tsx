@@ -47,7 +47,7 @@ const OnehundredQa = ({ accessToken }: { accessToken: string }) => {
             title: '직무역량 & 경험 2',
             total: 18,
             done: data[2].count,
-            top: 215,
+            top: 221,
             left: 60,
           },
           {
@@ -63,7 +63,7 @@ const OnehundredQa = ({ accessToken }: { accessToken: string }) => {
             title: '회사 로열티 & 컬쳐핏 2',
             total: 20,
             done: data[4].count,
-            top: 285,
+            top: 290,
             left: -125,
           },
           {
@@ -99,7 +99,7 @@ const OnehundredQa = ({ accessToken }: { accessToken: string }) => {
           title: '직무역량 & 경험 2',
           total: 18,
           done: 0,
-          top: 215,
+          top: 221,
           left: 60,
         },
         {
@@ -115,7 +115,7 @@ const OnehundredQa = ({ accessToken }: { accessToken: string }) => {
           title: '회사 로열티 & 컬쳐핏 2',
           total: 20,
           done: 0,
-          top: 285,
+          top: 290,
           left: -125,
         },
         {
