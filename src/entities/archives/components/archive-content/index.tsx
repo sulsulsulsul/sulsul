@@ -45,7 +45,7 @@ export const ArchiveContent = ({
             </h3>
           </div>
           <div className="w-full">
-            <div className="max-h-[400px] cursor-default overflow-scroll text-balance break-words">
+            <div className="max-h-[400px] cursor-default overflow-scroll whitespace-pre-line">
               {resume}
             </div>
           </div>
