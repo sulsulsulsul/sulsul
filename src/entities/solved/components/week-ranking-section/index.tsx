@@ -100,7 +100,10 @@ export const WeekRankingSection = ({
           answerListData?.pages[0].answers.slice(0, 3).map(
             (userInfo, index) =>
               userInfo.recommendCount >= 1 && (
-                <li key={userInfo.userId} className="flex w-full gap-2">
+                <li
+                  key={userInfo.userId}
+                  className="flex w-full items-center gap-2"
+                >
                   <div className="relative size-10 overflow-hidden rounded-full">
                     <Image src={userInfo.profileImg} fill alt="icon" />
                   </div>

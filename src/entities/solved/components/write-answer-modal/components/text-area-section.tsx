@@ -173,11 +173,19 @@ export const TextAreaSection = ({
                   {...field}
                 />
                 <TextAreaDescription show={inputValue.length === 0} />
-                <div className="absolute bottom-4 z-10 flex w-full items-center justify-between pr-8">
-                  <div className="text-[12px] text-gray-500">
-                    {inputValue.length}/500자
+                <div className="relative bottom-2 z-10 flex w-full items-center pr-8">
+                  <div className="absolute right-0 top-7 text-[12px] font-medium text-gray-400">
+                    <span
+                      className={
+                        inputValue.length < 100
+                          ? 'text-red-500'
+                          : 'text-gray-600'
+                      }
+                    >
+                      {inputValue.length}
+                    </span>
+                    /500자(최소100자)
                   </div>
-                  <FormMessage type="error" className="text-[12px]" />
                 </div>
               </FormItem>
             )}
