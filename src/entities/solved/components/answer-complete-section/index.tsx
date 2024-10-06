@@ -37,7 +37,8 @@ export const AnswerCompleteSection = ({
   );
 
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
-  const { isRecommended, weeklyInterviewAnswerId } = myWriteAnswerData;
+  const { isRecommended, weeklyInterviewAnswerId, recommendCount } =
+    myWriteAnswerData;
 
   const { auth, data } = useUserStore();
   const { userId, accessToken } = auth;
@@ -163,35 +164,30 @@ export const AnswerCompleteSection = ({
               </button>
             </div>
           )}
-          {isRecommended ? (
-            <Button
-              className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-blue-500`)}
-              variant="outline"
-              onClick={handleClickRecommendBtn}
-            >
-              <Image
-                src="/images/icons/icon-like-blue.svg"
-                width={20}
-                height={20}
-                alt="icon"
-              />
-              <p className="text-xs">추천</p>
-            </Button>
-          ) : (
-            <Button
-              className={cn(`flex h-[36px] w-[71px] gap-1 p-2 text-gray-600`)}
-              variant="outline"
-              onClick={handleClickRecommendBtn}
-            >
-              <Image
-                src="/images/icons/icon-like.svg"
-                width={20}
-                height={20}
-                alt="icon"
-              />
-              <p className="text-xs">추천</p>
-            </Button>
-          )}
+          <Button
+            className={cn(
+              `flex h-[36px] w-fit gap-1 px-3 py-2 border-gray-200 font-semibold ${isRecommended ? 'text-blue-500' : 'text-gray-600'} `,
+            )}
+            variant="outline"
+            onClick={() =>
+              recommendMutation({
+                isRecommended: isRecommended,
+                answerId: weeklyInterviewAnswerId,
+              })
+            }
+          >
+            <Image
+              src={
+                isRecommended
+                  ? '/images/icons/icon-like-blue.svg'
+                  : '/images/icons/icon-like.svg'
+              }
+              width={20}
+              height={20}
+              alt="icon"
+            />
+            <p className="text-xs">추천 {recommendCount}</p>
+          </Button>
           <Image
             src="/images/icons/icon-more-vertical.svg"
             width={24}
