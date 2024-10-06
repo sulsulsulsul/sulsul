@@ -225,7 +225,7 @@ export default function App({
   return (
     <div className="mb-7 flex w-full justify-center mobile:mb-0">
       {isMobileView && (
-        <div className="bg-container mt-20 h-[451px] w-[50%] min-w-[300px] bg-[url('/images/lv/mobileLine.svg')] bg-top bg-no-repeat">
+        <div className="bg-container mt-20 h-[451px] w-[50%] min-w-[320px] bg-[url('/images/lv/mobileLine.svg')] bg-top bg-no-repeat">
           {qaData.map((item: QaDataType, index: number) => (
             <GradientCircularProgress
               key={index}
