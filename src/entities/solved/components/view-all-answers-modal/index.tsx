@@ -49,8 +49,8 @@ export const ViewAllAnswersModal = ({
   const {
     setIsOpenAllAnswerModal,
     isOpenDeleteModal,
-    setOpenDeclareModal,
-    isOpenDeclareModal,
+    setOpenReportModal,
+    isOpenReportModal,
   } = useAnswerModalStore();
   const { data: interviewData } = useInterview(selectedDate);
 
@@ -71,6 +71,7 @@ export const ViewAllAnswersModal = ({
     interviewId: interviewData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',
     accessToken: accessToken,
+    interviewData: interviewData,
   });
 
   const {
@@ -82,6 +83,7 @@ export const ViewAllAnswersModal = ({
     interviewId: interviewData?.weeklyInterviewId || 0,
     sortType: 'NEW',
     accessToken: accessToken,
+    interviewData: interviewData,
   });
 
   const { mutate: recommendMutation } = useAnswerRecommend({
@@ -120,8 +122,9 @@ export const ViewAllAnswersModal = ({
     setOpenMoreMenu((prev) => !prev);
   };
 
-  const handleClickDeclareBtn = () => {
-    setOpenDeclareModal(true);
+  const handleClickReportBtn = () => {
+    setOpenMoreMenu(false);
+    setOpenReportModal(true);
   };
   const handleClickBackBtn = () => {
     setIsOpenAllAnswerModal(false);
@@ -172,7 +175,7 @@ export const ViewAllAnswersModal = ({
     <>
       <div
         className={cn(
-          `fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center mobile:hidden ${isOpenDeleteModal && 'hidden'} ${isOpenDeclareModal && 'z-[998]'}`,
+          `fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center mobile:hidden ${isOpenDeleteModal && 'hidden'} ${isOpenReportModal && 'z-[998]'}`,
         )}
       ></div>
       <main className="fixed left-0 top-0 z-[60] flex h-screen w-screen items-center justify-center mobile:flex-col">
@@ -344,7 +347,7 @@ export const ViewAllAnswersModal = ({
                                 {countIndex === i && isOpenMoreMenu && (
                                   <div
                                     className="absolute right-6 flex h-[41px] w-[135px] cursor-pointer flex-col justify-center rounded-sm border border-gray-200 bg-white text-[14px] font-medium text-gray-700 hover:bg-gray-50"
-                                    onClick={handleClickDeclareBtn}
+                                    onClick={handleClickReportBtn}
                                   >
                                     <span className="absolute left-4">
                                       신고하기
@@ -401,10 +404,17 @@ export const ViewAllAnswersModal = ({
           </div>
         </div>
       </main>
-      {isOpenDeclareModal && (
-        <div className="fixed left-0 top-0 z-[999] flex h-screen w-screen items-center justify-center">
-          <ReConfirmModal type="declare" />
-        </div>
+      {isOpenReportModal && (
+        <>
+          <div
+            className={cn(
+              `fixed flex w-screen h-screen top-0 left-0 z-[60] bg-gray-800/80 items-center justify-center tablet:hidden desktop:hidden`,
+            )}
+          ></div>
+          <div className="fixed left-0 top-0 z-[999] flex h-screen w-screen items-center justify-center">
+            <ReConfirmModal type="report" />
+          </div>
+        </>
       )}
     </>
   );
