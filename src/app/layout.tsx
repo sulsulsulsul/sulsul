@@ -1,10 +1,10 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 
-import { Header } from '@/components/layouts/header';
 import { pretendard } from '@/lib/fonts';
 import GoogleAnalytics from '@/lib/google-analytics';
 
+import DonationButton from './(without-header)/donation/components/donation-button';
 import { Providers } from './providers';
 
 import './globals.css';
@@ -38,10 +38,8 @@ export default function RootLayout({
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
         ) : null}
         <Providers>
-          <div className="min-h-[910px] overflow-hidden bg-gray-50">
-            <Header />
-            <div className="min-h-[calc(100vh-60px)]">{children}</div>
-          </div>
+          {children}
+          <DonationButton />
         </Providers>
         <Script id="vwo-script" strategy="afterInteractive">
           {`window._vwo_code || (function() {
