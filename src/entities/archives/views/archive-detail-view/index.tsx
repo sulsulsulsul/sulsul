@@ -29,7 +29,7 @@ export const ArchiveDetailView = ({ id }: ArchiveDetailViewProps) => {
   }
 
   return (
-    <main className="flex items-start gap-6 pb-[20vh]">
+    <main className="flex items-start gap-6">
       <ArchiveContent
         status={archive!.status}
         title={archive!.title}

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { CheckAnimation } from '@/components/lotties/check-animation';
@@ -86,6 +87,8 @@ export const SelectJobTypeModal = () => {
   const isFormValid = form.formState.isValid;
   const isSubmitting = form.formState.isSubmitting;
 
+  const router = useRouter();
+
   const handleSelectedType = (value: string) => {
     setSelectedJobType(value);
   };
@@ -125,6 +128,9 @@ export const SelectJobTypeModal = () => {
 
         if (updatedArchive && updatedArchive.status === 'COMPLETE') {
           setStatus('COMPLETE');
+          const currentUrl = new URL(window.location.href);
+          currentUrl.searchParams.set('status', 'complete');
+          router.push(currentUrl.toString());
         } else if (updatedArchive && updatedArchive.status === 'FAIL') {
           setFailAlertOpen(true);
           setStatus('FAIL');

@@ -2,7 +2,6 @@ import { Fragment, HTMLAttributes, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 
 import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/pagination';
 import SelectDropdown from '@/app/(routes)/archive/(list)/components/select-dropdown';
@@ -21,18 +20,15 @@ interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}
 export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortType, setSortType] = useState<'asc' | 'desc'>('desc');
-  const { archives, isError, isLoading, isSuccess } = useArchives(
-    currentPage - 1,
-    sortType,
-  );
+  const { archives, isError, isLoading, isSuccess, isAuthenticated } =
+    useArchives(currentPage - 1, sortType);
   const router = useRouter();
-  const { status } = useSession();
 
   const onChangeSortType = (value: 'asc' | 'desc') => {
     setSortType(value);
   };
 
-  if (status === 'unauthenticated' || archives?.totalCount === 0) {
+  if (!isAuthenticated || archives?.totalCount === 0) {
     return (
       <main>
         <div className="flex justify-between px-4">

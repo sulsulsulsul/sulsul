@@ -28,7 +28,7 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
   return (
     <div className={cn(className)} {...props}>
       {isSampleClicked ? (
-        <div className="text-2xl font-semibold text-gray-800">
+        <div className="mb-2 mt-1.5 text-2xl font-semibold text-gray-800">
           팀으로 함께 성과를 만들어낸 경험을 작성해주세요.
         </div>
       ) : (

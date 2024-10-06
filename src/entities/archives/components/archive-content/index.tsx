@@ -34,8 +34,8 @@ export const ArchiveContent = ({
         />
         <span>내 자기소개서</span>
       </h2>
-      <div className="mt-[18px] flex size-full flex-col gap-2 rounded-md border border-gray-200 bg-white p-[28px] shadow-base">
-        <div className="flex size-full flex-col justify-between gap-3">
+      <div className="mt-[18px] flex size-full h-[650px] flex-col gap-2 rounded-md border border-gray-200 bg-white p-[28px] shadow-base">
+        <div className="flex size-full flex-col gap-3">
           <div className="w-fit cursor-default rounded-sm bg-gray-100 px-3 py-2 text-sm font-medium text-gray-600">
             {companyName}
           </div>
@@ -45,7 +45,7 @@ export const ArchiveContent = ({
             </h3>
           </div>
           <div className="w-full">
-            <div className="max-h-[400px] cursor-default overflow-scroll text-balance break-words">
+            <div className="max-h-[400px] cursor-default overflow-scroll whitespace-pre-line">
               {resume}
             </div>
           </div>
