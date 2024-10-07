@@ -27,7 +27,6 @@ function DonationButton() {
       onClick={handleClickButton}
       className={cn(
         'fixed bottom-10 left-10 z-50 flex cursor-pointer flex-col items-center',
-        { hidden: pathName === '/donation' },
       )}
     >
       <Image src={kakaoImg} alt="후원하기 아이콘" width={100} height={52} />
