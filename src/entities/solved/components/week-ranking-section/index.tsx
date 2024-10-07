@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 
 import { Popover } from '@/components/ui/popover';
@@ -11,22 +11,36 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import NoDataCard from '@/entities/practice/components/no-data-card';
+import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerListStore } from '@/store/answerListStore';
+import { useInterviewStore } from '@/store/interviewStore';
 
 import { useAnswerList } from '../../hooks/use-get-answer-list';
+import { useInterview } from '../../hooks/use-get-interview';
+import { WeekRankingSectionSkeleton } from '../../skeletons/week-ranking-section-skeleton';
 
 export const WeekRankingSection = ({
   accessToken,
-  weeklyInterviewId,
+  pivotDate,
 }: {
   accessToken: string;
-  weeklyInterviewId: number;
+  pivotDate: string;
 }) => {
+  const [currentData, setCurrentData] = useState(null);
   const { setAnswersData } = useAnswerListStore();
-  const { data: answerListData } = useAnswerList({
-    interviewId: weeklyInterviewId,
+  const { setInterviewData } = useInterviewStore();
+  const {
+    data: currentInterviewData,
+    isSuccess: isSuccessCurrentInterviewData,
+    refetch,
+    isLoading: interviewLoading,
+  } = useInterview(pivotDate);
+
+  const { data: answerListData, isLoading: answerListLoading } = useAnswerList({
+    interviewId: currentInterviewData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',
     accessToken,
+    interviewData: currentInterviewData,
   });
 
   const hasNoData =
@@ -34,6 +48,11 @@ export const WeekRankingSection = ({
     answerListData?.pages[0].answers.length === 0 ||
     answerListData?.pages[0].answers[0].recommendCount === 0;
 
+  useEffect(() => {
+    if (currentInterviewData) {
+      setInterviewData(currentInterviewData, refetch);
+    }
+  }, [currentInterviewData]);
   useEffect(() => {
     if (answerListData) {
       const pageInfo = {
@@ -49,6 +68,10 @@ export const WeekRankingSection = ({
       setAnswersData(pageInfo);
     }
   }, [answerListData, setAnswersData]);
+
+  useEffect(() => {
+    setCurrentData;
+  }, []);
   return (
     <div className="mt-[6px] flex w-full flex-col gap-2">
       <div className="relative flex justify-between">
@@ -96,7 +119,9 @@ export const WeekRankingSection = ({
       </div>
 
       <ul className="flex min-h-[218px] w-full flex-1 flex-col items-center justify-start gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-base">
-        {!hasNoData ? (
+        {interviewLoading || answerListLoading ? (
+          <WeekRankingSectionSkeleton />
+        ) : !hasNoData ? (
           answerListData?.pages[0].answers.slice(0, 3).map(
             (userInfo, index) =>
               userInfo.recommendCount >= 1 && (

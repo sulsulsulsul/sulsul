@@ -7,7 +7,7 @@ import { backendApi } from '@/lib/backend-api/client';
 export interface AnswerListActionProps {
   interviewId: number;
   sortType: 'NEW' | 'RECOMMEND';
-  currentData?: InterviewData;
+  interviewData?: InterviewData;
   accessToken?: string;
   pageParam?: number;
 }

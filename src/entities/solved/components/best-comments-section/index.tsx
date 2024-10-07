@@ -1,22 +1,24 @@
 'use client';
 import { useEffect } from 'react';
 import Image from 'next/image';
+import dayjs from 'dayjs';
 
 import NoDataCard from '@/entities/practice/components/no-data-card';
 import { InterviewData } from '@/entities/types/interview';
+import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 
 import { useAnswerList } from '../../hooks/use-get-answer-list';
+import { useInterview } from '../../hooks/use-get-interview';
+import { BestAnswerListSectionSkeleton } from '../../skeletons/best-answer-list-section-skeleton';
 import { ViewAllAnswersModal } from '../view-all-answers-modal';
 
 export const DEFAULT_IMAGE_URL = '/images/suri-profile.svg';
 
 export const BestCommentsSection = ({
   accessToken,
-  previousInterviewData,
 }: {
   accessToken: string;
-  previousInterviewData: InterviewData;
 }) => {
   const {
     isOpenAllAnswerModal,
@@ -24,12 +26,23 @@ export const BestCommentsSection = ({
     isBestAnswerSection,
     setIsBestAnswerSection,
   } = useAnswerModalStore();
-
-  const { data: answerListData } = useAnswerList({
-    interviewId: previousInterviewData.weeklyInterviewId,
-    sortType: 'RECOMMEND',
-    accessToken: accessToken,
+  const previousWeekDate = formatDate({
+    date: dayjs().subtract(7, 'day'),
+    formatCase: 'YYYY-MM-DD',
   });
+  const {
+    data: previousInterviewData,
+    isSuccess: isSuccessPreviousInterviewData,
+    isLoading: isLoadingInterview,
+  } = useInterview(previousWeekDate);
+
+  const { data: answerListData, isLoading: isLoadingAnswerList } =
+    useAnswerList({
+      interviewId: previousInterviewData?.weeklyInterviewId || 0,
+      sortType: 'RECOMMEND',
+      accessToken: accessToken,
+      interviewData: previousInterviewData,
+    });
 
   const previousTitle = previousInterviewData?.content.replace(/\\n/g, ' ');
   const hasNoData =
@@ -51,9 +64,12 @@ export const BestCommentsSection = ({
     setIsOpenAllAnswerModal(isOpenAllAnswerModal);
   }, [isOpenAllAnswerModal]);
 
+  const isLoadingState = isLoadingInterview || isLoadingAnswerList;
   return (
     <>
-      {hasNoData ? (
+      {isLoadingState ? (
+        <BestAnswerListSectionSkeleton />
+      ) : hasNoData ? (
         <NoDataCard className="text-base font-medium text-gray-400" />
       ) : (
         <>

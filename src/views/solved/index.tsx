@@ -1,6 +1,4 @@
-'use client';
 import Image from 'next/image';
-import dayjs from 'dayjs';
 
 import OnehundredQa from '@/app/(routes)/solved/components/onehundred-qa';
 import NoDataCard from '@/entities/practice/components/no-data-card';
@@ -8,8 +6,6 @@ import { BestCommentsSection } from '@/entities/solved/components/best-comments-
 import { MyActivitySection } from '@/entities/solved/components/my-activity-section';
 import { TogetherSolvedSection } from '@/entities/solved/components/together-solved-section';
 import { WeekRankingSection } from '@/entities/solved/components/week-ranking-section';
-import { useUserActivity } from '@/entities/solved/hooks/use-get-activity';
-import { useInterview } from '@/entities/solved/hooks/use-get-interview';
 import { formatDate } from '@/shared/helpers/date-helpers';
 
 interface SolvedProps {
@@ -18,42 +14,12 @@ interface SolvedProps {
 }
 export const Solved = ({ accessToken, userId }: SolvedProps) => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
-  const previousWeekDate = formatDate({
-    date: dayjs().subtract(7, 'day'),
-    formatCase: 'YYYY-MM-DD',
-  });
-  const {
-    data: previousInterviewData,
-    isSuccess: isSuccessPreviousInterviewData,
-  } = useInterview(previousWeekDate);
-  const {
-    data: currentInterviewData,
-    isSuccess: isSuccessCurrentInterviewData,
-    refetch,
-  } = useInterview(pivotDate);
-
-  const { data: userActivityData } = useUserActivity({ userId, accessToken });
-
-  const current = userActivityData?.current || 0;
-  const total = userActivityData?.total || 0;
-
-  if (
-    !isSuccessCurrentInterviewData ||
-    !currentInterviewData?.weeklyInterviewId ||
-    !previousInterviewData ||
-    !isSuccessPreviousInterviewData
-  ) {
-    return null;
-  }
 
   return (
     <main className="flex w-full gap-6">
       <div className="hidden lg:flex lg:w-[282px] lg:flex-col lg:gap-[30px]">
-        <MyActivitySection current={current} total={total} />
-        <WeekRankingSection
-          accessToken={accessToken}
-          weeklyInterviewId={currentInterviewData?.weeklyInterviewId}
-        />
+        <MyActivitySection userId={userId} accessToken={accessToken} />
+        <WeekRankingSection accessToken={accessToken} pivotDate={pivotDate} />
 
         <Image
           src="/images/gift-banner.svg"
@@ -63,10 +29,7 @@ export const Solved = ({ accessToken, userId }: SolvedProps) => {
         />
       </div>
       <div className="flex flex-1 flex-col gap-2 px-4 md:px-0 lg:px-0">
-        <TogetherSolvedSection
-          currentInterviewData={currentInterviewData}
-          refetch={refetch}
-        />
+        <TogetherSolvedSection pivotDate={pivotDate} />
         <OnehundredQa accessToken={accessToken} />
       </div>
       <div className="hidden lg:mt-[6px] lg:flex lg:w-[282px] lg:flex-col lg:gap-2">
@@ -81,10 +44,7 @@ export const Solved = ({ accessToken, userId }: SolvedProps) => {
         </div>
         <div className="relative flex h-[478px] w-full flex-col items-center rounded-md border border-gray-200 bg-white pb-[27px] pt-[30px] shadow-base">
           {accessToken ? (
-            <BestCommentsSection
-              accessToken={accessToken}
-              previousInterviewData={previousInterviewData}
-            />
+            <BestCommentsSection accessToken={accessToken} />
           ) : (
             <NoDataCard className="text-base font-medium text-gray-400" />
           )}

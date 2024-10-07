@@ -9,10 +9,11 @@ export const useAnswerList = ({
   interviewId,
   sortType,
   accessToken,
+  interviewData,
 }: AnswerListActionProps) => {
   const result = useInfiniteQuery({
     ...answerListOptions(interviewId, sortType, accessToken),
-    enabled: !!accessToken,
+    enabled: !!accessToken && !!interviewData?.weeklyInterviewId,
   });
 
   const { data, ...rest } = result;
