@@ -31,7 +31,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   if (!isAuthenticated || archives?.totalCount === 0) {
     return (
       <main>
-        <div className="flex justify-between px-4">
+        <div className="flex justify-between">
           <div className="flex items-center gap-1 text-4xl font-bold">
             <Image
               width={32}
@@ -138,8 +138,8 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   }
 
   return (
-    <main className="relative px-[16px] pt-[-60px] sm:px-[-12px] md:px-[-20px]">
-      <div className="mx-5 flex justify-between mobile:mx-0">
+    <main className="relative pt-[-60px] sm:px-[-12px] md:px-[-20px]">
+      <div className="flex justify-between mobile:mx-0">
         <div className="flex items-center gap-1 text-4xl font-bold mobile:text-2xl mobile:font-semibold mobile:leading-8">
           <Image
             width={32}
@@ -152,7 +152,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
         </div>
         <SelectDropdown onChangeSortType={onChangeSortType} />
       </div>
-      <div className="my-4 mb-14 flex items-center justify-center">
+      <div className="my-4 mb-14 flex items-center mobile:justify-center">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 2xl:grid-cols-4">
           {archives &&
             archives.archives?.map((archive: ArchiveListItemDTO) => (

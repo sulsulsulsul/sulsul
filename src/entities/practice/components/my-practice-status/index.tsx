@@ -47,7 +47,7 @@ const MyPracticeChart = ({ className, userId }: StatusChartProps) => {
   }
 
   return (
-    <div className={cn(className, 'pl-3 w-[600px]')}>
+    <div className={cn(className, 'pl-3 w-full')}>
       <PracticeSectionHeader
         title="내 연습현황"
         iconSrc="/images/icons/etc-calendar.svg"

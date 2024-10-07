@@ -23,7 +23,7 @@ const Practice = ({
   className,
   userId,
   nickname,
-  isDesktop,
+  // isDesktop,
 }: PracticeProps) => {
   const { data: statisticsSummary, isSuccess: isSuccessStatisticsSummary } =
     useStatisticsSummary({
@@ -55,7 +55,7 @@ const Practice = ({
   ) {
     return null;
   }
-
+  let isDesktop = true;
   return (
     <main className={cn('mobile:px-[16px]', className)}>
       <section className="flex h-fit gap-6 mobile:flex-col ">
@@ -79,7 +79,7 @@ const Practice = ({
         </div>
         {openModal && <PracticeSelection />}
       </section>
-      <section className="mt-[80px] grid w-[1200px] mobile:mt-[42px] mobile:grid-cols-1 mobile:gap-10 desktop:grid-cols-2">
+      <section className="mt-[80px] grid w-full mobile:mt-[42px] mobile:grid-cols-1 mobile:gap-10 desktop:grid-cols-2">
         <PracticeQuestions
           favoriteQuestions={favoriteQuestions}
           hintUsedQuestions={hintUsedQuestions}

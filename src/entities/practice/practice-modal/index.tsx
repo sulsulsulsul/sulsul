@@ -14,7 +14,7 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { ArchiveQuestionItem } from '@/entities/types';
 import { cn } from '@/lib/utils';
-import { useSelectedQuestionStore } from '@/store/modal';
+import { useOpenModalStore, useSelectedQuestionStore } from '@/store/modal';
 import { usePracticeStore } from '@/store/practiceStore';
 
 import { PracticingListType } from '../../types/question';
@@ -77,7 +77,7 @@ export default function PracticeSelection({
   const allQuestions = useAllPracticeQuestions(
     resume?.flatMap((item) => item.archiveId)!,
   );
-
+  const { setModalOpen } = useOpenModalStore();
   useEffect(() => {
     if (allResume && allQuestions.isSuccess) {
       allQuestions.allQuestions && setFinalList(allQuestions.allQuestions);
@@ -113,6 +113,7 @@ export default function PracticeSelection({
             practiceList: data as PracticingListType[],
             practiceId: value,
           });
+        setModalOpen(false);
       },
     });
   };

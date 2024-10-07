@@ -140,7 +140,7 @@ export const PracticeStartCard = ({
           src={'/images/character-cheering.svg'}
           alt="cheering character"
           width={162}
-          height={145}
+          height={142}
         />
       </div>
       <AuthSignedIn>

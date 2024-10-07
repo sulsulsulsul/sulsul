@@ -50,7 +50,7 @@ export const PracticeResultCard = ({
   return (
     <div
       className={cn(
-        'h-[273px] w-[282px] rounded-md bg-white p-[26px] shadow-base mobile:h-[172px] mobile:w-[153px] mobile:shrink-0 mobile:pt-[24px] mobile:px-[20px] mobile:pb-[16px] border border-gray-200 ',
+        'h-[268px] w-[268px] rounded-md bg-white p-[26px] shadow-base mobile:h-[172px] mobile:w-[153px] mobile:shrink-0 mobile:pt-[24px] mobile:px-[20px] mobile:pb-[16px] border border-gray-200 ',
         className,
       )}
       {...props}
@@ -84,12 +84,30 @@ const PracticeResultCardIcon = ({
 }) => {
   switch (type) {
     case 'good':
-      return <SmileAnimation loop={false} className="w-8 mobile:w-[21px]" />;
+      return (
+        <Image
+          width={32}
+          height={32}
+          className="w-8 mobile:w-[21px]"
+          src="/images/icons/face-smile.svg"
+          alt=""
+        />
+      );
     case 'bad':
-      return <ThinkingAnimation loop={false} className="w-8 mobile:w-[21px]" />;
+      return (
+        <Image
+          width={32}
+          height={32}
+          className="w-8 mobile:w-[21px]"
+          src="/images/icons/face-thinking.svg"
+          alt=""
+        />
+      );
     case 'time':
       return (
-        <img
+        <Image
+          width={32}
+          height={32}
           className="w-8 mobile:w-[21px]"
           alt="clock icon"
           src="/images/icons/etc-clock.svg"
