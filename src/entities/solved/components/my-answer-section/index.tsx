@@ -67,6 +67,7 @@ export const MyAnswerSection = ({
     recommendMutation({
       isRecommended,
       answerId: weeklyInterviewAnswerId,
+      isMyAnswer: true,
     });
   };
 

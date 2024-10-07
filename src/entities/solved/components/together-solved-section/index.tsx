@@ -2,7 +2,6 @@
 
 import { cn } from '@/lib/utils';
 import { useUserStore } from '@/store/client';
-import { useInterviewStore } from '@/store/interviewStore';
 
 import { useInterview } from '../../hooks/use-get-interview';
 import { useUserAnswer } from '../../hooks/use-get-user-answer';
