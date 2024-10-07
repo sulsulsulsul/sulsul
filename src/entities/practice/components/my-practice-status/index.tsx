@@ -72,7 +72,7 @@ const MyPracticeChart = ({ className, userId }: StatusChartProps) => {
           </button>
         </div>
       </div>
-      <div className="mt-6 flex h-[318px] w-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-base mobile:mb-10">
+      <div className="mt-6 flex h-[328px] w-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-base mobile:mb-10">
         {/* TODO: 데이터 노출 후 라벨 확인 필요 */}
         {statisticsDetail.length > 0 ? (
           <PracticeStatusChart
