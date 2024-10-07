@@ -42,7 +42,7 @@ export const TextAreaSection = ({
 
   const inputValue = form.watch('answer');
 
-  const { setOpenAnswerModal } = useAnswerModalStore();
+  const { setOpenAnswerModal, setIsEditModal } = useAnswerModalStore();
   const { setIsTemporarySaved } = useTemporarySaveStore();
   const currentInterviewId = currentData.weeklyInterviewId || 1;
 
@@ -144,8 +144,9 @@ export const TextAreaSection = ({
   useEffect(() => {
     if (isSuccessCreate || isSuccessUpdate) {
       setOpenAnswerModal(false);
+      setIsEditModal(false);
     }
-  }, [isSuccessCreate, isSuccessUpdate, setOpenAnswerModal]);
+  }, [isSuccessCreate, isSuccessUpdate, setOpenAnswerModal, setIsEditModal]);
 
   useEffect(() => {
     if (

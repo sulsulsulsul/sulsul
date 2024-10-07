@@ -17,6 +17,7 @@ import faceIcon from '/public/images/icons/face-empty-yellow.svg';
 interface ConfirmModalProps {
   type: 'exit' | 'delete' | 'report';
   myWriteAnswerData?: AnswerListData;
+  filteredAnswer?: AnswerListData | null;
 }
 interface ModalContent {
   icon: string;
@@ -52,13 +53,13 @@ const MODAL_CONTENT: Record<'exit' | 'delete' | 'report', ModalContent> = {
 export const ReConfirmModal = ({
   type,
   myWriteAnswerData,
+  filteredAnswer,
 }: ConfirmModalProps) => {
   const { auth } = useUserStore();
   const { accessToken, userId } = auth;
   const { icon, title, detail, leftButton, rightButton } = MODAL_CONTENT[type];
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const { data: currentData, refetch } = useInterview(pivotDate);
-
   const {
     setOpenCancelModal,
     setOpenAnswerModal,
@@ -78,7 +79,7 @@ export const ReConfirmModal = ({
   });
 
   const { mutate: reportAnswerMutation } = useCreateReportUser({
-    answerId: myWriteAnswerData?.weeklyInterviewAnswerId || 0,
+    answerId: filteredAnswer?.weeklyInterviewAnswerId || 0,
     accessToken,
     setOpenReportModal,
   });

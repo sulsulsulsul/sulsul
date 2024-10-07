@@ -15,11 +15,8 @@ import { useInterviewStore } from '@/store/interviewStore';
 import { useMyAnswerStore } from '@/store/myAnswerStore';
 
 import { useAnswerRecommend } from '../../hooks/use-answer-recommend';
-import { useAnswerList } from '../../hooks/use-get-answer-list';
-import { useInterview } from '../../hooks/use-get-interview';
 import { CountDownView } from '../count-down-view';
 import { ReConfirmModal } from '../re-confirm-modal';
-import { TogetherSolvedHeader } from '../together-solved-header';
 import { ViewAllAnswersModal } from '../view-all-answers-modal';
 import { WriteAnswerModal } from '../write-answer-modal';
 
