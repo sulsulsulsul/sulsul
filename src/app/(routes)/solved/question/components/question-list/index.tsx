@@ -137,13 +137,14 @@ const QuestionList = ({ className }: QuestionListProps) => {
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1" className="border-none">
                 <AccordionTrigger
-                  className="flex items-start gap-2"
+                  className="flex items-start justify-between gap-2 mobile:items-center"
                   onClick={handleAccordionClick}
                 >
                   <span
-                    className={`relative top-[7px] mr-1 size-[9.6px] min-w-[9.6px] rounded-full ${question.isAnswered ? 'bg-blue-500' : 'bg-gray-200'}`}
+                    className={`relative top-[7px] mr-1 size-[9.6px] min-w-[9.6px] rounded-full mobile:top-0 ${question.isAnswered ? 'bg-blue-500' : 'bg-gray-200'}`}
                   />
                   <p className="w-full text-left">{question.content}</p>
+                  <svg className="hidden" />
                 </AccordionTrigger>
                 <AccordionContent className="h-auto py-[10px] ">
                   <div className="pb-5 pl-4">

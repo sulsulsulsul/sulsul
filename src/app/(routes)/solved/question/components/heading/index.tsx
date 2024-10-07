@@ -27,12 +27,13 @@ const Heading = () => {
   }
 
   return (
-    <p className="mb-[4] flex w-[996px] gap-1 text-4xl font-bold mobile:pl-[3%]">
+    <p className="mb-[4] flex w-[996px] gap-1 text-4xl font-bold mobile:mb-[-12px] mobile:mt-[-20px] mobile:pl-[3%] mobile:text-2xl">
       <Image
         src="/images/icons/etc-speech.svg"
         width={32}
         height={32}
         alt="icon"
+        className="mobile:relative mobile:top-[-4.5px]"
       />
       {category} <span className="text-blue-500">{count}</span>
     </p>
