@@ -11,7 +11,10 @@ const Page = ({ searchParams }: PageProps) => {
     <ArchiveFormProvider>
       <main className="flex items-start gap-6">
         <CreateArchiveForm className="h-[650px] w-[486px]" />
-        <FormStatus className="h-full w-[690px]" version={searchParams?.v} />
+        <FormStatus
+          className="mb-4 h-full w-[690px]"
+          version={searchParams?.v}
+        />
       </main>
     </ArchiveFormProvider>
   );

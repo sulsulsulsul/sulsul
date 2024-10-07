@@ -23,7 +23,7 @@ export const LoadedStatus = ({
 }: LoadedInterviewQuestionProps) => {
   return (
     <div className={cn('h-full', className)} {...props}>
-      <div className="flex size-full flex-col gap-3 p-[10px]">
+      <div className="flex size-full flex-col gap-3">
         {data.map((question) => (
           <QuestionCard
             key={question.questionId}
