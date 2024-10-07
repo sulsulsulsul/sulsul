@@ -46,7 +46,7 @@ export const Solved = ({ accessToken, userId }: SolvedProps) => {
           {accessToken ? (
             <BestCommentsSection accessToken={accessToken} />
           ) : (
-            <NoDataCard className="text-base font-medium text-gray-400" />
+            <NoDataCard className="border-none text-base font-medium text-gray-400 shadow-none" />
           )}
         </div>
       </div>

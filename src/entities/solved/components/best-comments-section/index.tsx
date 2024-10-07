@@ -70,7 +70,7 @@ export const BestCommentsSection = ({
       {isLoadingState ? (
         <BestAnswerListSectionSkeleton />
       ) : hasNoData ? (
-        <NoDataCard className="text-base font-medium text-gray-400" />
+        <NoDataCard className="border-none text-base font-medium text-gray-400 shadow-none" />
       ) : (
         <>
           <div className="flex flex-col gap-4 pl-4">
