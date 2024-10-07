@@ -1,7 +1,3 @@
-'use client';
-
-import { useEffect } from 'react';
-
 import { useIntervalValue } from '../../hooks/use-interval-value';
 
 export const CountDownView = ({
@@ -30,7 +26,7 @@ export const CountDownView = ({
 
   return (
     <div className="mt-1 flex text-sm font-medium text-gray-500">
-      <p className="w-[85px]">
+      <p className="w-[84.5px]">
         {days}일 {hours}:{minutes}:{seconds}
       </p>
       <p>후 종료</p>
