@@ -23,7 +23,7 @@ const Practice = ({
   className,
   userId,
   nickname,
-  // isDesktop,
+  isDesktop,
 }: PracticeProps) => {
   const { data: statisticsSummary, isSuccess: isSuccessStatisticsSummary } =
     useStatisticsSummary({
@@ -55,10 +55,9 @@ const Practice = ({
   ) {
     return null;
   }
-  let isDesktop = true;
   return (
     <main className={cn('mobile:px-[16px]', className)}>
-      <section className="flex h-fit gap-6 mobile:flex-col ">
+      <section className="gap- flex h-fit mobile:flex-col ">
         <PracticeStartCard
           className="flex h-fit min-w-[282px] flex-col items-center justify-between"
           nickname={nickname}
