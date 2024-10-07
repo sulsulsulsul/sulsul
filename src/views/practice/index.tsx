@@ -57,7 +57,7 @@ const Practice = ({
   }
   return (
     <main className={cn('mobile:px-[16px]', className)}>
-      <section className="gap- flex h-fit mobile:flex-col ">
+      <section className="flex h-fit gap-6 mobile:flex-col ">
         <PracticeStartCard
           className="flex h-fit min-w-[282px] flex-col items-center justify-between"
           nickname={nickname}
