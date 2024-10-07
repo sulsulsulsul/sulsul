@@ -11,7 +11,7 @@ const Progress = ({ accessToken }: { accessToken: string }) => {
 
   return (
     <>
-      <p className="mb-0 text-2xs text-gray-500">첼린지 진행상황</p>
+      <p className="mb-0 text-2xs text-gray-500">챌린지 진행상황</p>
       <div className="mb-[8px] flex justify-between">
         <p className="text-4xl font-bold text-blue-500">
           {data?.totalCount || 0}/100
