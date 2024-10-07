@@ -109,7 +109,7 @@ export const InterviewQuestions = ({
                 </>
               )}
             </h2>
-            <div className="mt-[8px] w-full overflow-visible">
+            <div className="mt-4 w-full">
               <LoadedStatus
                 data={data.questions}
                 archiveId={archiveId}

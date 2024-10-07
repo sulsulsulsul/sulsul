@@ -60,7 +60,10 @@ export const FormStatus = ({
     <div className={cn(className)} {...props}>
       {isQuestionCreated ? (
         <>
-          <InterviewQuestions data={archive!} className="h-full w-[690px]" />
+          <InterviewQuestions
+            data={archive!}
+            className="mb-4 h-full w-[690px]"
+          />
           {isQuestionCreated && <AddQuestion archiveId={currentId} />}
         </>
       ) : (

@@ -35,7 +35,7 @@ export const CompleteStatus = ({
   ];
 
   return (
-    <div className="mt-[8px] flex size-full  flex-col gap-3 overflow-visible p-[10px]">
+    <div className="mt-4 flex size-full  flex-col gap-3">
       {SAMPLE_QUESTIONS.map((sampleQuestion, idx) => (
         <AlertDialog key={sampleQuestion}>
           <div className="rounded-md border border-gray-200 shadow-base">
