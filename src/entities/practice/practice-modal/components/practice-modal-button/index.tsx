@@ -1,22 +1,22 @@
-import { Dispatch, HTMLAttributes, SetStateAction } from 'react';
+import { HTMLAttributes } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useOpenModalStore } from '@/store/modal';
 
 interface ButtonSectionProp extends HTMLAttributes<HTMLDivElement> {
-  setCancel: Dispatch<SetStateAction<boolean>>;
   handleSubmit: () => void;
   setDisable: boolean;
   listCount: number;
 }
 
 export default function PracticeModalButton({
-  setCancel,
   handleSubmit,
   setDisable,
   className,
   listCount,
 }: ButtonSectionProp) {
+  const { setModalOpen } = useOpenModalStore();
   return (
     <section
       className={cn(
@@ -28,7 +28,7 @@ export default function PracticeModalButton({
         size="default"
         variant="ghost"
         className="w-[117px] border border-gray-400 text-gray-400"
-        onClick={() => setCancel(false)}
+        onClick={() => setModalOpen(false)}
       >
         취소
       </Button>

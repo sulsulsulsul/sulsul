@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { MyQuestionList } from '@/entities/types/challenges';
 
 import { useCreateMostFrequentAnswer } from '../../../hook/use-create-most-frequent-answer';
 
@@ -20,10 +19,14 @@ const AnswerForm = ({
   accessToken,
   challengeId,
   hasAnswer,
+  setIsAnswerChanged,
+  category,
 }: {
   accessToken: string;
   challengeId: number;
   hasAnswer: string | null;
+  setIsAnswerChanged?: Dispatch<SetStateAction<boolean>>;
+  category: string;
 }) => {
   // React Hook Form 사용
   const form = useForm({
@@ -34,7 +37,6 @@ const AnswerForm = ({
   });
   const { handleSubmit, watch, setFocus, setValue } = form;
   const answerLength = watch('answer').length;
-  const category = 'BASIC';
 
   useEffect(() => {
     if (hasAnswer) {
@@ -48,11 +50,18 @@ const AnswerForm = ({
 
   // 여기서 폼 데이터를 처리
   const onSubmit = (data: any) => {
-    createMostFrequentAnswerMutation({
-      challengeId: challengeId,
-      accessToken: accessToken,
-      answer: data.answer,
-    });
+    createMostFrequentAnswerMutation(
+      {
+        challengeId: challengeId,
+        accessToken: accessToken,
+        answer: data.answer,
+      },
+      {
+        onSuccess: () => {
+          if (setIsAnswerChanged) setIsAnswerChanged(true);
+        },
+      },
+    );
   };
 
   return (

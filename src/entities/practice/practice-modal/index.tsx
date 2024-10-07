@@ -14,6 +14,7 @@ import { CheckedState } from '@radix-ui/react-checkbox';
 
 import { ArchiveQuestionItem } from '@/entities/types';
 import { cn } from '@/lib/utils';
+import { useSelectedQuestionStore } from '@/store/modal';
 import { usePracticeStore } from '@/store/practiceStore';
 
 import { PracticingListType } from '../../types/question';
@@ -26,18 +27,14 @@ import PracticeModalResumeSection from './components/practice-modal-resume-secti
 import { useAllPracticeQuestions, useResumes } from './hooks';
 import { useCreatePractice } from './hooks/use-create-practice';
 
-interface PracticeSelectionProp extends HTMLAttributes<HTMLDivElement> {
-  setModal: Dispatch<SetStateAction<boolean>>;
-  //TODO: Get ResumeId on dashboard 다시하기 클릭
-  //resumeId?: number;
-}
+interface PracticeSelectionProp extends HTMLAttributes<HTMLDivElement> {}
 export default function PracticeSelection({
-  setModal,
   className,
 }: PracticeSelectionProp) {
   const router = useRouter();
 
   const { setStore } = usePracticeStore();
+  const { resumeId } = useSelectedQuestionStore();
 
   const [selectedArchiveIds, setSelectedArchiveIds] = useState<number[]>([]);
   const [allResume, setAllResume] = useState(false);
@@ -52,7 +49,11 @@ export default function PracticeSelection({
 
   const { resume } = useResumes();
   const [focusedResume, setFocusedResume] = useState(
-    resume && resume[0] ? resume[0].archiveId : 0,
+    resumeId !== 0
+      ? resumeId
+      : resume && resume[0].archiveId
+        ? resume[0].archiveId
+        : 0,
   );
 
   useEffect(() => {
@@ -155,7 +156,6 @@ export default function PracticeSelection({
           />
           <PracticeModalButton
             listCount={finalList.length}
-            setCancel={setModal}
             handleSubmit={handleSubmit}
             setDisable={finalList.length === 0}
           />

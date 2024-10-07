@@ -396,4 +396,21 @@ export const API_ENDPOINT = {
       };
     },
   },
+  donation: {
+    getRanking: () => {
+      return {
+        url: `/public${API_V1_BASE}/donation/ranking?limit=5`,
+        method: Method.GET,
+        authorization: true,
+      };
+    },
+
+    putDonationLike: (donationNo: number) => {
+      return {
+        url: `/public${API_V1_BASE}/donation/${donationNo}/like`,
+        method: Method.PUT,
+        authorization: true,
+      };
+    },
+  },
 } as const;

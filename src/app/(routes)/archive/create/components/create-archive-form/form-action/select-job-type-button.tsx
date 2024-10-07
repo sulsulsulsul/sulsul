@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { CheckAnimation } from '@/components/lotties/check-animation';
@@ -86,6 +87,8 @@ export const SelectJobTypeModal = () => {
   const isFormValid = form.formState.isValid;
   const isSubmitting = form.formState.isSubmitting;
 
+  const router = useRouter();
+
   const handleSelectedType = (value: string) => {
     setSelectedJobType(value);
   };
@@ -125,6 +128,9 @@ export const SelectJobTypeModal = () => {
 
         if (updatedArchive && updatedArchive.status === 'COMPLETE') {
           setStatus('COMPLETE');
+          const currentUrl = new URL(window.location.href);
+          currentUrl.searchParams.set('status', 'complete');
+          router.push(currentUrl.toString());
         } else if (updatedArchive && updatedArchive.status === 'FAIL') {
           setFailAlertOpen(true);
           setStatus('FAIL');
@@ -245,7 +251,7 @@ export const SelectJobTypeModal = () => {
                   </p>
                   <h1 className="text-3xl font-bold">내 직무를 선택해주세요</h1>
                 </AlertDialogTitle>
-                <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 py-4">
+                <AlertDialogDescription className="mx-auto grid grid-cols-4 gap-3 pt-4">
                   {JOB_TYPE.map((type, idx) => (
                     <Button
                       key={idx}
@@ -262,13 +268,14 @@ export const SelectJobTypeModal = () => {
                   ))}
                 </AlertDialogDescription>
               </AlertDialogHeader>
-              <AlertDialogFooter className="mx-auto border-t border-gray-100">
+              <hr className="bg-gray-100" />
+              <AlertDialogFooter className="mx-auto">
                 <AlertDialogCancel className="w-[180px]">
                   취소하기
                 </AlertDialogCancel>
                 <AlertDialogAction
                   disabled={selectedJobType === ''}
-                  className="w-[180px] bg-blue-500 text-white disabled:bg-gray-200 disabled:text-gray-500"
+                  className="w-[180px] bg-blue-500 text-white disabled:bg-gray-200 disabled:text-gray-500 disabled:opacity-100"
                   onClick={handleSubmit(onSubmit)}
                 >
                   선택하기

@@ -12,7 +12,7 @@ export const ValidStatus = ({
 }: ValidInterviewQuestionProps) => {
   return (
     <div
-      className={cn('h-full bg-white rounded-md shadow-base', className)}
+      className={cn('h-[650px] bg-white rounded-md shadow-base', className)}
       {...props}
     >
       <div className="flex size-full flex-col items-center justify-center gap-4">

@@ -13,7 +13,7 @@ const buttonVariants = cva(
           'bg-blue-500 text-white hover:bg-blue-300 active:bg-blue-900 disabled:bg-gray-200 disabled:text-gray-500',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         green:
-          'bg-green-100 text-green-900 hover:bg-green-400 hover:text-green-900 active:bg-green-900 active:text-white',
+          'bg-green-100 text-green-900 hover:bg-green-400 hover:text-green-900 focus:bg-green-900 focus:text-white active:bg-green-900 active:text-white',
         black: 'bg-gray-800 text-white hover:bg-gray-700 active:bg-gray-900',
         outline:
           'border border-gray-300 text-base font-semibold text-gray-600 hover:bg-gray-100 active:bg-gray-200',

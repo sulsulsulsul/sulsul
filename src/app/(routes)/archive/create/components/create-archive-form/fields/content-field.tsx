@@ -54,7 +54,7 @@ export const ContentField = ({ className, ...props }: ContentFieldProps) => {
               <FormControl>
                 <Textarea
                   maxLength={1999}
-                  className="size-full resize-none rounded-none border-0 px-0"
+                  className="size-full resize-none overflow-y-scroll rounded-none border-0 px-0"
                   placeholder="300자 이상 2000자 이내의 내용을 입력해주세요."
                   onFocus={() => form.clearErrors('resume')}
                   {...field}

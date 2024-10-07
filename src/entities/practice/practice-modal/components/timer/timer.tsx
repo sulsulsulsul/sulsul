@@ -13,13 +13,11 @@ import { set } from 'zod';
 import { cn } from '@/lib/utils';
 
 interface TimerProp extends HTMLAttributes<HTMLDivElement> {
-  setTime: Dispatch<SetStateAction<number>>;
   pauseTimer: boolean;
   disableTime?: boolean;
 }
 
 export default function Timer({
-  setTime,
   disableTime,
   pauseTimer,
   className,
@@ -56,7 +54,6 @@ export default function Timer({
     const seconds = Math.floor(timer % 60)
       .toString()
       .padStart(2, '0');
-
     return { minutes, seconds };
   };
 
@@ -64,8 +61,7 @@ export default function Timer({
 
   useEffect(() => {
     pauseTimer && handlePause;
-    setTime(timer);
-  }, [handlePause, pauseTimer, setTime, timer]);
+  }, [handlePause, pauseTimer, timer]);
 
   return (
     <div

@@ -1,5 +1,5 @@
 'use client';
-import { HTMLAttributes, useState } from 'react';
+import { HTMLAttributes, useEffect, useState } from 'react';
 
 import MyPracticeStatus from '@/entities/practice/components/my-practice-status';
 import PracticeQuestions from '@/entities/practice/components/practice-questions';
@@ -9,6 +9,7 @@ import useStatisticsSummary from '@/entities/practice/hooks/use-statistics-summa
 import PracticeSelection from '@/entities/practice/practice-modal';
 import useSearchQuestions from '@/entities/questions/hooks/use-search-questions';
 import { cn } from '@/lib/utils';
+import { useOpenModalStore, useSelectedQuestionStore } from '@/store/modal';
 interface PracticeProps extends HTMLAttributes<HTMLDivElement> {
   userId: number;
   nickname: string;
@@ -40,8 +41,11 @@ const Practice = ({
     useSearchQuestions({
       params: { userId, practiceStatus: 'NOT_ANSWER' },
     });
-
-  const [openModal, setOpenModal] = useState(false);
+  const { openModal } = useOpenModalStore();
+  const { setResumeId } = useSelectedQuestionStore();
+  useEffect(() => {
+    !openModal && setResumeId(0);
+  }, [openModal]);
 
   if (
     !isSuccessStatisticsSummary ||
@@ -54,13 +58,12 @@ const Practice = ({
 
   return (
     <main className={cn('mobile:px-[16px]', className)}>
-      <section className="flex gap-[25px] mobile:flex-col">
+      <section className="flex h-fit gap-6 mobile:flex-col ">
         <PracticeStartCard
-          className="flex h-[273px] min-w-[282px] flex-col items-center justify-between"
-          setModalOpen={setOpenModal}
+          className="flex h-fit min-w-[282px] flex-col items-center justify-between"
           nickname={nickname}
         />
-        <div className="flex w-full gap-[25px] overflow-x-auto mobile:flex-auto mobile:gap-[8px]">
+        <div className="flex size-fit gap-6 mobile:flex-auto mobile:gap-[8px] mobile:overflow-x-auto">
           <PracticeResultCard
             type="good"
             value={statisticsSummary.answerCount}
@@ -74,10 +77,9 @@ const Practice = ({
             value={statisticsSummary.totalPracticeTime}
           />
         </div>
-
-        {openModal && <PracticeSelection setModal={setOpenModal} />}
+        {openModal && <PracticeSelection />}
       </section>
-      <section className="mt-[80px] grid gap-6 mobile:mt-[42px] mobile:grid-cols-1 mobile:gap-10 desktop:grid-cols-2">
+      <section className="mt-[80px] grid w-[1200px] mobile:mt-[42px] mobile:grid-cols-1 mobile:gap-10 desktop:grid-cols-2">
         <PracticeQuestions
           favoriteQuestions={favoriteQuestions}
           hintUsedQuestions={hintUsedQuestions}

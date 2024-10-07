@@ -2,7 +2,6 @@ import { Fragment, HTMLAttributes, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
 
 import { PaginationDemo } from '@/app/(routes)/archive/(list)/components/pagination';
 import SelectDropdown from '@/app/(routes)/archive/(list)/components/select-dropdown';
@@ -21,18 +20,15 @@ interface ArchiveListViewProps extends HTMLAttributes<HTMLDivElement> {}
 export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortType, setSortType] = useState<'asc' | 'desc'>('desc');
-  const { archives, isError, isLoading, isSuccess } = useArchives(
-    currentPage - 1,
-    sortType,
-  );
+  const { archives, isError, isLoading, isSuccess, isAuthenticated } =
+    useArchives(currentPage - 1, sortType);
   const router = useRouter();
-  const { status } = useSession();
 
   const onChangeSortType = (value: 'asc' | 'desc') => {
     setSortType(value);
   };
 
-  if (status === 'unauthenticated' || archives?.totalCount === 0) {
+  if (!isAuthenticated || archives?.totalCount === 0) {
     return (
       <main>
         <div className="flex justify-between px-4">
@@ -89,7 +85,7 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
               alt="card background image"
               priority
             />
-            <div className="relative z-10 flex h-[380px] flex-col bg-transparent pb-[50px] pt-[62px] mobile:h-[253px]">
+            <div className="relative z-10 flex h-[380px] flex-col bg-transparent pb-[50px] pt-[62px] mobile:h-[253px] mobile:pb-8">
               <div className="flex justify-between">
                 <div className="rounded-sm bg-gray-100 px-[10px] py-[7px] text-blue-500">
                   <h3 className="text-2xs font-semibold">{'술술 컴퍼니'}</h3>
@@ -117,7 +113,6 @@ export const ArchiveListView = ({ className }: ArchiveListViewProps) => {
                 예상 면접질문{' '}
                 <span className="text-green-point">{' ? 개'}</span>
               </div>
-
               <div className="flex h-full grow flex-col justify-end ">
                 <div className="relative">
                   <div className="h-[6px] rounded-[6.6px] bg-white/30"></div>

@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/tooltip';
 import { ArchiveQuestionItem } from '@/entities/types';
 import { cn } from '@/lib/utils';
+import { useSelectedQuestionStore } from '@/store/modal';
 
 import { usePracticeQuestions } from '../../hooks';
 import PracticeModalQuestionSelection from '../practice-question-selection';
@@ -52,6 +53,9 @@ export default function PracticeModalQuestionSection({
   const { questions } = usePracticeQuestions(focusedResume);
   const [answerFilter, setAnswerFilter] = useState<CheckedState>(false);
   const [hintFilter, setHintFilter] = useState<CheckedState>(false);
+
+  const { preSelectQuestionId, setPreSelectQuestionId } =
+    useSelectedQuestionStore();
 
   const handleFilter = useCallback(
     (list: ArchiveQuestionItem[]) => {
@@ -93,21 +97,29 @@ export default function PracticeModalQuestionSection({
   //   }
   // }, [answerFilter, hintFilter]);
 
-  console.log(selectedQuestionIds);
-
   useEffect(() => {
     if (questions) {
-      //처음 전체 선택
       if (!selectedArchiveIds.includes(focusedResume)) {
-        setSelectedQuestionIds(
-          questions.questions.map((value) => value.questionId),
-        );
-        setFinalList((prev) =>
-          [...prev, ...questions.questions].filter(
-            (item, index, self) =>
-              index === self.findIndex((t) => t.questionId === item.questionId),
-          ),
-        );
+        if (preSelectQuestionId != 0) {
+          setSelectedQuestionIds([preSelectQuestionId]);
+          setFinalList(
+            questions.questions.filter(
+              (value) => value.questionId === preSelectQuestionId,
+            ),
+          );
+          setPreSelectQuestionId(0);
+        } else {
+          setSelectedQuestionIds(
+            questions.questions.map((value) => value.questionId),
+          );
+          setFinalList((prev) =>
+            [...prev, ...questions.questions].filter(
+              (item, index, self) =>
+                index ===
+                self.findIndex((t) => t.questionId === item.questionId),
+            ),
+          );
+        }
       } else {
         const x = finalList.filter((item) =>
           questions.questions.some(
@@ -116,11 +128,11 @@ export default function PracticeModalQuestionSection({
         );
         setSelectedQuestionIds(x.map((item) => item.questionId));
       }
-      // if (allResume) {
-      //   setSelectedQuestionIds(
-      //     questions.questions.map((item) => item.questionId),
-      //   );
-      // }
+      if (allResume) {
+        setSelectedQuestionIds(
+          questions.questions.map((item) => item.questionId),
+        );
+      }
     }
   }, [focusedResume, questions]);
 
