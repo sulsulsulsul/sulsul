@@ -56,7 +56,6 @@ export const ViewAllAnswersModal = ({
     isOpenReportModal,
   } = useAnswerModalStore();
   const { data: interviewData } = useInterview(selectedDate);
-
   const { userId, accessToken } = auth;
 
   const { data: myWriteAnswerData } = useUserAnswer({
@@ -262,7 +261,7 @@ export const ViewAllAnswersModal = ({
                     {removeNewlines(interviewData?.content || '')}
                   </h1>
                 </div>
-                {myWriteAnswerData && (
+                {myWriteAnswerData && interviewData && (
                   <MyAnswerSection
                     interviewId={interviewData?.weeklyInterviewId || 1}
                     myWriteAnswerData={myWriteAnswerData}
@@ -281,7 +280,7 @@ export const ViewAllAnswersModal = ({
                   <h4 className="text-lg font-bold">
                     다른 지원자들의 답변{' '}
                     <span className="text-blue-500">
-                      {filteredResponses.length}
+                      {interviewData ? filteredResponses.length : 0}
                     </span>
                   </h4>
                   <div
@@ -311,7 +310,8 @@ export const ViewAllAnswersModal = ({
                   )}
                   {
                     <>
-                      {filteredResponses.length >= 1 &&
+                      {interviewData &&
+                        filteredResponses.length >= 1 &&
                         filteredResponses.map(
                           (v: AnswerListData, i: number) => (
                             <li

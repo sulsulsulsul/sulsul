@@ -53,6 +53,7 @@ export const WeekRankingSection = ({
       setInterviewData(currentInterviewData, refetch);
     }
   }, [currentInterviewData]);
+
   useEffect(() => {
     if (answerListData) {
       const pageInfo = {
@@ -69,9 +70,6 @@ export const WeekRankingSection = ({
     }
   }, [answerListData, setAnswersData]);
 
-  useEffect(() => {
-    setCurrentData;
-  }, []);
   return (
     <div className="mt-[6px] flex w-full flex-col gap-2">
       <div className="relative flex justify-between">

@@ -48,6 +48,7 @@ export const BestCommentsSection = ({
   const hasNoData =
     !accessToken ||
     !answerListData ||
+    !previousInterviewData ||
     answerListData?.pages[0].totalCount === 0;
 
   const handleClickAnswerViewBtn = () => {
@@ -62,8 +63,7 @@ export const BestCommentsSection = ({
 
   useEffect(() => {
     setIsOpenAllAnswerModal(isOpenAllAnswerModal);
-  }, [isOpenAllAnswerModal]);
-
+  }, [isOpenAllAnswerModal, setIsOpenAllAnswerModal]);
   const isLoadingState = isLoadingInterview || isLoadingAnswerList;
   return (
     <>
