@@ -1,5 +1,7 @@
 import Image from 'next/image';
 
+import { cn } from '@/lib/utils';
+
 import LikeButton from '../../like-button';
 
 import crownIcon from '/public/images/icons/icon-crown.svg';
@@ -24,15 +26,28 @@ function RankItem({ donationNo, rank, donorName, likeCount }: RankProps) {
             className="mr-1"
           />
         ) : (
-          <span className="mr-[10.5px] text-lg font-semibold text-gray-500">
+          <span className="mr-[10.5px] pl-[6.5px] text-lg font-semibold text-gray-500">
             {rank}
           </span>
         )}
-        <p className="mr-[2px] text-lg font-bold text-gray-800">{donorName}</p>
-        <span className="text-sm font-semibold text-gray-500">님</span>
+        <p
+          className={cn('mr-[2px] text-lg font-bold text-gray-800', {
+            'text-gray-300': likeCount === -1,
+          })}
+        >
+          {donorName}
+        </p>
+        <span
+          className={cn('text-sm font-semibold text-gray-500', {
+            hidden: likeCount === -1,
+          })}
+        >
+          님
+        </span>
       </div>
-
-      <LikeButton initialLikes={likeCount} donationNo={donationNo} />
+      {likeCount !== -1 && (
+        <LikeButton initialLikes={likeCount} donationNo={donationNo} />
+      )}
     </div>
   );
 }
