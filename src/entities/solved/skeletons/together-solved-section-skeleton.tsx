@@ -7,8 +7,8 @@ export const TogetherSolvedSectionSkeleton = () => {
         <Skeleton className="h-[34px] w-[204px] rounded-sm" />
         <Skeleton className="h-[24px] w-[122px] rounded-sm" />
       </div>
-      <Skeleton className="h-[175px] w-[300px] rounded-sm" />
-      <Skeleton className="h-[42px] w-[300px] rounded-sm" />
+      <Skeleton className="h-[175px] w-full rounded-sm" />
+      <Skeleton className="h-[42px] w-full rounded-sm" />
     </>
   );
 };
