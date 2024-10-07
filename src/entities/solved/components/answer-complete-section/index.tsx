@@ -78,13 +78,6 @@ export const AnswerCompleteSection = ({
     setOpenMoreMenu(false);
   };
 
-  const handleClickRecommendBtn = () => {
-    recommendMutation({
-      isRecommended,
-      answerId: weeklyInterviewAnswerId,
-    });
-  };
-
   const handleClickAnswerViewBtn = () => {
     setIsTogetherSection(true);
     setIsOpenAllAnswerModal(true);
@@ -168,6 +161,7 @@ export const AnswerCompleteSection = ({
             recommendMutation({
               isRecommended: isRecommended,
               answerId: weeklyInterviewAnswerId,
+              isMyAnswer: true,
             })
           }
         >

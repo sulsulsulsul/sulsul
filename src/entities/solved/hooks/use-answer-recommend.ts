@@ -15,6 +15,7 @@ interface AnswerRecommendProp {
 interface AnswerRecommendParams {
   isRecommended: boolean;
   answerId: number;
+  isMyAnswer?: boolean;
 }
 export const useAnswerRecommend = ({
   currentInterviewId,
@@ -25,7 +26,7 @@ export const useAnswerRecommend = ({
 }: AnswerRecommendProp) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: (params: AnswerRecommendParams) => {
+    mutationFn: async (params: AnswerRecommendParams) => {
       if (params.isRecommended) {
         return deleteAnswerRecommendAction({
           accessToken: accessToken,
@@ -40,6 +41,50 @@ export const useAnswerRecommend = ({
           answerId: params.answerId,
         });
       }
+    },
+    onMutate: async (params: AnswerRecommendParams) => {
+      const isMyAnswer = params.isMyAnswer
+        ? ['interview', currentInterviewId, userId, accessToken]
+        : ['interview', currentInterviewId, sortType, accessToken];
+
+      await queryClient.cancelQueries({
+        queryKey: isMyAnswer,
+      });
+
+      const previousData = queryClient.getQueryData(isMyAnswer);
+
+      queryClient.setQueryData(isMyAnswer, (oldData: any) => {
+        if (!oldData) return oldData;
+
+        if (params.isMyAnswer) {
+          return {
+            ...oldData,
+            recommendCount: params.isRecommended
+              ? oldData.recommendCount - 1
+              : oldData.recommendCount + 1,
+            isRecommended: !params.isRecommended,
+          };
+        } else {
+          return {
+            ...oldData,
+            pages: oldData.pages.map((page: any) => ({
+              ...page,
+              answers: page.answers.map((answer: any) =>
+                answer.weeklyInterviewAnswerId === params.answerId
+                  ? {
+                      ...answer,
+                      recommendCount: params.isRecommended
+                        ? answer.recommendCount - 1
+                        : answer.recommendCount + 1,
+                      isRecommended: !params.isRecommended,
+                    }
+                  : answer,
+              ),
+            })),
+          };
+        }
+      });
+      return previousData;
     },
     onError: () => {
       toast.error('요청 중 오류가 발생했습니다. 다시 시도해주세요.');

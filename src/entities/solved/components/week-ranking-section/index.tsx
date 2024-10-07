@@ -35,7 +35,6 @@ export const WeekRankingSection = ({
     refetch,
     isLoading: interviewLoading,
   } = useInterview(pivotDate);
-
   const { data: answerListData, isLoading: answerListLoading } = useAnswerList({
     interviewId: currentInterviewData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',
@@ -159,7 +158,7 @@ export const WeekRankingSection = ({
               ),
           )
         ) : (
-          <NoDataCard className="text-base font-medium text-gray-400" />
+          <NoDataCard className="border-none text-base font-medium text-gray-400 shadow-none" />
         )}
       </ul>
     </div>
