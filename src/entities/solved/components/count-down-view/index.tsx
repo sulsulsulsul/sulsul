@@ -1,7 +1,3 @@
-'use client';
-
-import { useEffect } from 'react';
-
 import { useIntervalValue } from '../../hooks/use-interval-value';
 
 export const CountDownView = ({
@@ -9,7 +5,7 @@ export const CountDownView = ({
   refetch,
 }: {
   endTime: string;
-  refetch: () => void;
+  refetch?: () => void;
 }) => {
   const now = new Date();
   const end = new Date(endTime);
@@ -28,13 +24,9 @@ export const CountDownView = ({
   ).padStart(2, '0');
   const days = Math.floor(Number(remain) / (1000 * 60 * 60 * 24));
 
-  useEffect(() => {
-    refetch();
-  }, []);
-
   return (
     <div className="mt-1 flex text-sm font-medium text-gray-500">
-      <p className="w-[85px]">
+      <p className="w-[84.5px]">
         {days}일 {hours}:{minutes}:{seconds}
       </p>
       <p>후 종료</p>

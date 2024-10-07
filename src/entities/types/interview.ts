@@ -1,5 +1,5 @@
 export interface MyActivityData {
-  total: string;
+  total: number;
   current: number;
 }
 
@@ -31,4 +31,7 @@ export interface AnswerList {
   totalPage: number;
   totalCount: number;
   answers: AnswerListData[];
+}
+export interface AnswerListPage {
+  pages: AnswerList[];
 }

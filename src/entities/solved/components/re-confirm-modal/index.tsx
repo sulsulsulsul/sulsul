@@ -2,10 +2,12 @@ import Image from 'next/image';
 
 import { Button } from '@/components/ui/button';
 import { AnswerListData } from '@/entities/types/interview';
+import { cn } from '@/lib/utils';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
 
+import { useCreateReportUser } from '../../hooks/use-create-report-user';
 import { useDeleteAnswer } from '../../hooks/use-delete-answer';
 import { useInterview } from '../../hooks/use-get-interview';
 
@@ -13,18 +15,19 @@ import warningIcon from '/public/images/icons/alert.svg';
 import faceIcon from '/public/images/icons/face-empty-yellow.svg';
 
 interface ConfirmModalProps {
-  type: 'exit' | 'delete';
+  type: 'exit' | 'delete' | 'report';
   myWriteAnswerData?: AnswerListData;
+  filteredAnswer?: AnswerListData | null;
 }
 interface ModalContent {
   icon: string;
   title: string;
-  detail: string;
+  detail?: string;
   leftButton: string;
   rightButton: string;
 }
 
-const MODAL_CONTENT: Record<'exit' | 'delete', ModalContent> = {
+const MODAL_CONTENT: Record<'exit' | 'delete' | 'report', ModalContent> = {
   exit: {
     icon: faceIcon,
     title: '혹시 몰라요, 이 질문이 나올지도!',
@@ -39,18 +42,24 @@ const MODAL_CONTENT: Record<'exit' | 'delete', ModalContent> = {
     leftButton: '취소하기',
     rightButton: '삭제하기',
   },
+  report: {
+    icon: warningIcon,
+    title: '신고하시겠습니까?',
+    leftButton: '취소하기',
+    rightButton: '신고하기',
+  },
 };
 
 export const ReConfirmModal = ({
   type,
   myWriteAnswerData,
+  filteredAnswer,
 }: ConfirmModalProps) => {
   const { auth } = useUserStore();
   const { accessToken, userId } = auth;
   const { icon, title, detail, leftButton, rightButton } = MODAL_CONTENT[type];
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
   const { data: currentData, refetch } = useInterview(pivotDate);
-
   const {
     setOpenCancelModal,
     setOpenAnswerModal,
@@ -58,6 +67,7 @@ export const ReConfirmModal = ({
     setIsEditModal,
     setIsTogetherSection,
     setIsBestAnswerSection,
+    setOpenReportModal,
   } = useAnswerModalStore();
 
   const { mutate: deleteAnswerMutation, isSuccess } = useDeleteAnswer({
@@ -68,6 +78,12 @@ export const ReConfirmModal = ({
     setOpenDeleteModal,
   });
 
+  const { mutate: reportAnswerMutation } = useCreateReportUser({
+    answerId: filteredAnswer?.weeklyInterviewAnswerId || 0,
+    accessToken,
+    setOpenReportModal,
+  });
+
   const handleClickLeftBtn = () => {
     if (type === 'exit') {
       setIsEditModal(false);
@@ -76,8 +92,11 @@ export const ReConfirmModal = ({
       setIsTogetherSection(false);
       setIsBestAnswerSection(false);
     }
-    if ((type = 'delete')) {
+    if (type === 'delete') {
       setOpenDeleteModal(false);
+    }
+    if (type === 'report') {
+      setOpenReportModal(false);
     }
   };
 
@@ -86,14 +105,22 @@ export const ReConfirmModal = ({
       setOpenCancelModal(false);
       setIsTogetherSection(false);
       setIsBestAnswerSection(false);
-    } else {
+    }
+    if (type === 'delete') {
       deleteAnswerMutation();
       setIsTogetherSection(false);
       setIsBestAnswerSection(false);
     }
+    if (type === 'report') {
+      reportAnswerMutation();
+    }
   };
   return (
-    <div className="z-[999] flex min-h-[284px] w-[428px] flex-col items-center justify-center gap-8 rounded-md border border-gray-100 bg-white p-[30px] mobile:w-[350px]">
+    <div
+      className={cn(
+        `z-[999] flex  w-[428px] flex-col items-center justify-center gap-8 rounded-md border border-gray-100 bg-white p-[30px] mobile:w-[350px] ${type === 'report' ? 'h-[256px]' : 'min-h-[284px]'}`,
+      )}
+    >
       <div className="flex flex-col items-center gap-6">
         <Image src={icon} alt="재확인 아이콘" width={60} height={60} />
         <div className="flex flex-col items-center gap-[2px]">

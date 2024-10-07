@@ -33,8 +33,8 @@ export const ButtonSection = ({ charCount, disalbled }: ButtonSectionProp) => {
       <div className="flex gap-2">
         <Button
           size="sm"
-          variant="default"
-          className="h-[42px] w-[66px] border border-gray-300 bg-white text-gray-600 hover:bg-blue-500 hover:text-white mobile:hidden"
+          variant="cancel"
+          className="h-[42px] w-[66px] border border-gray-300 mobile:hidden"
           onClick={handleClickCancelBtn}
           type="button"
         >

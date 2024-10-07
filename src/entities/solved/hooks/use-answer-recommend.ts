@@ -51,9 +51,7 @@ export const useAnswerRecommend = ({
       queryClient.invalidateQueries({
         queryKey: ['interview', currentInterviewId, userId],
       });
-      queryClient.invalidateQueries({
-        queryKey: ['interview', pivotDate],
-      });
+
       queryClient.invalidateQueries({
         queryKey: ['interview', currentInterviewId, 'NEW', accessToken],
       });

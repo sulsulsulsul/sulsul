@@ -21,6 +21,8 @@ const buttonVariants = cva(
           'w-full justify-start gap-4 bg-[#FEE500] text-start hover:opacity-70 active:opacity-80',
         google:
           'w-full justify-start gap-4 border bg-white text-start hover:opacity-70 active:opacity-80',
+        cancel:
+          'border border-gray-400 bg-white text-gray-600 hover:bg-gray-200 hover:text-gray-600 active:border-gray-600 active:bg-gray-500 active:text-white',
       },
       size: {
         default: 'px-4 py-[13px] text-base font-bold',

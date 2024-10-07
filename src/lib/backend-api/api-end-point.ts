@@ -273,6 +273,16 @@ export const API_ENDPOINT = {
       };
     },
   },
+  report: {
+    createUserReport: () => {
+      return {
+        url: `${API_V1_BASE}/reports/user-report`,
+        method: Method.POST,
+        authorization: true,
+      };
+    },
+  },
+
   interview: {
     createInterviewsAnswer: (interviewId: number) => {
       return {
