@@ -14,7 +14,7 @@ export const createReportUserAction = ({
   return backendApi({
     endpoint: API_ENDPOINT.report.createUserReport(),
     data: {
-      content: answerId,
+      contentId: answerId,
     },
     accessToken,
   });

@@ -38,6 +38,9 @@ export const ViewAllAnswersModal = ({
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const [filter, setFilter] = useState(weeks[0].label);
   const [countIndex, setCountIndex] = useState(0);
+  const [filteredAnswer, setFilteredAnswer] = useState<AnswerListData | null>(
+    null,
+  );
   const [filteredResponses, setFilteredResponses] = useState<AnswerListData[]>(
     [],
   );
@@ -122,9 +125,10 @@ export const ViewAllAnswersModal = ({
     setOpenMoreMenu((prev) => !prev);
   };
 
-  const handleClickReportBtn = () => {
+  const handleClickReportBtn = (v: AnswerListData) => {
     setOpenMoreMenu(false);
     setOpenReportModal(true);
+    setFilteredAnswer(v);
   };
   const handleClickBackBtn = () => {
     setIsOpenAllAnswerModal(false);
@@ -347,7 +351,7 @@ export const ViewAllAnswersModal = ({
                                 {countIndex === i && isOpenMoreMenu && (
                                   <div
                                     className="absolute right-6 flex h-[41px] w-[135px] cursor-pointer flex-col justify-center rounded-sm border border-gray-200 bg-white text-[14px] font-medium text-gray-700 hover:bg-gray-50"
-                                    onClick={handleClickReportBtn}
+                                    onClick={() => handleClickReportBtn(v)}
                                   >
                                     <span className="absolute left-4">
                                       신고하기
@@ -412,7 +416,7 @@ export const ViewAllAnswersModal = ({
             )}
           ></div>
           <div className="fixed left-0 top-0 z-[999] flex h-screen w-screen items-center justify-center">
-            <ReConfirmModal type="report" />
+            <ReConfirmModal type="report" filteredAnswer={filteredAnswer} />
           </div>
         </>
       )}
