@@ -47,7 +47,7 @@ const MyPracticeChart = ({ className, userId }: StatusChartProps) => {
   }
 
   return (
-    <div className={cn(className, 'pl-3 w-full')}>
+    <div className={cn(className, ' w-full')}>
       <PracticeSectionHeader
         title="내 연습현황"
         iconSrc="/images/icons/etc-calendar.svg"
@@ -72,7 +72,7 @@ const MyPracticeChart = ({ className, userId }: StatusChartProps) => {
           </button>
         </div>
       </div>
-      <div className="mt-6 flex h-[328px] w-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-base mobile:mb-10">
+      <div className="mt-6 flex h-[326px] w-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-base mobile:mb-10 mobile:h-[320px]">
         {/* TODO: 데이터 노출 후 라벨 확인 필요 */}
         {statisticsDetail.length > 0 ? (
           <PracticeStatusChart
@@ -80,7 +80,7 @@ const MyPracticeChart = ({ className, userId }: StatusChartProps) => {
             type={chartPeriod}
           />
         ) : (
-          <NoDataCard />
+          <NoDataCard className="border-none" />
         )}
       </div>
     </div>

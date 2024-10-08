@@ -139,13 +139,13 @@ export const PracticeStartCard = ({
           className="animate-cheering-animation"
           src={'/images/character-cheering.svg'}
           alt="cheering character"
-          width={162}
+          width={161}
           height={142}
         />
       </div>
       <AuthSignedIn>
         <Button
-          className="mt-[6px] hidden w-full desktop:flex"
+          className=" hidden w-full desktop:flex"
           onClick={() => setModalOpen(true)}
         >
           실전연습하기

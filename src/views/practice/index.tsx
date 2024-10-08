@@ -57,28 +57,31 @@ const Practice = ({
   }
   return (
     <main className={cn('mobile:px-[16px]', className)}>
-      <section className="flex h-fit gap-6 mobile:flex-col ">
+      <section className="flex h-fit gap-6 mobile:flex-col desktop:items-center">
         <PracticeStartCard
           className="flex h-fit min-w-[282px] flex-col items-center justify-between"
           nickname={nickname}
         />
-        <div className="flex size-fit gap-6 mobile:flex-auto mobile:gap-[8px] mobile:overflow-x-auto">
+        <div className="flex size-fit gap-6 mobile:w-full mobile:flex-auto mobile:gap-[8px] mobile:overflow-x-auto mobile:pb-[42px]">
           <PracticeResultCard
             type="good"
             value={statisticsSummary.answerCount}
+            isDesktop={isDesktop}
           />
           <PracticeResultCard
             type="bad"
             value={statisticsSummary.notAnswerCount}
+            isDesktop={isDesktop}
           />
           <PracticeResultCard
             type="time"
             value={statisticsSummary.totalPracticeTime}
+            isDesktop={isDesktop}
           />
         </div>
         {openModal && <PracticeSelection />}
       </section>
-      <section className="mt-[80px] grid w-full mobile:mt-[42px] mobile:grid-cols-1 mobile:gap-10 desktop:grid-cols-2">
+      <section className="mt-[80px] grid w-full gap-6 mobile:mt-0 mobile:grid-cols-1 mobile:gap-10 desktop:grid-cols-2">
         <PracticeQuestions
           favoriteQuestions={favoriteQuestions}
           hintUsedQuestions={hintUsedQuestions}
