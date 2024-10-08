@@ -33,7 +33,7 @@ export const PracticedQuestionCard = ({
   return (
     <div
       className={cn(
-        'w-full flex items-center justify-between rounded-md border bg-white p-6 shadow-base gap-[16px]',
+        'w-full flex items-center justify-between rounded-md border border-gray-200 bg-white p-6 shadow-base gap-[16px]',
         className,
       )}
     >

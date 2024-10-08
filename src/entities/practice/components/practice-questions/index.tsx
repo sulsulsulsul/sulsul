@@ -39,7 +39,7 @@ const PracticeQuestions = ({
   };
 
   return (
-    <div className={cn(className, 'w-[586px]')}>
+    <div className={cn(className, 'w-full desktop:w-[574px] ')}>
       <div className="flex items-center">
         <PracticeSectionHeader
           title="연습한 면접질문"
@@ -52,7 +52,7 @@ const PracticeQuestions = ({
         onChangeTab={onChangeTab}
       />
       {isDesktop ? (
-        <div className=" flex h-[420px] flex-col gap-3 overflow-x-visible overflow-y-scroll pb-4 pr-3 pt-6 scrollbar-hide mobile:mt-4 ">
+        <div className=" mt-6 flex h-[398px] flex-col gap-3 overflow-y-scroll pb-4 scrollbar-hide mobile:mt-4">
           {questions[selectedTab].contents.length > 0 ? (
             questions[selectedTab].contents
               .slice(0, 10)

@@ -19,12 +19,14 @@ const DISPLAY_PRACTICE_TYPE = {
 interface PracticeResultCardProps extends HTMLAttributes<HTMLDivElement> {
   type: 'good' | 'bad' | 'time';
   value: string | number;
+  isDesktop?: boolean;
 }
 
 export const PracticeResultCard = ({
   className,
   type,
   value,
+  isDesktop,
   ...props
 }: PracticeResultCardProps) => {
   const formatTime = (totalSeconds: number) => {
@@ -41,7 +43,7 @@ export const PracticeResultCard = ({
   let { setSelectedTab } = useOpenModalStore();
   const router = useRouter();
   const handleClick = () => {
-    if (type == 'good' || type == 'bad') {
+    if (isDesktop && (type == 'good' || type == 'bad')) {
       setSelectedTab(type);
       router.push('/practice/list');
     }
