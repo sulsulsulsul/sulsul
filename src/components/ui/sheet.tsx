@@ -4,7 +4,7 @@ import * as React from 'react';
 import Image from 'next/image';
 import * as SheetPrimitive from '@radix-ui/react-dialog';
 import { cva, type VariantProps } from 'class-variance-authority';
-import { X } from 'lucide-react';
+import { ChevronLeft, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 
@@ -70,13 +70,7 @@ const SheetContent = React.forwardRef<
       {children}
       {side === 'rightFull' ? (
         <SheetPrimitive.Close className="absolute left-0 top-0 h-14 w-full pl-3">
-          <Image
-            src="/images/icons/icon-chevron_left_l-black.svg"
-            alt="sheet-close-icon"
-            priority
-            height={24}
-            width={24}
-          />
+          <ChevronLeft />
         </SheetPrimitive.Close>
       ) : (
         <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">

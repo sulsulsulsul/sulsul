@@ -7,8 +7,18 @@ import { useRouter } from 'next/navigation';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 
+import { AuthSignedIn } from '@/components/auth/auth-signed-in';
+import { AuthSignedOut } from '@/components/auth/auth-signed-out';
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { SignInView } from '@/entities/auth/views/sign-in-view';
 import { cn } from '@/lib/utils';
 
 const Video = dynamic(
@@ -46,7 +56,7 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
     });
   }, [videoLoaded, completedTextAnimation]);
 
-  const copiedLink = 'https://sulsul-git-main-sulsul.vercel.app/';
+  const copiedLink = 'https://www.sulsul-interview.kr/';
 
   return (
     <div className={cn('relative  mb-8 h-fit', className)} {...props}>
@@ -66,57 +76,76 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
               예측부터 면접 단골 기출문제까지!
             </div>
           </div>
-          <Sheet>
-            <SheetTrigger>
-              <p className="mt-[30px] rounded-[30px] bg-gray-800 px-4  py-[8.5px] text-base font-medium  text-white hover:bg-gray-700">
-                무료로 시작하기
-              </p>
-            </SheetTrigger>
-            <SheetContent
-              side={'rightFull'}
-              className="justify-start overflow-y-scroll"
-            >
-              <div className="mt-[32px] flex size-full flex-col items-center justify-start">
-                <Image
-                  src="/images/mobile-title.png"
-                  width={255}
-                  height={180}
-                  alt="mobile-title"
-                />
-                <div className="flex flex-col items-center">
-                  <span className="text-3xl font-semibold">
-                    PC버전으로 접속해주세요
-                  </span>
-                  <span className="font-normal text-gray-500">
-                    면접질문 예측은 PC 환경에서 가능해요.
-                  </span>
+          <AuthSignedIn>
+            <Sheet>
+              <SheetTrigger>
+                <p className="mt-[30px] rounded-[30px] bg-gray-800 px-4  py-[8.5px] text-base font-medium  text-white hover:bg-gray-700">
+                  무료로 시작하기
+                </p>
+              </SheetTrigger>
+              <SheetContent
+                side={'rightFull'}
+                className="justify-start overflow-y-scroll"
+              >
+                <div className="mt-[32px] flex size-full flex-col items-center justify-start">
+                  <Image
+                    src="/images/mobile-title.png"
+                    width={255}
+                    height={180}
+                    alt="mobile-title"
+                  />
+                  <div className="flex flex-col items-center">
+                    <span className="text-3xl font-semibold">
+                      PC버전으로 접속해주세요
+                    </span>
+                    <span className="font-normal text-gray-500">
+                      면접질문 예측은 PC 환경에서 가능해요.
+                    </span>
+                  </div>
+                  <Button
+                    variant={'black'}
+                    className="mt-6 py-[8.5px] font-medium"
+                    onClick={() => {
+                      navigator.clipboard.writeText(copiedLink);
+                    }}
+                  >
+                    <Image
+                      className="mr-1"
+                      src="/images/icons/icon-link-white.svg"
+                      width={24}
+                      height={24}
+                      alt="icon"
+                    />{' '}
+                    술술 링크 복사
+                  </Button>
+                  <Image
+                    className="mt-[129px]"
+                    src="/images/mobile-direct.svg"
+                    width={327}
+                    height={220}
+                    alt="mobile-direct"
+                  />
                 </div>
+              </SheetContent>
+            </Sheet>
+          </AuthSignedIn>
+          <AuthSignedOut>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
                 <Button
                   variant={'black'}
-                  className="mt-6 py-[8.5px] font-medium"
-                  onClick={() => {
-                    navigator.clipboard.writeText(copiedLink);
-                  }}
+                  className="mt-[30px] w-fit px-4 py-[8.5px] text-base font-medium "
                 >
-                  <Image
-                    className="mr-1"
-                    src="/images/icons/icon-link-white.svg"
-                    width={24}
-                    height={24}
-                    alt="icon"
-                  />{' '}
-                  술술 링크 복사
+                  무료로 시작하기
                 </Button>
-                <Image
-                  className="mt-[129px]"
-                  src="/images/mobile-direct.svg"
-                  width={327}
-                  height={220}
-                  alt="mobile-direct"
-                />
-              </div>
-            </SheetContent>
-          </Sheet>
+              </AlertDialogTrigger>
+              <AlertDialogContent className={cn('bg-transparent h-0')}>
+                <AlertDialogTitle />
+                <AlertDialogDescription />
+                <SignInView callbackUrl="/" />
+              </AlertDialogContent>
+            </AlertDialog>
+          </AuthSignedOut>
         </div>
       </div>
       <div

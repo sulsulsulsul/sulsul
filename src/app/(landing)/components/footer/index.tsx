@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 interface FooterProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const Footer = ({ className, ...props }: FooterProps) => {
-  const copiedLink = 'https://sulsul-git-main-sulsul.vercel.app/';
+  const copiedLink = 'https://www.sulsul-interview.kr/';
 
   return (
     <div className={cn('container', className)} {...props}>
