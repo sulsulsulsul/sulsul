@@ -1,6 +1,6 @@
 'use client';
 
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -40,7 +40,8 @@ interface MobileHeaderProps extends HTMLAttributes<HTMLDivElement> {}
 export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
   const pathname = usePathname();
   const { data, image } = useUserStore();
-  const copiedLink = 'https://sulsul-git-main-sulsul.vercel.app/'; //FIX DEPLOY LINK
+  const [openSheet, setOpenSheet] = useState(false);
+  const copiedLink = 'https://www.sulsul-interview.kr/';
   const router = useRouter();
   return (
     <header
@@ -60,7 +61,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
           <Link href={'/'}>
             <Logo />
           </Link>
-          <Sheet>
+          <Sheet open={openSheet} onOpenChange={setOpenSheet}>
             <SheetTrigger>
               <Image
                 src="/images/icons/icon-menu.svg"
@@ -263,6 +264,9 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                             }
                             className={cn('flex pl-6 py-4 text-lg')}
                             href={link.link}
+                            onClick={() => {
+                              setOpenSheet(false);
+                            }}
                           >
                             <span className="relative w-full text-lg font-medium">
                               {link.label}

@@ -42,7 +42,7 @@ export const Action = ({ className, ...props }: ReasonProps) => {
     },
     { scope: containerRef },
   );
-  const copiedLink = 'https://sulsul-git-main-sulsul.vercel.app/';
+  const copiedLink = 'https://www.sulsul-interview.kr/';
   return (
     <div ref={containerRef} className={cn('bg-white', className)} {...props}>
       <div className="container relative size-full py-[100px] mobile:h-[386px] mobile:w-full mobile:px-6 mobile:py-[50px]">

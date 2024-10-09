@@ -12,6 +12,8 @@ import { AuthSignedOut } from '@/components/auth/auth-signed-out';
 import {
   AlertDialog,
   AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
@@ -75,13 +77,31 @@ export const DesktopHero = ({ className, ...props }: HeroProps) => {
           <div className="mt-2 text-xl font-medium text-white ">
             <p>내 자소서 기반 면접질문 예측부터 면접 단골 기출문제까지!</p>
           </div>
-          <Button
-            variant={'black'}
-            className="mt-8 px-8 text-base font-semibold sm:text-xl"
-            onClick={() => router.push('/archive/create')}
-          >
-            내 면접질문 예측하기
-          </Button>
+          <AuthSignedIn>
+            <Button
+              variant={'black'}
+              className="mt-8 px-8 text-base font-semibold sm:text-xl"
+            >
+              내 면접질문 예측하기
+            </Button>
+          </AuthSignedIn>
+          <AuthSignedOut>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button
+                  variant={'black'}
+                  className="mt-8 px-8 text-base font-semibold sm:text-xl"
+                >
+                  내 면접질문 예측하기
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className={cn('')}>
+                <AlertDialogTitle />
+                <AlertDialogDescription />
+                <SignInView callbackUrl="/" />
+              </AlertDialogContent>
+            </AlertDialog>
+          </AuthSignedOut>
         </div>
       </div>
       <div
