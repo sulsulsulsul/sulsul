@@ -21,7 +21,10 @@ export const DropOut = ({ className, ...props }: DropOutProps) => {
           </button>
         </AlertDialogTrigger>
         <AlertModal
-          onClick={() => withdrawUserMutation({ userId })}
+          onClick={() => {
+            withdrawUserMutation({ userId }),
+              useUserStore.persist.clearStorage();
+          }}
           title="정말 탈퇴하시겠어요?"
           desc="탈퇴 시, 계정은 삭제되며 복구되지 않아요."
           action="탈퇴하기"

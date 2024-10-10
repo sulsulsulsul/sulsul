@@ -42,8 +42,6 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
   const [openSheet, setOpenSheet] = useState(false);
   const copiedLink = 'https://www.sulsul-interview.kr/';
   const router = useRouter();
-  const clearUserInfoStorage = useUserStore.persist.clearStorage;
-
   return (
     <header
       className={cn('flex h-full items-center justify-between py-4', className)}
@@ -170,7 +168,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                             className="flex cursor-pointer items-center gap-4"
                             onClick={() => {
                               signOut({ callbackUrl: '/' });
-                              clearUserInfoStorage();
+                              useUserStore.persist.clearStorage();
                             }}
                           >
                             <Image
