@@ -49,11 +49,7 @@ export default function PracticeSelection({
 
   const { resume } = useResumes();
   const [focusedResume, setFocusedResume] = useState(
-    resumeId !== 0
-      ? resumeId
-      : resume && resume[0].archiveId
-        ? resume[0].archiveId
-        : 0,
+    resumeId !== 0 ? resumeId : resume && resume[0] ? resume[0].archiveId : 0,
   );
 
   useEffect(() => {

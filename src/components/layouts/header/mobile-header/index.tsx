@@ -30,7 +30,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { APP_ROUTES } from '@/config/constants/app-routes';
 import { MobileHeaderLinks } from '@/config/constants/navigation-links';
 import { SignInView } from '@/entities/auth/views/sign-in-view';
 import { cn } from '@/lib/utils';
@@ -169,6 +168,7 @@ export const MobileHeader = ({ className, ...props }: MobileHeaderProps) => {
                             className="flex cursor-pointer items-center gap-4"
                             onClick={() => {
                               signOut({ callbackUrl: '/' });
+                              useUserStore.persist.clearStorage();
                             }}
                           >
                             <Image

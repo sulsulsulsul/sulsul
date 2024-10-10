@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 interface PendingState {
   isPending: boolean;
@@ -37,34 +38,42 @@ export interface UserState {
   setUserInfo: (userInfo: Partial<UserState>) => void;
 }
 
-export const useUserStore = create<UserState>((set) => ({
-  auth: {
-    userId: 0,
-    accessToken: '',
-    refreshToken: '',
-  },
-  data: {
-    email: '',
-    job: {
-      jobId: 0,
-      name: '',
-    },
-    nickname: '',
-    userId: 0,
-    firstLogin: false,
-    firstPractice: false,
-  },
-  image: '',
-  setUserInfo: (userInfo: Partial<UserState>) =>
-    set((state) => ({
+export const useUserStore = create(
+  persist<UserState>(
+    (set) => ({
       auth: {
-        ...state.auth,
-        ...userInfo.auth,
+        userId: 0,
+        accessToken: '',
+        refreshToken: '',
       },
       data: {
-        ...state.data,
-        ...userInfo.data,
+        email: '',
+        job: {
+          jobId: 0,
+          name: '',
+        },
+        nickname: '',
+        userId: 0,
+        firstLogin: true,
+        firstPractice: false,
       },
-      image: userInfo.image ?? state.image,
-    })),
-}));
+      image: '',
+      setUserInfo: (userInfo: Partial<UserState>) =>
+        set((state) => ({
+          auth: {
+            ...state.auth,
+            ...userInfo.auth,
+          },
+          data: {
+            ...state.data,
+            ...userInfo.data,
+          },
+          image: userInfo.image ?? state.image,
+        })),
+    }),
+    {
+      name: 'userStorage',
+      storage: createJSONStorage(() => sessionStorage),
+    },
+  ),
+);
