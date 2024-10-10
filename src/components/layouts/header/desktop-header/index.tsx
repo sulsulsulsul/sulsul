@@ -38,6 +38,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
   const { pause } = useVideoStateStore();
   const { data, image } = useUserStore();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const clearUserInfoStorage = useUserStore.persist.clearStorage;
 
   useEffect(() => {
     if (status === 'authenticated') {
@@ -104,6 +105,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
               className="cursor-pointer gap-2 px-5 py-4 text-base font-medium"
               onClick={() => {
                 signOut({ callbackUrl: '/' });
+                clearUserInfoStorage();
               }}
             >
               <Image

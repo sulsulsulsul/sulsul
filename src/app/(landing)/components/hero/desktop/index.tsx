@@ -81,6 +81,7 @@ export const DesktopHero = ({ className, ...props }: HeroProps) => {
             <Button
               variant={'black'}
               className="mt-8 px-8 text-base font-semibold sm:text-xl"
+              onClick={() => router.push('/archive/create')}
             >
               내 면접질문 예측하기
             </Button>

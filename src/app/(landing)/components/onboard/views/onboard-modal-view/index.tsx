@@ -12,10 +12,9 @@ import { ListDialog } from '../../components/list-dialog';
 import { DialogListProp, OnBoardProp } from '../../types/onboard';
 
 export const OnboardModal = () => {
-  const { nickname, firstLogin } = useUserStore((state) => ({
-    nickname: state.data.nickname,
-    firstLogin: state.data.firstLogin,
-  }));
+  const data = useUserStore((state) => state.data);
+  const setUserInfo = useUserStore((state) => state.setUserInfo);
+
   const [buttonDisable, setButtonDisable] = useState<boolean>(true);
 
   const [step, setStep] = useState<number>(0);
@@ -37,7 +36,7 @@ export const OnboardModal = () => {
           dialogContents: [
             [
               {
-                message: nickname as string,
+                message: data.nickname as string,
                 className: 'font-bold',
               },
               {
@@ -154,7 +153,7 @@ export const OnboardModal = () => {
 
   useEffect(() => {
     setHidden(false);
-    visibility === 'visible' && firstLogin && pause();
+    visibility === 'visible' && data.firstLogin && pause();
     const timerId = setInterval(() => {
       if (step <= dialog[dialogNumber].messageListProp.length) {
         setStep((prev) => (prev += 1));
@@ -175,11 +174,17 @@ export const OnboardModal = () => {
 
   const handleClose = () => {
     restart();
+    setUserInfo({
+      data: {
+        ...data,
+        firstLogin: false,
+      },
+    });
     setVisibility('hidden');
   };
 
   return (
-    firstLogin && (
+    data.firstLogin && (
       <div
         className={cn(
           'fixed flex justify-center items-center w-screen z-[50] h-screen bg-gray-800/80 mobile:hidden',

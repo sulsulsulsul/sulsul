@@ -1,8 +1,10 @@
 'use client';
 import { Dispatch, SetStateAction, useEffect } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { CheckedState } from '@radix-ui/react-checkbox';
 
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { ArchiveListItemDTO } from '@/entities/types';
 import { cn } from '@/lib/utils';
@@ -30,6 +32,7 @@ export default function PracticeModalResumeSection({
   focusedResume,
   setFocusedResume,
 }: ResumeSectionType) {
+  const router = useRouter();
   return (
     <div className="flex  w-1/2 flex-col">
       <section className="flex h-12 w-full flex-row text-xs leading-5 text-gray-500">
@@ -61,7 +64,10 @@ export default function PracticeModalResumeSection({
             <Checkbox
               id="resumes"
               className="m-[10px] size-5 p-[2px] "
-              checked={resume?.length === selectArchiveIds.length}
+              checked={
+                resume?.length != 0 &&
+                resume?.length === selectArchiveIds.length
+              }
               onCheckedChange={(check: CheckedState) => {
                 if (resume) {
                   check
@@ -79,7 +85,16 @@ export default function PracticeModalResumeSection({
         </div>
       </section>
       <section className="h-[300px] overflow-scroll">
-        {resume &&
+        {resume && resume.length == 0 ? (
+          <div className="flex size-full flex-col items-center justify-center gap-4">
+            <p className="text-xl font-normal text-black">
+              아직 연습할 면접질문이 없습니다
+            </p>
+            <Button onClick={() => router.push('/archive/create')}>
+              면접 질문 생성하러가기
+            </Button>
+          </div>
+        ) : (
           resume.map((value: ArchiveListItemDTO, index) => {
             return (
               <MyResumeSelection
@@ -93,7 +108,8 @@ export default function PracticeModalResumeSection({
                 setFocusedResume={setFocusedResume}
               />
             );
-          })}
+          })
+        )}
       </section>
     </div>
   );

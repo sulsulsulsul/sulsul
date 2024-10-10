@@ -145,7 +145,7 @@ export const PracticeStartCard = ({
       </div>
       <AuthSignedIn>
         <Button
-          className=" hidden w-full desktop:flex"
+          className="w-full mobile:hidden"
           onClick={() => setModalOpen(true)}
         >
           실전연습하기
