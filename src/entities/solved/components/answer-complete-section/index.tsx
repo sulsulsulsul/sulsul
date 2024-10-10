@@ -214,7 +214,7 @@ export const AnswerCompleteSection = ({
             <div className="flex w-full justify-center">
               <Button
                 variant="outline"
-                className="h-12 w-[300px]"
+                className="h-12 w-[300px] mobile:w-[250px]"
                 onClick={handleClickAnswerViewBtn}
               >
                 답변 모두 보기
