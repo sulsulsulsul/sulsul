@@ -81,38 +81,35 @@ export const WeekRankingSection = ({
           />
           <div className="text-lg font-bold">이번주 랭킹</div>
         </div>
-        <Popover>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
+        <TooltipProvider>
+          <Tooltip delayDuration={100}>
+            <TooltipTrigger asChild>
+              <Image
+                src="/images/icons/icon-information circle.svg"
+                className="absolute bottom-[3px] right-4"
+                width={20}
+                height={20}
+                alt="icon"
+              />
+            </TooltipTrigger>
+            <TooltipContent className="fixed left-[-184px] top-[35px] flex h-[70px] w-[212px] flex-col items-center justify-center overflow-visible rounded-xl border-none pr-0">
+              <>
                 <Image
-                  src="/images/icons/icon-information circle.svg"
-                  className="absolute bottom-[3px] right-4"
-                  width={20}
-                  height={20}
-                  alt="icon"
+                  className="absolute left-[180px] top-[-10px] rotate-90"
+                  src="/images/polygonInfo.svg"
+                  alt="polygonInfo"
+                  width={8}
+                  height={14}
                 />
-              </TooltipTrigger>
-              <TooltipContent className="fixed left-[-212px] top-[35px] flex h-[70px] w-[212px] flex-col items-center justify-center overflow-visible rounded-[10px] border-none bg-gray-700 pr-0 text-white">
-                <>
-                  <Image
-                    className="absolute left-52 top-[-10px] rotate-90"
-                    src="/images/polygonInfo.svg"
-                    alt="polygonInfo"
-                    width={8}
-                    height={14}
-                  />
-                  <ul className="flex w-[187px] flex-col justify-center gap-2 text-gray-400">
-                    <li className="text-sm">
-                      랭킹은 다같이 면접기출의 실시간 상위 누적 추천수로
-                      결정돼요.
-                    </li>
-                  </ul>
-                </>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </Popover>
+                <ul className="flex w-[187px] flex-col justify-center gap-2">
+                  <li className="text-sm">
+                    랭킹은 다같이 면접기출의 실시간 상위 누적 추천수로 결정돼요.
+                  </li>
+                </ul>
+              </>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
 
       <ul className="flex min-h-[218px] w-full flex-1 flex-col items-center justify-start gap-5 rounded-md border border-gray-200 bg-white p-5 shadow-base">
