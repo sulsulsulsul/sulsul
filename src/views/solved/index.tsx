@@ -17,7 +17,7 @@ export const Solved = ({ accessToken, userId }: SolvedProps) => {
 
   return (
     <main className="flex w-full gap-6">
-      <div className="hidden lg:flex lg:w-[282px] lg:flex-col lg:gap-[30px]">
+      <div className="hidden lg:flex lg:w-[282px] lg:flex-col lg:gap-[30px] ">
         <MyActivitySection userId={userId} accessToken={accessToken} />
         <WeekRankingSection accessToken={accessToken} pivotDate={pivotDate} />
 
@@ -28,7 +28,7 @@ export const Solved = ({ accessToken, userId }: SolvedProps) => {
           alt="banner"
         />
       </div>
-      <div className="flex flex-1 flex-col gap-2 px-4 md:px-0 lg:px-0">
+      <div className="flex flex-1 flex-col gap-2 px-4 md:px-0 lg:px-0 mobile:w-[50%]">
         <TogetherSolvedSection pivotDate={pivotDate} />
         <OnehundredQa accessToken={accessToken} />
       </div>
