@@ -68,14 +68,13 @@ export const NoAnswerCompleteSection = () => {
           ))}
           <CountDownView endTime={currentData?.endTime} refetch={refetch} />
         </div>
-        <div className="relative h-[175px] w-full">
-          <Image
-            fill
-            className="rounded-xl"
-            src={currentData.weeklyInterviewImage}
-            alt="기출 이미지"
-          />
-        </div>
+        <Image
+          width={300}
+          height={175}
+          className="rounded-xl"
+          src={currentData.weeklyInterviewImage}
+          alt="기출 이미지"
+        />
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button
