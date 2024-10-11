@@ -9,6 +9,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useCurrentUser } from '@/entities/users/hooks';
 import { cn } from '@/lib/utils';
+import { useCreateQuestionStore } from '@/store/createQuestions';
 import { useSampleStore } from '@/store/sampleQuestions';
 
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form';
@@ -18,6 +19,7 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
   const { form } = useCreateArchiveFormContext();
   const { isSampleClicked } = useSampleStore();
   const { status } = useCurrentUser();
+  const { isQuestionCreated } = useCreateQuestionStore();
 
   const handleInput = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const textarea = event.target;
@@ -41,12 +43,13 @@ export const TitleField = ({ className, ...props }: TitleFieldProps) => {
               <FormControl>
                 <Textarea
                   placeholder="자소서 제목을 입력해주세요"
-                  className="h-fit w-full resize-none rounded-none border-0 px-0 text-xl font-semibold"
+                  className="h-fit w-full resize-none rounded-none border-0 px-0 text-xl font-semibold disabled:cursor-default disabled:opacity-100"
                   {...field}
                   rows={1}
                   onInput={(e: React.ChangeEvent<HTMLTextAreaElement>) => {
                     handleInput(e);
                   }}
+                  disabled={isQuestionCreated}
                 />
               </FormControl>
               <FormMessage />
