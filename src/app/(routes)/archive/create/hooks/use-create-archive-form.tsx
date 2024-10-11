@@ -16,7 +16,7 @@ const CreateArchiveFormContext = createContext<ReturnType<
 const useCreateArchiveForm = () => {
   const form = useForm<CreateArchiveFormData>({
     resolver: zodResolver(createArchiveSchema),
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       companyName: '',
       title: '',
