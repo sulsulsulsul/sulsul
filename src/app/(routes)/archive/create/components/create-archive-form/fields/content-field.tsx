@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useEffect, useState } from 'react';
 
 import {
   FormControl,
@@ -9,6 +9,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useCurrentUser } from '@/entities/users/hooks';
 import { cn } from '@/lib/utils';
+import { useCreateQuestionStore } from '@/store/createQuestions';
 import { useSampleStore } from '@/store/sampleQuestions';
 
 import { useCreateArchiveFormContext } from '../../../hooks/use-create-archive-form';
@@ -18,6 +19,22 @@ export const ContentField = ({ className, ...props }: ContentFieldProps) => {
   const { form } = useCreateArchiveFormContext();
   const { isSampleClicked } = useSampleStore();
   const { status } = useCurrentUser();
+  const { isQuestionCreated } = useCreateQuestionStore();
+
+  const [showError, setShowError] = useState(false);
+
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === 'resume') {
+        const length = value.resume?.length || 0;
+        if (length >= 300 && length <= 2000) {
+          form.trigger('resume');
+        }
+        setShowError(false);
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
 
   return (
     <div className={cn(className)} {...props}>
@@ -54,13 +71,22 @@ export const ContentField = ({ className, ...props }: ContentFieldProps) => {
               <FormControl>
                 <Textarea
                   maxLength={1999}
-                  className="size-full resize-none overflow-y-scroll rounded-none border-0 px-0 text-base text-gray-800"
+                  className={cn(
+                    'size-full resize-none overflow-y-scroll rounded-none border-0 px-0 text-base text-gray-800',
+                    'disabled:cursor-default disabled:text-gray-800 disabled:opacity-100',
+                  )}
                   placeholder="300자 이상 2000자 이내의 내용을 입력해주세요."
                   onFocus={() => form.clearErrors('resume')}
                   {...field}
+                  disabled={isQuestionCreated}
+                  onBlur={() => {
+                    field.onBlur();
+                    setShowError(true);
+                    form.trigger('resume');
+                  }}
                 />
               </FormControl>
-              <FormMessage type="error" />
+              {showError && <FormMessage type="error" />}
             </FormItem>
           )}
         />
