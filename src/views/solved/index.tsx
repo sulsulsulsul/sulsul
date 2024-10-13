@@ -1,6 +1,7 @@
 import Image from 'next/image';
 
 import OnehundredQa from '@/app/(routes)/solved/components/onehundred-qa';
+import { auth } from '@/app/api/auth/[...nextauth]/auth';
 import NoDataCard from '@/entities/practice/components/no-data-card';
 import { BestCommentsSection } from '@/entities/solved/components/best-comments-section';
 import { MyActivitySection } from '@/entities/solved/components/my-activity-section';
@@ -8,12 +9,11 @@ import { TogetherSolvedSection } from '@/entities/solved/components/together-sol
 import { WeekRankingSection } from '@/entities/solved/components/week-ranking-section';
 import { formatDate } from '@/shared/helpers/date-helpers';
 
-interface SolvedProps {
-  accessToken: string;
-  userId: number;
-}
-export const Solved = ({ accessToken, userId }: SolvedProps) => {
+export const Solved = async () => {
   const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
+  const authInfo = await auth();
+  const userId = authInfo?.user.auth.userId || 0;
+  const accessToken = authInfo?.user.auth.accessToken || '';
 
   return (
     <main className="flex w-full gap-6">

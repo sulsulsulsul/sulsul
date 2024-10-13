@@ -11,7 +11,7 @@ import {
   SelectItem,
   SelectTrigger,
 } from '@/components/ui/select';
-import { AnswerListData } from '@/entities/types/interview';
+import { AnswerListData, InterviewData } from '@/entities/types/interview';
 import { cn, getRecentWeeks, removeNewlines } from '@/lib/utils';
 import { useAnswerModalStore } from '@/store/answerModalStore';
 import { useUserStore } from '@/store/client';
@@ -59,7 +59,7 @@ export const ViewAllAnswersModal = ({
   const { userId, accessToken } = auth;
 
   const { data: myWriteAnswerData } = useUserAnswer({
-    interviewId: interviewData?.weeklyInterviewId || 1,
+    interviewId: interviewData?.weeklyInterviewId || 0,
     userId,
     accessToken,
   });
@@ -76,6 +76,16 @@ export const ViewAllAnswersModal = ({
     interviewData: interviewData,
   });
 
+  const getAnswerCountText = (
+    interviewData: InterviewData | undefined,
+    myWriteAnswerData: AnswerListData | undefined,
+  ) => {
+    if (!interviewData) return 0;
+    if (myWriteAnswerData && interviewData.answerCount >= 2) {
+      return interviewData.answerCount - 1;
+    }
+    return interviewData.answerCount;
+  };
   const {
     data: recentOrderAnswerData,
     hasNextPage: recentHasNextPage,
@@ -280,7 +290,7 @@ export const ViewAllAnswersModal = ({
                   <h4 className="text-lg font-bold">
                     다른 지원자들의 답변{' '}
                     <span className="text-blue-500">
-                      {interviewData ? filteredResponses.length : 0}
+                      {getAnswerCountText(interviewData, myWriteAnswerData)}
                     </span>
                   </h4>
                   <div

@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { UNAUTHORIZED_MESSAGE } from '@/config/constants/error-message';
-import { AnswerListData } from '@/entities/types/interview';
+import { AnswerListData, InterviewData } from '@/entities/types/interview';
 import { cn, removeNewlines } from '@/lib/utils';
 import { formatDate } from '@/shared/helpers/date-helpers';
 import { useAnswerListStore } from '@/store/answerListStore';
@@ -15,12 +15,11 @@ import { useInterviewStore } from '@/store/interviewStore';
 import { useMyAnswerStore } from '@/store/myAnswerStore';
 
 import { useAnswerRecommend } from '../../hooks/use-answer-recommend';
+import { useInterview } from '../../hooks/use-get-interview';
 import { CountDownView } from '../count-down-view';
 import { ReConfirmModal } from '../re-confirm-modal';
 import { ViewAllAnswersModal } from '../view-all-answers-modal';
 import { WriteAnswerModal } from '../write-answer-modal';
-
-//리팩토링 예정
 
 export const AnswerCompleteSection = ({
   myWriteAnswerData,
@@ -32,11 +31,10 @@ export const AnswerCompleteSection = ({
   const [filteredResponses, setFilteredResponses] = useState<AnswerListData[]>(
     [],
   );
-
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const { isRecommended, weeklyInterviewAnswerId, recommendCount } =
     myWriteAnswerData;
-
+  const { data: currentInterviewData } = useInterview();
   const { auth, data } = useUserStore();
   const { userId, accessToken } = auth;
 
@@ -61,6 +59,21 @@ export const AnswerCompleteSection = ({
     userId,
     pivotDate,
   });
+
+  const getDisplayAnswerCount = (
+    currentInterviewData: InterviewData | undefined,
+    myWriteAnswerData: AnswerListData,
+  ) => {
+    if (!currentInterviewData) {
+      return 0;
+    }
+
+    if (myWriteAnswerData && currentInterviewData.answerCount >= 2) {
+      return currentInterviewData.answerCount - 1;
+    }
+
+    return currentInterviewData.answerCount;
+  };
 
   const handleClickMoreMenu = () => {
     setOpenMoreMenu((prev) => !prev);
@@ -191,10 +204,14 @@ export const AnswerCompleteSection = ({
       <div className="flex flex-col gap-3">
         <h4 className="text-lg font-bold">
           다른 지원자들의 답변{' '}
-          <span className="text-blue-500">{filteredResponses.length}</span>
+          <span className="text-blue-500">
+            {getDisplayAnswerCount(currentInterviewData, myWriteAnswerData)}
+          </span>
         </h4>
 
-        {filteredResponses.length === 0 ? (
+        {currentInterviewData &&
+        myWriteAnswerData &&
+        currentInterviewData.answerCount === 1 ? (
           <p className="font-medium text-gray-500">
             {data.nickname}님이 첫 답변을 남기셨군요!
           </p>
