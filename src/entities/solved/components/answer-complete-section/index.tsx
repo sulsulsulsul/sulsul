@@ -34,7 +34,7 @@ export const AnswerCompleteSection = ({
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
   const { isRecommended, weeklyInterviewAnswerId, recommendCount } =
     myWriteAnswerData;
-  const { data: currentInterviewData } = useInterview();
+  const { data: currentInterviewData } = useInterview(pivotDate);
   const { auth, data } = useUserStore();
   const { userId, accessToken } = auth;
 
@@ -68,7 +68,7 @@ export const AnswerCompleteSection = ({
       return 0;
     }
 
-    if (myWriteAnswerData && currentInterviewData.answerCount >= 2) {
+    if (myWriteAnswerData && currentInterviewData.answerCount >= 1) {
       return currentInterviewData.answerCount - 1;
     }
 
@@ -209,9 +209,7 @@ export const AnswerCompleteSection = ({
           </span>
         </h4>
 
-        {currentInterviewData &&
-        myWriteAnswerData &&
-        currentInterviewData.answerCount === 1 ? (
+        {currentInterviewData && currentInterviewData.answerCount === 1 ? (
           <p className="font-medium text-gray-500">
             {data.nickname}님이 첫 답변을 남기셨군요!
           </p>

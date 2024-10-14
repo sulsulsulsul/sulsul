@@ -21,7 +21,7 @@ export const myActivityOptions = (userId: number, accessToken: string) => {
 
 export const interviewOptions = (pivotDate?: string) => {
   return queryOptions({
-    queryKey: ['interview', 'current', pivotDate],
+    queryKey: ['interview', pivotDate],
     queryFn: () => {
       return getInterviewAction(pivotDate);
     },
