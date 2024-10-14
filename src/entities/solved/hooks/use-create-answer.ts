@@ -10,11 +10,13 @@ interface CreateAnswerProp {
   currentInterviewId: number;
   userId: number;
   pivotDate: string;
+  accessToken?: string;
 }
 export const useCreateAnswer = ({
   currentInterviewId,
   userId,
   pivotDate,
+  accessToken,
 }: CreateAnswerProp) => {
   const queryClient = useQueryClient();
 
@@ -28,6 +30,9 @@ export const useCreateAnswer = ({
 
       queryClient.invalidateQueries({
         queryKey: ['interview', currentInterviewId, userId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['interview', currentInterviewId, 'RECOMMENDED', accessToken],
       });
       queryClient.invalidateQueries({
         queryKey: ['interview', pivotDate],

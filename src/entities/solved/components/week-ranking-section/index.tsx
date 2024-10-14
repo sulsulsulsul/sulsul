@@ -26,7 +26,6 @@ export const WeekRankingSection = ({
   accessToken: string;
   pivotDate: string;
 }) => {
-  const [currentData, setCurrentData] = useState(null);
   const { setAnswersData } = useAnswerListStore();
   const { setInterviewData } = useInterviewStore();
   const {

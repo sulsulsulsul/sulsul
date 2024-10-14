@@ -54,6 +54,7 @@ export const TextAreaSection = ({
     currentInterviewId,
     userId,
     pivotDate,
+    accessToken,
   });
 
   const {
