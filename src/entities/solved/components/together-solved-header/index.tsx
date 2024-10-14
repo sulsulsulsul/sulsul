@@ -1,6 +1,5 @@
 import Image from 'next/image';
 
-import { Popover } from '@/components/ui/popover';
 import {
   Tooltip,
   TooltipContent,

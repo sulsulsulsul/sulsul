@@ -54,7 +54,10 @@ export const getRecentWeeks = (currentDate: Dayjs) => {
   for (let i = 0; i < 4; i++) {
     const weekStart = date.startOf('isoWeek').format('YYYY-MM-DD');
     const weekEnd = date.endOf('isoWeek').format('YYYY-MM-DD');
-    const label = `${date.format('M')}월 ${Math.ceil(date.date() / 7)}째 주`;
+
+    const weekOfMonth = Math.ceil(date.date() / 7);
+
+    const label = `${date.format('M')}월 ${weekOfMonth}째 주`;
 
     weeks.push({
       label,
