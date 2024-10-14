@@ -149,7 +149,7 @@ export const DesktopHeader = ({ className, ...props }: DesktopHeaderProps) => {
                 pause();
               }}
             >
-              무료로 시작하기
+              술술 시작하기
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent className={cn('absolute left-0 top-0')}>
