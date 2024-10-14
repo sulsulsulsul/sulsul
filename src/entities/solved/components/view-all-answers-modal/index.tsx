@@ -44,7 +44,6 @@ export const ViewAllAnswersModal = ({
   const [filteredResponses, setFilteredResponses] = useState<AnswerListData[]>(
     [],
   );
-
   const [selectedDate, setSelectedDate] = useState(weeks[0].end);
   const [sortType, setSortType] = useState<'NEW' | 'RECOMMEND'>('NEW');
 
@@ -58,7 +57,7 @@ export const ViewAllAnswersModal = ({
   const { data: interviewData } = useInterview(selectedDate);
   const { userId, accessToken } = auth;
 
-  const { data: myWriteAnswerData } = useUserAnswer({
+  const { data: myAnswerData } = useUserAnswer({
     interviewId: interviewData?.weeklyInterviewId || 0,
     userId,
     accessToken,
@@ -67,7 +66,7 @@ export const ViewAllAnswersModal = ({
   const {
     data: recommendOrderAnswerData,
     fetchNextPage: fetchRecommendNextPage,
-    isFetchingNextPage,
+    isFetchingNextPage: recommendIsFetchingNextPage,
     hasNextPage: recommendHasNextPage,
   } = useAnswerList({
     interviewId: interviewData?.weeklyInterviewId || 0,
@@ -81,7 +80,7 @@ export const ViewAllAnswersModal = ({
     myWriteAnswerData: AnswerListData | undefined,
   ) => {
     if (!interviewData) return 0;
-    if (myWriteAnswerData && interviewData.answerCount >= 2) {
+    if (myWriteAnswerData && interviewData.answerCount >= 1) {
       return interviewData.answerCount - 1;
     }
     return interviewData.answerCount;
@@ -90,7 +89,8 @@ export const ViewAllAnswersModal = ({
     data: recentOrderAnswerData,
     hasNextPage: recentHasNextPage,
     fetchNextPage: fetchRecentNextPage,
-    isLoading,
+    isFetchingNextPage: recentIsFetchingNextPage,
+    isFetching: recentIsFetching,
   } = useAnswerList({
     interviewId: interviewData?.weeklyInterviewId || 0,
     sortType: 'NEW',
@@ -144,10 +144,21 @@ export const ViewAllAnswersModal = ({
   };
 
   useEffect(() => {
-    if (sortType === 'NEW' && inView && recentHasNextPage) {
+    if (
+      sortType === 'NEW' &&
+      inView &&
+      recentHasNextPage &&
+      !recentIsFetchingNextPage &&
+      !recentIsFetching
+    ) {
       fetchRecentNextPage();
     }
-    if (sortType === 'RECOMMEND' && inView && recommendHasNextPage) {
+    if (
+      sortType === 'RECOMMEND' &&
+      inView &&
+      recommendHasNextPage &&
+      !recommendIsFetchingNextPage
+    ) {
       fetchRecommendNextPage();
     }
   }, [
@@ -156,6 +167,9 @@ export const ViewAllAnswersModal = ({
     fetchRecentNextPage,
     recentHasNextPage,
     recommendHasNextPage,
+    recentIsFetchingNextPage,
+    recommendIsFetchingNextPage,
+    recentIsFetching,
     sortType,
   ]);
 
@@ -220,9 +234,9 @@ export const ViewAllAnswersModal = ({
                 <div className="flex flex-col gap-4">
                   <div className="relative flex w-full items-center justify-between">
                     <div
-                      className={`flex h-[30px] w-fit items-center justify-center gap-1 rounded-sm  px-[12px] py-[6px] text-2xs font-semibold ${myWriteAnswerData ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-500'}`}
+                      className={`flex h-[30px] w-fit items-center justify-center gap-1 rounded-sm  px-[12px] py-[6px] text-2xs font-semibold ${myAnswerData ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-500'}`}
                     >
-                      {myWriteAnswerData ? (
+                      {myAnswerData ? (
                         <>
                           <Image
                             src="/images/icons/icon-check-white.svg"
@@ -271,10 +285,10 @@ export const ViewAllAnswersModal = ({
                     {removeNewlines(interviewData?.content || '')}
                   </h1>
                 </div>
-                {myWriteAnswerData && interviewData && (
+                {myAnswerData && interviewData && (
                   <MyAnswerSection
                     interviewId={interviewData?.weeklyInterviewId || 1}
-                    myWriteAnswerData={myWriteAnswerData}
+                    myWriteAnswerData={myAnswerData}
                     userId={userId}
                     pivotDate={selectedDate}
                     accessToken={accessToken}
@@ -290,7 +304,7 @@ export const ViewAllAnswersModal = ({
                   <h4 className="text-lg font-bold">
                     다른 지원자들의 답변{' '}
                     <span className="text-blue-500">
-                      {getAnswerCountText(interviewData, myWriteAnswerData)}
+                      {getAnswerCountText(interviewData, myAnswerData)}
                     </span>
                   </h4>
                   <div
@@ -411,7 +425,7 @@ export const ViewAllAnswersModal = ({
                         )}
                     </>
                   }
-                  {!isLoading && <div ref={triggerRef}></div>}
+                  {!recentIsFetching && <div ref={triggerRef}></div>}
                 </ul>
               </div>
             </div>
