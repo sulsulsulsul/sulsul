@@ -34,7 +34,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
       </head>
       <body
-        className="relative mobile:pb-[50px] tablet:pb-[50px]"
+        className="relative font-sans mobile:pb-[50px] tablet:pb-[50px]"
         suppressHydrationWarning
       >
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
