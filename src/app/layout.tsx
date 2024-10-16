@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 
+import Ads from '@/components/shared/ads';
 import { pretendard } from '@/lib/fonts';
 import GoogleAnalytics from '@/lib/google-analytics';
 
@@ -32,11 +33,15 @@ export default function RootLayout({
       <head>
         <link rel="preconnect" href="https://dev.visualwebsiteoptimizer.com" />
       </head>
-      <body suppressHydrationWarning>
+      <body
+        className="relative mobile:pb-[50px] tablet:pb-[50px]"
+        suppressHydrationWarning
+      >
         {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS ? (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS} />
         ) : null}
         <Providers>{children}</Providers>
+        <Ads />
         <Script id="vwo-script" strategy="afterInteractive">
           {`window._vwo_code || (function() {
 var account_id=944291,
@@ -58,6 +63,10 @@ f=false,w=window,d=document,v=d.querySelector('#vwoCode'),cK='_vwo_'+account_id+
         a.appendChild(r);
     })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`}
         </Script>
+        <Script
+          src="https://developers.kakao.com/sdk/js/kakao.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );
