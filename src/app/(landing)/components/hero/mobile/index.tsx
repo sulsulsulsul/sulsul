@@ -80,7 +80,7 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
             <Sheet>
               <SheetTrigger>
                 <p className="mt-[30px] rounded-[30px] bg-gray-800 px-4  py-[8.5px] text-base font-medium  text-white hover:bg-gray-700">
-                  무료로 시작하기
+                  술술 시작하기
                 </p>
               </SheetTrigger>
               <SheetContent
@@ -136,7 +136,7 @@ export const MobileHero = ({ className, ...props }: HeroProps) => {
                   variant={'black'}
                   className="mt-[30px] w-fit px-4 py-[8.5px] text-base font-medium "
                 >
-                  무료로 시작하기
+                  술술 시작하기
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent className={cn('bg-transparent h-0')}>
