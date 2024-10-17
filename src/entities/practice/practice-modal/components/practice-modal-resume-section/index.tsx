@@ -87,11 +87,20 @@ export default function PracticeModalResumeSection({
       <section className="h-[300px] overflow-scroll">
         {resume && resume.length == 0 ? (
           <div className="flex size-full flex-col items-center justify-center gap-4">
-            <p className="text-xl font-normal text-black">
-              아직 연습할 면접질문이 없습니다
+            <p className="text-xl font-normal text-gray-700">
+              아직 연습할 면접질문이 없어요
             </p>
-            <Button onClick={() => router.push('/archive/create')}>
-              면접 질문 생성하러가기
+            <Button
+              className="flex flex-row gap-1 pl-9 pr-[30px] text-lg font-medium"
+              onClick={() => router.push('/archive/create')}
+            >
+              예상질문 생성하러 가기
+              <Image
+                src="/images/icons/icon-arrow_up_right.svg"
+                width={24}
+                height={24}
+                alt="icon"
+              />
             </Button>
           </div>
         ) : (

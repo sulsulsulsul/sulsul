@@ -45,9 +45,17 @@ const MyPracticeChart = ({ className, userId }: StatusChartProps) => {
   if (!isSuccessStatisticsDetail) {
     return null;
   }
+  let zeroCount = statisticsDetail.filter((value) => {
+    return value.count !== 0;
+  });
 
   return (
-    <div className={cn(className, ' w-full')}>
+    <div
+      className={cn(
+        'w-full desktop:w-fit flex flex-col desktop:px-3  ',
+        className,
+      )}
+    >
       <PracticeSectionHeader
         title="내 연습현황"
         iconSrc="/images/icons/etc-calendar.svg"
@@ -72,9 +80,9 @@ const MyPracticeChart = ({ className, userId }: StatusChartProps) => {
           </button>
         </div>
       </div>
-      <div className="mt-6 flex h-[326px] w-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-base mobile:mb-10 mobile:h-[320px]">
+      <div className="mt-6 flex h-[326px] w-full overflow-hidden rounded-md border border-gray-200 bg-white shadow-base mobile:mb-10 mobile:h-[320px] desktop:w-[560px]">
         {/* TODO: 데이터 노출 후 라벨 확인 필요 */}
-        {statisticsDetail.length > 0 ? (
+        {zeroCount.length > 0 ? (
           <PracticeStatusChart
             data={statisticsDetail.map((detail) => detail.count)}
             type={chartPeriod}
