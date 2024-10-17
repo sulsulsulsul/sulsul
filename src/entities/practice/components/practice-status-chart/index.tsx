@@ -67,6 +67,7 @@ export const options: ChartOptions<'bar'> = {
       },
       border: {
         display: true,
+        color: '#E6E6EF',
       },
       ticks: {},
     },
@@ -77,15 +78,19 @@ export const options: ChartOptions<'bar'> = {
       },
       border: {
         display: false,
-        dash: [5, 10],
+        dash: [3, 3],
       },
       ticks: {
         count: 5,
         autoSkip: true,
         maxTicksLimit: 5,
         includeBounds: true,
+        color: '#B9BCCC',
         callback: (value, index) => {
           if (index === 1 || index === 3) {
+            return '';
+          }
+          if (value === 0) {
             return '';
           }
           return Math.floor(value as number);
@@ -105,10 +110,11 @@ export const PracticeStatusChart = ({
   type,
   ...props
 }: PracticeStatusChartProps) => {
+  let modifiedData = data.map((value) => (value === 0 ? null : value));
   const chartData: ChartData<'bar'> = {
     datasets: [
       {
-        data,
+        data: modifiedData,
         backgroundColor: tailwindTheme.colors.blue[500],
         barThickness: 20,
         borderRadius: 4,

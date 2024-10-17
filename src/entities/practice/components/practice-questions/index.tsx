@@ -39,20 +39,20 @@ const PracticeQuestions = ({
   };
 
   return (
-    <div className={cn(className, 'w-full desktop:w-[574px] ')}>
-      <div className="flex items-center">
+    <div className={cn(className, 'w-full desktop:w-fit flex flex-col')}>
+      <div className="flex items-center desktop:pl-3">
         <PracticeSectionHeader
           title="연습한 면접질문"
           iconSrc="/images/icons/etc-speech.svg"
         />
       </div>
       <PracticedQuestionTab
-        className="mt-3 flex items-center gap-1"
+        className="mt-3 flex items-center gap-1 desktop:pl-3"
         selectedTab={selectedTab}
         onChangeTab={onChangeTab}
       />
       {isDesktop ? (
-        <div className=" mt-6 flex h-[398px] flex-col gap-3 overflow-y-scroll pb-4 scrollbar-hide mobile:mt-4">
+        <div className="mt-3 flex h-[398px] w-fit flex-col gap-3 overflow-y-scroll pb-4 pr-3 pt-3 scrollbar-hide mobile:mt-4 desktop:pl-3">
           {questions[selectedTab].contents.length > 0 ? (
             questions[selectedTab].contents
               .slice(0, 10)
@@ -67,7 +67,7 @@ const PracticeQuestions = ({
                 />
               ))
           ) : (
-            <NoDataCard className="h-[326px]" />
+            <NoDataCard className="h-[326px] desktop:w-[574px]" />
           )}
         </div>
       ) : (
@@ -77,7 +77,7 @@ const PracticeQuestions = ({
               questions={questions[selectedTab].contents}
             />
           ) : (
-            <NoDataCard />
+            <NoDataCard className="w-full" />
           )}
         </div>
       )}

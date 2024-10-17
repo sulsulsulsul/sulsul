@@ -56,7 +56,12 @@ const Practice = ({
     return null;
   }
   return (
-    <main className={cn('mobile:px-[16px]', className)}>
+    <main
+      className={cn(
+        'mobile:px-[16px] desktop:flex desktop:flex-col',
+        className,
+      )}
+    >
       <section className="flex h-fit gap-6 mobile:flex-col desktop:items-center">
         <PracticeStartCard
           className="flex h-fit min-w-[282px] flex-col items-center justify-between"
@@ -81,7 +86,7 @@ const Practice = ({
         </div>
         {openModal && <PracticeSelection />}
       </section>
-      <section className="mt-[80px] grid w-full gap-6 mobile:mt-0 mobile:grid-cols-1 mobile:gap-10 desktop:grid-cols-2">
+      <section className="mt-[80px] grid mobile:mt-0 mobile:grid-cols-1 mobile:gap-10 desktop:flex desktop:w-[1184px] desktop:flex-row desktop:self-center">
         <PracticeQuestions
           favoriteQuestions={favoriteQuestions}
           hintUsedQuestions={hintUsedQuestions}
