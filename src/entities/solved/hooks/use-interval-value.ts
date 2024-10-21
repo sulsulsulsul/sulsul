@@ -9,7 +9,6 @@ export const useIntervalValue = (
   refetch?: () => void,
 ) => {
   const [result, setResult] = useState(calculator());
-
   useInterval(() => {
     const newResult = calculator();
     if (newResult !== result) setResult(newResult);
