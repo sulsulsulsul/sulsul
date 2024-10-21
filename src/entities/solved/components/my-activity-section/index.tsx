@@ -39,11 +39,11 @@ export const MyActivitySection = ({
               <div className="flex flex-col gap-2">
                 <div className="flex justify-between">
                   <div className="font-semibold text-gray-500">이번달</div>
-                  <div className="font-bold text-blue-500">{current}</div>
+                  <div className="font-semibold text-blue-500">{current}</div>
                 </div>
                 <div className="flex justify-between">
                   <div className="font-semibold text-gray-500">전체</div>
-                  <div className="font-bold text-blue-500">{total}</div>
+                  <div className="font-semibold text-blue-500">{total}</div>
                 </div>
               </div>
             </>
