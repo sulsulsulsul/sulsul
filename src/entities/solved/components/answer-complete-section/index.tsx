@@ -255,7 +255,7 @@ export const AnswerCompleteSection = ({
           </div>
         </>
       )}
-      {accessToken && isOpenAllAnswerModal && isTogetherSection && (
+      {isOpenAllAnswerModal && isTogetherSection && (
         <ViewAllAnswersModal handleClickCloseBtn={handleClickCloseBtn} />
       )}
     </>

@@ -27,24 +27,32 @@ import { ReConfirmModal } from '../re-confirm-modal';
 
 interface ViewAllAnswersModalProp {
   handleClickCloseBtn: () => void;
+  isLastWeek?: boolean;
 }
 export const ViewAllAnswersModal = ({
   handleClickCloseBtn,
+  isLastWeek,
 }: ViewAllAnswersModalProp) => {
   const currentDate = dayjs();
   const [weeks, setWeeks] = useState<
     { label: string; start: string; end: string }[]
   >(getRecentWeeks(currentDate));
+
   const [isOpenMoreMenu, setOpenMoreMenu] = useState(false);
-  const [filter, setFilter] = useState(weeks[0].label);
+  const [filter, setFilter] = useState(
+    !isLastWeek ? weeks[0].label : weeks[1].label,
+  );
   const [countIndex, setCountIndex] = useState(0);
-  const [filteredAnswer, setFilteredAnswer] = useState<AnswerListData | null>(
+  const [clickedAnswer, setClickedAnswer] = useState<AnswerListData | null>(
     null,
   );
   const [filteredResponses, setFilteredResponses] = useState<AnswerListData[]>(
     [],
   );
-  const [selectedDate, setSelectedDate] = useState(weeks[0].end);
+
+  const [selectedDate, setSelectedDate] = useState(
+    !isLastWeek ? weeks[0].end : weeks[1].end,
+  );
   const [sortType, setSortType] = useState<'NEW' | 'RECOMMEND'>('NEW');
 
   const { auth } = useUserStore();
@@ -68,9 +76,27 @@ export const ViewAllAnswersModal = ({
     fetchNextPage: fetchRecommendNextPage,
     isFetchingNextPage: recommendIsFetchingNextPage,
     hasNextPage: recommendHasNextPage,
+    isFetching: recommendedIsFetching,
   } = useAnswerList({
     interviewId: interviewData?.weeklyInterviewId || 0,
     sortType: 'RECOMMEND',
+    accessToken: accessToken,
+    interviewData: interviewData,
+  });
+
+  const bestAnswers = recommendOrderAnswerData?.pages[0].answers
+    .filter((answer) => answer.userId !== userId)
+    .slice(0, 3);
+
+  const {
+    data: recentOrderAnswerData,
+    hasNextPage: recentHasNextPage,
+    fetchNextPage: fetchRecentNextPage,
+    isFetchingNextPage: recentIsFetchingNextPage,
+    isFetching: recentIsFetching,
+  } = useAnswerList({
+    interviewId: interviewData?.weeklyInterviewId || 0,
+    sortType: 'NEW',
     accessToken: accessToken,
     interviewData: interviewData,
   });
@@ -85,18 +111,6 @@ export const ViewAllAnswersModal = ({
     }
     return interviewData.answerCount;
   };
-  const {
-    data: recentOrderAnswerData,
-    hasNextPage: recentHasNextPage,
-    fetchNextPage: fetchRecentNextPage,
-    isFetchingNextPage: recentIsFetchingNextPage,
-    isFetching: recentIsFetching,
-  } = useAnswerList({
-    interviewId: interviewData?.weeklyInterviewId || 0,
-    sortType: 'NEW',
-    accessToken: accessToken,
-    interviewData: interviewData,
-  });
 
   const { mutate: recommendMutation } = useAnswerRecommend({
     currentInterviewId: interviewData?.weeklyInterviewId || 0,
@@ -137,7 +151,7 @@ export const ViewAllAnswersModal = ({
   const handleClickReportBtn = (v: AnswerListData) => {
     setOpenMoreMenu(false);
     setOpenReportModal(true);
-    setFilteredAnswer(v);
+    setClickedAnswer(v);
   };
   const handleClickBackBtn = () => {
     setIsOpenAllAnswerModal(false);
@@ -157,7 +171,8 @@ export const ViewAllAnswersModal = ({
       sortType === 'RECOMMEND' &&
       inView &&
       recommendHasNextPage &&
-      !recommendIsFetchingNextPage
+      !recommendIsFetchingNextPage &&
+      !recommendedIsFetching
     ) {
       fetchRecommendNextPage();
     }
@@ -170,6 +185,7 @@ export const ViewAllAnswersModal = ({
     recentIsFetchingNextPage,
     recommendIsFetchingNextPage,
     recentIsFetching,
+    recommendedIsFetching,
     sortType,
   ]);
 
@@ -177,14 +193,28 @@ export const ViewAllAnswersModal = ({
     if (recommendOrderAnswerData && sortType === 'RECOMMEND') {
       setFilteredResponses(
         recommendOrderAnswerData?.pages.flatMap((page) =>
-          page.answers.filter((response) => response.userId !== userId),
+          page.answers.filter(
+            (response) =>
+              !bestAnswers?.some(
+                (best) =>
+                  best.weeklyInterviewAnswerId ===
+                  response.weeklyInterviewAnswerId,
+              ) && response.userId !== userId,
+          ),
         ),
       );
     }
     if (recentOrderAnswerData && sortType === 'NEW') {
       setFilteredResponses(
         recentOrderAnswerData?.pages.flatMap((page) =>
-          page.answers.filter((response) => response.userId !== userId),
+          page.answers.filter(
+            (response) =>
+              !bestAnswers?.some(
+                (best) =>
+                  best.weeklyInterviewAnswerId ===
+                  response.weeklyInterviewAnswerId,
+              ) && response.userId !== userId,
+          ),
         ),
       );
     }
@@ -256,18 +286,22 @@ export const ViewAllAnswersModal = ({
                       }}
                     >
                       <SelectTrigger className="p-0 font-medium text-gray-500">
-                        <SelectValue placeholder={weeks[0].label} />
+                        <SelectValue
+                          placeholder={
+                            !isLastWeek ? weeks[0].label : weeks[1].label
+                          }
+                        />
                       </SelectTrigger>
                       <SelectContent
                         position="popper"
                         className="z-[999] mt-1 h-[253px] w-[135px]"
                       >
                         <SelectGroup className="my-2 flex flex-col justify-start rounded-sm border border-gray-200 bg-white py-2 shadow-sm">
-                          {weeks.map((v) => (
-                            <div key={v.label}>
+                          {weeks.map((v, i) => (
+                            <div key={i}>
                               <SelectItem
                                 className={cn(
-                                  `h-[41px] pl-4 text-sm font-medium ${v.label === filter ? 'bg-muted !text-blue-500 hover:!text-blue-500' : 'text-gray-700'}`,
+                                  `h-[41px] pl-4 text-sm font-medium hover:!text-blue-500 ${v.label === filter ? 'bg-muted !text-blue-500' : 'text-gray-700 focus:bg-white'}`,
                                 )}
                                 value={v.label}
                                 onClick={() => setSelectedDate(v.start)}
@@ -327,7 +361,7 @@ export const ViewAllAnswersModal = ({
                 </div>
 
                 <ul>
-                  {filteredResponses.length === 0 && (
+                  {bestAnswers && bestAnswers.length === 0 && (
                     <p className="font-medium text-gray-500">
                       아직 답변이 없어요.
                     </p>
@@ -335,8 +369,9 @@ export const ViewAllAnswersModal = ({
                   {
                     <>
                       {interviewData &&
-                        filteredResponses.length >= 1 &&
-                        filteredResponses.map(
+                        bestAnswers &&
+                        bestAnswers.length >= 1 &&
+                        [...bestAnswers, ...filteredResponses].map(
                           (v: AnswerListData, i: number) => (
                             <li
                               key={v.weeklyInterviewAnswerId}
@@ -440,7 +475,7 @@ export const ViewAllAnswersModal = ({
             )}
           ></div>
           <div className="fixed left-0 top-0 z-[999] flex h-screen w-screen items-center justify-center">
-            <ReConfirmModal type="report" filteredAnswer={filteredAnswer} />
+            <ReConfirmModal type="report" clickedAnswer={clickedAnswer} />
           </div>
         </>
       )}

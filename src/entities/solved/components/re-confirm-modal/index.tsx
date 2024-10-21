@@ -17,7 +17,7 @@ import faceIcon from '/public/images/icons/face-empty-yellow.svg';
 interface ConfirmModalProps {
   type: 'exit' | 'delete' | 'report';
   myWriteAnswerData?: AnswerListData;
-  filteredAnswer?: AnswerListData | null;
+  clickedAnswer?: AnswerListData | null;
 }
 interface ModalContent {
   icon: string;
@@ -53,7 +53,7 @@ const MODAL_CONTENT: Record<'exit' | 'delete' | 'report', ModalContent> = {
 export const ReConfirmModal = ({
   type,
   myWriteAnswerData,
-  filteredAnswer,
+  clickedAnswer,
 }: ConfirmModalProps) => {
   const { auth } = useUserStore();
   const { accessToken, userId } = auth;
@@ -79,7 +79,7 @@ export const ReConfirmModal = ({
   });
 
   const { mutate: reportAnswerMutation } = useCreateReportUser({
-    answerId: filteredAnswer?.weeklyInterviewAnswerId || 0,
+    answerId: clickedAnswer?.weeklyInterviewAnswerId || 0,
     accessToken,
     setOpenReportModal,
   });

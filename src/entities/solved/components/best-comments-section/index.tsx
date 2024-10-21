@@ -116,7 +116,7 @@ export const BestCommentsSection = ({
             </ul>
           </div>
           <button
-            className="absolute bottom-[27px] w-full border-t border-gray-200 pt-3 text-center text-base text-gray-500"
+            className="absolute bottom-[27px] w-[242px] border-t border-gray-200 pt-3 text-center text-base text-gray-500"
             onClick={handleClickAnswerViewBtn}
           >
             Best 답변 모두 보기
@@ -124,8 +124,11 @@ export const BestCommentsSection = ({
         </>
       )}
 
-      {accessToken && isOpenAllAnswerModal && isBestAnswerSection && (
-        <ViewAllAnswersModal handleClickCloseBtn={handleClickCloseBtn} />
+      {isOpenAllAnswerModal && isBestAnswerSection && (
+        <ViewAllAnswersModal
+          isLastWeek
+          handleClickCloseBtn={handleClickCloseBtn}
+        />
       )}
     </>
   );

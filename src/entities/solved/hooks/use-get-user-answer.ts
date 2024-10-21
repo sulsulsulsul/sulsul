@@ -9,18 +9,16 @@ interface UserAnswerProp {
   interviewId: number;
   userId: number;
   accessToken: string;
-  currentInterviewData?: InterviewData;
 }
 export const useUserAnswer = ({
   interviewId,
   userId,
   accessToken,
-  currentInterviewData,
 }: UserAnswerProp) => {
   const result = useQuery({
     queryKey: ['interview', interviewId, userId, accessToken],
     queryFn: () => getUserAnswerAction({ interviewId, userId, accessToken }),
-    enabled: !!accessToken && !!currentInterviewData?.weeklyInterviewId,
+    enabled: !!accessToken && !!interviewId,
   });
 
   const { data, ...rest } = result;
