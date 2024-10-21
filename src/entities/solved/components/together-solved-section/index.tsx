@@ -22,7 +22,6 @@ export const TogetherSolvedSection = ({ pivotDate }: { pivotDate: string }) => {
       interviewId: currentInterviewData?.weeklyInterviewId || 0,
       userId,
       accessToken,
-      currentInterviewData,
     });
 
   const IsLoadingState = isLoadingInterviewData || isLoadingUserAnswerData;
