@@ -13,5 +13,6 @@ type Story = StoryObj<typeof meta>;
 export const Default = {
   args: {
     pauseTimer: false,
+    coachModal: false,
   },
 } satisfies Story;

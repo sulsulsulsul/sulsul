@@ -13,6 +13,7 @@ interface HintCardProps extends HTMLAttributes<HTMLDivElement> {
   hintShown: boolean;
   answerHint: string;
   keywords: ArchiveKeyword[];
+  coachModal: boolean;
 }
 
 export const HintCard = ({
@@ -23,10 +24,12 @@ export const HintCard = ({
   answerHint,
   keywords,
   setShowHint,
+  coachModal,
   ...props
 }: HintCardProps) => {
   const { mutate } = useUpdateHint();
   const handleUseHint = () => {
+    if (coachModal) return;
     setShowHint(!showHint);
     !hintShown && mutate(questionId);
   };
@@ -56,7 +59,10 @@ export const HintCard = ({
       </div>
       <div
         onClick={handleUseHint}
-        className="absolute bottom-[13.5px] left-1/2 flex w-full -translate-x-1/2 cursor-pointer items-center justify-center gap-1"
+        className={cn(
+          'absolute bottom-[13.5px] left-1/2 flex w-full -translate-x-1/2 cursor-pointer items-center justify-center gap-1',
+          coachModal && 'z-40 bg-white',
+        )}
       >
         <span className="text-gray-500 mobile:text-sm">힌트</span>
         <ChevronUp

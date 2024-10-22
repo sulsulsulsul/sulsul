@@ -61,7 +61,7 @@ export const PracticeStartCard = ({
   ...props
 }: PracticeStartCardProps) => {
   const [random, setRandom] = useState(false);
-  const [timer, setTimer] = useState(false);
+  const [timer, setTimer] = useState(true);
 
   const [openQuestion, setOpenQuestion] = useState(false);
   const [openResume, setOpenResume] = useState(true);
@@ -380,6 +380,7 @@ export const PracticeStartCard = ({
                   </div>
                   <Switch
                     className="mr-4"
+                    defaultChecked
                     onCheckedChange={(check: CheckedState) => {
                       setTimer(!!check);
                     }}

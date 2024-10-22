@@ -42,7 +42,7 @@ export default function PracticeSelection({
 
   const [finalList, setFinalList] = useState<ArchiveQuestionItem[]>([]);
 
-  const [timer, setTimer] = useState<CheckedState>(false);
+  const [timer, setTimer] = useState<CheckedState>(true);
   const [random, setRandom] = useState<boolean>(false);
 
   const mutation = useCreatePractice();

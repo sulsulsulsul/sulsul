@@ -57,6 +57,7 @@ export default function PracticeModalOption({
         </div>
         <Switch
           className="mr-[36px]"
+          defaultChecked
           onCheckedChange={(check: CheckedState) => {
             setTimer(check);
           }}

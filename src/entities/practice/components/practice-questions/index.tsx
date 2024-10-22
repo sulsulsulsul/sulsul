@@ -52,7 +52,7 @@ const PracticeQuestions = ({
         onChangeTab={onChangeTab}
       />
       {isDesktop ? (
-        <div className="mt-3 flex h-[398px] w-fit flex-col gap-3 overflow-y-scroll pb-4 pr-3 pt-3 scrollbar-hide mobile:mt-4 desktop:pl-3">
+        <div className="mt-3 flex h-[398px] flex-col gap-3 overflow-y-scroll pb-4 pt-3 scrollbar-hide mobile:mt-4 mobile:w-full desktop:w-fit desktop:px-3">
           {questions[selectedTab].contents.length > 0 ? (
             questions[selectedTab].contents
               .slice(0, 10)
@@ -67,7 +67,7 @@ const PracticeQuestions = ({
                 />
               ))
           ) : (
-            <NoDataCard className="h-[326px] desktop:w-[574px]" />
+            <NoDataCard className="h-[326px] w-full desktop:w-[574px]" />
           )}
         </div>
       ) : (
