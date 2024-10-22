@@ -15,12 +15,14 @@ import { cn } from '@/lib/utils';
 interface TimerProp extends HTMLAttributes<HTMLDivElement> {
   pauseTimer: boolean;
   disableTime?: boolean;
+  coachModal: boolean;
 }
 
 export default function Timer({
   disableTime,
   pauseTimer,
   className,
+  coachModal,
   ...props
 }: TimerProp) {
   const [timer, setTimer] = useState(0);
@@ -28,20 +30,21 @@ export default function Timer({
   let timeInterval = useRef<null | ReturnType<typeof setTimeout>>(null);
 
   const handleStart = useCallback(() => {
-    if (isRunning || disableTime) return;
+    if (isRunning || disableTime || coachModal) return;
     setIsRunning(true);
     timeInterval.current = setInterval(() => {
       setTimer((prev) => prev + 1);
     }, 1000);
-  }, [isRunning]);
+  }, [isRunning, coachModal]);
 
   const handlePause = useCallback(() => {
-    if (!isRunning) return;
+    if (!isRunning || coachModal) return;
     setIsRunning(false);
     clearInterval(timeInterval.current!);
-  }, [isRunning]);
+  }, [isRunning, coachModal]);
 
   const handleReset = () => {
+    if (coachModal) return;
     setIsRunning(false);
     clearInterval(timeInterval.current!);
     setTimer(0);

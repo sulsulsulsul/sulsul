@@ -70,7 +70,7 @@ export const Action = ({ className, ...props }: ReasonProps) => {
               <Sheet>
                 <SheetTrigger>
                   <p className="mt-[30px] hidden  rounded-[30px] bg-gray-800 px-4 py-[8.5px]  text-base font-medium text-white  hover:bg-gray-700 mobile:flex">
-                    술술 시작하기
+                    지금 시작하기
                   </p>
                 </SheetTrigger>
                 <SheetContent

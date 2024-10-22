@@ -1,4 +1,12 @@
-import { HTMLAttributes } from 'react';
+'use client';
+import {
+  HTMLAttributes,
+  RefObject,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { Video } from '@/components/shared/video';
 import { cn } from '@/lib/utils';
@@ -7,6 +15,43 @@ export const MobileSteps = ({
   className,
   ...props
 }: HTMLAttributes<HTMLDivElement>) => {
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const [isIntersecting, setIntersecting] = useState<boolean[]>([]);
+  useEffect(() => {
+    const observers = videoRefs.current.map((video, index) => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          setIntersecting((prev) => {
+            const newState = [...prev];
+            newState[index] = entry.isIntersecting;
+            return newState;
+          });
+        },
+        {
+          threshold: 1,
+        },
+      );
+      if (video) {
+        observer.observe(video);
+      }
+      return observer;
+    });
+    return () => {
+      observers.forEach((observer) => observer.disconnect());
+    };
+  }, []);
+
+  useEffect(() => {
+    videoRefs.current.forEach((video, index) => {
+      if (video) {
+        if (isIntersecting[index]) {
+          video.play();
+        } else {
+          video.pause();
+        }
+      }
+    });
+  }, [isIntersecting]);
   return (
     <div className={cn('px-6 pb-[50px] bg-white', className)} {...props}>
       <div className="py-[50px] text-center text-4xl font-bold text-gray-800">
@@ -17,9 +62,11 @@ export const MobileSteps = ({
         src="/videos/step-1.mp4"
         title="step1"
         className="w-full rounded-md"
-        autoPlay
         loop
         muted
+        videoRef={(el) => {
+          videoRefs.current[0] = el;
+        }}
       />
       <div className="mb-16 mt-5">
         <h4 className="text-base font-bold text-blue-500">STEP 01</h4>
@@ -33,9 +80,11 @@ export const MobileSteps = ({
         src="/videos/step-2.mp4"
         title="step1"
         className="w-full rounded-md"
-        autoPlay
         loop
         muted
+        videoRef={(el) => {
+          videoRefs.current[1] = el;
+        }}
       />
       <div className="mb-16 mt-5">
         <h4 className="text-base font-bold text-blue-500">STEP 02</h4>
@@ -51,9 +100,11 @@ export const MobileSteps = ({
         src="/videos/step-3.mp4"
         title="step1"
         className="w-full rounded-md bg-white"
-        autoPlay
         loop
         muted
+        videoRef={(el) => {
+          videoRefs.current[2] = el;
+        }}
       />
       <div className="mt-5">
         <h4 className="text-base font-bold text-blue-500">STEP 03</h4>

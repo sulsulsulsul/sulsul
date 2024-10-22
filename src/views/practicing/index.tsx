@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LottieRefCurrentProps } from 'lottie-react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 import { SmileAnimation } from '@/components/lotties/smile-animation';
 import { ThinkingAnimation } from '@/components/lotties/thinking-animation';
@@ -46,7 +46,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
 
   //FIXME
   // const [coachModal, setCoachModal] = useState(!isMobile && firstPractice);
-  const [coachModal, setCoachModal] = useState(false);
+  const [coachModal, setCoachModal] = useState(isMobile ? false : true);
 
   const smileRef = useRef<LottieRefCurrentProps>(null);
   const thinkingRef = useRef<LottieRefCurrentProps>(null);
@@ -78,7 +78,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   const { mutate } = useCreatePracticeQuestion();
 
   const handleCorrect = () => {
-    if (questions.length === 0) return;
+    if (questions.length === 0 || coachModal) return;
     mutationPractice.mutate({
       questionId: q.questionId,
       practiceStatus: 'ANSWER',
@@ -92,7 +92,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   };
 
   const handleInCorrect = () => {
-    if (questions.length === 0) return;
+    if (questions.length === 0 || coachModal) return;
     mutationPractice.mutate({
       questionId: q.questionId,
       practiceStatus: 'NOT_ANSWER',
@@ -106,13 +106,14 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   };
 
   useEffect(() => {
+    if (coachModal) return;
     let intervalId = setInterval(() => {
       setTime((prev) => prev + 1);
     }, 1000);
     return () => {
       clearInterval(intervalId);
     };
-  });
+  }, [coachModal]);
 
   useEffect(() => {
     setShowHint(false);
@@ -134,37 +135,58 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
   };
 
   return (
-    <div className={cn(className, 'relative w-full mobile:px-4')} {...props}>
+    <div
+      className={cn(
+        className,
+        'relative w-full mobile:px-4 flex flex-col items-center',
+      )}
+      {...props}
+    >
+      <button
+        className={cn(
+          'hidden absolute left-0 z-40 flex flex-row gap-1 p-4 text-white',
+          coachModal ? 'visible' : 'hidden',
+        )}
+        onClick={handleCoachMark}
+      >
+        <Image
+          src="/images/icons/check-box.svg"
+          alt={''}
+          width={24}
+          height={24}
+          className="p-0.5"
+        />
+        다시 보지않기
+      </button>
       {coachModal && (
-        <div className="fixed left-0 top-0 z-50 h-screen w-screen  pt-[60px] mobile:hidden">
-          <div className="relative z-20 size-full">
-            <Image src="/images/coachMark1.png" alt={''} fill />
-          </div>
-          <button
-            className="absolute left-[300px] top-[100px] z-40 flex flex-row gap-1 p-4 text-white"
-            onClick={handleCoachMark}
-          >
-            <Image
-              src="/images/icons/check-box.svg"
-              alt={''}
-              width={24}
-              height={24}
-              className="p-0.5"
-            />
-            다시 보지않기
-          </button>
-        </div>
+        <div className="fixed left-0 top-0 z-20 h-screen w-screen bg-gray-800/80"></div>
       )}
       <div
         className={cn(
-          'absolute flex -top-[62px] right-0 mobile:right-4 justify-end',
-          timer ? 'visible' : 'invisible',
+          'absolute flex top-0 right-0 mobile:right-4 justify-end mt-[-4px]',
+          coachModal ? 'visible' : timer ? 'visible' : 'invisible',
+          coachModal && 'p-1 bg-white rounded-md -right-1 z-30',
         )}
       >
         <Timer
+          coachModal={coachModal}
           pauseTimer={pauseTimer}
           className="relative z-20 m-2 mobile:m-0"
         />
+        {coachModal && (
+          <div className="absolute right-6 top-[70px]  flex flex-row gap-2">
+            <div className="flex self-end overflow-visible text-2xl font-medium text-white">
+              타이머
+            </div>
+            <Image
+              className="mb-2 rotate-180"
+              src="/images/icons/arrow-hint.svg"
+              width={55}
+              height={55}
+              alt="arrow"
+            />
+          </div>
+        )}
       </div>
 
       {questions.length === 0 && (
@@ -202,21 +224,78 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
                 hintShown={q.data.isHint}
                 questionId={q.questionId}
                 showHint={showHint}
+                coachModal={coachModal}
                 setShowHint={setShowHint}
               />
             </div>
           </motion.div>
         </AnimatePresence>
       )}
-
-      <div className="relative z-10 mt-[108px] flex gap-6 mobile:mt-[80px] mobile:h-[80px] mobile:gap-2.5">
+      {coachModal && (
+        <div className="relative z-30 mt-1 flex flex-row rounded-sm bg-white p-2 px-3 ">
+          <div className="absolute top-[-45px] flex h-[55px] w-[500px] flex-row gap-2">
+            <Image
+              src="/images/icons/arrow-hint.svg"
+              width={55}
+              height={55}
+              alt="arrow"
+            />
+            <div className="flex h-7 overflow-visible text-2xl font-medium text-white">
+              내 답변 & 키워드 보기
+            </div>
+          </div>
+          <span className="text-gray-500 mobile:text-sm">힌트</span>
+          <ChevronUp className={cn('text-gray-400')} />
+        </div>
+      )}
+      <div
+        className={cn(
+          'relative z-10 mt-[108px] flex jusitfy-self-center gap-6 mobile:mt-[80px] mobile:h-[80px] mobile:gap-2.5 w-full',
+          coachModal && 'bg-white p-6 rounded-md mt-[84px] desktop:w-fit z-30',
+        )}
+      >
+        {coachModal && (
+          <div className="absolute top-[-104px] flex h-[104px] w-[240px] flex-row gap-2">
+            <Image
+              className="mt-5"
+              src="/images/coach-mark-arrow3.svg"
+              width={70}
+              height={55}
+              alt="arrow"
+            />
+            <div className="flex flex-col gap-2">
+              <div className="flex flex-row gap-2 text-2xl font-medium text-white">
+                <Image
+                  src="/images/icons/face-smile.svg"
+                  width={32}
+                  height={32}
+                  alt="face-smile"
+                />
+                잘 답변했다면
+              </div>
+              <div className="flex flex-row gap-2 text-2xl font-medium text-white">
+                <Image
+                  src="/images/icons/face-thinking.svg"
+                  width={32}
+                  height={32}
+                  alt="face-thinking"
+                />
+                헷갈린다면
+              </div>
+            </div>
+          </div>
+        )}
         <AnswerButton
           onMouseEnter={() => {
+            if (coachModal) {
+              return;
+            }
             smileRef.current?.stop();
             smileRef.current?.play();
           }}
           questions={correctQuestions}
           handleCorrect={handleCorrect}
+          className="desktop:w-[568px]"
         >
           <SmileAnimation
             loop={false}
@@ -231,6 +310,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
           }}
           questions={inCorrectQuestions}
           handleCorrect={handleInCorrect}
+          className="desktop:w-[568px]"
         >
           <ThinkingAnimation
             lottieRef={thinkingRef}
