@@ -147,14 +147,6 @@ export default function PracticeList() {
           />
         </Button>
       </div>
-      <PracticeListHeader
-        setPage={setCurrentPage}
-        setFilter={setFilter}
-        setHint={setHint}
-        questionList={questionsList?.contents!}
-        selectedQuestions={selectedQuestions}
-        setSelectedQuestions={setSelectedQuestions}
-      />
       {list?.contents.length == 0 ? (
         <div className="mt-[143px] flex w-full flex-col items-center">
           <Image
@@ -185,19 +177,29 @@ export default function PracticeList() {
           </Button>
         </div>
       ) : (
-        <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
-          {modifiedByFilter &&
-            modifiedByFilter.map((value) => {
-              return (
-                <PracticeListItem
-                  selectedQuestions={selectedQuestions}
-                  setSelectedQuestions={setSelectedQuestions}
-                  key={value.questionId}
-                  question={value}
-                />
-              );
-            })}
-        </div>
+        <>
+          <PracticeListHeader
+            setPage={setCurrentPage}
+            setFilter={setFilter}
+            setHint={setHint}
+            questionList={questionsList?.contents!}
+            selectedQuestions={selectedQuestions}
+            setSelectedQuestions={setSelectedQuestions}
+          />
+          <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
+            {modifiedByFilter &&
+              modifiedByFilter.map((value) => {
+                return (
+                  <PracticeListItem
+                    selectedQuestions={selectedQuestions}
+                    setSelectedQuestions={setSelectedQuestions}
+                    key={value.questionId}
+                    question={value}
+                  />
+                );
+              })}
+          </div>
+        </>
       )}
 
       <div className="fixed bottom-0 left-0 h-[60px] w-screen justify-center bg-gray-50 pt-3.5">
