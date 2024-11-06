@@ -44,9 +44,7 @@ export const Practicing = ({ className, ...props }: PracticingProps) => {
       ? window.innerWidth >= 375 && window.innerWidth <= 767
       : false;
 
-  //FIXME
-  // const [coachModal, setCoachModal] = useState(!isMobile && firstPractice);
-  const [coachModal, setCoachModal] = useState(isMobile ? false : true);
+  const [coachModal, setCoachModal] = useState(!isMobile && firstPractice);
 
   const smileRef = useRef<LottieRefCurrentProps>(null);
   const thinkingRef = useRef<LottieRefCurrentProps>(null);
