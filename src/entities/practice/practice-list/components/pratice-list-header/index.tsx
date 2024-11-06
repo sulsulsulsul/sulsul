@@ -42,7 +42,7 @@ export default function PracticeListHeader({
       <div className="flex h-full items-center">
         <Checkbox
           className="m-[10px] size-6"
-          checked={isAllSelected}
+          checked={isAllSelected && questionList.length !== 0}
           onCheckedChange={(check: CheckedState) => {
             check
               ? setSelectedQuestions([

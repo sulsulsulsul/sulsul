@@ -132,37 +132,76 @@ export default function PracticeList() {
           className="mt-8 flex w-44 flex-row gap-1"
           variant="default"
           onClick={handlePractice}
+          disabled={list?.contents.length == 0}
         >
           다시 연습하기
           <Image
-            src="/images/icons/icon-arrow_up_right.svg"
+            src={
+              list?.contents.length == 0
+                ? '/images/icons/icon-arrow_up_right_gray.svg'
+                : '/images/icons/icon-arrow_up_right.svg'
+            }
             width={24}
             height={24}
             alt="icon"
           />
         </Button>
       </div>
-      <PracticeListHeader
-        setPage={setCurrentPage}
-        setFilter={setFilter}
-        setHint={setHint}
-        questionList={questionsList?.contents!}
-        selectedQuestions={selectedQuestions}
-        setSelectedQuestions={setSelectedQuestions}
-      />
-      <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
-        {modifiedByFilter &&
-          modifiedByFilter.map((value) => {
-            return (
-              <PracticeListItem
-                selectedQuestions={selectedQuestions}
-                setSelectedQuestions={setSelectedQuestions}
-                key={value.questionId}
-                question={value}
-              />
-            );
-          })}
-      </div>
+      {list?.contents.length == 0 ? (
+        <div className="mt-[143px] flex w-full flex-col items-center">
+          <Image
+            src="/images/icons/listPage_NoData.svg"
+            width={200}
+            height={150}
+            alt="NoData"
+          />
+          <Image
+            className="mx-[19.5px] mt-6"
+            src="/images/character-login.svg"
+            width={160}
+            height={140}
+            alt="NoData"
+          />
+          <Button
+            className="mt-[54px] pl-[52px] pr-[46px] text-lg font-medium"
+            onClick={() => router.push('/archive/create')}
+          >
+            면접 예상질문 생성하기
+            <Image
+              src="/images/icons/icon-arrow_up_right.svg"
+              width={24}
+              height={24}
+              alt="icon"
+              className="ml-1"
+            />
+          </Button>
+        </div>
+      ) : (
+        <>
+          <PracticeListHeader
+            setPage={setCurrentPage}
+            setFilter={setFilter}
+            setHint={setHint}
+            questionList={questionsList?.contents!}
+            selectedQuestions={selectedQuestions}
+            setSelectedQuestions={setSelectedQuestions}
+          />
+          <div className="mb-[60px]  flex flex-col  gap-3 overflow-scroll">
+            {modifiedByFilter &&
+              modifiedByFilter.map((value) => {
+                return (
+                  <PracticeListItem
+                    selectedQuestions={selectedQuestions}
+                    setSelectedQuestions={setSelectedQuestions}
+                    key={value.questionId}
+                    question={value}
+                  />
+                );
+              })}
+          </div>
+        </>
+      )}
+
       <div className="fixed bottom-0 left-0 h-[60px] w-screen justify-center bg-gray-50 pt-3.5">
         <Practicepagination
           currentPage={currentPage}
