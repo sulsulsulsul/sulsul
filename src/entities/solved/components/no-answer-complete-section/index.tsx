@@ -90,7 +90,7 @@ export const NoAnswerCompleteSection = () => {
         </AlertDialog>
         {isOpenAnswerModal && <WriteAnswerModal />}
       </div>
-      <div className="relative flex items-center gap-1 font-semibold">
+      <div className="relative flex items-center gap-1 font-medium">
         {profileImgs.length >= 3 ? (
           <>
             {profileImgs.slice(0, 3).map((v, i) => (
@@ -100,7 +100,7 @@ export const NoAnswerCompleteSection = () => {
             ))}
 
             <div className="text-xs text-gray-600">
-              다른 지원자들과 의견을 나눠보세요.
+              다른 지원자들과 의견을 나눠보세요!
             </div>
           </>
         ) : (
@@ -109,7 +109,7 @@ export const NoAnswerCompleteSection = () => {
               <AvatarImage src="/images/profile.svg" alt="프로필 이미지" />
             </Avatar>
             <div className="text-xs text-gray-600">
-              다른 지원자들과 의견을 나눠보세요.
+              다른 지원자들과 의견을 나눠보세요!
             </div>
           </div>
         )}

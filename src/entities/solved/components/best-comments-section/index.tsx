@@ -71,7 +71,7 @@ export const BestCommentsSection = ({
       ) : (
         <>
           <div className="flex flex-col gap-4 pl-4">
-            <div className="flex w-full gap-1 pr-5 text-lg font-bold">
+            <div className="flex w-full gap-1 pr-5 text-lg font-bold text-gray-700">
               <div className="flex h-[26px] min-w-[26px] items-center justify-center">
                 Q
               </div>
