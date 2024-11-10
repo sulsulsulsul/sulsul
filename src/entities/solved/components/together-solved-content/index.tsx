@@ -25,11 +25,9 @@ export const TogetherSolvedContent = () => {
   const { auth } = useUserStore();
   const { accessToken } = auth;
 
-  const previousWeekDate = formatDate({
-    date: dayjs().subtract(7, 'day'),
-    formatCase: 'YYYY-MM-DD',
-  });
-  const { data: currentData, refetch } = useInterview(previousWeekDate);
+  const pivotDate = formatDate({ formatCase: 'YYYY-MM-DD' });
+
+  const { data: currentData, refetch } = useInterview(pivotDate);
   const { setInterviewData } = useInterviewStore();
   const currentTitle = currentData?.content.split('\\n');
 
