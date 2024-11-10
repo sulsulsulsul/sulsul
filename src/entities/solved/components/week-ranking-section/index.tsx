@@ -50,7 +50,7 @@ export const WeekRankingSection = ({
     if (currentInterviewData) {
       setInterviewData(currentInterviewData, refetch);
     }
-  }, [currentInterviewData]);
+  }, [currentInterviewData, refetch, setInterviewData]);
 
   useEffect(() => {
     if (answerListData) {
