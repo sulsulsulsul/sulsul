@@ -11,7 +11,7 @@ function DonationButton() {
 
   const handleClickButton = () => {
     const width = 800;
-    const height = 650;
+    const height = 600;
     const left = window.screen.width / 2 - width / 2;
     const top = window.screen.height / 2 - height / 2;
 

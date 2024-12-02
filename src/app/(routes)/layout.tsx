@@ -8,7 +8,7 @@ const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   return (
     <div
       id="layout"
-      className="min-h-[910px] overflow-hidden bg-gray-50 mobile:mb-[50px]"
+      className="min-h-[910px] overflow-hidden bg-gray-50 mobile:pb-[50px]"
     >
       <Header />
       <div className="min-h-[calc(100vh-60px)]">
