@@ -53,10 +53,7 @@ export const NoAnswerCompleteSection = () => {
       <div className="flex max-h-[358px] w-full max-w-[300px] flex-col gap-6">
         <div className="flex flex-col items-center">
           {currentTitle?.map((line, i) => (
-            <div
-              className="max-w-[260px] text-center text-4xl font-bold"
-              key={line}
-            >
+            <div className="text-center text-4xl font-bold" key={line}>
               {line}
               <br />
             </div>
