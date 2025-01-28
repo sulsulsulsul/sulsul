@@ -48,7 +48,7 @@ export const mockArchiveFeedback = (): ArchiveFeedback => ({
   feedbackId: 0,
   goodPoint: faker.lorem.paragraph(10),
   improvePoint: faker.lorem.paragraph(10),
-  content: faker.lorem.paragraph(10),
+  status: faker.lorem.paragraph(10),
 });
 
 export const mockGetArchiveListAction = async (): ReturnType<
