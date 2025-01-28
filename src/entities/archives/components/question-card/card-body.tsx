@@ -1,4 +1,4 @@
-import { HTMLAttributes, useEffect, useState } from 'react';
+import { HTMLAttributes, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { useFeedback } from '@/entities/feedbacks/hooks/use-feedback';
@@ -83,7 +83,7 @@ export const CardBody = ({
             />
           )}
 
-          {feedback?.content && (
+          {feedback?.status && (
             <FeedbackSectionComplete
               goodFeedback={feedback?.goodPoint}
               badFeedback={feedback?.improvePoint}

@@ -44,5 +44,5 @@ export interface ArchiveFeedback {
   feedbackId: number;
   goodPoint: string;
   improvePoint: string;
-  content: string;
+  status: string;
 }
